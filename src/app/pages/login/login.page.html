@@ -1,16 +1,30 @@
-<form (ngSubmit)="login()" [formGroup]="credentials">
-  <div class="input-group">
-    <input type="text" placeholder="Email" formControlName="username">
-    <div *ngIf="(username.dirty || username.touched) && username.errors" class="errors">
-      <span *ngIf="username.errors?.required">Email is required</span>
-      <span *ngIf="username.errors?.email">Email is invalid</span>
-    </div>
-
-    <input type="password" placeholder="Password" formControlName="password">
-    <div *ngIf="(password.dirty || password.touched) && password.errors" class="errors">
-      <span *ngIf="password.errors?.required">Password is required</span>
-      <span *ngIf="password.errors?.minlength">Password needs to be 6 characters</span>
-    </div>
-  </div>
-  <button type="submit" expand="block" [disabled]="!credentials.valid">Log in</button>
-</form>
+<div id="parent">
+  <form id="form_login" (ngSubmit)="login()" [formGroup]="credentials">
+    <mat-form-field class="full-width">
+      <mat-label>Email</mat-label>
+      <input type="email" matInput [formControl]="username" [errorStateMatcher]="matcher"
+        placeholder="Ex. pat@example.com">
+      <mat-error *ngIf="username.hasError('email') && !username.hasError('required')">
+        Please enter a valid email address
+      </mat-error>
+      <mat-error *ngIf="username.hasError('required')">
+        Email is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <br>
+    <mat-form-field class="full-width">
+      <mat-label>Contraseña</mat-label>
+      <input type="password" matInput [formControl]="password" [errorStateMatcher]="matcher">
+      <mat-error *ngIf="password.hasError('minlength') && !password.hasError('required')">
+        Por favor, introduce una contraseña con mas de 5 carácteres
+      </mat-error>
+      <mat-error *ngIf="password.hasError('required')">
+        Contraseña es <strong>obligatoria</strong>
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <br>
+    <button mat-raised-button color="primary" type="submit" expand="block" [disabled]="!credentials.valid">Log in</button>
+  </form>
+</div>

@@ -2,11 +2,29 @@ import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
+  FormControl,
   FormGroup,
+  FormGroupDirective,
+  NgForm,
   Validators,
 } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { LoginService } from '../../core/services';
+
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(
+    control: FormControl | null,
+    form: FormGroupDirective | NgForm | null
+  ): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(
+      control &&
+      control.invalid &&
+      (control.dirty || control.touched || isSubmitted)
+    );
+  }
+}
 
 @Component({
   selector: 'app-login',
@@ -20,7 +38,7 @@ export class LoginPage implements OnInit {
   constructor(
     private fb: FormBuilder,
     private loginService: LoginService,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -34,13 +52,12 @@ export class LoginPage implements OnInit {
   }
 
   async login(): Promise<void> {
-
     this.loginService.login(this.credentials.value).subscribe(
       async () => {
         this.router.navigateByUrl('/members', { replaceUrl: true });
       },
       (res) => {
-        console.log("Bad login")
+        console.log('Bad login');
       }
     );
   }
@@ -52,4 +69,6 @@ export class LoginPage implements OnInit {
   get password(): AbstractControl {
     return this.credentials.get('password');
   }
+
+  matcher = new MyErrorStateMatcher();
 }
