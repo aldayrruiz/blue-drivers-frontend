@@ -34,6 +34,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class LoginPage implements OnInit {
   credentials: FormGroup;
   submitted = false;
+  hide = true;
 
   constructor(
     private fb: FormBuilder,
