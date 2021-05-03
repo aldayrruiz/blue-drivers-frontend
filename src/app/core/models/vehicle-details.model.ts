@@ -1,4 +1,4 @@
-import { Fleet, Reservation, VehicleType } from ".";
+import { Reservation, VehicleType } from ".";
 
 /**
  * This interface is used to charge the vehicle details page.
@@ -9,6 +9,5 @@ export interface VehicleDetails {
   name: string;
   date_stored: string;
   type: VehicleType;
-  fleet: Fleet;
   reservations: Reservation[];
 }

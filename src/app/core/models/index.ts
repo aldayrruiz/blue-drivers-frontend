@@ -2,7 +2,6 @@ export * from './user-options.model';
 export * from './vehicle-details.model';
 export * from './reservation.model';
 export * from './ticket.model';
-export * from './fleet.model';
 export * from './vehicle-type.model';
 export * from './vehicle.model';
 export * from './incident.model';

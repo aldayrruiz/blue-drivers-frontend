@@ -1,4 +1,4 @@
-import { Fleet, VehicleType } from '.';
+import { VehicleType } from '.';
 
 /**
  * This interface is used to charge a list of vehicles.
@@ -9,5 +9,4 @@ export interface Vehicle {
   name: string;
   date_stored: string;
   type: VehicleType;
-  fleet: Fleet;
 }
