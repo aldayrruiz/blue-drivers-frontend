@@ -16,7 +16,7 @@ export class AutoLoginGuard implements CanLoad {
       take(1),
       map((isAuthenticated) => {
         if (isAuthenticated) {
-          this.router.navigateByUrl('/members', { replaceUrl: true });
+          this.router.navigateByUrl('/admin', { replaceUrl: true });
           return false;
         } else {
           return true;

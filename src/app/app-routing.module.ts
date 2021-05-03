@@ -9,18 +9,16 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'members',
-    loadChildren: () =>
-      import('./pages/vehicles/vehicles.module').then(
-        (m) => m.VehiclesPageModule
-      ),
-    canLoad: [AuthGuard],
-  },
-  {
     path: 'login',
     loadChildren: () =>
       import('./pages/login/login.module').then((m) => m.LoginPageModule),
     canLoad: [AutoLoginGuard],
+  },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./pages/admin/admin.module').then((m) => m.AdminModule),
+      canLoad: [AuthGuard]
   },
 ];
 
