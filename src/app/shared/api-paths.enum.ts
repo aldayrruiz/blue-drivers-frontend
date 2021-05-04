@@ -5,4 +5,5 @@ export enum ApiPaths {
   SolveTicket = '/api/admin/tickets/solve',
   Incident = '/api/admin/incidents',
   AdminLogin = '/api/admin/login',
+  Register = '/api/admin/register'
 }
