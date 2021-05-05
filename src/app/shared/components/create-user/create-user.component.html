@@ -16,6 +16,11 @@
     </mat-form-field>
     <br>
     <br>
+    <!-- Username -->
+    <mat-form-field class="example-full-width">
+      <mat-label>Username</mat-label>
+      <input type="text" matInput [formControl]="username" placeholder="Ex. Juan Ruiz" [errorStateMatcher]="matcher">
+    </mat-form-field>
     <!-- Role -->
     <mat-form-field appearance="fill">
       <mat-label>Rol</mat-label>

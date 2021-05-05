@@ -11,7 +11,7 @@ import {
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { Role } from 'src/app/core';
-import { CreateUserService } from 'src/app/core/services/create-user.service';
+import { CreateUserService, CreateUser } from '../../../core';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -47,9 +47,14 @@ export class CreateUserComponent implements OnInit {
         'aldayr.ruiz@opendeusto.es',
         [Validators.required, Validators.email],
       ],
+      username: ['aldayr', [Validators.required]],
       password: ['password', [Validators.required, Validators.minLength(6)]],
       password2: ['password', [Validators.required, Validators.minLength(6)]],
     });
+  }
+
+  get username(): AbstractControl {
+    return this.credentials.get('username');
   }
 
   get email(): AbstractControl {
@@ -71,7 +76,12 @@ export class CreateUserComponent implements OnInit {
       console.log("Password doesn't match");
     }
 
-    // TODO: Create user data and send it to server.
+    const newUser: CreateUser = {
+      username: this.username.value,
+      email: this.email.value,
+      password: this.password.value,
+      role: this.roleSelected
+    }
   }
 
   passwordsMatch(): boolean {
