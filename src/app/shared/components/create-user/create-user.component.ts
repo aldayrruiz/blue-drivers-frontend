@@ -80,8 +80,15 @@ export class CreateUserComponent implements OnInit {
       username: this.username.value,
       email: this.email.value,
       password: this.password.value,
+      password2: this.password2.value,
       role: this.roleSelected
     }
+
+    console.log(newUser);
+
+    this.createUserSrv.createUser(newUser).subscribe(data => {
+      console.log('Received data: ', data);
+    });
   }
 
   passwordsMatch(): boolean {

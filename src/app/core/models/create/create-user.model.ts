@@ -5,5 +5,6 @@ export interface CreateUser {
   email: string,
   username: string,
   password?: string,
+  password2?: string,
   role: Role
 }
