@@ -1,8 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  NgForm,
+  Validators,
+} from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core/public-api';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/core';
+import { SnackerService } from '../../services/snacker.service';
+
+const MIN_PASS_LENGTH = 6;
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -21,7 +32,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
-  styleUrls: ['./login-form.component.css']
+  styleUrls: ['./login-form.component.css'],
 })
 export class LoginFormComponent implements OnInit {
   credentials: FormGroup;
@@ -31,32 +42,49 @@ export class LoginFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private loginService: LoginService,
-    private router: Router
+    private router: Router,
+    private snacker: SnackerService
   ) {}
 
   ngOnInit(): void {
     this.credentials = this.fb.group({
-      username: [
+      email: [
         'aldayr.ruiz@opendeusto.es',
         [Validators.required, Validators.email],
       ],
-      password: ['password', [Validators.required, Validators.minLength(6)]],
+      password: [
+        'password',
+        [Validators.required, Validators.minLength(MIN_PASS_LENGTH)],
+      ],
     });
   }
 
+  private getFormData() {
+    // username is used instead of email because of server accepted email in username field.
+    return {
+      username: this.email.value,
+      password: this.password.value,
+    };
+  }
+
   async login(): Promise<void> {
-    this.loginService.login(this.credentials.value).subscribe(
+    const credentials = this.getFormData();
+    console.log("Login: ", credentials)
+
+    this.loginService.login(credentials).subscribe(
       async () => {
         this.router.navigateByUrl('/admin', { replaceUrl: true });
       },
-      (res) => {
-        console.log('Bad login');
+      async (error) => {
+        const errors: string[] = Object.values(error.error);
+        const message = errors[0]
+        this.snacker.open(message)
       }
     );
   }
 
-  get username(): AbstractControl {
-    return this.credentials.get('username');
+  get email(): AbstractControl {
+    return this.credentials.get('email');
   }
 
   get password(): AbstractControl {

@@ -9,9 +9,11 @@ import {
   NgForm,
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Role } from 'src/app/core';
 import { CreateUserService, CreateUser } from '../../../core';
+import { SnackerService } from '../../services/snacker.service';
 
 const MIN_PASS_LENGTH = 6;
 
@@ -44,7 +46,8 @@ export class CreateUserComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private createUserSrv: CreateUserService
+    private createUserSrv: CreateUserService,
+    private snacker: SnackerService
   ) {}
 
   ngOnInit(): void {
@@ -54,8 +57,14 @@ export class CreateUserComponent implements OnInit {
         [Validators.required, Validators.email],
       ],
       username: ['aldayr', [Validators.required]],
-      password: ['password', [Validators.required, Validators.minLength(MIN_PASS_LENGTH)]],
-      password2: ['password', [Validators.required, Validators.minLength(MIN_PASS_LENGTH)]],
+      password: [
+        'password',
+        [Validators.required, Validators.minLength(MIN_PASS_LENGTH)],
+      ],
+      password2: [
+        'password',
+        [Validators.required, Validators.minLength(MIN_PASS_LENGTH)],
+      ],
     });
   }
 
@@ -98,9 +107,17 @@ export class CreateUserComponent implements OnInit {
 
     console.log(newUser);
 
-    this.createUserSrv.createUser(newUser).subscribe((data: CreateUser) => {
-      console.log('Received data: ', data);
-    });
+    this.createUserSrv.createUser(newUser).subscribe(
+      async (data: CreateUser) => {
+        const message = 'Usuario creado con éxito'
+        this.snacker.open(message)
+      },
+      async (error) => {
+        const errors: string[] = Object.values(error.error);
+        const message = errors[0]
+        this.snacker.open(message)
+      }
+    );
   }
 
   passwordsMatch(): boolean {

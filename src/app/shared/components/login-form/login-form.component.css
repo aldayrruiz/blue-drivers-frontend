@@ -1,18 +1,19 @@
-.example-form {
-  min-width: 150px;
-  max-width: 500px;
+.example-card {
+  width: 600px;
+}
+
+.full-width {
   width: 100%;
 }
 
-#parent {
-  display: table;
+table {
   width: 100%;
-  height: 100%;
   text-align: center;
 }
 
-#form_login {
-  display: table-cell;
-  text-align: center;
-  vertical-align: middle
+.main-div {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
