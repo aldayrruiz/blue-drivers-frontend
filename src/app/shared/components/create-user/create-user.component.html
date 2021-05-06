@@ -1,82 +1,105 @@
-<div id="parent">
-  <form id="form_login" [formGroup]="credentials">
-    <!-- Email -->
-    <mat-form-field appearance="fill">
-      <mat-label>Email</mat-label>
-      <div>
-        <input type="email" matInput [formControl]="email" [errorStateMatcher]="matcher"
-          placeholder="Ex. pat@example.com">
-      </div>
-      <mat-error *ngIf="email.hasError('email') && !email.hasError('required')">
-        Por favor, introduzca un email correcto
-      </mat-error>
-      <mat-error *ngIf="email.hasError('required')">
-        Email es <strong>obligatorio</strong>
-      </mat-error>
-    </mat-form-field>
-    <br>
-    <br>
-    <!-- Username -->
-    <mat-form-field class="example-full-width">
-      <mat-label>Username</mat-label>
-      <input type="text" matInput [formControl]="username" placeholder="Ex. Juan Ruiz" [errorStateMatcher]="matcher">
-      <mat-error *ngIf="username.hasError('required')">
-        Username es <strong>obligatorio</strong>
-      </mat-error>
-    </mat-form-field>
-    <br>
-    <br>
-    <!-- Role -->
-    <mat-form-field appearance="fill">
-      <mat-label>Rol</mat-label>
-      <mat-select [(value)]="roleSelected">
-        <mat-option value="USER">Usuario</mat-option>
-        <mat-option value="ADMIN">Administador</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <br>
-    <br>
-    <!-- Password -->
-    <mat-form-field appearance="fill">
-      <mat-label>Contraseña</mat-label>
-      <div>
-        <input matInput [type]="hide ? 'password' : 'text'" matInput [formControl]="password"
-          [errorStateMatcher]="matcher">
-      </div>
-      <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-        [attr.aria-pressed]="hide">
-        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-      </button>
-      <mat-error *ngIf="password.hasError('minlength') && !password.hasError('required')">
-        Por favor, introduzca una contraseña con mas de 5 carácteres
-      </mat-error>
-      <mat-error *ngIf="password.hasError('required')">
-        Contraseña es <strong>obligatoria</strong>
-      </mat-error>
-    </mat-form-field>
-    <br>
-    <br>
-    <!-- Password2 -->
-    <mat-form-field appearance="fill">
-      <mat-label>Contraseña</mat-label>
-      <div>
-        <input matInput [type]="hide2 ? 'password' : 'text'" matInput [formControl]="password2"
-          [errorStateMatcher]="matcher">
-      </div>
-      <button mat-icon-button matSuffix (click)="hide2 = !hide2" [attr.aria-label]="'Hide password2'"
-        [attr.aria-pressed]="hide2">
-        <mat-icon>{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
-      </button>
-      <mat-error *ngIf="password2.hasError('minlength') && !password2.hasError('required')">
-        Por favor, introduzca una contraseña con mas de 5 carácteres
-      </mat-error>
-      <mat-error *ngIf="password2.hasError('required')">
-        Contraseña es <strong>obligatoria</strong>
-      </mat-error>
-    </mat-form-field>
-    <br>
-    <br>
-    <button (click)="createUser()" mat-raised-button color="primary" type="submit" expand="block"
-      [disabled]="!credentials.valid">Crear usuario</button>
-  </form>
+<div class="main-div">
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>
+        Nuevo usuario
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="credentials">
+        <table cellspacing="0">
+          <!-- Email -->
+          <tr>
+            <td>
+              <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Email</mat-label>
+                <div>
+                  <input type="email" matInput [formControl]="email" [errorStateMatcher]="matcher"
+                    placeholder="Ex. pat@example.com">
+                </div>
+                <mat-error *ngIf="email.hasError('email') && !email.hasError('required')">
+                  Por favor, introduzca un email correcto
+                </mat-error>
+                <mat-error *ngIf="email.hasError('required')">
+                  Email es <strong>obligatorio</strong>
+                </mat-error>
+              </mat-form-field>
+            </td>
+          </tr>
+          <!-- Username -->
+          <tr>
+            <td>
+              <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Username</mat-label>
+                <input type="text" matInput [formControl]="username" placeholder="Ex. Juan Ruiz"
+                  [errorStateMatcher]="matcher">
+                <mat-error *ngIf="username.hasError('required')">
+                  Username es <strong>obligatorio</strong>
+                </mat-error>
+              </mat-form-field>
+            </td>
+          </tr>
+          <!-- Role -->
+          <tr>
+            <td>
+              <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Rol</mat-label>
+                <mat-select [(value)]="roleSelected">
+                  <mat-option value="USER">Usuario</mat-option>
+                  <mat-option value="ADMIN">Administador</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+          </tr>
+          <!-- Password -->
+          <tr>
+            <td>
+              <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Contraseña</mat-label>
+                <input matInput [type]="hide ? 'password' : 'text'" matInput [formControl]="password"
+                  [errorStateMatcher]="matcher">
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hide">
+                  <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="password.hasError('minlength') && !password.hasError('required')">
+                  Por favor, introduzca una contraseña con mas de 5 carácteres
+                </mat-error>
+                <mat-error *ngIf="password.hasError('required')">
+                  Contraseña es <strong>obligatoria</strong>
+                </mat-error>
+              </mat-form-field>
+            </td>
+          </tr>
+          <!-- Password2 -->
+          <tr>
+            <td>
+              <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Contraseña</mat-label>
+                <input matInput [type]="hide2 ? 'password' : 'text'" matInput [formControl]="password2"
+                  [errorStateMatcher]="matcher">
+                <button mat-icon-button matSuffix (click)="hide2 = !hide2" [attr.aria-label]="'Hide password2'"
+                  [attr.aria-pressed]="hide2">
+                  <mat-icon>{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="password2.hasError('minlength') && !password2.hasError('required')">
+                  Por favor, introduzca una contraseña con mas de 5 carácteres
+                </mat-error>
+                <mat-error *ngIf="password2.hasError('required')">
+                  Contraseña es <strong>obligatoria</strong>
+                </mat-error>
+              </mat-form-field>
+            </td>
+          </tr>
+          <!-- Button - Create User -->
+          <tr>
+            <td>
+              <button (click)="createUser()" mat-raised-button color="primary" type="submit" expand="block"
+                [disabled]="!credentials.valid">Crear usuario</button>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </mat-card-content>
+  </mat-card>
 </div>

@@ -13,6 +13,8 @@ import { Router } from '@angular/router';
 import { Role } from 'src/app/core';
 import { CreateUserService, CreateUser } from '../../../core';
 
+const MIN_PASS_LENGTH = 6;
+
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
     control: FormControl | null,
@@ -39,7 +41,11 @@ export class CreateUserComponent implements OnInit {
   hide = true;
   hide2 = true;
 
-  constructor(private fb: FormBuilder, private router: Router, private createUserSrv : CreateUserService) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private createUserSrv: CreateUserService
+  ) {}
 
   ngOnInit(): void {
     this.credentials = this.fb.group({
@@ -48,8 +54,8 @@ export class CreateUserComponent implements OnInit {
         [Validators.required, Validators.email],
       ],
       username: ['aldayr', [Validators.required]],
-      password: ['password', [Validators.required, Validators.minLength(6)]],
-      password2: ['password', [Validators.required, Validators.minLength(6)]],
+      password: ['password', [Validators.required, Validators.minLength(MIN_PASS_LENGTH)]],
+      password2: ['password', [Validators.required, Validators.minLength(MIN_PASS_LENGTH)]],
     });
   }
 
@@ -71,22 +77,28 @@ export class CreateUserComponent implements OnInit {
 
   matcher = new MyErrorStateMatcher();
 
-  createUser(): void {
-    if (!this.passwordsMatch()) {
-      console.log("Password doesn't match");
-    }
-
+  private getFormData(): CreateUser {
     const newUser: CreateUser = {
       username: this.username.value,
       email: this.email.value,
       password: this.password.value,
       password2: this.password2.value,
-      role: this.roleSelected
+      role: this.roleSelected,
+    };
+    return newUser;
+  }
+
+  createUser(): void {
+    if (!this.passwordsMatch()) {
+      console.log("Password doesn't match");
+      return;
     }
+
+    const newUser = this.getFormData();
 
     console.log(newUser);
 
-    this.createUserSrv.createUser(newUser).subscribe(data => {
+    this.createUserSrv.createUser(newUser).subscribe((data: CreateUser) => {
       console.log('Received data: ', data);
     });
   }
