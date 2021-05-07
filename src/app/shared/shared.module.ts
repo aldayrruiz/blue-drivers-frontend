@@ -7,9 +7,10 @@ import { LoginFormComponent } from './components/login-form/login-form.component
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { ToolbarModule } from './components/toolbar/toolbar.module';
 import { MyAngularMaterialModule } from './angular-material.module';
+import { CreateVehicleTypeComponent } from './components/create-vehicle-type/create-vehicle-type.component';
 
 @NgModule({
-  declarations: [LoginFormComponent, CreateUserComponent],
+  declarations: [LoginFormComponent, CreateUserComponent, CreateVehicleTypeComponent],
   imports: [
     FormsModule,
     ReactiveFormsModule,

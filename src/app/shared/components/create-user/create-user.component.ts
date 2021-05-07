@@ -4,32 +4,14 @@ import {
   FormBuilder,
   Validators,
   AbstractControl,
-  FormControl,
-  FormGroupDirective,
-  NgForm,
 } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MyErrorStateMatcher } from '../../utils/my-error-state-matcher';
 import { Router } from '@angular/router';
 import { Role } from 'src/app/core';
 import { CreateUserService, CreateUser } from '../../../core';
 import { SnackerService } from '../../services/snacker.service';
 
 const MIN_PASS_LENGTH = 6;
-
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(
-    control: FormControl | null,
-    form: FormGroupDirective | NgForm | null
-  ): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(
-      control &&
-      control.invalid &&
-      (control.dirty || control.touched || isSubmitted)
-    );
-  }
-}
 
 @Component({
   selector: 'app-create-user',
@@ -109,13 +91,13 @@ export class CreateUserComponent implements OnInit {
 
     this.createUserSrv.createUser(newUser).subscribe(
       async (data: CreateUser) => {
-        const message = 'Usuario creado con éxito'
-        this.snacker.open(message)
+        const message = 'Usuario creado con éxito';
+        this.snacker.open(message);
       },
       async (error) => {
         const errors: string[] = Object.values(error.error);
-        const message = errors[0]
-        this.snacker.open(message)
+        const message = errors[0];
+        this.snacker.open(message);
       }
     );
   }
