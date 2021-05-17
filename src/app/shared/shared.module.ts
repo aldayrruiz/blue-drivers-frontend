@@ -10,6 +10,7 @@ import { MyAngularMaterialModule } from './angular-material.module';
 import { CreateVehicleTypeComponent } from './components/create-vehicle-type/create-vehicle-type.component';
 import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { UsersTableModule } from './components/users-table/users-table.module';
+import { VehicleTypesTableModule } from './components/vehicle-types-table/vehicle-types-table.module';
 
 @NgModule({
   declarations: [LoginFormComponent, CreateUserComponent, CreateVehicleTypeComponent, EditUserComponent],
@@ -27,7 +28,8 @@ import { UsersTableModule } from './components/users-table/users-table.module';
     MyAngularMaterialModule,
     /* Exports ToolbarModule because it need admin routing */
     ToolbarModule,
-    UsersTableModule
+    UsersTableModule,
+    VehicleTypesTableModule
   ],
 })
 export class SharedModule {}

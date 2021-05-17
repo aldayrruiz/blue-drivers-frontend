@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiPaths } from 'src/app/shared/api-paths.enum';
 import { environment } from 'src/environments/environment';
-import { CreateVehicleType } from '../models';
+import { CreateVehicleType, VehicleType } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -18,5 +18,10 @@ export class VehicleTypeService {
   ): Observable<CreateVehicleType> {
     const path = `${this.createVehicleTypeUrl}/`;
     return this.http.post<CreateVehicleType>(path, vehicleType);
+  }
+
+  getVehicleTypes(): Observable<VehicleType[]> {
+    const path = `${this.createVehicleTypeUrl}/`;
+    return this.http.get<VehicleType[]>(path);
   }
 }

@@ -8,20 +8,28 @@ import { UsersResolver } from 'src/app/shared/components/users-table/users.resol
 import { UsersComponent } from './users.component';
 
 const routes: Routes = [
-  { 
-    path: '', 
+  {
+    path: '',
     redirectTo: 'users-table',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: '',
     component: UsersComponent,
     children: [
       { path: 'create-user', component: CreateUserComponent },
-      { path: 'users-table', component: UsersTableComponent , resolve: { users: UsersResolver }},
-      { path: 'edit-user/:userId', component: EditUserComponent , resolve: { user: UserResolver }},
-    ]
-  }
+      {
+        path: 'users-table',
+        component: UsersTableComponent,
+        resolve: { users: UsersResolver },
+      },
+      {
+        path: 'edit-user/:userId',
+        component: EditUserComponent,
+        resolve: { user: UserResolver },
+      },
+    ],
+  },
 ];
 
 @NgModule({

@@ -3,13 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { User, UserService } from 'src/app/core';
 import { SnackerService } from '../../services/snacker.service';
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
 @Component({
   selector: 'app-users-table',
   templateUrl: './users-table.component.html',
@@ -47,10 +40,6 @@ export class UsersTableComponent implements OnInit {
         this.snacker.open('Un error ha ocurrido. Intentelo mas tarde.');
       }
     );
-  }
-
-  editUser(user: User): void {
-    console.log('Go to edit: ', user);
   }
 
   refreshTable(): void {

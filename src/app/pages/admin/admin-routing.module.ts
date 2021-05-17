@@ -13,7 +13,7 @@ const routes: Routes = [
     component: AdminComponent,
     children: [
       { path: 'users', loadChildren: () => import('../users/users.module').then(m => m.UsersModule) },
-      { path: 'vehicle-types', loadChildren: () => import('../vehicles-types/vehicles-types.module').then(m => m.VehiclesTypesModule) },
+      { path: 'vehicle-types', loadChildren: () => import('../vehicle-types/vehicle-types.module').then(m => m.VehicleTypesModule) },
     ],
   },
 ];
