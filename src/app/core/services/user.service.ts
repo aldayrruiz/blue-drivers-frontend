@@ -15,6 +15,12 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
+
+  getUser(id: string): Observable<User> {
+    const path = `${this.userUrl}/${id}/`;
+    return this.http.get<User>(path);
+  }
+
   /**
    * Send a POST HTTP request to the server to register a user.
    * @param user data of the new user.

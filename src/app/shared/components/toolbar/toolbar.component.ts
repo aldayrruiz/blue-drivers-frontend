@@ -15,20 +15,25 @@ export class ToolbarComponent implements OnInit {
   constructor(private router: Router) {
     this.navLinks = [
       {
-        label: 'Create User',
-        link: 'create-user',
+        label: 'Users',
+        link: 'users',
         index: 0,
       },
       {
-        label: 'Create Vehicle Type',
-        link: 'create-vehicle-type',
+        label: 'Vehicle Types',
+        link: 'vehicle-types',
         index: 1,
       },
-      {
-        label: 'Users table',
-        link: 'users-table',
-        index: 2,
-      }
+      // {
+      //   label: 'Users table',
+      //   link: 'users-table',
+      //   index: 2,
+      // },
+      // {
+      //   label: 'Edit user',
+      //   link: 'edit-user',
+      //   index: 3
+      // }
     ];
   }
 

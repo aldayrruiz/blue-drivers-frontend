@@ -8,11 +8,11 @@ import { CreateUserComponent } from './components/create-user/create-user.compon
 import { ToolbarModule } from './components/toolbar/toolbar.module';
 import { MyAngularMaterialModule } from './angular-material.module';
 import { CreateVehicleTypeComponent } from './components/create-vehicle-type/create-vehicle-type.component';
-import { UsersTableComponent } from './components/users-table/users-table.component';
 import { EditUserComponent } from './components/edit-user/edit-user.component';
+import { UsersTableModule } from './components/users-table/users-table.module';
 
 @NgModule({
-  declarations: [LoginFormComponent, CreateUserComponent, CreateVehicleTypeComponent, UsersTableComponent, EditUserComponent],
+  declarations: [LoginFormComponent, CreateUserComponent, CreateVehicleTypeComponent, EditUserComponent],
   imports: [
     FormsModule,
     ReactiveFormsModule,
@@ -27,6 +27,7 @@ import { EditUserComponent } from './components/edit-user/edit-user.component';
     MyAngularMaterialModule,
     /* Exports ToolbarModule because it need admin routing */
     ToolbarModule,
+    UsersTableModule
   ],
 })
 export class SharedModule {}

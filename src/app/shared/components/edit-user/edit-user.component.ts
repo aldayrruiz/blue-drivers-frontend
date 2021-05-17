@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CreateUser, EditUser, Role, User, UserService } from 'src/app/core';
 import { MyErrorStateMatcher } from 'src/app/pages/login/login.page';
 import { SnackerService } from '../../services/snacker.service';
@@ -14,27 +14,30 @@ const MIN_PASS_LENGTH = 6;
 })
 export class EditUserComponent implements OnInit {
 
+  user: User;
   roleSelected = Role.USER;
   credentials: FormGroup;
   submitted = false;
   hide = true;
-  hide2 = true;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private createUserSrv: UserService,
+    private route: ActivatedRoute,
+    private userSrv: UserService,
     private snacker: SnackerService) { }
 
   ngOnInit(): void {
+    this.resolveUser();
+
     this.credentials = this.fb.group({
       email: [
-        'aldayr.ruiz@opendeusto.es',
+        this.user.email,
         [Validators.required, Validators.email],
       ],
-      username: ['aldayr', [Validators.required]],
+      username: [this.user.username, [Validators.required]],
       password: [
-        'password',
+        '',
         [Validators.required, Validators.minLength(MIN_PASS_LENGTH)],
       ]
     });
@@ -69,9 +72,9 @@ export class EditUserComponent implements OnInit {
 
     console.log(newUser);
 
-    this.createUserSrv.createUser(newUser).subscribe(
-      async (data: CreateUser) => {
-        const message = 'Usuario creado con éxito';
+    this.userSrv.updateUser(this.user.id, newUser).subscribe(
+      async (data: User) => {
+        const message = 'Usuario editado con exito!';
         this.snacker.open(message);
       },
       async (error) => {
@@ -82,4 +85,11 @@ export class EditUserComponent implements OnInit {
     );
   }
 
+  resolveUser(): void {
+    this.route.data.subscribe((response) => {
+      console.log('User response received!', response);
+      this.user = response['user'];
+    });
+  }
 }
+  
