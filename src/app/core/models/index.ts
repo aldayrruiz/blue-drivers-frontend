@@ -13,6 +13,8 @@ export * from './create/create-incident.model';
 export * from './create/create-user.model';
 export * from './create/create-vehicle-type.model';
 
+export * from './edit/edit-user.model';
+
 export * from './enums/incident-type.model';
 export * from './enums/ticket-status.model';
 export * from './enums/role.model';

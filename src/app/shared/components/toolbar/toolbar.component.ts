@@ -23,6 +23,11 @@ export class ToolbarComponent implements OnInit {
         label: 'Create Vehicle Type',
         link: 'create-vehicle-type',
         index: 1,
+      },
+      {
+        label: 'Users table',
+        link: 'users-table',
+        index: 2,
       }
     ];
   }

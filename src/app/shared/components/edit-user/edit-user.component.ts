@@ -1,24 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  AbstractControl,
-} from '@angular/forms';
-import { MyErrorStateMatcher } from '../../utils/my-error-state-matcher';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Role } from 'src/app/core';
-import { UserService, CreateUser } from '../../../core';
+import { CreateUser, EditUser, Role, User, UserService } from 'src/app/core';
+import { MyErrorStateMatcher } from 'src/app/pages/login/login.page';
 import { SnackerService } from '../../services/snacker.service';
 
 const MIN_PASS_LENGTH = 6;
 
 @Component({
-  selector: 'app-create-user',
-  templateUrl: './create-user.component.html',
-  styleUrls: ['./create-user.component.css'],
+  selector: 'app-edit-user',
+  templateUrl: './edit-user.component.html',
+  styleUrls: ['./edit-user.component.css']
 })
-export class CreateUserComponent implements OnInit {
+export class EditUserComponent implements OnInit {
+
   roleSelected = Role.USER;
   credentials: FormGroup;
   submitted = false;
@@ -29,8 +24,7 @@ export class CreateUserComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private createUserSrv: UserService,
-    private snacker: SnackerService
-  ) {}
+    private snacker: SnackerService) { }
 
   ngOnInit(): void {
     this.credentials = this.fb.group({
@@ -42,11 +36,7 @@ export class CreateUserComponent implements OnInit {
       password: [
         'password',
         [Validators.required, Validators.minLength(MIN_PASS_LENGTH)],
-      ],
-      password2: [
-        'password',
-        [Validators.required, Validators.minLength(MIN_PASS_LENGTH)],
-      ],
+      ]
     });
   }
 
@@ -61,30 +51,20 @@ export class CreateUserComponent implements OnInit {
   get password(): AbstractControl {
     return this.credentials.get('password');
   }
-
-  get password2(): AbstractControl {
-    return this.credentials.get('password2');
-  }
-
+  
   matcher = new MyErrorStateMatcher();
 
-  private getFormData(): CreateUser {
-    const newUser: CreateUser = {
+  private getFormData(): EditUser {
+    const newUser: EditUser = {
       username: this.username.value,
       email: this.email.value,
       password: this.password.value,
-      password2: this.password2.value,
       role: this.roleSelected,
     };
     return newUser;
   }
 
-  createUser(): void {
-    if (!this.passwordsMatch()) {
-      console.log("Password doesn't match");
-      return;
-    }
-
+  editUser(): void {
     const newUser = this.getFormData();
 
     console.log(newUser);
@@ -102,7 +82,4 @@ export class CreateUserComponent implements OnInit {
     );
   }
 
-  passwordsMatch(): boolean {
-    return this.password.value === this.password2.value;
-  }
 }
