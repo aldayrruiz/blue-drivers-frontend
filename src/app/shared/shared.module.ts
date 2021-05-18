@@ -12,6 +12,7 @@ import { EditUserComponent } from './components/users/edit-user/edit-user.compon
 import { UsersTableModule } from './components/users/users-table/users-table.module';
 import { VehicleTypesTableModule } from './components/vehicle-types/vehicle-types-table/vehicle-types-table.module';
 import { EditVehicleTypeComponent } from './components/vehicle-types/edit-vehicle-type/edit-vehicle-type.component';
+import { EditAllowedVehicleTypesComponent } from './components/users/edit-allowed-vehicle-types/edit-allowed-vehicle-types.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { EditVehicleTypeComponent } from './components/vehicle-types/edit-vehicl
     CreateVehicleTypeComponent,
     EditUserComponent,
     EditVehicleTypeComponent,
+    EditAllowedVehicleTypesComponent,
   ],
   imports: [
     FormsModule,

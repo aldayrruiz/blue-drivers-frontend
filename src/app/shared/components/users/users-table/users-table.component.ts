@@ -17,6 +17,7 @@ export class UsersTableComponent implements OnInit {
     'username',
     'email',
     'date_joined',
+    'allowed_vehicle_types',
     'edit',
     'delete',
   ];
