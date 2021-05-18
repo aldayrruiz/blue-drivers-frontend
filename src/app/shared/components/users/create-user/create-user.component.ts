@@ -5,11 +5,11 @@ import {
   Validators,
   AbstractControl,
 } from '@angular/forms';
-import { MyErrorStateMatcher } from '../../utils/my-error-state-matcher';
+import { MyErrorStateMatcher } from '../../../utils/my-error-state-matcher';
 import { Router } from '@angular/router';
 import { Role } from 'src/app/core';
-import { UserService, CreateUser } from '../../../core';
-import { SnackerService } from '../../services/snacker.service';
+import { UserService, CreateUser } from '../../../../core';
+import { SnackerService } from '../../../services/snacker.service';
 
 const MIN_PASS_LENGTH = 6;
 

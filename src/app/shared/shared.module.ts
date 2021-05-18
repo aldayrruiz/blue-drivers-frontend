@@ -4,22 +4,27 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // My components
 import { LoginFormComponent } from './components/login-form/login-form.component';
-import { CreateUserComponent } from './components/create-user/create-user.component';
+import { CreateUserComponent } from './components/users/create-user/create-user.component';
 import { ToolbarModule } from './components/toolbar/toolbar.module';
 import { MyAngularMaterialModule } from './angular-material.module';
-import { CreateVehicleTypeComponent } from './components/create-vehicle-type/create-vehicle-type.component';
-import { EditUserComponent } from './components/edit-user/edit-user.component';
-import { UsersTableModule } from './components/users-table/users-table.module';
-import { VehicleTypesTableModule } from './components/vehicle-types-table/vehicle-types-table.module';
+import { CreateVehicleTypeComponent } from './components/vehicle-types/create-vehicle-type/create-vehicle-type.component';
+import { EditUserComponent } from './components/users/edit-user/edit-user.component';
+import { UsersTableModule } from './components/users/users-table/users-table.module';
+import { VehicleTypesTableModule } from './components/vehicle-types/vehicle-types-table/vehicle-types-table.module';
 
 @NgModule({
-  declarations: [LoginFormComponent, CreateUserComponent, CreateVehicleTypeComponent, EditUserComponent],
+  declarations: [
+    LoginFormComponent,
+    CreateUserComponent,
+    CreateVehicleTypeComponent,
+    EditUserComponent,
+  ],
   imports: [
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
     /* Due to all of these declared components needs Angular Material. I need to import them */
-    MyAngularMaterialModule
+    MyAngularMaterialModule,
   ],
   exports: [
     LoginFormComponent,
@@ -29,7 +34,7 @@ import { VehicleTypesTableModule } from './components/vehicle-types-table/vehicl
     /* Exports ToolbarModule because it need admin routing */
     ToolbarModule,
     UsersTableModule,
-    VehicleTypesTableModule
+    VehicleTypesTableModule,
   ],
 })
 export class SharedModule {}

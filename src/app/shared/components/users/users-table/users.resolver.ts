@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/core';
-import { environment } from '../../../../environments/environment'
-import { ApiPaths } from '../../../shared/api-paths.enum';
+import { environment } from '../../../../../environments/environment'
+import { ApiPaths } from '../../../api-paths.enum';
 
 @Injectable({
   providedIn: 'root'

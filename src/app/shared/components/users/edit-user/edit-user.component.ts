@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/fo
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreateUser, EditUser, Role, User, UserService } from 'src/app/core';
 import { MyErrorStateMatcher } from 'src/app/pages/login/login.page';
-import { SnackerService } from '../../services/snacker.service';
+import { SnackerService } from '../../../services/snacker.service';
 
 const MIN_PASS_LENGTH = 6;
 

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { User, UserService } from 'src/app/core';
-import { SnackerService } from '../../services/snacker.service';
+import { SnackerService } from '../../../services/snacker.service';
+import { PipeDates } from '../../../utils/pipe-dates';
 
 @Component({
   selector: 'app-users-table',
@@ -10,6 +11,7 @@ import { SnackerService } from '../../services/snacker.service';
 })
 export class UsersTableComponent implements OnInit {
   users: User[] = [];
+  dateTimeFormat = PipeDates.dateTimeFormat;
 
   displayedColumns: string[] = [
     'username',

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserService, VehicleType } from 'src/app/core';
-import { SnackerService } from '../../services/snacker.service';
+import { SnackerService } from '../../../services/snacker.service';
 
 @Component({
   selector: 'app-vehicle-types-table',
