@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UserService, VehicleType } from 'src/app/core';
+import { VehicleType } from 'src/app/core';
+import { VehicleTypeService } from 'src/app/core/services/vehicle-type.service';
 import { SnackerService } from '../../../services/snacker.service';
 
 @Component({
@@ -11,7 +12,10 @@ import { SnackerService } from '../../../services/snacker.service';
 export class VehicleTypesTableComponent implements OnInit {
   vehicleTypes: VehicleType[] = [];
 
-  constructor(private route: ActivatedRoute, private snacker: SnackerService) {}
+  constructor(
+    private route: ActivatedRoute, 
+    private snacker: SnackerService,
+    private vehicleTypeSrv: VehicleTypeService) {}
 
   displayedColumns: string[] = ['name', 'edit', 'delete'];
 
@@ -27,7 +31,20 @@ export class VehicleTypesTableComponent implements OnInit {
     });
   }
 
-  deleteVehicleType(): void {
-    // DELETE AND MAKE ASYNC
+  delete(vType: VehicleType): void {
+    console.log('Deleting', vType)
+
+    // TODO: Preguntar: ¿Está seguro...?
+
+    this.vehicleTypeSrv.deleteVehicleType(vType.id).subscribe(
+      async () => {
+        this.vehicleTypes = this.vehicleTypes.filter((vT) => vT !== vType);
+        this.snacker.open(`El tipo de vehículo ${vType.name} ha sido eliminado`);
+      },
+      async (error) => {
+        // TODO: Si el tipo de vehículo está asociado a otros vehículos. ¿Qué pasa con estos.
+        this.snacker.open(`Un error ha ocurrido. Intentelo mas tarde.`)
+      }
+    );
   }
 }

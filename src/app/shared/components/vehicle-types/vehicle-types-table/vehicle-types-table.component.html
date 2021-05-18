@@ -19,7 +19,7 @@
   <ng-container matColumnDef="edit">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let vehicleType">
-      <button mat-icon-button color="dark" aria-label="Edit icon" routerLink="../edit-vehicle-type/{{vehicleType.id}}">
+      <button mat-icon-button color="dark" aria-label="Edit icon" routerLink="../edit/{{vehicleType.id}}">
         <mat-icon aria-hidden="false" aria-label="edit icon">edit</mat-icon>
       </button>
     </td>
@@ -29,7 +29,7 @@
   <ng-container matColumnDef="delete">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let vehicleType">
-      <button mat-icon-button color="error" aria-label="Delete icon" (click)="deleteVehicleType(vehicleType)">
+      <button mat-icon-button color="error" aria-label="Delete icon" (click)="delete(vehicleType)">
         <mat-icon aria-hidden="false" aria-label="delete icon">delete</mat-icon>
       </button>
     </td>

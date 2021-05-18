@@ -11,7 +11,7 @@ import { UsersRoutingModule } from 'src/app/pages/users/users-routing.module';
   ],
   imports: [
     CommonModule,
-    UsersRoutingModule, /* This toolbar is using users routing /admin/users */
+    UsersRoutingModule, /* This component is using users routing /admin/users */
     MyAngularMaterialModule,
   ],
   exports: [UsersTableComponent]

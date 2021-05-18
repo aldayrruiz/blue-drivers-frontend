@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CreateUser, EditUser, Role, User, UserService } from 'src/app/core';
+import { EditUser, Role, User, UserService } from 'src/app/core';
 import { MyErrorStateMatcher } from 'src/app/pages/login/login.page';
 import { SnackerService } from '../../../services/snacker.service';
 
@@ -57,22 +57,22 @@ export class EditUserComponent implements OnInit {
   
   matcher = new MyErrorStateMatcher();
 
-  private getFormData(): EditUser {
-    const newUser: EditUser = {
+  private getUdpatedData(): EditUser {
+    const updatedData: EditUser = {
       username: this.username.value,
       email: this.email.value,
       password: this.password.value,
       role: this.roleSelected,
     };
-    return newUser;
+    return updatedData;
   }
 
   editUser(): void {
-    const newUser = this.getFormData();
+    const updatedData = this.getUdpatedData();
 
-    console.log(newUser);
+    console.log(updatedData);
 
-    this.userSrv.updateUser(this.user.id, newUser).subscribe(
+    this.userSrv.updateUser(this.user.id, updatedData).subscribe(
       async (data: User) => {
         const message = 'Usuario editado con exito!';
         this.snacker.open(message);

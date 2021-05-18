@@ -33,12 +33,16 @@ export class UsersTableComponent implements OnInit {
 
   async deleteUser(user: User): Promise<void> {
     console.log('deleting: ', user);
+
+    // TODO: Preguntar: ¿Está seguro...?
+    
     this.userSrv.deleteUser(user.id).subscribe(
       async () => {
         this.users = this.users.filter((u) => u !== user);
         this.snacker.open(`El usuario ${user.username} ha sido eliminado.`);
       },
       async (error) => {
+        // TODO: Si el usuario tiene reservas, tickets, etc. ¿Qué pasa con estos?
         this.snacker.open('Un error ha ocurrido. Intentelo mas tarde.');
       }
     );
