@@ -6,6 +6,7 @@ import { EditUserComponent } from 'src/app/shared/components/users/edit-user/edi
 import { UserResolver } from 'src/app/shared/components/users/edit-user/user.resolver';
 import { UsersTableComponent } from 'src/app/shared/components/users/table/users-table.component';
 import { UsersResolver } from 'src/app/shared/components/users/table/users.resolver';
+import { VehicleTypesResolver } from 'src/app/shared/components/vehicle-types/table/vehicle-types.resolver';
 import { UsersComponent } from './users.component';
 
 const routes: Routes = [
@@ -35,7 +36,7 @@ const routes: Routes = [
         // TODO: No es el resolver del usuario común.
         // Es un resolver que contenga los tipos de vehiculos que tiene permitido el usuario.
         // Ademas otro resolver para saber los tipos de vehículos que existen y poder seleccionarlos.
-        resolve: { user: UserResolver },
+        resolve: { user: UserResolver, vehicleTypes: VehicleTypesResolver },
       },
     ],
   },

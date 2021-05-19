@@ -50,4 +50,9 @@ export class UserService {
     const path = `${this.userUrl}/${id}/`;
     return this.http.put<User>(path, user);
   }
+
+  updateAllowedVehicleTypes(userId: string, vehicleTypeIds: string[]): Observable<void> {
+    const path = `${this.userUrl}/allowed-types/${userId}/`;
+    return this.http.put<void>(path, vehicleTypeIds);
+  }
 }
