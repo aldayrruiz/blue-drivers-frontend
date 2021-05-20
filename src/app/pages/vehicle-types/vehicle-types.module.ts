@@ -9,4 +9,4 @@ import { SharedModule } from 'src/app/shared/shared.module';
   declarations: [VehicleTypesComponent],
   imports: [CommonModule, VehicleTypesRoutingModule, SharedModule],
 })
-export class VehicleTypesModule {}
+export class VehicleTypesPageModule {}

@@ -4,10 +4,9 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.css']
+  styleUrls: ['./toolbar.component.css'],
 })
 export class ToolbarComponent implements OnInit {
-
   title = 'angular-material-tab-router';
   navLinks: any[];
   activeLinkIndex = -1;
@@ -15,20 +14,20 @@ export class ToolbarComponent implements OnInit {
   constructor(private router: Router) {
     this.navLinks = [
       {
-        label: 'Users',
+        label: 'Usuarios',
         link: 'users',
         index: 0,
       },
       {
-        label: 'Vehicle Types',
+        label: 'Tipos de Vehículos',
         link: 'vehicle-types',
         index: 1,
       },
-      // {
-      //   label: 'Users table',
-      //   link: 'users-table',
-      //   index: 2,
-      // },
+      {
+        label: 'Vehículos',
+        link: 'vehicles',
+        index: 2,
+      },
       // {
       //   label: 'Edit user',
       //   link: 'edit-user',
@@ -44,5 +43,4 @@ export class ToolbarComponent implements OnInit {
       );
     });
   }
-
 }
