@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { VehicleTypesRoutingModule } from './vehicle-types-routing.module';
 import { VehicleTypesComponent } from './vehicle-types.component';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedModule } from 'src/app/components/shared.module';
 
 @NgModule({
   declarations: [VehicleTypesComponent],

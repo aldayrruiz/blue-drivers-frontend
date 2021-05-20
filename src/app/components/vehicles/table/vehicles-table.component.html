@@ -1,0 +1,48 @@
+<section>
+  <div class="example-label">
+    <h1> Panel de Vehículos</h1>
+  </div>
+  <div class="example-button-row">
+    <button mat-raised-button routerLink="../create" color="primary">Añadir un vehículo</button>
+  </div>
+</section>
+<table mat-table [dataSource]="vehicles" class="mat-elevation-z8">
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Nombre </th>
+    <td mat-cell *matCellDef="let vehicle"> {{ vehicle.name }} </td>
+  </ng-container>
+
+  <!-- Type Column -->
+  <ng-container matColumnDef="type">
+    <th mat-header-cell *matHeaderCellDef> Tipo </th>
+    <td mat-cell *matCellDef="let vehicle"> {{ vehicle.type.name }} </td>
+  </ng-container>
+
+  <!-- Edit Column -->
+  <ng-container matColumnDef="edit">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let vehicle">
+      <button mat-icon-button color="dark" aria-label="Edit vehicle icon" routerLink="../edit/{{vehicle.id}}">
+        <mat-icon aria-hidden="false" aria-label="edit icon">edit</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <!-- Delete Column -->
+  <ng-container matColumnDef="delete">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let vehicle">
+      <button mat-icon-button color="error" aria-label="Delete vehicle icon" (click)="deleteVehicle(vehicle)">
+        <mat-icon aria-hidden="false" aria-label="delete icon">delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

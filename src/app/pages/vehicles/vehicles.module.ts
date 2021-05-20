@@ -4,13 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { VehiclesPage } from './vehicles.page';
 
 import { VehiclesPageRoutingModule } from './vehicles-routing.module';
+import { SharedModule } from 'src/app/components/shared.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    VehiclesPageRoutingModule
-  ],
-  declarations: [VehiclesPage]
+  imports: [CommonModule, FormsModule, VehiclesPageRoutingModule, SharedModule],
+  declarations: [VehiclesPage],
 })
 export class VehiclesPageModule {}

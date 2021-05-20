@@ -1,6 +1,6 @@
 export enum ApiPaths {
   Vehicle = '/api/vehicles',
-  VehicleType = '/api/vehicletypes',
+  VehicleType = '/api/vehicle-types',
   Reservation = '/api/reservations',
   Ticket = '/api/tickets',
   SolveTicket = '/api/tickets/solve',
