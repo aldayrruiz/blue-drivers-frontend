@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { User, UserService, VehicleType } from 'src/app/core';
-import { SnackerService } from 'src/app/shared/services/snacker.service';
-import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
+import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { Router, ActivatedRoute } from '@angular/router';
+import { User, VehicleType, UserService, SnackerService } from 'src/app/core';
 
 @Component({
   selector: 'app-edit-allowed-vehicle-types',

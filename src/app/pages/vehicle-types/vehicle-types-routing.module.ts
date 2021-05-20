@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CreateVehicleTypeComponent } from 'src/app/shared/components/vehicle-types/create/create-vehicle-type.component';
-import { EditVehicleTypeComponent } from 'src/app/shared/components/vehicle-types/edit/edit-vehicle-type.component';
-import { VehicleTypeResolver } from 'src/app/shared/components/vehicle-types/edit/vehicle-type.resolver';
-import { VehicleTypesTableComponent } from 'src/app/shared/components/vehicle-types/table/vehicle-types-table.component';
-import { VehicleTypesResolver } from 'src/app/shared/components/vehicle-types/table/vehicle-types.resolver';
+import { CreateVehicleTypeComponent } from 'src/app/components/vehicle-types/create/create-vehicle-type.component';
+import { EditVehicleTypeComponent } from 'src/app/components/vehicle-types/edit/edit-vehicle-type.component';
+import { VehicleTypesTableComponent } from 'src/app/components/vehicle-types/table/vehicle-types-table.component';
+import { VehicleTypesResolver, VehicleTypeResolver } from 'src/app/core';
 import { VehicleTypesComponent } from './vehicle-types.component';
 
 const routes: Routes = [

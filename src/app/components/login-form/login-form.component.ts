@@ -10,8 +10,7 @@ import {
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core/public-api';
 import { Router } from '@angular/router';
-import { LoginService } from 'src/app/core';
-import { SnackerService } from '../../services/snacker.service';
+import { LoginService, SnackerService } from 'src/app/core';
 
 const MIN_PASS_LENGTH = 6;
 
@@ -69,7 +68,7 @@ export class LoginFormComponent implements OnInit {
 
   async login(): Promise<void> {
     const credentials = this.getFormData();
-    console.log("Login: ", credentials)
+    console.log('Login: ', credentials);
 
     this.loginService.login(credentials).subscribe(
       async () => {
@@ -77,8 +76,8 @@ export class LoginFormComponent implements OnInit {
       },
       async (error) => {
         const errors: string[] = Object.values(error.error);
-        const message = errors[0]
-        this.snacker.open(message)
+        const message = errors[0];
+        this.snacker.open(message);
       }
     );
   }

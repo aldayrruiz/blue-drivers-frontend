@@ -1,19 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  AbstractControl,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EditUser, Role, User, UserService } from 'src/app/core';
+import {
+  User,
+  Role,
+  UserService,
+  SnackerService,
+  EditUser,
+} from 'src/app/core';
 import { MyErrorStateMatcher } from 'src/app/pages/login/login.page';
-import { SnackerService } from '../../../services/snacker.service';
 
 const MIN_PASS_LENGTH = 6;
 
 @Component({
   selector: 'app-edit-user',
   templateUrl: './edit-user.component.html',
-  styleUrls: ['./edit-user.component.css']
+  styleUrls: ['./edit-user.component.css'],
 })
 export class EditUserComponent implements OnInit {
-
   user: User;
   roleSelected = Role.USER;
   credentials: FormGroup;
@@ -25,21 +34,19 @@ export class EditUserComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private userSrv: UserService,
-    private snacker: SnackerService) { }
+    private snacker: SnackerService
+  ) {}
 
   ngOnInit(): void {
     this.resolveUser();
 
     this.credentials = this.fb.group({
-      email: [
-        this.user.email,
-        [Validators.required, Validators.email],
-      ],
+      email: [this.user.email, [Validators.required, Validators.email]],
       username: [this.user.username, [Validators.required]],
       password: [
         '',
         [Validators.required, Validators.minLength(MIN_PASS_LENGTH)],
-      ]
+      ],
     });
   }
 
@@ -54,7 +61,7 @@ export class EditUserComponent implements OnInit {
   get password(): AbstractControl {
     return this.credentials.get('password');
   }
-  
+
   matcher = new MyErrorStateMatcher();
 
   private getUdpatedData(): EditUser {
@@ -92,4 +99,3 @@ export class EditUserComponent implements OnInit {
     });
   }
 }
-  

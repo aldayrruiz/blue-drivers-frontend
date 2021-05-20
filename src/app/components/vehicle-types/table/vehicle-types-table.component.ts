@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { VehicleType } from 'src/app/core';
-import { VehicleTypeService } from 'src/app/core/services/vehicle-type.service';
-import { SnackerService } from '../../../services/snacker.service';
+import { VehicleType, SnackerService, VehicleTypeService } from 'src/app/core';
 
 @Component({
   selector: 'app-vehicle-types-table',
@@ -13,9 +11,10 @@ export class VehicleTypesTableComponent implements OnInit {
   vehicleTypes: VehicleType[] = [];
 
   constructor(
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
     private snacker: SnackerService,
-    private vehicleTypeSrv: VehicleTypeService) {}
+    private vehicleTypeSrv: VehicleTypeService
+  ) {}
 
   displayedColumns: string[] = ['name', 'edit', 'delete'];
 
@@ -32,18 +31,20 @@ export class VehicleTypesTableComponent implements OnInit {
   }
 
   delete(vType: VehicleType): void {
-    console.log('Deleting', vType)
+    console.log('Deleting', vType);
 
     // TODO: Preguntar: ¿Está seguro...?
 
     this.vehicleTypeSrv.deleteVehicleType(vType.id).subscribe(
       async () => {
         this.vehicleTypes = this.vehicleTypes.filter((vT) => vT !== vType);
-        this.snacker.open(`El tipo de vehículo ${vType.name} ha sido eliminado`);
+        this.snacker.open(
+          `El tipo de vehículo ${vType.name} ha sido eliminado`
+        );
       },
       async (error) => {
         // TODO: Si el tipo de vehículo está asociado a otros vehículos. ¿Qué pasa con estos.
-        this.snacker.open(`Un error ha ocurrido. Intentelo mas tarde.`)
+        this.snacker.open(`Un error ha ocurrido. Intentelo mas tarde.`);
       }
     );
   }

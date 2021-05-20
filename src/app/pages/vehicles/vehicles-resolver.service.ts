@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 import { Vehicle } from '../../core';
 import { environment } from '../../../environments/environment';
-import { ApiPaths } from '../../shared/api-paths.enum';
+import { ApiPaths } from '../../shared/utils/api-paths.enum';
 
 @Injectable({
   providedIn: 'root',

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { User, UserService } from 'src/app/core';
-import { SnackerService } from '../../../services/snacker.service';
-import { PipeDates } from '../../../utils/pipe-dates';
+import { User, UserService, SnackerService } from 'src/app/core';
+import { PipeDates } from 'src/app/shared/utils/pipe-dates';
 
 @Component({
   selector: 'app-users-table',
@@ -36,7 +35,7 @@ export class UsersTableComponent implements OnInit {
     console.log('deleting: ', user);
 
     // TODO: Preguntar: ¿Está seguro...?
-    
+
     this.userSrv.deleteUser(user.id).subscribe(
       async () => {
         this.users = this.users.filter((u) => u !== user);

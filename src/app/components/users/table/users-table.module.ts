@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MyAngularMaterialModule } from '../../../angular-material.module';
+import { MyAngularMaterialModule } from '../../../shared/angular-material.module';
 import { UsersTableComponent } from './users-table.component';
 import { UsersRoutingModule } from 'src/app/pages/users/users-routing.module';
 

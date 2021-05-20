@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CreateUserComponent } from 'src/app/shared/components/users/create/create-user.component';
-import { EditAllowedVehicleTypesComponent } from 'src/app/shared/components/users/edit-allowed-vehicle/edit-allowed-vehicle-types.component';
-import { EditUserComponent } from 'src/app/shared/components/users/edit-user/edit-user.component';
-import { UserResolver } from 'src/app/shared/components/users/edit-user/user.resolver';
-import { UsersTableComponent } from 'src/app/shared/components/users/table/users-table.component';
-import { UsersResolver } from 'src/app/shared/components/users/table/users.resolver';
-import { VehicleTypesResolver } from 'src/app/shared/components/vehicle-types/table/vehicle-types.resolver';
+import { CreateUserComponent } from 'src/app/components/users/create/create-user.component';
+import { EditAllowedVehicleTypesComponent } from 'src/app/components/users/edit-allowed-vehicle/edit-allowed-vehicle-types.component';
+import { EditUserComponent } from 'src/app/components/users/edit-user/edit-user.component';
+import { UsersTableComponent } from 'src/app/components/users/table/users-table.component';
+import { UsersResolver, UserResolver, VehicleTypesResolver } from 'src/app/core';
 import { UsersComponent } from './users.component';
 
 const routes: Routes = [

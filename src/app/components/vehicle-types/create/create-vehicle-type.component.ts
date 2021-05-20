@@ -1,15 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
-import { CreateVehicleType } from 'src/app/core';
-import { VehicleTypeService } from 'src/app/core/services/vehicle-type.service';
-import { SnackerService } from '../../../services/snacker.service';
-import { MyErrorStateMatcher } from '../../../utils/my-error-state-matcher'
+import {
+  VehicleTypeService,
+  SnackerService,
+  CreateVehicleType,
+} from 'src/app/core';
+import { MyErrorStateMatcher } from 'src/app/pages/login/login.page';
 
 @Component({
   selector: 'app-create-vehicle-type',
   templateUrl: './create-vehicle-type.component.html',
-  styleUrls: ['./create-vehicle-type.component.css']
+  styleUrls: ['./create-vehicle-type.component.css'],
 })
 export class CreateVehicleTypeComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
@@ -20,12 +27,12 @@ export class CreateVehicleTypeComponent implements OnInit {
     private router: Router,
     private vehicleTypeSrv: VehicleTypeService,
     private snacker: SnackerService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.formGroup = this.fb.group({
-      name: ['Turismo', [Validators.required]]
-    })
+      name: ['Turismo', [Validators.required]],
+    });
   }
 
   get name(): AbstractControl {
@@ -34,8 +41,8 @@ export class CreateVehicleTypeComponent implements OnInit {
 
   private getFormData(): CreateVehicleType {
     const newVehicleType: CreateVehicleType = {
-      name: this.name.value
-    }
+      name: this.name.value,
+    };
     return newVehicleType;
   }
 
@@ -44,7 +51,7 @@ export class CreateVehicleTypeComponent implements OnInit {
     console.log(newVehicleType);
     this.vehicleTypeSrv.createVehicleType(newVehicleType).subscribe(
       async (data) => {
-        const message = 'Tipo de vehículo creado con éxito'
+        const message = 'Tipo de vehículo creado con éxito';
         this.snacker.open(message);
       },
       async (error) => {

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Reservation } from '../models/reservation.model';
 import { environment } from '../../../environments/environment';
-import { ApiPaths } from '../../shared/api-paths.enum';
+import { ApiPaths } from '../../shared/utils/api-paths.enum';
 import { CreateReservation } from '../models';
 
 @Injectable({

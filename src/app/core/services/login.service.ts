@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
-import { ApiPaths } from 'src/app/shared/api-paths.enum';
+import { ApiPaths } from 'src/app/shared/utils/api-paths.enum';
 
 import { BehaviorSubject, Observable, from } from 'rxjs';
 import { map, tap, switchMap } from 'rxjs/operators';

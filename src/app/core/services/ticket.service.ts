@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Ticket, CreateTicket } from '../models';
-import { ApiPaths } from '../../shared/api-paths.enum';
+import { ApiPaths } from '../../shared/utils/api-paths.enum';
 import { environment } from '../../../environments/environment';
 
 @Injectable({

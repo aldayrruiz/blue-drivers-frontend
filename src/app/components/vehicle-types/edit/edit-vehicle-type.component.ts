@@ -6,10 +6,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EditVehicleType, VehicleType } from 'src/app/core';
-import { VehicleTypeService } from 'src/app/core/services/vehicle-type.service';
-import { SnackerService } from 'src/app/shared/services/snacker.service';
-import { MyErrorStateMatcher } from 'src/app/shared/utils/my-error-state-matcher';
+import {
+  VehicleType,
+  VehicleTypeService,
+  SnackerService,
+  EditVehicleType,
+} from 'src/app/core';
+import { MyErrorStateMatcher } from 'src/app/pages/login/login.page';
 
 @Component({
   selector: 'app-edit-vehicle-type',
@@ -37,7 +40,7 @@ export class EditVehicleTypeComponent implements OnInit {
 
   private getUdpatedData(): EditVehicleType {
     const updatedData: EditVehicleType = {
-      name: this.name.value
+      name: this.name.value,
     };
     return updatedData;
   }
@@ -56,7 +59,7 @@ export class EditVehicleTypeComponent implements OnInit {
         const message = errors[0];
         this.snacker.open(message);
       }
-    )
+    );
   }
 
   get name(): AbstractControl {

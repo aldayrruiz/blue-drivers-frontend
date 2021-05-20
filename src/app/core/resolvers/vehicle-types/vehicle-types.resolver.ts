@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import {
-  Resolve,
-} from '@angular/router';
+import { Resolve } from '@angular/router';
 import { Observable } from 'rxjs';
-import { VehicleType } from 'src/app/core';
-import { VehicleTypeService } from 'src/app/core/services/vehicle-type.service';
+import { VehicleType } from 'src/app/core/models';
+import { VehicleTypeService } from 'src/app/core/services';
 
 @Injectable({
   providedIn: 'root',
