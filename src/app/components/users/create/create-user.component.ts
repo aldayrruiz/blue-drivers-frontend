@@ -26,7 +26,7 @@ export class CreateUserComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private createUserSrv: UserService,
+    private userSrv: UserService,
     private snacker: SnackerService
   ) {}
 
@@ -87,7 +87,7 @@ export class CreateUserComponent implements OnInit {
 
     console.log(newUser);
 
-    this.createUserSrv.createUser(newUser).subscribe(
+    this.userSrv.createUser(newUser).subscribe(
       async (data: CreateUser) => {
         const message = 'Usuario creado con éxito';
         this.snacker.open(message);
