@@ -31,6 +31,11 @@ const routes: Routes = [
             (m) => m.VehiclesPageModule
           ),
       },
+      {
+        path: 'tickets',
+        loadChildren: () =>
+          import('../tickets/tickets.module').then((m) => m.TicketsPageModule),
+      },
     ],
   },
 ];

@@ -16,6 +16,7 @@ import { EditAllowedVehicleTypesComponent } from './users/edit-allowed-vehicle/e
 import { VehiclesTableModule } from './vehicles/table/vehicles-table.module';
 import { CreateVehicleComponent } from './vehicles/create/create-vehicle.component';
 import { EditVehicleComponent } from './vehicles/edit/edit-vehicle.component';
+import { TicketsTableComponent } from './tickets/table/tickets-table.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { EditVehicleComponent } from './vehicles/edit/edit-vehicle.component';
     EditAllowedVehicleTypesComponent,
     CreateVehicleComponent,
     EditVehicleComponent,
+    TicketsTableComponent,
   ],
   imports: [
     FormsModule,

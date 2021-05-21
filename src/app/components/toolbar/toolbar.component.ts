@@ -28,11 +28,11 @@ export class ToolbarComponent implements OnInit {
         link: 'vehicles',
         index: 2,
       },
-      // {
-      //   label: 'Edit user',
-      //   link: 'edit-user',
-      //   index: 3
-      // }
+      {
+        label: 'Tickets',
+        link: 'tickets',
+        index: 3,
+      },
     ];
   }
 
