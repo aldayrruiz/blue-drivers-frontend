@@ -11,7 +11,7 @@ import {
   SnackerService,
   CreateVehicleType,
 } from 'src/app/core';
-import { MyErrorStateMatcher } from 'src/app/pages/login/login.page';
+import { MyErrorStateMatcher } from 'src/app/pages/login/login.component';
 
 @Component({
   selector: 'app-create-vehicle-type',

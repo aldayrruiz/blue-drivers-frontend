@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Role, UserService, SnackerService, CreateUser } from 'src/app/core';
-import { MyErrorStateMatcher } from 'src/app/pages/login/login.page';
+import { MyErrorStateMatcher } from 'src/app/pages/login/login.component';
 
 const MIN_PASS_LENGTH = 6;
 
