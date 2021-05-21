@@ -1,3 +1,33 @@
+section {
+  display: table;
+}
+
+.example-label {
+  display: table-cell;
+  font-size: 14px;
+  margin-left: 8px;
+  width: 100%;
+}
+
+.example-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
 table {
   width: 100%;
+}
+
+.table-container {
+  width: 98%;
+  padding-right: 1%;
+  padding-left: 1%;
+  padding-top: 1%;
+}
+
+.button-container {
+  padding-top: 20px;
+  width: 100%;
+  text-align: center;
 }
