@@ -34,3 +34,9 @@ section {
 table {
   width: 100%;
 }
+
+.table-container {
+  width: 98%;
+  padding-right: 1%;
+  padding-left: 1%;
+}

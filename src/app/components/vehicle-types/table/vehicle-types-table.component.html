@@ -1,40 +1,44 @@
-<section>
-  <div class="example-label"><h1> Panel de tipos de vehículos</h1></div>
-  <div class="example-button-row">
-    <button mat-raised-button routerLink="../create" color="primary">Añadir un tipo de vehículo</button>
-  </div>
-</section>
-<table mat-table [dataSource]="vehicleTypes" class="mat-elevation-z8">
+<div class="table-container">
+  <section>
+    <div class="example-label">
+      <h1>Panel de tipos de vehículos</h1>
+    </div>
+    <div class="example-button-row">
+      <button mat-raised-button routerLink="../create" color="primary">Añadir</button>
+    </div>
+  </section>
+  <table mat-table [dataSource]="vehicleTypes" class="mat-elevation-z8">
 
-  <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
 
-  <!-- Username Column -->
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef> Name </th>
-    <td mat-cell *matCellDef="let vehicleType"> {{ vehicleType.name }} </td>
-  </ng-container>
+    <!-- Username Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let vehicleType"> {{ vehicleType.name }} </td>
+    </ng-container>
 
-  <!-- Edit Column -->
-  <ng-container matColumnDef="edit">
-    <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell *matCellDef="let vehicleType">
-      <button mat-icon-button color="dark" aria-label="Edit icon" routerLink="../edit/{{vehicleType.id}}">
-        <mat-icon aria-hidden="false" aria-label="edit icon">edit</mat-icon>
-      </button>
-    </td>
-  </ng-container>
+    <!-- Edit Column -->
+    <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let vehicleType">
+        <button mat-icon-button color="dark" aria-label="Edit icon" routerLink="../edit/{{vehicleType.id}}">
+          <mat-icon aria-hidden="false" aria-label="edit icon">edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
 
-  <!-- Delete Column -->
-  <ng-container matColumnDef="delete">
-    <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell *matCellDef="let vehicleType">
-      <button mat-icon-button color="error" aria-label="Delete icon" (click)="delete(vehicleType)">
-        <mat-icon aria-hidden="false" aria-label="delete icon">delete</mat-icon>
-      </button>
-    </td>
-  </ng-container>
+    <!-- Delete Column -->
+    <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let vehicleType">
+        <button mat-icon-button color="error" aria-label="Delete icon" (click)="delete(vehicleType)">
+          <mat-icon aria-hidden="false" aria-label="delete icon">delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
