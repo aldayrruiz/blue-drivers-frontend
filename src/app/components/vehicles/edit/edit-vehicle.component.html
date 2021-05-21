@@ -2,21 +2,21 @@
   <mat-card class="example-card">
     <mat-card-header>
       <mat-card-title>
-        Nuevo vehículo
+        Editar Vehículo
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <form [formGroup]="formGroup">
-        <table cellspacing=" 0">
+        <table cellspacing="0">
           <!-- Name -->
           <tr>
             <td>
               <mat-form-field class="full-width" appearance="fill">
-                <mat-label>Name</mat-label>
-                <input type="text" matInput [formControl]="name" placeholder="Ex. Audi 39"
+                <mat-label>Nombre</mat-label>
+                <input type="text" matInput [formControl]="name" placeholder="Ex. Audi 39x"
                   [errorStateMatcher]="matcher">
                 <mat-error *ngIf="name.hasError('required')">
-                  El nombre del vehículo es <strong>obligatorio</strong>
+                  El nombre es <strong>obligatorio</strong>
                 </mat-error>
               </mat-form-field>
             </td>
@@ -24,7 +24,7 @@
           <!-- Type -->
           <tr>
             <td>
-              <mat-form-field appearance="fill">
+              <mat-form-field class="full-width" appearance="fill">
                 <mat-label>Tipo</mat-label>
                 <mat-select [(value)]="typeIdSelected">
                   <mat-option *ngFor="let type of types" [value]="type.id">
@@ -34,11 +34,11 @@
               </mat-form-field>
             </td>
           </tr>
-          <!-- Button - Create User -->
+          <!-- Button - Edit Vehicle -->
           <tr>
             <td>
-              <button (click)="createVehicle()" mat-raised-button color="primary" type="submit" expand="block"
-                [disabled]="!formGroup.valid">Crear</button>
+              <button (click)="edit()" mat-raised-button color="primary" type="submit" expand="block"
+                [disabled]="!formGroup.valid">Editar</button>
             </td>
           </tr>
         </table>

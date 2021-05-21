@@ -33,7 +33,9 @@ export class EditVehicleTypeComponent implements OnInit {
 
   ngOnInit(): void {
     this.resolveVehicleType();
-    this.setFormGroup();
+    this.formGroup = this.fb.group({
+      name: [this.vehicleType.name, [Validators.required]],
+    });
   }
 
   matcher = new MyErrorStateMatcher();
@@ -73,9 +75,5 @@ export class EditVehicleTypeComponent implements OnInit {
     });
   }
 
-  private setFormGroup(): void {
-    this.formGroup = this.fb.group({
-      name: [this.vehicleType.name, [Validators.required]],
-    });
-  }
+  private setFormGroup(): void {}
 }
