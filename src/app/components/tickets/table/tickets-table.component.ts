@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Ticket } from 'src/app/core';
+import { SnackerService, Ticket, TicketService } from 'src/app/core';
+import { PipeDates } from 'src/app/shared/utils/pipe-dates';
 
 @Component({
   selector: 'app-tickets-table',
@@ -9,17 +10,21 @@ import { Ticket } from 'src/app/core';
 })
 export class TicketsTableComponent implements OnInit {
   tickets: Ticket[];
+  dateTimeFormat = PipeDates.dateTimeFormat;
 
-  constructor(private route: ActivatedRoute) {}
+  displayedColumns: string[] = ['title', 'owner', 'dateStored', 'status', 'decide'];
+
+  constructor(
+    private route: ActivatedRoute,
+    private snacker: SnackerService,
+    private ticketSrv: TicketService) {}
 
   ngOnInit(): void {
     this.resolve();
   }
 
   private resolve() {
-    console.log('123123');
     this.route.data.subscribe((response) => {
-      console.log('123123123123123');
       console.log(response['tickets']);
       this.tickets = response['tickets'];
     });

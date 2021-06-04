@@ -8,7 +8,7 @@ import { VehiclesPageRoutingModule } from 'src/app/pages/vehicles/vehicles-routi
   declarations: [VehiclesTableComponent],
   imports: [
     CommonModule,
-    VehiclesPageRoutingModule /* This component is using vehicle types routing /admin/vehicle-types */,
+    VehiclesPageRoutingModule /* This component is using vehicles routing /admin/vehicles */,
     MyAngularMaterialModule,
   ],
   exports: [VehiclesTableComponent],

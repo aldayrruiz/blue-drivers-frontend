@@ -14,6 +14,8 @@ import {
 } from 'src/app/core';
 import { MyErrorStateMatcher } from 'src/app/pages/login/login.component';
 
+const NUMBER_PLATE_LENGTH = 6;
+
 @Component({
   selector: 'app-edit-vehicle',
   templateUrl: './edit-vehicle.component.html',
@@ -37,13 +39,35 @@ export class EditVehicleComponent implements OnInit {
     this.setFormGroup();
   }
 
-  get name(): AbstractControl {
-    return this.formGroup.get('name');
+  get brand(): AbstractControl {
+    return this.formGroup.get('brand');
+  }
+
+  get model(): AbstractControl {
+    return this.formGroup.get('model');
+  }
+
+  get numberPlate(): AbstractControl {
+    return this.formGroup.get('numberPlate');
+  }
+
+  get imei(): AbstractControl {
+    return this.formGroup.get('imei');
   }
 
   private setFormGroup() {
     this.formGroup = this.fb.group({
-      name: [this.vehicle.name, [Validators.required]],
+      brand: ['Mercedez Benz', [Validators.required]],
+      model: ['S', [Validators.required]],
+      numberPlate: [
+        'QWER21',
+        [
+          Validators.required,
+          Validators.minLength(NUMBER_PLATE_LENGTH),
+          Validators.maxLength(NUMBER_PLATE_LENGTH),
+        ],
+      ],
+      imei: ['0123456789AS', [Validators.required]],
     });
   }
 
@@ -51,7 +75,6 @@ export class EditVehicleComponent implements OnInit {
 
   private getUdpatedData(): EditVehicle {
     const updatedData: EditVehicle = {
-      name: this.name.value,
       model: '',
       brand: '',
       number_plate: '',
