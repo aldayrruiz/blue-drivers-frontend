@@ -7,12 +7,9 @@ import { LoginFormComponent } from './login-form/login-form.component';
 import { CreateUserComponent } from './users/create/create-user.component';
 import { ToolbarModule } from './toolbar/toolbar.module';
 import { MyAngularMaterialModule } from '../shared/angular-material.module';
-import { CreateVehicleTypeComponent } from './vehicle-types/create/create-vehicle-type.component';
 import { EditUserComponent } from './users/edit-user/edit-user.component';
 import { UsersTableModule } from './users/table/users-table.module';
-import { VehicleTypesTableModule } from './vehicle-types/table/vehicle-types-table.module';
-import { EditVehicleTypeComponent } from './vehicle-types/edit/edit-vehicle-type.component';
-import { EditAllowedVehicleTypesComponent } from './users/edit-allowed-vehicle/edit-allowed-vehicle-types.component';
+import { EditAllowedVehiclesComponent } from './users/edit-allowed-vehicles/edit-allowed-vehicles.component';
 import { VehiclesTableModule } from './vehicles/table/vehicles-table.module';
 import { CreateVehicleComponent } from './vehicles/create/create-vehicle.component';
 import { EditVehicleComponent } from './vehicles/edit/edit-vehicle.component';
@@ -22,10 +19,8 @@ import { TicketsTableComponent } from './tickets/table/tickets-table.component';
   declarations: [
     LoginFormComponent,
     CreateUserComponent,
-    CreateVehicleTypeComponent,
     EditUserComponent,
-    EditVehicleTypeComponent,
-    EditAllowedVehicleTypesComponent,
+    EditAllowedVehiclesComponent,
     CreateVehicleComponent,
     EditVehicleComponent,
     TicketsTableComponent,
@@ -45,7 +40,6 @@ import { TicketsTableComponent } from './tickets/table/tickets-table.component';
     /* Exports ToolbarModule because it need admin routing */
     ToolbarModule,
     UsersTableModule,
-    VehicleTypesTableModule,
     VehiclesTableModule,
   ],
 })

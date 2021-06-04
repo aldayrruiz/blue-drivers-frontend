@@ -8,33 +8,63 @@
     <mat-card-content>
       <form [formGroup]="formGroup">
         <table cellspacing=" 0">
-          <!-- Name -->
+          <!-- Brand -->
           <tr>
             <td>
               <mat-form-field class="full-width" appearance="fill">
-                <mat-label>Name</mat-label>
-                <input type="text" matInput [formControl]="name" placeholder="Ex. Audi 39"
-                  [errorStateMatcher]="matcher">
-                <mat-error *ngIf="name.hasError('required')">
-                  El nombre del vehículo es <strong>obligatorio</strong>
+                <mat-label>Marca</mat-label>
+                <input type="text" matInput [formControl]="brand" [errorStateMatcher]="matcher">
+                <mat-error *ngIf="brand.hasError('required')">
+                  La marca es <strong>obligatorio</strong>
                 </mat-error>
               </mat-form-field>
             </td>
           </tr>
-          <!-- Type -->
+
+          <!-- Model -->
           <tr>
             <td>
-              <mat-form-field appearance="fill">
-                <mat-label>Tipo</mat-label>
-                <mat-select [(value)]="typeIdSelected">
-                  <mat-option *ngFor="let type of types" [value]="type.id">
-                    {{ type.name }}
-                  </mat-option>
-                </mat-select>
+              <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Modelo</mat-label>
+                <input type="text" matInput [formControl]="model" [errorStateMatcher]="matcher">
+                <mat-error *ngIf="model.hasError('required')">
+                  El modelo es <strong>obligatorio</strong>
+                </mat-error>
               </mat-form-field>
             </td>
           </tr>
-          <!-- Button - Create User -->
+
+          <!-- Number Plate -->
+          <tr>
+            <td>
+              <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Nº Matricula</mat-label>
+                <input type="text" matInput [formControl]="numberPlate" [errorStateMatcher]="matcher">
+                <mat-error *ngIf="
+                numberPlate.hasError('required') || 
+                numberPlate.hasError('maxLength') ||
+                numberPlate.hasError('minLength')">
+                  El nº de matricula debe tener <strong>6 caractéres</strong>
+                </mat-error>
+              </mat-form-field>
+            </td>
+          </tr>
+
+          <!-- IMEI -->
+          <tr>
+            <td>
+              <mat-form-field class="full-width" appearance="fill">
+                <mat-label>IMEI</mat-label>
+                <input type="text" matInput [formControl]="imei" [errorStateMatcher]="matcher">
+                <mat-error *ngIf="imei.hasError('required')">
+                  El IMEI del gps es <strong>obligatorio</strong>
+                </mat-error>
+              </mat-form-field>
+            </td>
+          </tr>
+
+
+          <!-- Button - Create Vehicle -->
           <tr>
             <td>
               <button (click)="createVehicle()" mat-raised-button color="primary" type="submit" expand="block"

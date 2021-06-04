@@ -12,16 +12,22 @@
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Nombre </th>
-      <td mat-cell *matCellDef="let vehicle"> {{ vehicle.name }} </td>
+    <!-- Model Column -->
+    <ng-container matColumnDef="model">
+      <th mat-header-cell *matHeaderCellDef> Modelo </th>
+      <td mat-cell *matCellDef="let vehicle"> {{ vehicle.model }} </td>
     </ng-container>
 
-    <!-- Type Column -->
-    <ng-container matColumnDef="type">
-      <th mat-header-cell *matHeaderCellDef> Tipo </th>
-      <td mat-cell *matCellDef="let vehicle"> {{ vehicle.type.name }} </td>
+    <!-- Brand Column -->
+    <ng-container matColumnDef="brand">
+      <th mat-header-cell *matHeaderCellDef> Marca </th>
+      <td mat-cell *matCellDef="let vehicle"> {{ vehicle.brand }} </td>
+    </ng-container>
+
+    <!-- Number plate Column -->
+    <ng-container matColumnDef="numberPlate">
+      <th mat-header-cell *matHeaderCellDef> Nº Matricula </th>
+      <td mat-cell *matCellDef="let vehicle"> {{ vehicle.number_plate }} </td>
     </ng-container>
 
     <!-- Edit Column -->

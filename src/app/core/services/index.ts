@@ -5,5 +5,4 @@ export * from './reservation.service';
 export * from './snacker.service';
 export * from './ticket.service';
 export * from './user.service';
-export * from './vehicle-type.service';
 export * from './vehicle.service';

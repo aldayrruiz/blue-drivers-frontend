@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CreateUserComponent } from 'src/app/components/users/create/create-user.component';
-import { EditAllowedVehicleTypesComponent } from 'src/app/components/users/edit-allowed-vehicle/edit-allowed-vehicle-types.component';
+import { EditAllowedVehiclesComponent } from 'src/app/components/users/edit-allowed-vehicles/edit-allowed-vehicles.component';
 import { EditUserComponent } from 'src/app/components/users/edit-user/edit-user.component';
 import { UsersTableComponent } from 'src/app/components/users/table/users-table.component';
-import { UsersResolver, UserResolver, VehicleTypesResolver } from 'src/app/core';
+import { UsersResolver, UserResolver, VehiclesResolver } from 'src/app/core';
 import { UsersComponent } from './users.component';
 
 const routes: Routes = [
@@ -30,11 +30,11 @@ const routes: Routes = [
       },
       {
         path: 'edit/:userId/allowed-vehicle-types',
-        component: EditAllowedVehicleTypesComponent,
+        component: EditAllowedVehiclesComponent,
         // TODO: No es el resolver del usuario común.
         // Es un resolver que contenga los tipos de vehiculos que tiene permitido el usuario.
         // Ademas otro resolver para saber los tipos de vehículos que existen y poder seleccionarlos.
-        resolve: { user: UserResolver, vehicleTypes: VehicleTypesResolver },
+        resolve: { user: UserResolver, vehicles: VehiclesResolver },
       },
     ],
   },

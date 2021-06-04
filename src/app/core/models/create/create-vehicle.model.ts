@@ -1,4 +1,6 @@
 export interface CreateVehicle {
-  name: string;
-  type: string;
+  model: string;
+  brand: string;
+  number_plate: string;
+  imei: string;
 }

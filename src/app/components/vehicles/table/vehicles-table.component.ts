@@ -12,7 +12,7 @@ export class VehiclesTableComponent implements OnInit {
   vehicles: Vehicle[] = [];
   dateTimeFormat = PipeDates.dateTimeFormat;
 
-  displayedColumns: string[] = ['name', 'type', 'edit', 'delete'];
+  displayedColumns: string[] = ['model', 'brand', 'numberPlate', 'edit', 'delete'];
 
   constructor(
     private route: ActivatedRoute,

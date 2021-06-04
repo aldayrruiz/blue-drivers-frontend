@@ -19,19 +19,14 @@ export class ToolbarComponent implements OnInit {
         index: 0,
       },
       {
-        label: 'Tipos de Vehículos',
-        link: 'vehicle-types',
-        index: 1,
-      },
-      {
         label: 'Vehículos',
         link: 'vehicles',
-        index: 2,
+        index: 1,
       },
       {
         label: 'Tickets',
         link: 'tickets',
-        index: 3,
+        index: 2,
       },
     ];
   }

@@ -6,13 +6,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  CreateVehicle,
-  SnackerService,
-  VehicleService,
-  VehicleType,
-} from 'src/app/core';
+import { CreateVehicle, SnackerService, VehicleService } from 'src/app/core';
 import { MyErrorStateMatcher } from '../../login-form/login-form.component';
+
+const NUMBER_PLATE_LENGTH = 6;
 
 @Component({
   selector: 'app-create-vehicle',
@@ -22,8 +19,6 @@ import { MyErrorStateMatcher } from '../../login-form/login-form.component';
 export class CreateVehicleComponent implements OnInit {
   formGroup: FormGroup;
   submitted = false;
-  types: VehicleType[];
-  typeIdSelected: string;
 
   constructor(
     private fb: FormBuilder,
@@ -34,26 +29,49 @@ export class CreateVehicleComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.resolveTypes();
     this.createFormGroup();
   }
 
   createFormGroup(): void {
     this.formGroup = this.fb.group({
-      name: ['Todo Terreno', [Validators.required]],
+      brand: ['Mercedez Benz', [Validators.required]],
+      model: ['S', [Validators.required]],
+      numberPlate: [
+        'QWER21',
+        [
+          Validators.required,
+          Validators.minLength(NUMBER_PLATE_LENGTH),
+          Validators.maxLength(NUMBER_PLATE_LENGTH),
+        ],
+      ],
+      imei: ['0123456789AS', [Validators.required]],
     });
   }
 
   matcher = new MyErrorStateMatcher();
 
-  get name(): AbstractControl {
-    return this.formGroup.get('name');
+  get brand(): AbstractControl {
+    return this.formGroup.get('brand');
+  }
+
+  get model(): AbstractControl {
+    return this.formGroup.get('model');
+  }
+
+  get numberPlate(): AbstractControl {
+    return this.formGroup.get('numberPlate');
+  }
+
+  get imei(): AbstractControl {
+    return this.formGroup.get('imei');
   }
 
   private getFormData(): CreateVehicle {
     return {
-      name: this.name.value,
-      type: this.typeIdSelected,
+      brand: this.brand.value,
+      model: this.model.value,
+      number_plate: this.numberPlate.value,
+      imei: this.imei.value,
     };
   }
 
@@ -73,15 +91,5 @@ export class CreateVehicleComponent implements OnInit {
         this.snacker.open(message);
       }
     );
-  }
-
-  resolveTypes(): void {
-    this.route.data.subscribe((response) => {
-      console.log('Vehicle Types response received!', response);
-      this.types = response['types'];
-      // Selected the first element recieved
-      // What if none element is received
-      this.typeIdSelected = this.types[0].id;
-    });
   }
 }

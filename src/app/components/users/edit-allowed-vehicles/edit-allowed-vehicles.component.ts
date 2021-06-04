@@ -2,20 +2,20 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router, ActivatedRoute } from '@angular/router';
-import { User, VehicleType, UserService, SnackerService } from 'src/app/core';
+import { User, UserService, SnackerService, Vehicle } from 'src/app/core';
 
 @Component({
-  selector: 'app-edit-allowed-vehicle-types',
-  templateUrl: './edit-allowed-vehicle-types.component.html',
-  styleUrls: ['./edit-allowed-vehicle-types.component.css'],
+  selector: 'app-edit-allowed-vehicles',
+  templateUrl: './edit-allowed-vehicles.component.html',
+  styleUrls: ['./edit-allowed-vehicles.component.css'],
 })
-export class EditAllowedVehicleTypesComponent implements OnInit {
+export class EditAllowedVehiclesComponent implements OnInit {
   user: User;
-  vehicleTypes: VehicleType[];
+  vehicles: Vehicle[];
 
-  displayedColumns: string[] = ['select', 'name'];
-  dataSource: MatTableDataSource<VehicleType>;
-  selection: SelectionModel<VehicleType>;
+  displayedColumns: string[] = ['select', 'vehicle'];
+  dataSource: MatTableDataSource<Vehicle>;
+  selection: SelectionModel<Vehicle>;
 
   constructor(
     private router: Router,
@@ -26,9 +26,9 @@ export class EditAllowedVehicleTypesComponent implements OnInit {
 
   ngOnInit(): void {
     this.resolve();
-    this.dataSource = new MatTableDataSource<VehicleType>(this.vehicleTypes);
-    const initiallySelectedValues = this.getInitiallySelectedVehicleTypes();
-    this.selection = new SelectionModel<VehicleType>(
+    this.dataSource = new MatTableDataSource<Vehicle>(this.vehicles);
+    const initiallySelectedValues = this.getInitiallySelectedVehicles();
+    this.selection = new SelectionModel<Vehicle>(
       true,
       initiallySelectedValues
     );
@@ -38,7 +38,7 @@ export class EditAllowedVehicleTypesComponent implements OnInit {
     this.route.data.subscribe((response) => {
       console.log('Data response received!', response);
       this.user = response['user'];
-      this.vehicleTypes = response['vehicleTypes'];
+      this.vehicles = response['vehicles'];
     });
   }
 
@@ -57,23 +57,23 @@ export class EditAllowedVehicleTypesComponent implements OnInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: VehicleType): string {
+  checkboxLabel(row?: Vehicle): string {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-      this.vehicleTypes.indexOf(row) + 1
+      this.vehicles.indexOf(row) + 1
     }`;
   }
 
   save(): void {
-    const selectedVehicleTypes = this.selection.selected;
-    const vehicleTypeIds = this.mapToIds(selectedVehicleTypes);
+    const selectedVehicles = this.selection.selected;
+    const vehicleIds = this.mapToIds(selectedVehicles);
     this.userSrv
-      .updateAllowedVehicleTypes(this.user.id, vehicleTypeIds)
+      .updateAllowedVehicles(this.user.id, vehicleIds)
       .subscribe(
         async () => {
-          const message = 'Tipos de vehículos asignados con exito';
+          const message = 'Vehículos asignados con exito';
           this.snacker.open(message);
         },
         async (errors) => {
@@ -84,16 +84,16 @@ export class EditAllowedVehicleTypesComponent implements OnInit {
       );
   }
 
-  private mapToIds(vehicleTypes: VehicleType[]): string[] {
-    return vehicleTypes.map((vehicleType) => vehicleType.id);
+  private mapToIds(vehicles: Vehicle[]): string[] {
+    return vehicles.map((vehicle) => vehicle.id);
   }
 
-  private getInitiallySelectedVehicleTypes(): VehicleType[] {
-    const userAllowedTypesIds = this.mapToIds(this.user.allowed_types);
-    // Objects from table are not equal to objects this.user.allowed_types, even if values are equals (JS reference)
-    // So, return values from this.vehicleTypes.
-    return this.vehicleTypes.filter((vType) =>
-      userAllowedTypesIds.includes(vType.id)
+  private getInitiallySelectedVehicles(): Vehicle[] {
+    const userAllowedVehiclesIds = this.mapToIds(this.user.allowed_vehicles);
+    // Objects from table are not equal to objects this.user.allowed_vehicles, even if values are equals (JS reference)
+    // So, return values from this.vehicles
+    return this.vehicles.filter((vehicle) =>
+      userAllowedVehiclesIds.includes(vehicle.id)
     );
   }
 }

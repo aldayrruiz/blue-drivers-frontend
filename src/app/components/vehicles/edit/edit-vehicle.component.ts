@@ -1,4 +1,3 @@
-import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import {
   FormGroup,
@@ -11,8 +10,7 @@ import {
   SnackerService,
   Vehicle,
   EditVehicle,
-  VehicleService,
-  VehicleType,
+  VehicleService
 } from 'src/app/core';
 import { MyErrorStateMatcher } from 'src/app/pages/login/login.component';
 
@@ -22,8 +20,6 @@ import { MyErrorStateMatcher } from 'src/app/pages/login/login.component';
   styleUrls: ['./edit-vehicle.component.css'],
 })
 export class EditVehicleComponent implements OnInit {
-  types: VehicleType[];
-  typeIdSelected: string;
   vehicle: Vehicle;
   formGroup: FormGroup;
   submitted = false;
@@ -56,7 +52,10 @@ export class EditVehicleComponent implements OnInit {
   private getUdpatedData(): EditVehicle {
     const updatedData: EditVehicle = {
       name: this.name.value,
-      type: this.typeIdSelected,
+      model: '',
+      brand: '',
+      number_plate: '',
+      imei: ''
     };
     return updatedData;
   }
@@ -83,8 +82,6 @@ export class EditVehicleComponent implements OnInit {
     this.route.data.subscribe((response) => {
       console.log('Response received!', response);
       this.vehicle = response['vehicle'];
-      this.types = response['types'];
-      this.typeIdSelected = this.vehicle.type.id;
     });
   }
 }

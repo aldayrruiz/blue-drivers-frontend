@@ -18,13 +18,6 @@ const routes: Routes = [
           import('../users/users.module').then((m) => m.UsersPageModule),
       },
       {
-        path: 'vehicle-types',
-        loadChildren: () =>
-          import('../vehicle-types/vehicle-types.module').then(
-            (m) => m.VehicleTypesPageModule
-          ),
-      },
-      {
         path: 'vehicles',
         loadChildren: () =>
           import('../vehicles/vehicles.module').then(
