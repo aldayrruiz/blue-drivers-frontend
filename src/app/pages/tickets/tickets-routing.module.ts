@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SolveTicketComponent } from 'src/app/components/tickets/solve/solve-ticket.component';
 import { TicketsTableComponent } from 'src/app/components/tickets/table/tickets-table.component';
+import { TicketResolver } from 'src/app/core/resolvers/tickets/ticket.resolver';
 import { TicketsResolver } from 'src/app/core/resolvers/tickets/tickets.resolver';
 import { TicketsComponent } from './tickets.component';
 
@@ -20,10 +21,11 @@ const routes: Routes = [
         component: TicketsTableComponent,
         resolve: { tickets: TicketsResolver },
       },
-      /* {
+      {
         path: 'solve/:ticketId',
         component: SolveTicketComponent, 
-      } */
+        resolve: { ticket: TicketResolver }
+      }
     ],
   },
 ];

@@ -6,4 +6,7 @@ export interface Vehicle {
   id: string;
   name: string;
   date_stored: string;
+  brand: string;
+  model: string;
+  number_plate: string;
 }

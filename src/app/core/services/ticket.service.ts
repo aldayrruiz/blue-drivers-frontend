@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Ticket, CreateTicket } from '../models';
+import { Ticket, CreateTicket, TicketStatus } from '../models';
 import { ApiPaths } from '../../shared/utils/api-paths.enum';
 import { environment } from '../../../environments/environment';
 
@@ -16,7 +16,7 @@ export class TicketService {
   /**
    * Sends a GET HTTP request to the server to get a list of tickets.
    */
-  getTickets(): Observable<Ticket[]> {
+  getAll(): Observable<Ticket[]> {
     const path = `${this.ticketURL}/`;
     return this.http.get<Ticket[]>(path);
   }
@@ -25,7 +25,7 @@ export class TicketService {
    * Sends a GET HTTP request to the server to get a ticket given an identifier.
    * @param id identifier of the ticket to get.
    */
-  getTicket(id: string): Observable<Ticket> {
+  get(id: string): Observable<Ticket> {
     const path = `${this.ticketURL}/${id}/`;
     return this.http.get<Ticket>(path);
   }
@@ -34,8 +34,24 @@ export class TicketService {
    * Send a POST HTTP request to the server to store the given ticket data.
    * @param ticket data of the ticket to store.
    */
-  createTicket(ticket: CreateTicket): Observable<CreateTicket> {
+  create(ticket: CreateTicket): Observable<CreateTicket> {
     const path = `${this.ticketURL}/`;
     return this.http.post<CreateTicket>(path, ticket);
+  }
+
+  /**
+   * Send an PUT HTTP request to the server to solve (update) the ticket.
+   * @param id of the ticket to solve
+   * @param newStatus of the ticket
+   * @returns Just an observable
+   */
+  solve(id: string, newStatus: TicketStatus): Observable<void> {
+    const path = `${this.ticketURL}/${id}/`;
+
+    const data = {
+      new_status: newStatus
+    };
+    
+    return this.http.put<void>(path, data);
   }
 }

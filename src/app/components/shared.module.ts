@@ -13,8 +13,8 @@ import { EditAllowedVehiclesComponent } from './users/edit-allowed-vehicles/edit
 import { VehiclesTableModule } from './vehicles/table/vehicles-table.module';
 import { CreateVehicleComponent } from './vehicles/create/create-vehicle.component';
 import { EditVehicleComponent } from './vehicles/edit/edit-vehicle.component';
-import { TicketsTableComponent } from './tickets/table/tickets-table.component';
 import { SolveTicketComponent } from './tickets/solve/solve-ticket.component';
+import { TicketsTableModule } from './tickets/table/tickets.table.module';
 
 @NgModule({
   declarations: [
@@ -24,7 +24,6 @@ import { SolveTicketComponent } from './tickets/solve/solve-ticket.component';
     EditAllowedVehiclesComponent,
     CreateVehicleComponent,
     EditVehicleComponent,
-    TicketsTableComponent,
     SolveTicketComponent
   ],
   imports: [
@@ -43,6 +42,7 @@ import { SolveTicketComponent } from './tickets/solve/solve-ticket.component';
     ToolbarModule,
     UsersTableModule,
     VehiclesTableModule,
+    TicketsTableModule
   ],
 })
 export class SharedModule {}

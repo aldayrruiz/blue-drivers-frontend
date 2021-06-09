@@ -11,6 +11,6 @@ export class TicketsResolver implements Resolve<Ticket[]> {
   constructor(private ticketSrv: TicketService) {}
 
   resolve(): Observable<Ticket[]> {
-    return this.ticketSrv.getTickets();
+    return this.ticketSrv.getAll();
   }
 }
