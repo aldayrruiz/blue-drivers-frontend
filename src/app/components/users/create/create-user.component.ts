@@ -36,7 +36,7 @@ export class CreateUserComponent implements OnInit {
         'aldayr.ruiz@opendeusto.es',
         [Validators.required, Validators.email],
       ],
-      username: ['aldayr', [Validators.required]],
+      fullname: ['Aldayr Ruiz Longa', [Validators.required]],
       password: [
         'password',
         [Validators.required, Validators.minLength(MIN_PASS_LENGTH)],
@@ -48,8 +48,8 @@ export class CreateUserComponent implements OnInit {
     });
   }
 
-  get username(): AbstractControl {
-    return this.credentials.get('username');
+  get fullname(): AbstractControl {
+    return this.credentials.get('fullname');
   }
 
   get email(): AbstractControl {
@@ -68,8 +68,8 @@ export class CreateUserComponent implements OnInit {
 
   private getFormData(): CreateUser {
     const newUser: CreateUser = {
-      username: this.username.value,
       email: this.email.value,
+      fullname: this.fullname.value,
       password: this.password.value,
       password2: this.password2.value,
       role: this.roleSelected,

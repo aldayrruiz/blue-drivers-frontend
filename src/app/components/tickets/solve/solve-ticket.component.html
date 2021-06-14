@@ -14,7 +14,7 @@
             <mat-divider></mat-divider>
             <mat-list-item role="listitem"><b>Fecha de entrega:&nbsp; </b> {{ reservation.end | date: dateTimeFormat }}</mat-list-item>
             <mat-divider></mat-divider>
-            <mat-list-item role="listitem"><b>Usuario:</b>&nbsp; {{ reservation.owner.username }}</mat-list-item>
+            <mat-list-item role="listitem"><b>Usuario:</b>&nbsp; {{ reservation.owner.fullname }}</mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item role="listitem"><b>Vehículo:&nbsp; </b></mat-list-item>
             <mat-list-item role="listitem"><b>Marca:&nbsp; </b> {{ vehicle.brand }}</mat-list-item>
@@ -38,7 +38,7 @@
           <mat-list role="list">
             <mat-list-item role="listitem"><b>Título:&nbsp;</b> {{ ticket.title }}</mat-list-item>
             <mat-divider></mat-divider>
-            <mat-list-item role="listitem"><b>Usuario:</b>&nbsp; {{ ticket.owner.username }}</mat-list-item>
+            <mat-list-item role="listitem"><b>Usuario:</b>&nbsp; {{ ticket.owner.fullname }}</mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item role="listitem"><b>Fecha de creación:</b>&nbsp; {{ ticket.date_stored | date: dateTimeFormat }}</mat-list-item>
             <mat-divider></mat-divider>

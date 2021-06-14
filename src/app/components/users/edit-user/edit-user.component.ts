@@ -42,7 +42,7 @@ export class EditUserComponent implements OnInit {
 
     this.credentials = this.fb.group({
       email: [this.user.email, [Validators.required, Validators.email]],
-      username: [this.user.username, [Validators.required]],
+      fullname: [this.user.fullname, [Validators.required]],
       password: [
         '',
         [Validators.required, Validators.minLength(MIN_PASS_LENGTH)],
@@ -50,8 +50,8 @@ export class EditUserComponent implements OnInit {
     });
   }
 
-  get username(): AbstractControl {
-    return this.credentials.get('username');
+  get fullname(): AbstractControl {
+    return this.credentials.get('fullname');
   }
 
   get email(): AbstractControl {
@@ -66,7 +66,7 @@ export class EditUserComponent implements OnInit {
 
   private getUdpatedData(): EditUser {
     const updatedData: EditUser = {
-      username: this.username.value,
+      fullname: this.fullname.value,
       email: this.email.value,
       password: this.password.value,
       role: this.roleSelected,

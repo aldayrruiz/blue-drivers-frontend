@@ -13,7 +13,7 @@ export class UsersTableComponent implements OnInit {
   dateTimeFormat = PipeDates.dateTimeFormat;
 
   displayedColumns: string[] = [
-    'username',
+    'fullname',
     'email',
     'date_joined',
     'allowed_vehicle_types',
@@ -39,7 +39,7 @@ export class UsersTableComponent implements OnInit {
     this.userSrv.deleteUser(user.id).subscribe(
       async () => {
         this.users = this.users.filter((u) => u !== user);
-        this.snacker.open(`El usuario ${user.username} ha sido eliminado.`);
+        this.snacker.open(`El usuario ${user.fullname} ha sido eliminado.`);
       },
       async (error) => {
         // TODO: Si el usuario tiene reservas, tickets, etc. ¿Qué pasa con estos?

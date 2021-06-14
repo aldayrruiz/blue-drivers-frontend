@@ -26,15 +26,15 @@
               </mat-form-field>
             </td>
           </tr>
-          <!-- Username -->
+          <!-- Surname -->
           <tr>
             <td>
               <mat-form-field class="full-width" appearance="fill">
-                <mat-label>Username</mat-label>
-                <input type="text" matInput [formControl]="username" placeholder="Ex. Juan Ruiz"
+                <mat-label>Apellidos</mat-label>
+                <input type="text" matInput [formControl]="fullname" placeholder="Ex. Aitor Ruiz Longa"
                   [errorStateMatcher]="matcher">
-                <mat-error *ngIf="username.hasError('required')">
-                  Username es <strong>obligatorio</strong>
+                <mat-error *ngIf="fullname.hasError('required')">
+                  Apellidos es <strong>obligatorio</strong>
                 </mat-error>
               </mat-form-field>
             </td>
