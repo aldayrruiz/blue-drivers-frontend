@@ -4,11 +4,14 @@ import { environment } from 'src/environments/environment';
 
 import { ApiPaths } from 'src/app/shared/utils/api-paths.enum';
 
-import { BehaviorSubject, Observable, from } from 'rxjs';
-import { map, tap, switchMap } from 'rxjs/operators';
-import { LocalStorageService } from './local-storage.service';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import {
+  LocalStorageService,
+  USER_TOKEN,
+  USER_ID,
+} from './local-storage.service';
 
-export const TOKEN_KEY = 'my_token';
 const path = `${environment.baseURL}${ApiPaths.AdminLogin}/`;
 
 @Injectable({
@@ -18,15 +21,17 @@ export class LoginService {
   isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     null
   );
-  
+
   token = '';
+  userId = '';
+
   constructor(private http: HttpClient, private storage: LocalStorageService) {
     this.loadToken();
   }
 
-  loadToken() {
+  loadToken(): void {
     console.log('Loading the token...');
-    const receivedToken = this.storage.get(TOKEN_KEY);
+    const receivedToken = this.storage.get(USER_TOKEN);
     if (receivedToken) {
       this.token = receivedToken;
       this.isAuthenticated.next(true);
@@ -37,23 +42,27 @@ export class LoginService {
   }
 
   login(credentials: { username: string; password: string }): Observable<void> {
-
     console.log('Login...');
     return this.http.post<void>(path, credentials).pipe(
-      // data: {token: "the token"}
+      // data: {token: "the token", user_id: "..."}
       map((data: any) => {
         if (data) {
           this.token = data.token;
-          this.storage.set(TOKEN_KEY, data.token);
+          this.storage.set(USER_TOKEN, data.token);
+
+          this.userId = data.user_id;
+          this.storage.set(USER_ID, data.user_id);
+          
           this.isAuthenticated.next(true);
         }
       })
     );
   }
 
-  logout() {
+  logout(): void {
     this.isAuthenticated.next(false);
-    this.storage.remove(TOKEN_KEY);
+    this.storage.remove(USER_TOKEN);
+    this.storage.remove(USER_ID);
   }
 
   getToken(): string {

@@ -59,7 +59,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   private getFormData() {
-    // username is used instead of email because of server accepted email in username field.
+    // username is used instead of email because of server convert username to email by default at login.
     return {
       username: this.email.value,
       password: this.password.value,
