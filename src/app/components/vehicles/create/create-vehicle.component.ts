@@ -71,7 +71,7 @@ export class CreateVehicleComponent implements OnInit {
       brand: this.brand.value,
       model: this.model.value,
       number_plate: this.numberPlate.value,
-      imei: this.imei.value,
+      gps_device: this.imei.value,
     };
   }
 

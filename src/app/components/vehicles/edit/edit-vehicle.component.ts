@@ -75,10 +75,10 @@ export class EditVehicleComponent implements OnInit {
 
   private getUdpatedData(): EditVehicle {
     const updatedData: EditVehicle = {
-      model: '',
-      brand: '',
-      number_plate: '',
-      imei: ''
+      model: this.model.value,
+      brand: this.brand.value,
+      number_plate: this.numberPlate.value,
+      gps_device: this.imei.value
     };
     return updatedData;
   }
