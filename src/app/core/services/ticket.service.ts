@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Ticket, CreateTicket, TicketStatus } from '../models';
 import { ApiPaths } from '../../shared/utils/api-paths.enum';
@@ -17,8 +17,9 @@ export class TicketService {
    * Sends a GET HTTP request to the server to get a list of tickets.
    */
   getAll(): Observable<Ticket[]> {
+    const options = { params: new HttpParams().set('take_all', 'True') };
     const path = `${this.ticketURL}/`;
-    return this.http.get<Ticket[]>(path);
+    return this.http.get<Ticket[]>(path, options);
   }
 
   /**
