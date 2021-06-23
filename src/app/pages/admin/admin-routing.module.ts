@@ -29,6 +29,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('../tickets/tickets.module').then((m) => m.TicketsPageModule),
       },
+      {
+        path: 'incidents',
+        loadChildren: () =>
+          import('../incidents/incidents.module').then(
+            (m) => m.IncidentsPageModule
+          ),
+      },
     ],
   },
 ];
