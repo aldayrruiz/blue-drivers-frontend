@@ -32,6 +32,11 @@ export class ToolbarComponent implements OnInit {
         label: 'Incidentes',
         link: 'incidents',
         index: 3
+      },
+      {
+        label: 'Gps Positions',
+        link: 'positions',
+        index: 4
       }
     ];
   }

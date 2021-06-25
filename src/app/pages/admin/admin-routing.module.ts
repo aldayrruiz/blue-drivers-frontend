@@ -36,6 +36,13 @@ const routes: Routes = [
             (m) => m.IncidentsPageModule
           ),
       },
+      {
+        path: 'positions',
+        loadChildren: () =>
+          import('../gps-positions/gps-positions.module').then(
+            (m) => m.GpsPositionsPageModule
+          ),
+      },
     ],
   },
 ];
