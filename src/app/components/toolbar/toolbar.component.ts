@@ -28,6 +28,11 @@ export class ToolbarComponent implements OnInit {
         link: 'tickets',
         index: 2,
       },
+      {
+        label: 'Incidentes',
+        link: 'incidents',
+        index: 3
+      }
     ];
   }
 

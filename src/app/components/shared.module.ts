@@ -15,7 +15,8 @@ import { CreateVehicleComponent } from './vehicles/create/create-vehicle.compone
 import { EditVehicleComponent } from './vehicles/edit/edit-vehicle.component';
 import { SolveTicketComponent } from './tickets/solve/solve-ticket.component';
 import { TicketsTableModule } from './tickets/table/tickets.table.module';
-import { IncidentsTableComponent } from './incidents/table/incidents-table.component';
+import { IncidentDetailsComponent } from './incidents/details/incident-details.component';
+import { IncidentsTableModule } from './incidents/table/incidents-table.module';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,7 @@ import { IncidentsTableComponent } from './incidents/table/incidents-table.compo
     CreateVehicleComponent,
     EditVehicleComponent,
     SolveTicketComponent,
-    IncidentsTableComponent
+    IncidentDetailsComponent
   ],
   imports: [
     FormsModule,
@@ -44,7 +45,8 @@ import { IncidentsTableComponent } from './incidents/table/incidents-table.compo
     ToolbarModule,
     UsersTableModule,
     VehiclesTableModule,
-    TicketsTableModule
+    TicketsTableModule,
+    IncidentsTableModule
   ],
 })
 export class SharedModule {}

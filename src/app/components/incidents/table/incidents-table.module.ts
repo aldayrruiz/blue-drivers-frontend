@@ -7,7 +7,7 @@ import { IncidentsTableComponent } from './incidents-table.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [IncidentsTableComponent],
   imports: [
     CommonModule,
     IncidentsRoutingModule, /* This component is using incidents routing /admin/incidents */

@@ -17,7 +17,7 @@ export class IncidentsTableComponent implements OnInit {
     'owner',
     'type',
     'date_stored',
-    'detail',
+    'details',
   ];
 
   constructor(private route: ActivatedRoute) {}

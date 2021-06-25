@@ -13,17 +13,17 @@ export class IncidentService {
 
   constructor(private http: HttpClient) { }
 
-  createIncident(incident: CreateIncident): Observable<CreateIncident> {
+  create(incident: CreateIncident): Observable<CreateIncident> {
     const path = `${this.incidentURL}/`;
     return this.http.post<CreateIncident>(path, incident);
   }
 
-  getIncidents(): Observable<Incident[]> {
+  getAll(): Observable<Incident[]> {
     const path = `${this.incidentURL}/`;
     return this.http.get<Incident[]>(path);
   }
 
-  getIncident(id: string): Observable<Incident> {
+  get(id: string): Observable<Incident> {
     const path = `${this.incidentURL}/${id}/`;
     return this.http.get<Incident>(path);
   }
