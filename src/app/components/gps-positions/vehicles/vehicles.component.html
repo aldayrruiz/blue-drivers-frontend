@@ -1,0 +1,37 @@
+<!-- <mat-grid-list cols="4" rowHeight="430px">
+  <mat-grid-tile [colspan]="3" [rowspan]="2">
+    <div id="map"></div>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="1" [rowspan]=2>
+    <div class="vehicles-container">
+      <cdk-virtual-scroll-viewport [itemSize]="50" class="example-viewport">
+        <mat-nav-list class="no-top-padding">
+          <mat-list-item>
+            <mat-icon matListIcon>gps_fixed</mat-icon>
+            <h4 matLine>Vehicle 1</h4>
+          </mat-list-item>
+          <mat-list-item>
+            <mat-icon matListIcon>gps_fixed</mat-icon>
+            <h4 matLine>Vehicle 2</h4>
+          </mat-list-item>
+          <mat-list-item>
+            <mat-icon matListIcon>gps_fixed</mat-icon>
+            <h4 matLine>Vehicle 3</h4>
+          </mat-list-item>
+        </mat-nav-list>
+      </cdk-virtual-scroll-viewport>
+    </div>
+  </mat-grid-tile>
+</mat-grid-list> -->
+
+<div id="map"></div>
+<div class="vehicles-container">
+  <cdk-virtual-scroll-viewport [itemSize]="50" class="example-viewport">
+    <mat-nav-list class="no-top-padding">
+      <mat-list-item *cdkVirtualFor="let vehicle of vehicles" (click)="focusOn(vehicle)">
+        <mat-icon matListIcon>gps_fixed</mat-icon>
+        <h4 matLine>{{ vehicle.brand }} {{ vehicle.model }}</h4>
+      </mat-list-item>
+    </mat-nav-list>
+  </cdk-virtual-scroll-viewport>
+</div>
