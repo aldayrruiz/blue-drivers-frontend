@@ -7,4 +7,5 @@ export enum ApiPaths {
   AdminLogin = '/api/login',
   Register = '/api/register',
   User = '/api/users',
+  Position = '/api/positions',
 }

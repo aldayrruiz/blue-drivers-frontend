@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { VehiclesComponent } from 'src/app/components/gps-positions/vehicles/vehicles.component';
 import { VehiclesResolver } from 'src/app/core';
+import { PositionsResolver } from 'src/app/core/resolvers/positions/positions.resolver';
 import { GpsPositionsComponent } from './gps-positions.component';
 
 const routes: Routes = [
@@ -17,7 +18,10 @@ const routes: Routes = [
       {
         path: 'vehicles',
         component: VehiclesComponent,
-        resolve: { vehicles: VehiclesResolver }
+        resolve: { 
+          vehicles: VehiclesResolver,
+          positions: PositionsResolver,
+        }
       }
     ]
   }
