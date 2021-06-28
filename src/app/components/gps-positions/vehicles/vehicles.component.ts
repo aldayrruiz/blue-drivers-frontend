@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, AfterViewInit, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  AfterViewInit,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as L from 'leaflet';
 import { PositionService } from 'src/app/core';
@@ -17,23 +22,23 @@ interface VehicleMarker {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VehiclesComponent implements OnInit, AfterViewInit {
-
   private mapHtmlId = 'map';
   private map: L.Map;
+  private vehicleMarkers: VehicleMarker[];
   vehicles: Vehicle[];
   positions: Position[];
-  vehicleMarkers: VehicleMarker[];
 
   constructor(
     private route: ActivatedRoute,
     private positionSrv: PositionService
-    ) {}
+  ) {}
 
   initMap(): void {
-    const mapPosition: [number, number] = [40.423516, -4.202832] // Madrid, Spain
+    const mapPosition: [number, number] = [40.423516, -4.202832]; // Madrid, Spain
     const initialZoom = 6;
-    
-    const attribution = '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+
+    const attribution =
+      '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>';
     const urlTemplate = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
     const maxZoom = 18;
     const minZoom = 3;
@@ -43,7 +48,7 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     const tiles = L.tileLayer(urlTemplate, {
       maxZoom: maxZoom,
       minZoom: minZoom,
-      attribution: attribution
+      attribution: attribution,
     });
 
     tiles.addTo(this.map);
@@ -51,27 +56,33 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.resolveData();
-    this.initMarkers(this.positions);
-    this.keepResetingMarkers(5000);
   }
 
   ngAfterViewInit(): void {
     this.initMap();
+    this.initMarkers(this.positions);
+    this.keepResetingMarkers(5000); // Reset positions each 5 sec.
   }
 
   private resolveData(): void {
-    this.route.data.subscribe(data => {
+    this.route.data.subscribe((data) => {
       this.vehicles = data['vehicles'];
       this.positions = data['positions'];
 
       if (this.vehicles.length !== this.positions.length) {
-        console.error(`Se ha recibido ${this.positions.length} posiciones y ${this.vehicles.length} vehículos`);
+        console.error(
+          `Se ha recibido ${this.positions.length} posiciones y ${this.vehicles.length} vehículos`
+        );
       }
-    })
+    });
   }
 
   focusOn(vehicle: Vehicle): void {
-    // TODO: Move the map to the vehicle.
+    const vehicleMarker = this.vehicleMarkers.find(
+      (vehicleMarker) => vehicleMarker.vehicle.id == vehicle.id
+    );
+    const latlng = vehicleMarker.marker.getLatLng();
+    this.map.panTo(latlng);
   }
 
   private initMarkers(positions: Position[]): void {
@@ -79,36 +90,44 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
       // Get position of vehicle
       const latlng = this.getLatLngFromVehicle(positions, vehicle);
       // Set marker on map and link it to a vehicle
-      const marker = L.marker(latlng, {icon: this.createIconMarker()}).addTo(this.map);
-      this.vehicleMarkers.push({vehicle: vehicle, marker: marker});
+      const marker = L.marker(latlng, { icon: this.createIconMarker() }).addTo(
+        this.map
+      );
+      this.vehicleMarkers.push({ vehicle: vehicle, marker: marker });
     });
   }
 
   private keepResetingMarkers(timeReset: number): void {
     setTimeout(() => {
       this.positionSrv.getAll().subscribe((positions: Position[]) => {
-        this.vehicleMarkers.forEach(vehicleMarker => {
+        this.positions = positions;
+        this.vehicleMarkers.forEach((vehicleMarker) => {
           const vehicle = vehicleMarker.vehicle;
           const marker = vehicleMarker.marker;
           const latlng = this.getLatLngFromVehicle(positions, vehicle);
           marker.setLatLng(latlng);
-        })
-        this.keepResetingMarkers(timeReset);
-      })
+        });
+      });
+      this.keepResetingMarkers(timeReset);
     }, timeReset);
   }
 
   createIconMarker(): L.Icon {
     return L.icon({
-      iconUrl: 'assets/full-moon.png',
-      iconSize:     [15, 15], // size of the icon
-      iconAnchor:   [0, 0], // point of the icon which will correspond to marker's location
-      popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
+      iconUrl: 'assets/img/full-moon.png',
+      iconSize: [15, 15], // size of the icon
+      iconAnchor: [0, 0], // point of the icon which will correspond to marker's location
+      popupAnchor: [0, 0], // point from which the popup should open relative to the iconAnchor
     });
   }
 
-  private getLatLngFromVehicle(positions: Position[], vehicle: Vehicle): [number, number] {
-    const position = positions.find(position => position.deviceId === vehicle.gps_device.id);
-    return [position.latitude, position.longitude]
+  private getLatLngFromVehicle(
+    positions: Position[],
+    vehicle: Vehicle
+  ): [number, number] {
+    const position = positions.find(
+      (position) => position.deviceId === vehicle.gps_device.id
+    );
+    return [position.latitude, position.longitude];
   }
 }
