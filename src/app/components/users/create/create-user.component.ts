@@ -9,8 +9,6 @@ import { Router } from '@angular/router';
 import { Role, UserService, SnackerService, CreateUser } from 'src/app/core';
 import { MyErrorStateMatcher } from 'src/app/pages/login/login.component';
 
-const MIN_PASS_LENGTH = 6;
-
 @Component({
   selector: 'app-create-user',
   templateUrl: './create-user.component.html',
@@ -37,14 +35,6 @@ export class CreateUserComponent implements OnInit {
         [Validators.required, Validators.email],
       ],
       fullname: ['Aldayr Ruiz Longa', [Validators.required]],
-      password: [
-        'password',
-        [Validators.required, Validators.minLength(MIN_PASS_LENGTH)],
-      ],
-      password2: [
-        'password',
-        [Validators.required, Validators.minLength(MIN_PASS_LENGTH)],
-      ],
     });
   }
 
@@ -56,36 +46,18 @@ export class CreateUserComponent implements OnInit {
     return this.credentials.get('email');
   }
 
-  get password(): AbstractControl {
-    return this.credentials.get('password');
-  }
-
-  get password2(): AbstractControl {
-    return this.credentials.get('password2');
-  }
-
   matcher = new MyErrorStateMatcher();
 
   private getFormData(): CreateUser {
     const newUser: CreateUser = {
       email: this.email.value,
       fullname: this.fullname.value,
-      password: this.password.value,
-      password2: this.password2.value,
-      role: this.roleSelected,
     };
     return newUser;
   }
 
   createUser(): void {
-    if (!this.passwordsMatch()) {
-      console.log("Password doesn't match");
-      return;
-    }
-
     const newUser = this.getFormData();
-
-    console.log(newUser);
 
     this.userSrv.createUser(newUser).subscribe(
       async (data: CreateUser) => {
@@ -98,9 +70,5 @@ export class CreateUserComponent implements OnInit {
         this.snacker.open(message);
       }
     );
-  }
-
-  passwordsMatch(): boolean {
-    return this.password.value === this.password2.value;
   }
 }
