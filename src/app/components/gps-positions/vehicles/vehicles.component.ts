@@ -61,7 +61,7 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.initMap();
     this.initMarkers(this.positions);
-    this.keepResetingMarkers(5000); // Reset positions each 5 sec.
+    this.keepResetingMarkers(60000); // Reset positions each 5 sec.
   }
 
   private resolveData(): void {
