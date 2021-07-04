@@ -6,4 +6,5 @@ export interface User {
   fullname: string;
   date_joined: string;
   allowed_vehicles: Vehicle[];
+  is_disabled: boolean;
 }

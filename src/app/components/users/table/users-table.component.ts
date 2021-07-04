@@ -36,7 +36,7 @@ export class UsersTableComponent implements OnInit {
 
     // TODO: Preguntar: ¿Está seguro...?
 
-    this.userSrv.deleteUser(user.id).subscribe(
+    this.userSrv.delete(user.id).subscribe(
       async () => {
         this.users = this.users.filter((u) => u !== user);
         this.snacker.open(`El usuario ${user.fullname} ha sido eliminado.`);

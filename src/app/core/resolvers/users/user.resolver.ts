@@ -12,6 +12,6 @@ export class UserResolver implements Resolve<User> {
 
   resolve(route: ActivatedRouteSnapshot): Observable<User> {
     const userId = route.params['userId'];
-    return this.userSrv.getUser(userId);
+    return this.userSrv.get(userId);
   }
 }

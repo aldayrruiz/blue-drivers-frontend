@@ -39,38 +39,6 @@
               </mat-form-field>
             </td>
           </tr>
-          <!-- Role -->
-          <tr>
-            <td>
-              <mat-form-field class="full-width" appearance="fill">
-                <mat-label>Rol</mat-label>
-                <mat-select [(value)]="roleSelected">
-                  <mat-option value="USER">Usuario</mat-option>
-                  <mat-option value="ADMIN">Administador</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </td>
-          </tr>
-          <!-- Password -->
-          <tr>
-            <td>
-              <mat-form-field class="full-width" appearance="fill">
-                <mat-label>Contraseña</mat-label>
-                <input matInput [type]="hide ? 'password' : 'text'" matInput [formControl]="password"
-                  [errorStateMatcher]="matcher">
-                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-                  [attr.aria-pressed]="hide">
-                  <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                </button>
-                <mat-error *ngIf="password.hasError('minlength') && !password.hasError('required')">
-                  Por favor, introduzca una contraseña con mas de 5 carácteres
-                </mat-error>
-                <mat-error *ngIf="password.hasError('required')">
-                  Contraseña es <strong>obligatoria</strong>
-                </mat-error>
-              </mat-form-field>
-            </td>
-          </tr>
           <!-- Button - Create User -->
           <tr>
             <td>

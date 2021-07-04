@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiPaths } from 'src/app/shared/utils/api-paths.enum';
@@ -15,8 +15,14 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
+  getAll(evenDisabled: boolean): Observable<User[]> {
+    const strEvenDisabled = evenDisabled ? 'True' : 'False';
+    const options = { params: new HttpParams().set('even_disabled', strEvenDisabled)};
+    const path = `${this.userUrl}/`;
+    return this.http.get<User[]>(path, options);
+  }
 
-  getUser(id: string): Observable<User> {
+  get(id: string): Observable<User> {
     const path = `${this.userUrl}/${id}/`;
     return this.http.get<User>(path);
   }
@@ -25,7 +31,7 @@ export class UserService {
    * Send a POST HTTP request to the server to register a user.
    * @param user data of the new user.
    */
-   createUser(user: CreateUser): Observable<CreateUser> {
+   create(user: CreateUser): Observable<CreateUser> {
     const path = `${this.registerUrl}/`;
     return this.http.post<CreateUser>(path, user);
   }
@@ -35,7 +41,7 @@ export class UserService {
    * @param id of user to delete.
    * @returns 
    */
-  deleteUser(id: string): Observable<void> {
+  delete(id: string): Observable<void> {
     const path = `${this.userUrl}/${id}/`;
     return this.http.delete<void>(path);
   }
@@ -46,7 +52,7 @@ export class UserService {
    * @param user data updated of user.
    * @returns 
    */
-  updateUser(id: string, user: EditUser): Observable<User> {
+  update(id: string, user: EditUser): Observable<User> {
     const path = `${this.userUrl}/${id}/`;
     return this.http.put<User>(path, user);
   }

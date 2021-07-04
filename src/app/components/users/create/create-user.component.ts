@@ -59,7 +59,7 @@ export class CreateUserComponent implements OnInit {
   createUser(): void {
     const newUser = this.getFormData();
 
-    this.userSrv.createUser(newUser).subscribe(
+    this.userSrv.create(newUser).subscribe(
       async (data: CreateUser) => {
         const message = 'Usuario creado con éxito';
         this.snacker.open(message);
