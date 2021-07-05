@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Incident, translateType } from 'src/app/core';
+import { PipeDates } from 'src/app/shared/utils/pipe-dates';
 
 @Component({
   selector: 'app-incident-details',
@@ -7,8 +10,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IncidentDetailsComponent implements OnInit {
 
-  constructor() { }
+  incident: Incident;
+  dateTimeFormat = PipeDates.dateTimeFormat;
 
-  ngOnInit(): void { }
+  constructor(private route: ActivatedRoute) { }
 
+  ngOnInit(): void {
+    this.resolveData();
+  }
+
+  resolveData(): void {
+    this.route.data.subscribe(data => {
+      this.incident = data.incident;
+    })
+  }
+
+  translateType = translateType;
 }

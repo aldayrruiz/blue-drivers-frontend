@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Incident } from 'src/app/core';
+import { Incident, translateType } from 'src/app/core';
 import { PipeDates } from 'src/app/shared/utils/pipe-dates';
 
 @Component({
@@ -33,4 +33,6 @@ export class IncidentsTableComponent implements OnInit {
       this.incidents = response['incidents'];
     });
   }
+
+  translateType = translateType;
 }

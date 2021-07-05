@@ -1,1 +1,22 @@
-<p>incident-details works!</p>
+<div class="container">
+  <section>
+    <div class="example-label">
+      <h1>Detalles de incidencia</h1>
+    </div>
+  </section>
+  <div class="details">
+    <mat-list role="list">
+      <mat-list-item role="listitem"><b>Título:&nbsp;</b>{{ incident.title }}</mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item role="listitem"><b>Fecha de reporte:&nbsp;</b>{{ incident.date_stored | date: dateTimeFormat }}</mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item role="listitem"><b>Usuario:&nbsp;</b>{{ incident.owner.fullname }}</mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item role="listitem"><b>Vehículo:&nbsp;</b>{{ incident.reservation.vehicle.brand }}&nbsp;{{ incident.reservation.vehicle.model }}</mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item role="listitem"><b>Tipo de incidencia:&nbsp;</b>{{ translateType(incident.type) }}</mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item role="listitem"><b>Descripción: &nbsp;</b>{{ incident.description }}</mat-list-item>
+    </mat-list>
+  </div>
+</div>

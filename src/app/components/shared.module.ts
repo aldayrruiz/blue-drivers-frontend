@@ -16,8 +16,8 @@ import { EditVehicleComponent } from './vehicles/edit/edit-vehicle.component';
 import { SolveTicketComponent } from './tickets/solve/solve-ticket.component';
 import { TicketsTableModule } from './tickets/table/tickets.table.module';
 import { IncidentDetailsComponent } from './incidents/details/incident-details.component';
-import { IncidentsTableModule } from './incidents/table/incidents-table.module';
 import { VehiclesComponent } from './gps-positions/vehicles/vehicles.component';
+import { IncidentsTableModule } from './incidents/table/incidents-table.module';
 
 @NgModule({
   declarations: [
