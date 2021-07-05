@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { User, UserService, SnackerService } from 'src/app/core';
+import { User, UserService, SnackerService, EditUser } from 'src/app/core';
 import { PipeDates } from 'src/app/shared/utils/pipe-dates';
 
 @Component({
@@ -17,7 +17,7 @@ export class UsersTableComponent implements OnInit {
     'email',
     'date_joined',
     'allowed_vehicle_types',
-    'edit',
+    'is_disabled',
     'delete',
   ];
 
@@ -53,5 +53,14 @@ export class UsersTableComponent implements OnInit {
       console.log('Users response received!', response);
       this.users = response['users'];
     });
+  }
+
+  changeDisabled(user: User): void {
+    const newIsDisabledStatus = !user.is_disabled;
+    const data: EditUser = { is_disabled: newIsDisabledStatus };
+    this.userSrv.patch(user.id, data).subscribe(response => {
+      user.is_disabled = response.is_disabled;
+    },
+    errors => console.error(errors));
   }
 }

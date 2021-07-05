@@ -7,7 +7,6 @@ import { LoginFormComponent } from './login-form/login-form.component';
 import { CreateUserComponent } from './users/create/create-user.component';
 import { ToolbarModule } from './toolbar/toolbar.module';
 import { MyAngularMaterialModule } from '../shared/angular-material.module';
-import { EditUserComponent } from './users/edit-user/edit-user.component';
 import { UsersTableModule } from './users/table/users-table.module';
 import { EditAllowedVehiclesComponent } from './users/edit-allowed-vehicles/edit-allowed-vehicles.component';
 import { VehiclesTableModule } from './vehicles/table/vehicles-table.module';
@@ -23,7 +22,6 @@ import { IncidentsTableModule } from './incidents/table/incidents-table.module';
   declarations: [
     LoginFormComponent,
     CreateUserComponent,
-    EditUserComponent,
     EditAllowedVehiclesComponent,
     CreateVehicleComponent,
     EditVehicleComponent,

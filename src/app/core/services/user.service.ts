@@ -61,4 +61,9 @@ export class UserService {
     const path = `${this.userUrl}/allowed-vehicles/${userId}/`;
     return this.http.put<void>(path, vehicleIds);
   }
+
+  patch(userId: string, data: EditUser): Observable<EditUser> {
+    const path = `${this.userUrl}/${userId}/`;
+    return this.http.patch<EditUser>(path, data);
+  }
 }
