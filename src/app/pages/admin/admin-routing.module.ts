@@ -25,6 +25,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'reservations',
+        loadChildren: () =>
+          import('../reservations/reservations.module').then(
+            (m) => m.ReservationsPageModule
+          ),
+      },
+      {
         path: 'tickets',
         loadChildren: () =>
           import('../tickets/tickets.module').then((m) => m.TicketsPageModule),

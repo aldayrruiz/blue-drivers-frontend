@@ -17,7 +17,7 @@ import { TicketsTableModule } from './tickets/table/tickets.table.module';
 import { IncidentDetailsComponent } from './incidents/details/incident-details.component';
 import { VehiclesComponent } from './gps-positions/vehicles/vehicles.component';
 import { IncidentsTableModule } from './incidents/table/incidents-table.module';
-
+import { ReservationsTableModule } from './reservations/table/reservations.table.module';
 @NgModule({
   declarations: [
     LoginFormComponent,
@@ -27,7 +27,7 @@ import { IncidentsTableModule } from './incidents/table/incidents-table.module';
     EditVehicleComponent,
     SolveTicketComponent,
     IncidentDetailsComponent,
-    VehiclesComponent
+    VehiclesComponent,
   ],
   imports: [
     FormsModule,
@@ -46,7 +46,8 @@ import { IncidentsTableModule } from './incidents/table/incidents-table.module';
     UsersTableModule,
     VehiclesTableModule,
     TicketsTableModule,
-    IncidentsTableModule
+    IncidentsTableModule,
+    ReservationsTableModule
   ],
 })
 export class SharedModule {}

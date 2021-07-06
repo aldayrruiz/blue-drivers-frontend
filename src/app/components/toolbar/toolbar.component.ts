@@ -24,6 +24,11 @@ export class ToolbarComponent implements OnInit {
         index: 1,
       },
       {
+        label: 'Reservas',
+        link: 'reservations',
+        index: 2,
+      },
+      {
         label: 'Tickets',
         link: 'tickets',
         index: 2,

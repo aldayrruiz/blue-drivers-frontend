@@ -17,7 +17,7 @@ export class ReservationService {
   /**
    * Sends a GET HTTP request to the server to get a list of reservations.
    */
-  getReservations(): Observable<Reservation[]> {
+  getAll(): Observable<Reservation[]> {
     const path = `${this.reservationURL}/`;
     return this.http.get<Reservation[]>(path);
   }
@@ -26,7 +26,7 @@ export class ReservationService {
    * Sends a GET HTTP request to the server to get a reservation given an identifier.
    * @param id identifier of the reservation to get.
    */
-  getReservation(id: string): Observable<Reservation> {
+  get(id: string): Observable<Reservation> {
     const path = `${this.reservationURL}/${id}/`;
     return this.http.get<Reservation>(path);
   }
@@ -35,7 +35,7 @@ export class ReservationService {
    * Send a POST HTTP request to the server to store the given reservation data.
    * @param reservation data of the reservation to store.
    */
-  createReservation(reservation: CreateReservation): Observable<CreateReservation> {
+  create(reservation: CreateReservation): Observable<CreateReservation> {
     const path = `${this.reservationURL}/`;
     return this.http.post<CreateReservation>(path, reservation);
   }
@@ -44,7 +44,7 @@ export class ReservationService {
    * Sends a DELETE HTTP request to the server to delete the resource.
    * @param id Reservation's id to delete
    */
-  deleteReservation(id: string): Observable<void> {
+  delete(id: string): Observable<void> {
     const path = `${this.reservationURL}/${id}/`;
     return this.http.delete<void>(path);
   }

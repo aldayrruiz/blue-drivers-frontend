@@ -1,12 +1,12 @@
-import { User, Vehicle} from ".";
+import { User, Vehicle } from '.';
 
 export interface Reservation {
-  id?:      string;
+  id?: string;
   title: string;
   date_stored?: string;
-  start:   string;
-  end:     string;
+  start: string;
+  end: string;
   description: string;
-  owner?:    User;
+  owner?: User;
   vehicle: Vehicle;
 }
