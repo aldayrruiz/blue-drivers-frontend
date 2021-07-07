@@ -70,6 +70,7 @@ export class EditVehicleComponent implements OnInit {
       ],
       imei: [vehicle.number_plate, [Validators.required]],
     });
+    this.isDisabled = vehicle.is_disabled === true ? 'abled' : 'disabled';
   }
 
   matcher = new MyErrorStateMatcher();

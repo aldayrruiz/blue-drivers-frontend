@@ -78,8 +78,12 @@
           <!-- Button - Edit Vehicle -->
           <tr>
             <td>
-              <button (click)="edit()" mat-raised-button color="primary" type="submit" expand="block"
-                [disabled]="!formGroup.valid">Editar</button>
+              <div>
+                <button class="cancel" mat-raised-button color="warn" routerLink="../..">Cancelar</button>
+                <button class="edit" (click)="edit()" mat-raised-button color="primary" type="submit" expand="block"
+                  [disabled]="!formGroup.valid">Editar</button>
+              </div>
+              
             </td>
           </tr>
         </table>

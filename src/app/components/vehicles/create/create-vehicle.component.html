@@ -67,8 +67,12 @@
           <!-- Button - Create Vehicle -->
           <tr>
             <td>
-              <button (click)="createVehicle()" mat-raised-button color="primary" type="submit" expand="block"
+              <div>
+                <button class="cancel" mat-raised-button color="warn" routerLink="..">Cancelar</button>
+                <button class="create" (click)="createVehicle()" mat-raised-button color="primary" type="submit" expand="block"
                 [disabled]="!formGroup.valid">Crear</button>
+              </div>
+              
             </td>
           </tr>
         </table>

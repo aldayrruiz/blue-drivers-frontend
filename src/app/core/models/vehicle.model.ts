@@ -12,4 +12,5 @@ export interface Vehicle {
   model: string;
   number_plate: string;
   gps_device: Device;
+  is_disabled: boolean;
 }

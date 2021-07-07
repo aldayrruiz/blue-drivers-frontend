@@ -2,34 +2,20 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-// My components
+// My components & modules
 import { LoginFormComponent } from './login-form/login-form.component';
-import { CreateUserComponent } from './users/create/create-user.component';
 import { ToolbarModule } from './toolbar/toolbar.module';
 import { MyAngularMaterialModule } from '../shared/angular-material.module';
-import { UsersTableModule } from './users/table/users-table.module';
-import { EditAllowedVehiclesComponent } from './users/edit-allowed-vehicles/edit-allowed-vehicles.component';
-import { VehiclesTableModule } from './vehicles/table/vehicles-table.module';
-import { CreateVehicleComponent } from './vehicles/create/create-vehicle.component';
-import { EditVehicleComponent } from './vehicles/edit/edit-vehicle.component';
-import { SolveTicketComponent } from './tickets/solve/solve-ticket.component';
-import { TicketsTableModule } from './tickets/table/tickets.table.module';
-import { IncidentDetailsComponent } from './incidents/details/incident-details.component';
+import { VehiclesComponentsModule } from './vehicles/vehicles-components.module';
+import { TicketsComponentsModule } from './tickets/tickets.table.module';
 import { VehiclesComponent } from './gps-positions/vehicles/vehicles.component';
-import { IncidentsTableModule } from './incidents/table/incidents-table.module';
-import { ReservationsTableModule } from './reservations/table/reservations.table.module';
-import { ReservationsStatisticsComponent } from './reservations/reservations-statistics/reservations-statistics.component';
+import { UsersComponentsModule } from './users/users-components.module';
+import { IncidentsComponentsModule } from './incidents/incidents-components.module';
+import { ReservationsComponentsModule } from './reservations/reservations.table.module';
 @NgModule({
   declarations: [
     LoginFormComponent,
-    CreateUserComponent,
-    EditAllowedVehiclesComponent,
-    CreateVehicleComponent,
-    EditVehicleComponent,
-    SolveTicketComponent,
-    IncidentDetailsComponent,
     VehiclesComponent,
-    ReservationsStatisticsComponent,
   ],
   imports: [
     FormsModule,
@@ -40,16 +26,15 @@ import { ReservationsStatisticsComponent } from './reservations/reservations-sta
   ],
   exports: [
     LoginFormComponent,
-    CreateUserComponent,
     CommonModule,
     MyAngularMaterialModule,
     /* Exports ToolbarModule because it need admin routing */
     ToolbarModule,
-    UsersTableModule,
-    VehiclesTableModule,
-    TicketsTableModule,
-    IncidentsTableModule,
-    ReservationsTableModule
+    UsersComponentsModule,
+    VehiclesComponentsModule,
+    TicketsComponentsModule,
+    ReservationsComponentsModule,
+    IncidentsComponentsModule
   ],
 })
 export class SharedModule {}

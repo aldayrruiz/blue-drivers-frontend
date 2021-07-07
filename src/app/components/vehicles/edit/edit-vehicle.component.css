@@ -17,3 +17,11 @@ table {
   justify-content: center;
   align-items: center;
 }
+
+.cancel {
+  margin-right: 5rem;
+}
+
+.edit {
+  margin-left: 5rem;
+}
