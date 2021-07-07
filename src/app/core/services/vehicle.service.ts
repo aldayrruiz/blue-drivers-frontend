@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiPaths } from 'src/app/shared/utils/api-paths.enum';
@@ -19,13 +19,15 @@ export class VehicleService {
   }
 
   get(id: string): Observable<Vehicle> {
+    const options = { params: new HttpParams().set('evenDisabled', true)};
     const path = `${this.vehicleUrl}/${id}/`;
-    return this.http.get<Vehicle>(path);
+    return this.http.get<Vehicle>(path, options);
   }
 
   getAll(): Observable<Vehicle[]> {
+    const options = { params: new HttpParams().set('evenDisabled', true)};
     const path = `${this.vehicleUrl}/`;
-    return this.http.get<Vehicle[]>(path);
+    return this.http.get<Vehicle[]>(path, options);
   }
 
   update(id: string, vehicleEdit: EditVehicle): Observable<Vehicle> {

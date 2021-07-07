@@ -3,4 +3,5 @@ export interface EditVehicle {
   brand: string;
   number_plate: string;
   gps_device: string;
+  is_disabled: boolean;
 }

@@ -34,7 +34,7 @@
     <ng-container matColumnDef="allowed_vehicle_types">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let user">
-        <button mat-icon-button color="dark" aria-label="Edit allowed vehicle types"
+        <button *ngIf="!isMe(user)" mat-icon-button color="dark" aria-label="Edit allowed vehicle types"
           routerLink="../edit/{{user.id}}/allowed-vehicle-types">
           <mat-icon aria-hidden="false" aria-label="edit allowed vehicle types icon">drive_eta</mat-icon>
         </button>
@@ -65,9 +65,14 @@
     <ng-container matColumnDef="delete">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let user">
-        <button mat-icon-button color="error" aria-label="Delete user icon" (click)="deleteUser(user)">
+        <button *ngIf="!isMe(user); else meIcon" mat-icon-button color="error" aria-label="Delete user icon" (click)="deleteUser(user)">
           <mat-icon aria-hidden="false" aria-label="delete icon">delete</mat-icon>
         </button>
+        <ng-template #meIcon>
+          <button mat-icon-button color="primary" aria-label="Me icon">
+            <mat-icon aria-hidden="false" aria-label="me icon">person</mat-icon>
+          </button>
+        </ng-template>
       </td>
     </ng-container>
 

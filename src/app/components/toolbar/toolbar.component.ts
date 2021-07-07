@@ -39,7 +39,7 @@ export class ToolbarComponent implements OnInit {
         index: 3
       },
       {
-        label: 'Gps Positions',
+        label: 'GNSS',
         link: 'positions',
         index: 4
       }

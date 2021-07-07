@@ -62,6 +62,19 @@
               </mat-form-field>
             </td>
           </tr>
+
+          <!-- Is disabled -->
+          <tr>
+            <td>
+              <mat-form-field class="full-width" appearance="fill">
+                <mat-select [(value)]="isDisabled">
+                  <mat-option value="abled">Habilitado</mat-option>
+                  <mat-option value="disabled">Deshabilitado</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+          </tr>
+
           <!-- Button - Edit Vehicle -->
           <tr>
             <td>

@@ -25,6 +25,7 @@ export class EditVehicleComponent implements OnInit {
   vehicle: Vehicle;
   formGroup: FormGroup;
   submitted = false;
+  isDisabled = 'abled';
 
   constructor(
     private fb: FormBuilder,
@@ -36,7 +37,7 @@ export class EditVehicleComponent implements OnInit {
 
   ngOnInit(): void {
     this.resolve();
-    this.setFormGroup();
+    this.setFormGroup(this.vehicle);
   }
 
   get brand(): AbstractControl {
@@ -55,30 +56,34 @@ export class EditVehicleComponent implements OnInit {
     return this.formGroup.get('imei');
   }
 
-  private setFormGroup() {
+  private setFormGroup(vehicle: Vehicle) {
     this.formGroup = this.fb.group({
-      brand: ['Mercedez Benz', [Validators.required]],
-      model: ['S', [Validators.required]],
+      brand: [vehicle.brand, [Validators.required]],
+      model: [vehicle.model, [Validators.required]],
       numberPlate: [
-        'QWER21',
+        vehicle.number_plate,
         [
           Validators.required,
           Validators.minLength(NUMBER_PLATE_LENGTH),
           Validators.maxLength(NUMBER_PLATE_LENGTH),
         ],
       ],
-      imei: ['0123456789AS', [Validators.required]],
+      imei: [vehicle.number_plate, [Validators.required]],
     });
   }
 
   matcher = new MyErrorStateMatcher();
 
   private getUdpatedData(): EditVehicle {
+
+    const isDisabled = this.isDisabled === 'abled' ? true : false;
+
     const updatedData: EditVehicle = {
       model: this.model.value,
       brand: this.brand.value,
       number_plate: this.numberPlate.value,
-      gps_device: this.imei.value
+      gps_device: this.imei.value,
+      is_disabled: isDisabled
     };
     return updatedData;
   }

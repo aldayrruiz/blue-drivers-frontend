@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { User, UserService, SnackerService, EditUser } from 'src/app/core';
+import {
+  User,
+  UserService,
+  SnackerService,
+  EditUser,
+  LocalStorageService,
+  USER_ID,
+} from 'src/app/core';
 import { PipeDates } from 'src/app/shared/utils/pipe-dates';
 
 @Component({
@@ -11,6 +18,7 @@ import { PipeDates } from 'src/app/shared/utils/pipe-dates';
 export class UsersTableComponent implements OnInit {
   users: User[] = [];
   dateTimeFormat = PipeDates.dateTimeFormat;
+  private myId: string;
 
   displayedColumns: string[] = [
     'fullname',
@@ -24,11 +32,13 @@ export class UsersTableComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private userSrv: UserService,
-    private snacker: SnackerService
+    private snacker: SnackerService,
+    private storage: LocalStorageService
   ) {}
 
   ngOnInit(): void {
     this.refreshTable();
+    this.myId = this.storage.get(USER_ID);
   }
 
   async deleteUser(user: User): Promise<void> {
@@ -58,9 +68,15 @@ export class UsersTableComponent implements OnInit {
   changeDisabled(user: User): void {
     const newIsDisabledStatus = !user.is_disabled;
     const data: EditUser = { is_disabled: newIsDisabledStatus };
-    this.userSrv.patch(user.id, data).subscribe(response => {
-      user.is_disabled = response.is_disabled;
-    },
-    errors => console.error(errors));
+    this.userSrv.patch(user.id, data).subscribe(
+      (response) => {
+        user.is_disabled = response.is_disabled;
+      },
+      (errors) => console.error(errors)
+    );
+  }
+
+  isMe(user: User): boolean {
+    return this.myId === user.id;
   }
 }
