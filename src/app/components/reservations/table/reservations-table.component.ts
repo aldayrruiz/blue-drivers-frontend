@@ -25,8 +25,6 @@ export class ReservationsTableComponent implements OnInit {
     const start = new Date(reservation.start);
     const end = new Date(reservation.end);
     const milliseconds = (end.getTime() - start.getTime()); // milliseconds
-    console.log(end.getTime()- start.getTime())
-    // const days = Math.floor(milliseconds / 86400000); // days
     const hours = Math.floor((milliseconds % 86400000) / 3600000); // hours
     const minutes = Math.round(((milliseconds % 86400000) % 3600000) / 60000); // minutes
     return `${hours}h ${minutes}m`;

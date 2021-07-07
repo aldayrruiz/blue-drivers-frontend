@@ -18,6 +18,7 @@ import { IncidentDetailsComponent } from './incidents/details/incident-details.c
 import { VehiclesComponent } from './gps-positions/vehicles/vehicles.component';
 import { IncidentsTableModule } from './incidents/table/incidents-table.module';
 import { ReservationsTableModule } from './reservations/table/reservations.table.module';
+import { ReservationsStatisticsComponent } from './reservations/reservations-statistics/reservations-statistics.component';
 @NgModule({
   declarations: [
     LoginFormComponent,
@@ -28,6 +29,7 @@ import { ReservationsTableModule } from './reservations/table/reservations.table
     SolveTicketComponent,
     IncidentDetailsComponent,
     VehiclesComponent,
+    ReservationsStatisticsComponent,
   ],
   imports: [
     FormsModule,
