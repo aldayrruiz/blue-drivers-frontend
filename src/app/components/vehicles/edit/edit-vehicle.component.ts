@@ -70,14 +70,14 @@ export class EditVehicleComponent implements OnInit {
       ],
       imei: [vehicle.gps_device.imei, [Validators.required]],
     });
-    this.isDisabled = vehicle.is_disabled === true ? 'abled' : 'disabled';
+    this.isDisabled = vehicle.is_disabled === false ? 'abled' : 'disabled';
   }
 
   matcher = new MyErrorStateMatcher();
 
   private getUdpatedData(): EditVehicle {
 
-    const isDisabled = this.isDisabled === 'abled' ? true : false;
+    const isDisabled = this.isDisabled === 'abled' ? false : true;
 
     const updatedData: EditVehicle = {
       model: this.model.value,
