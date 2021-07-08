@@ -6,7 +6,6 @@ import { Device } from "./device.model";
  */
 export interface Vehicle {
   id: string;
-  name: string;
   date_stored: string;
   brand: string;
   model: string;

@@ -34,17 +34,17 @@ export class CreateVehicleComponent implements OnInit {
 
   createFormGroup(): void {
     this.formGroup = this.fb.group({
-      brand: ['Mercedez Benz', [Validators.required]],
-      model: ['S', [Validators.required]],
+      brand: ['', [Validators.required]],
+      model: ['', [Validators.required]],
       numberPlate: [
-        'QWER21',
+        '',
         [
           Validators.required,
           Validators.minLength(NUMBER_PLATE_LENGTH),
           Validators.maxLength(NUMBER_PLATE_LENGTH),
         ],
       ],
-      imei: ['0123456789AS', [Validators.required]],
+      imei: ['', [Validators.required]],
     });
   }
 
@@ -82,6 +82,7 @@ export class CreateVehicleComponent implements OnInit {
 
     this.vehicleSrv.create(newVehicle).subscribe(
       async (data: CreateVehicle) => {
+        this.router.navigate(['..'], { relativeTo: this.route });
         const message = 'Vehículo creado con éxito';
         this.snacker.open(message);
       },

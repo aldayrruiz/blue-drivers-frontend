@@ -32,7 +32,7 @@ export class VehiclesTableComponent implements OnInit {
     this.vehicleSrv.delete(vehicle.id).subscribe(
       async () => {
         this.vehicles = this.vehicles.filter((v) => v !== vehicle);
-        this.snacker.open(`El vehículo ${vehicle.name} ha sido eliminado.`);
+        this.snacker.open(`El vehículo ${vehicle.brand} ${vehicle.model} ha sido eliminado.`);
       },
       async (error) => {
         // TODO: Si el vehículo tiene reservas, tickets, etc. ¿Qué pasa con estos?

@@ -68,7 +68,7 @@ export class EditVehicleComponent implements OnInit {
           Validators.maxLength(NUMBER_PLATE_LENGTH),
         ],
       ],
-      imei: [vehicle.number_plate, [Validators.required]],
+      imei: [vehicle.gps_device.imei, [Validators.required]],
     });
     this.isDisabled = vehicle.is_disabled === true ? 'abled' : 'disabled';
   }
