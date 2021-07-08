@@ -14,7 +14,7 @@ import {
 } from 'src/app/core';
 import { MyErrorStateMatcher } from 'src/app/pages/login/login.component';
 
-const NUMBER_PLATE_LENGTH = 6;
+const NUMBER_PLATE_LENGTH = 7;
 
 @Component({
   selector: 'app-edit-vehicle',

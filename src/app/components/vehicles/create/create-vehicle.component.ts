@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CreateVehicle, SnackerService, VehicleService } from 'src/app/core';
 import { MyErrorStateMatcher } from '../../login-form/login-form.component';
 
-const NUMBER_PLATE_LENGTH = 6;
+const NUMBER_PLATE_LENGTH = 7;
 
 @Component({
   selector: 'app-create-vehicle',
