@@ -24,7 +24,7 @@ interface VehicleMarker {
 export class VehiclesComponent implements OnInit, AfterViewInit {
   private mapHtmlId = 'map';
   private map: L.Map;
-  private vehicleMarkers: VehicleMarker[];
+  private vehicleMarkers: VehicleMarker[] = [];
   vehicles: Vehicle[];
   positions: Position[];
 
