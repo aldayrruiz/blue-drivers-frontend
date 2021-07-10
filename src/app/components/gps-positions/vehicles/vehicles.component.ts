@@ -9,6 +9,7 @@ import * as L from 'leaflet';
 import { PositionService } from 'src/app/core';
 import { Vehicle } from 'src/app/core/models';
 import { Position } from 'src/app/core/models/position.model';
+import { AssetsService } from 'src/app/core/services/assets.service';
 
 interface VehicleMarker {
   marker: L.Marker;
@@ -30,7 +31,8 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
 
   constructor(
     private route: ActivatedRoute,
-    private positionSrv: PositionService
+    private positionSrv: PositionService,
+    private assetsSrv: AssetsService
   ) {}
 
   initMap(): void {
@@ -121,7 +123,7 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
 
   createIconMarker(): L.Icon {
     return L.icon({
-      iconUrl: 'assets/img/full-moon.png',
+      iconUrl: this.assetsSrv.getUrl('img/full-moon.png'),
       iconSize: [15, 15], // size of the icon
       iconAnchor: [0, 0], // point of the icon which will correspond to marker's location
       popupAnchor: [0, 0], // point from which the popup should open relative to the iconAnchor
