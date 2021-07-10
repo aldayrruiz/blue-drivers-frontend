@@ -17,7 +17,7 @@ export class TicketService {
    * Sends a GET HTTP request to the server to get a list of tickets.
    */
   getAll(): Observable<Ticket[]> {
-    const options = { params: new HttpParams().set('take_all', 'True') };
+    const options = { params: new HttpParams().set('takeAll', true)};
     const path = `${this.ticketURL}/`;
     return this.http.get<Ticket[]>(path, options);
   }
