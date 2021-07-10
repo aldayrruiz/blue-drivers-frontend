@@ -15,7 +15,7 @@
                 <mat-label>Email</mat-label>
                 <div>
                   <input type="email" matInput [formControl]="email" [errorStateMatcher]="matcher"
-                    placeholder="Ex. pat@example.com">
+                    placeholder="antonio.ruiz@example.com">
                 </div>
                 <mat-error *ngIf="email.hasError('email') && !email.hasError('required')">
                   Por favor, introduzca un email correcto
@@ -31,7 +31,7 @@
             <td>
               <mat-form-field class="full-width" appearance="fill">
                 <mat-label>Nombre y apellidos</mat-label>
-                <input type="text" matInput [formControl]="fullname" placeholder="Ex. Aitor Ruiz Longa"
+                <input type="text" matInput [formControl]="fullname" placeholder="Antonio Ruiz"
                   [errorStateMatcher]="matcher">
                 <mat-error *ngIf="fullname.hasError('required')">
                   Nombre y apellidos es <strong>obligatorio</strong>

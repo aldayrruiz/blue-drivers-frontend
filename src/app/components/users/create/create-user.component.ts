@@ -32,10 +32,10 @@ export class CreateUserComponent implements OnInit {
   ngOnInit(): void {
     this.credentials = this.fb.group({
       email: [
-        'aldayr.ruiz@opendeusto.es',
+        '',
         [Validators.required, Validators.email],
       ],
-      fullname: ['Aldayr Ruiz Longa', [Validators.required]],
+      fullname: ['', [Validators.required]],
     });
   }
 

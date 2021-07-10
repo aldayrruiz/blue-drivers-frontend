@@ -79,4 +79,8 @@ export class UsersTableComponent implements OnInit {
   isMe(user: User): boolean {
     return this.myId === user.id;
   }
+
+  getBadgeColor(user: User): string {
+    return user.allowed_vehicles.length === 0 ? 'warn' : 'primary';
+  }
 }

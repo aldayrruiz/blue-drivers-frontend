@@ -49,6 +49,7 @@ export class SolveTicketComponent implements OnInit {
       async () => {
         const message = 'Ticket solucionado'
         this.snacker.open(message);
+        this.router.navigate(['..'], { relativeTo: this.route });
       },
       async (error) => {
         const errors: string[] = Object.values(error.error);
