@@ -73,6 +73,13 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
         console.error(
           `Se ha recibido ${this.positions.length} posiciones y ${this.vehicles.length} vehículos`
         );
+
+        this.vehicles = this.vehicles.filter(
+          (vehicle) =>
+            this.positions.find(
+              (pos) => pos.deviceId === vehicle.gps_device.id
+            ) !== undefined
+        );
       }
     });
   }
