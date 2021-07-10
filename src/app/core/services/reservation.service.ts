@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Reservation } from '../models/reservation.model';
@@ -18,8 +18,9 @@ export class ReservationService {
    * Sends a GET HTTP request to the server to get a list of reservations.
    */
   getAll(): Observable<Reservation[]> {
+    const options = { params: new HttpParams().set('takeAll', true)};
     const path = `${this.reservationURL}/`;
-    return this.http.get<Reservation[]>(path);
+    return this.http.get<Reservation[]>(path, options);
   }
 
   /**

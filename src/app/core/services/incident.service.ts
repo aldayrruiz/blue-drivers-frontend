@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiPaths } from 'src/app/shared/utils/api-paths.enum';
@@ -19,8 +19,9 @@ export class IncidentService {
   }
 
   getAll(): Observable<Incident[]> {
+    const options = { params: new HttpParams().set('takeAll', true)};
     const path = `${this.incidentURL}/`;
-    return this.http.get<Incident[]>(path);
+    return this.http.get<Incident[]>(path, options);
   }
 
   get(id: string): Observable<Incident> {
