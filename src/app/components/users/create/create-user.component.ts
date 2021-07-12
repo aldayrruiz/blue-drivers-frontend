@@ -61,7 +61,7 @@ export class CreateUserComponent implements OnInit {
     const newUser = this.getFormData();
 
     this.userSrv.create(newUser).subscribe(
-      async (data: CreateUser) => {
+      async () => {
         const message = 'Se ha enviado un email al nuevo usuario sus credenciales para entrar en la app móvil.';
         this.snacker.open(message);
         this.router.navigate(['..'], { relativeTo: this.route });
