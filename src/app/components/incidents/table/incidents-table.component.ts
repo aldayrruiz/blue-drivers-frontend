@@ -15,6 +15,7 @@ export class IncidentsTableComponent implements OnInit {
   displayedColumns: string[] = [
     'title',
     'owner',
+    'vehicle',
     'type',
     'date_stored',
     'details',

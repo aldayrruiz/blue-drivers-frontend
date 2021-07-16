@@ -11,7 +11,14 @@ export class ReservationsTableComponent implements OnInit {
   reservations: Reservation[];
   dateTimeFormat = PipeDates.dateTimeFormat;
 
-  displayedColumns: string[] = ['title', 'owner', 'dateStored', 'hourMin', 'statistics'];
+  displayedColumns: string[] = [
+    'title',
+    'owner',
+    'vehicle',
+    'dateStored',
+    'hourMin',
+    'statistics',
+  ];
 
   constructor(private reservationSrv: ReservationService) {}
 
@@ -24,7 +31,7 @@ export class ReservationsTableComponent implements OnInit {
   getTimeReserved(reservation: Reservation): string {
     const start = new Date(reservation.start);
     const end = new Date(reservation.end);
-    const milliseconds = (end.getTime() - start.getTime()); // milliseconds
+    const milliseconds = end.getTime() - start.getTime(); // milliseconds
     const hours = Math.floor((milliseconds % 86400000) / 3600000); // hours
     const minutes = Math.round(((milliseconds % 86400000) % 3600000) / 60000); // minutes
     return `${hours}h ${minutes}m`;
