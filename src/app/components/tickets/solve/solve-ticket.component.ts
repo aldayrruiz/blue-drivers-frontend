@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Reservation, SnackerService, Ticket, TicketService, TicketStatus, Vehicle } from 'src/app/core';
+import { ErrorMessageService } from 'src/app/core/services/error-message.service';
 import { PipeDates } from 'src/app/shared/utils/pipe-dates';
 
 @Component({
@@ -21,6 +22,7 @@ export class SolveTicketComponent implements OnInit {
     private route: ActivatedRoute,
     private ticketSrv: TicketService,
     private snacker: SnackerService,
+    private errorMessage: ErrorMessageService
   ) { }
 
   ngOnInit(): void {
@@ -52,8 +54,7 @@ export class SolveTicketComponent implements OnInit {
         this.router.navigate(['..'], { relativeTo: this.route });
       },
       async (error) => {
-        const errors: string[] = Object.values(error.error);
-        const message = errors[0];
+        const message = this.errorMessage.get(error);
         this.snacker.open(message);
       }
     )
