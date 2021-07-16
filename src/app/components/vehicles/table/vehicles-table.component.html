@@ -30,6 +30,22 @@
       <td mat-cell *matCellDef="let vehicle"> {{ vehicle.number_plate }} </td>
     </ng-container>
 
+    <ng-container matColumnDef="is_disabled">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let vehicle">
+        <span *ngIf="!vehicle.is_disabled; else disabledIcon">
+          <button mat-icon-button color="primary" aria-label="Is vehicle disabled" (click)="changeDisabled(vehicle)">
+            <mat-icon aria-hidden="false" aria-label="Is vehicle disabled">lock_open</mat-icon>
+          </button>
+        </span>
+        <ng-template #disabledIcon>
+          <button mat-icon-button color="error" aria-label="Vehicle not allowed" (click)="changeDisabled(vehicle)">
+            <mat-icon aria-hidden="false" aria-label="">lock</mat-icon>
+          </button>
+        </ng-template>
+      </td>
+    </ng-container>
+
     <!-- Edit Column -->
     <ng-container matColumnDef="edit">
       <th mat-header-cell *matHeaderCellDef></th>

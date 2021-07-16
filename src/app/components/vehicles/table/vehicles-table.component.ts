@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SnackerService, Vehicle, VehicleService } from 'src/app/core';
+import { EditPatchVehicle } from 'src/app/core/models/edit/edit-patch-vehicle.model';
+import { ErrorMessageService } from 'src/app/core/services/error-message.service';
 import { PipeDates } from 'src/app/shared/utils/pipe-dates';
 
 @Component({
@@ -12,12 +14,20 @@ export class VehiclesTableComponent implements OnInit {
   vehicles: Vehicle[] = [];
   dateTimeFormat = PipeDates.dateTimeFormat;
 
-  displayedColumns: string[] = ['model', 'brand', 'numberPlate', 'edit', 'delete'];
+  displayedColumns: string[] = [
+    'model',
+    'brand',
+    'numberPlate',
+    'edit',
+    'is_disabled',
+    'delete',
+  ];
 
   constructor(
     private route: ActivatedRoute,
     private snacker: SnackerService,
-    private vehicleSrv: VehicleService
+    private vehicleSrv: VehicleService,
+    private errorMessage: ErrorMessageService
   ) {}
 
   ngOnInit(): void {
@@ -32,19 +42,34 @@ export class VehiclesTableComponent implements OnInit {
     this.vehicleSrv.delete(vehicle.id).subscribe(
       async () => {
         this.vehicles = this.vehicles.filter((v) => v !== vehicle);
-        this.snacker.open(`El vehículo ${vehicle.brand} ${vehicle.model} ha sido eliminado.`);
+        this.snacker.open(
+          `El vehículo ${vehicle.brand} ${vehicle.model} ha sido eliminado.`
+        );
       },
       async (error) => {
-        // TODO: Si el vehículo tiene reservas, tickets, etc. ¿Qué pasa con estos?
-        this.snacker.open('Un error ha ocurrido. Intentelo mas tarde.');
+        const message = this.errorMessage.get(error);
+        this.snacker.open(message);
       }
     );
   }
 
   refreshTable(): void {
     this.route.data.subscribe((response) => {
-      console.log('Vehicles response received!', response);
       this.vehicles = response['vehicles'];
     });
+  }
+
+  changeDisabled(vehicle: Vehicle): void {
+    const newIsDisabledStatus = !vehicle.is_disabled;
+    const data: EditPatchVehicle = { is_disabled: newIsDisabledStatus };
+    this.vehicleSrv.patch(vehicle.id, data).subscribe(
+      async (response) => {
+        vehicle.is_disabled = response.is_disabled;
+      },
+      async (error) => {
+        const message = this.errorMessage.get(error);
+        this.snacker.open(message);
+      }
+    );
   }
 }

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiPaths } from 'src/app/shared/utils/api-paths.enum';
 import { environment } from 'src/environments/environment';
-import { CreateUser, EditUser, User } from '../models';
+import { CreateUser, EditPatchUser, User } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -52,18 +52,18 @@ export class UserService {
    * @param user data updated of user.
    * @returns 
    */
-  update(id: string, user: EditUser): Observable<User> {
+  update(id: string, user: EditPatchUser): Observable<User> {
     const path = `${this.userUrl}/${id}/`;
     return this.http.put<User>(path, user);
   }
 
-  updateAllowedVehicles(userId: string, vehicleIds: string[]): Observable<void> {
-    const path = `${this.userUrl}/allowed-vehicles/${userId}/`;
+  updateAllowedVehicles(id: string, vehicleIds: string[]): Observable<void> {
+    const path = `${this.userUrl}/allowed-vehicles/${id}/`;
     return this.http.put<void>(path, vehicleIds);
   }
 
-  patch(userId: string, data: EditUser): Observable<EditUser> {
-    const path = `${this.userUrl}/${userId}/`;
-    return this.http.patch<EditUser>(path, data);
+  patch(id: string, data: EditPatchUser): Observable<EditPatchUser> {
+    const path = `${this.userUrl}/${id}/`;
+    return this.http.patch<EditPatchUser>(path, data);
   }
 }

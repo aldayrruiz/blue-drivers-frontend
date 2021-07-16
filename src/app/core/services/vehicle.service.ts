@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ApiPaths } from 'src/app/shared/utils/api-paths.enum';
 import { environment } from 'src/environments/environment';
 import { CreateVehicle, Vehicle, EditVehicle } from '..';
+import { EditPatchVehicle } from '../models/edit/edit-patch-vehicle.model';
 
 @Injectable({
   providedIn: 'root',
@@ -38,5 +39,16 @@ export class VehicleService {
   delete(id: string): Observable<void> {
     const path = `${this.vehicleUrl}/${id}/`;
     return this.http.delete<void>(path);
+  }
+
+  /**
+   * Send data to update partially. By the moment, just 'is_disabled' field.
+   * @param id of Vehicle
+   * @param data To change
+   * @returns Observable
+   */
+  patch(id: string, data: EditPatchVehicle): Observable<EditPatchVehicle> {
+    const path = `${this.vehicleUrl}/${id}/`;
+    return this.http.patch<EditPatchVehicle>(path, data);
   }
 }
