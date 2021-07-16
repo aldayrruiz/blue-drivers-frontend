@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router, ActivatedRoute } from '@angular/router';
 import { User, UserService, SnackerService, Vehicle } from 'src/app/core';
+import { ErrorMessageService } from 'src/app/core/services/error-message.service';
 
 @Component({
   selector: 'app-edit-allowed-vehicles',
@@ -21,7 +22,8 @@ export class EditAllowedVehiclesComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private userSrv: UserService,
-    private snacker: SnackerService
+    private snacker: SnackerService,
+    private errorMessage: ErrorMessageService
   ) {}
 
   ngOnInit(): void {
@@ -76,9 +78,8 @@ export class EditAllowedVehiclesComponent implements OnInit {
           const message = 'Vehículos asignados con exito';
           this.snacker.open(message);
         },
-        async (errors) => {
-          const message =
-            'Ha ocurrido un error. Vuelva a intentarlo mas tarde.';
+        async (error) => {
+          const message = this.errorMessage.get(error);
           this.snacker.open(message);
         }
       );

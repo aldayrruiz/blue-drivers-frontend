@@ -12,6 +12,7 @@ import {
   EditVehicle,
   VehicleService
 } from 'src/app/core';
+import { ErrorMessageService } from 'src/app/core/services/error-message.service';
 import { MyErrorStateMatcher } from 'src/app/pages/login/login.component';
 
 const NUMBER_PLATE_LENGTH = 7;
@@ -32,7 +33,8 @@ export class EditVehicleComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private snacker: SnackerService,
-    private vehicleSrv: VehicleService
+    private vehicleSrv: VehicleService,
+    private errorMessage: ErrorMessageService
   ) {}
 
   ngOnInit(): void {
@@ -95,13 +97,13 @@ export class EditVehicleComponent implements OnInit {
     console.log(updatedData);
 
     this.vehicleSrv.update(this.vehicle.id, updatedData).subscribe(
-      async (data: Vehicle) => {
+      async () => {
         const message = 'Vehículo editado con exito!';
         this.snacker.open(message);
+        this.router.navigate(['..'], { relativeTo: this.route });
       },
       async (error) => {
-        const errors: string[] = Object.values(error.error);
-        const message = errors[0];
+        const message = this.errorMessage.get(error);
         this.snacker.open(message);
       }
     );

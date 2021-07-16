@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Role, UserService, SnackerService, CreateUser } from 'src/app/core';
+import { ErrorMessageService } from 'src/app/core/services/error-message.service';
 import { MyErrorStateMatcher } from 'src/app/pages/login/login.component';
 
 @Component({
@@ -26,15 +27,13 @@ export class CreateUserComponent implements OnInit {
     private router: Router,
     private userSrv: UserService,
     private snacker: SnackerService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private errorMessage: ErrorMessageService
   ) {}
 
   ngOnInit(): void {
     this.credentials = this.fb.group({
-      email: [
-        '',
-        [Validators.required, Validators.email],
-      ],
+      email: ['', [Validators.required, Validators.email]],
       fullname: ['', [Validators.required]],
     });
   }
@@ -62,13 +61,13 @@ export class CreateUserComponent implements OnInit {
 
     this.userSrv.create(newUser).subscribe(
       async () => {
-        const message = 'Se ha enviado un email al nuevo usuario sus credenciales para entrar en la app móvil.';
+        const message =
+          'Se ha enviado un email al nuevo usuario con sus credenciales para entrar en la app móvil.';
         this.snacker.open(message);
         this.router.navigate(['..'], { relativeTo: this.route });
       },
       async (error) => {
-        const errors: string[] = Object.values(error.error);
-        const message = errors[0];
+        const message = this.errorMessage.get(error);
         this.snacker.open(message);
       }
     );

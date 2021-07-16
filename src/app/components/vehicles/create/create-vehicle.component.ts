@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreateVehicle, SnackerService, VehicleService } from 'src/app/core';
+import { ErrorMessageService } from 'src/app/core/services/error-message.service';
 import { MyErrorStateMatcher } from '../../login-form/login-form.component';
 
 const NUMBER_PLATE_LENGTH = 7;
@@ -25,7 +26,8 @@ export class CreateVehicleComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private snacker: SnackerService,
-    private vehicleSrv: VehicleService
+    private vehicleSrv: VehicleService,
+    private errorMessage: ErrorMessageService
   ) {}
 
   ngOnInit(): void {
@@ -87,8 +89,7 @@ export class CreateVehicleComponent implements OnInit {
         this.snacker.open(message);
       },
       async (error) => {
-        const errors: string[] = Object.values(error.error);
-        const message = errors[0];
+        const message = this.errorMessage.get(error);
         this.snacker.open(message);
       }
     );

@@ -11,6 +11,7 @@ import {
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { LoginService, SnackerService } from 'src/app/core';
+import { ErrorMessageService } from 'src/app/core/services/error-message.service';
 
 const MIN_PASS_LENGTH = 6;
 
@@ -42,7 +43,8 @@ export class LoginFormComponent implements OnInit {
     private fb: FormBuilder,
     private loginService: LoginService,
     private router: Router,
-    private snacker: SnackerService
+    private snacker: SnackerService,
+    private errorMessage: ErrorMessageService
   ) {}
 
   ngOnInit(): void {
@@ -75,8 +77,7 @@ export class LoginFormComponent implements OnInit {
         this.router.navigateByUrl('/admin', { replaceUrl: true });
       },
       async (error) => {
-        const errors: string[] = Object.values(error.error);
-        const message = errors[0];
+        const message = this.errorMessage.get(error);
         this.snacker.open(message);
       }
     );
