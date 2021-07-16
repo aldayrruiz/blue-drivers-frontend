@@ -23,6 +23,7 @@ const NUMBER_PLATE_LENGTH = 7;
   styleUrls: ['./edit-vehicle.component.css'],
 })
 export class EditVehicleComponent implements OnInit {
+  matcher = new MyErrorStateMatcher();
   vehicle: Vehicle;
   formGroup: FormGroup;
   submitted = false;
@@ -42,22 +43,6 @@ export class EditVehicleComponent implements OnInit {
     this.setFormGroup(this.vehicle);
   }
 
-  get brand(): AbstractControl {
-    return this.formGroup.get('brand');
-  }
-
-  get model(): AbstractControl {
-    return this.formGroup.get('model');
-  }
-
-  get numberPlate(): AbstractControl {
-    return this.formGroup.get('numberPlate');
-  }
-
-  get imei(): AbstractControl {
-    return this.formGroup.get('imei');
-  }
-
   private setFormGroup(vehicle: Vehicle) {
     this.formGroup = this.fb.group({
       brand: [vehicle.brand, [Validators.required]],
@@ -74,8 +59,6 @@ export class EditVehicleComponent implements OnInit {
     });
     this.isDisabled = vehicle.is_disabled === false ? 'abled' : 'disabled';
   }
-
-  matcher = new MyErrorStateMatcher();
 
   private getUdpatedData(): EditVehicle {
 
@@ -98,9 +81,9 @@ export class EditVehicleComponent implements OnInit {
 
     this.vehicleSrv.update(this.vehicle.id, updatedData).subscribe(
       async () => {
+        this.router.navigate(['../..'], { relativeTo: this.route });
         const message = 'Vehículo editado con exito!';
         this.snacker.open(message);
-        this.router.navigate(['..'], { relativeTo: this.route });
       },
       async (error) => {
         const message = this.errorMessage.get(error);
@@ -114,5 +97,21 @@ export class EditVehicleComponent implements OnInit {
       console.log('Response received!', response);
       this.vehicle = response['vehicle'];
     });
+  }
+
+  get brand(): AbstractControl {
+    return this.formGroup.get('brand');
+  }
+
+  get model(): AbstractControl {
+    return this.formGroup.get('model');
+  }
+
+  get numberPlate(): AbstractControl {
+    return this.formGroup.get('numberPlate');
+  }
+
+  get imei(): AbstractControl {
+    return this.formGroup.get('imei');
   }
 }

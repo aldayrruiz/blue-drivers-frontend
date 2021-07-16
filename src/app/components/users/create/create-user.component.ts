@@ -16,6 +16,7 @@ import { MyErrorStateMatcher } from 'src/app/pages/login/login.component';
   styleUrls: ['./create-user.component.css'],
 })
 export class CreateUserComponent implements OnInit {
+  matcher = new MyErrorStateMatcher();
   roleSelected = Role.USER;
   credentials: FormGroup;
   submitted = false;
@@ -38,16 +39,6 @@ export class CreateUserComponent implements OnInit {
     });
   }
 
-  get fullname(): AbstractControl {
-    return this.credentials.get('fullname');
-  }
-
-  get email(): AbstractControl {
-    return this.credentials.get('email');
-  }
-
-  matcher = new MyErrorStateMatcher();
-
   private getFormData(): CreateUser {
     const newUser: CreateUser = {
       email: this.email.value,
@@ -61,15 +52,23 @@ export class CreateUserComponent implements OnInit {
 
     this.userSrv.create(newUser).subscribe(
       async () => {
+        this.router.navigate(['..'], { relativeTo: this.route });
         const message =
           'Se ha enviado un email al nuevo usuario con sus credenciales para entrar en la app móvil.';
         this.snacker.open(message);
-        this.router.navigate(['..'], { relativeTo: this.route });
       },
       async (error) => {
         const message = this.errorMessage.get(error);
         this.snacker.open(message);
       }
     );
+  }
+
+  get fullname(): AbstractControl {
+    return this.credentials.get('fullname');
+  }
+
+  get email(): AbstractControl {
+    return this.credentials.get('email');
   }
 }

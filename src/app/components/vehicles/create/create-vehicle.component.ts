@@ -18,6 +18,7 @@ const NUMBER_PLATE_LENGTH = 7;
   styleUrls: ['./create-vehicle.component.css'],
 })
 export class CreateVehicleComponent implements OnInit {
+  matcher = new MyErrorStateMatcher();
   formGroup: FormGroup;
   submitted = false;
 
@@ -50,24 +51,6 @@ export class CreateVehicleComponent implements OnInit {
     });
   }
 
-  matcher = new MyErrorStateMatcher();
-
-  get brand(): AbstractControl {
-    return this.formGroup.get('brand');
-  }
-
-  get model(): AbstractControl {
-    return this.formGroup.get('model');
-  }
-
-  get numberPlate(): AbstractControl {
-    return this.formGroup.get('numberPlate');
-  }
-
-  get imei(): AbstractControl {
-    return this.formGroup.get('imei');
-  }
-
   private getFormData(): CreateVehicle {
     return {
       brand: this.brand.value,
@@ -83,7 +66,7 @@ export class CreateVehicleComponent implements OnInit {
     console.log(newVehicle);
 
     this.vehicleSrv.create(newVehicle).subscribe(
-      async (data: CreateVehicle) => {
+      async () => {
         this.router.navigate(['..'], { relativeTo: this.route });
         const message = 'Vehículo creado con éxito';
         this.snacker.open(message);
@@ -93,5 +76,21 @@ export class CreateVehicleComponent implements OnInit {
         this.snacker.open(message);
       }
     );
+  }
+
+  get brand(): AbstractControl {
+    return this.formGroup.get('brand');
+  }
+
+  get model(): AbstractControl {
+    return this.formGroup.get('model');
+  }
+
+  get numberPlate(): AbstractControl {
+    return this.formGroup.get('numberPlate');
+  }
+
+  get imei(): AbstractControl {
+    return this.formGroup.get('imei');
   }
 }
