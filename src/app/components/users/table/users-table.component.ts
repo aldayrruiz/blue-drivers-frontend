@@ -83,11 +83,11 @@ export class UsersTableComponent implements OnInit {
     this.userSrv.delete(user.id).subscribe(
       async () => {
         this.users = this.users.filter((u) => u !== user);
-        this.snacker.open(`El usuario ${user.fullname} ha sido eliminado.`);
+        this.snacker.openSuccessful(`El usuario ${user.fullname} ha sido eliminado.`);
       },
       async (error) => {
         const message = this.errorMessage.get(error);
-        this.snacker.open(message);
+        this.snacker.openError(message);
       }
     );
   }

@@ -9,9 +9,17 @@ export class SnackerService {
 
   constructor(private _snackBar: MatSnackBar) {}
 
-  open(message: string): void {
+  openSuccessful(message: string): void {
     this._snackBar.open(message, '', {
       duration: this.duration,
+      panelClass: ['sucessful-color-snackbar']
+    });
+  }
+
+  openError(message: string): void {
+    this._snackBar.open(message, '', {
+      duration: this.duration,
+      panelClass: ['error-color-snackbar']
     });
   }
 

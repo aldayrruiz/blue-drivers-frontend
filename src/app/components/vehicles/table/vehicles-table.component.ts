@@ -62,7 +62,7 @@ export class VehiclesTableComponent implements OnInit {
       },
       async (error) => {
         const message = this.errorMessage.get(error);
-        this.snacker.open(message);
+        this.snacker.openError(message);
       }
     );
   }
@@ -71,13 +71,13 @@ export class VehiclesTableComponent implements OnInit {
     this.vehicleSrv.delete(vehicle.id).subscribe(
       async () => {
         this.vehicles = this.vehicles.filter((v) => v !== vehicle);
-        this.snacker.open(
+        this.snacker.openSuccessful(
           `El vehículo ${vehicle.brand} ${vehicle.model} ha sido eliminado.`
         );
       },
       async (error) => {
         const message = this.errorMessage.get(error);
-        this.snacker.open(message);
+        this.snacker.openError(message);
       }
     );
   }

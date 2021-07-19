@@ -50,12 +50,12 @@ export class SolveTicketComponent implements OnInit {
     this.ticketSrv.solve(this.ticket.id, newStatus).subscribe(
       async () => {
         const message = 'Ticket solucionado'
-        this.snacker.open(message);
+        this.snacker.openSuccessful(message);
         this.router.navigate(['..'], { relativeTo: this.route });
       },
       async (error) => {
         const message = this.errorMessage.get(error);
-        this.snacker.open(message);
+        this.snacker.openError(message);
       }
     )
   }
