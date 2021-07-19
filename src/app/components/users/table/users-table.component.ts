@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import {
   User,
@@ -10,6 +12,7 @@ import {
 } from 'src/app/core';
 import { ErrorMessageService } from 'src/app/core/services/error-message.service';
 import { PipeDates } from 'src/app/shared/utils/pipe-dates';
+import { DeleteUserComponent } from '../../dialogs/delete-user/delete-user.component';
 
 @Component({
   selector: 'app-users-table',
@@ -35,7 +38,8 @@ export class UsersTableComponent implements OnInit {
     private userSrv: UserService,
     private snacker: SnackerService,
     private storage: LocalStorageService,
-    private errorMessage: ErrorMessageService
+    private errorMessage: ErrorMessageService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -43,21 +47,14 @@ export class UsersTableComponent implements OnInit {
     this.myId = this.storage.get(USER_ID);
   }
 
-  async deleteUser(user: User): Promise<void> {
-    console.log('deleting: ', user);
+  openDeleteDialog(user: User): void {
+    const deleteUserDialog = this.dialog.open(DeleteUserComponent);
 
-    // TODO: Preguntar: ¿Está seguro...?
-
-    this.userSrv.delete(user.id).subscribe(
-      async () => {
-        this.users = this.users.filter((u) => u !== user);
-        this.snacker.open(`El usuario ${user.fullname} ha sido eliminado.`);
-      },
-      async (error) => {
-        const message = this.errorMessage.get(error);
-        this.snacker.open(message);
+    deleteUserDialog.afterClosed().subscribe((result) => {
+      if (result) {
+        this.deleteUser(user);
       }
-    );
+    });
   }
 
   refreshTable(): void {
@@ -78,11 +75,20 @@ export class UsersTableComponent implements OnInit {
     );
   }
 
-  isMe(user: User): boolean {
-    return this.myId === user.id;
-  }
+  isMe = (u: User) => this.myId === u.id;
 
-  getBadgeColor(user: User): string {
-    return user.allowed_vehicles.length === 0 ? 'warn' : 'primary';
+  getBadgeColor = (n: number) => (n === 0 ? 'warn' : 'primary');
+
+  private deleteUser(user: User) {
+    this.userSrv.delete(user.id).subscribe(
+      async () => {
+        this.users = this.users.filter((u) => u !== user);
+        this.snacker.open(`El usuario ${user.fullname} ha sido eliminado.`);
+      },
+      async (error) => {
+        const message = this.errorMessage.get(error);
+        this.snacker.open(message);
+      }
+    );
   }
 }

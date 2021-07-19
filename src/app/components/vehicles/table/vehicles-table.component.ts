@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { SnackerService, Vehicle, VehicleService } from 'src/app/core';
 import { EditPatchVehicle } from 'src/app/core/models/edit/edit-patch-vehicle.model';
 import { ErrorMessageService } from 'src/app/core/services/error-message.service';
 import { PipeDates } from 'src/app/shared/utils/pipe-dates';
+import { DeleteVehicleComponent } from '../../dialogs/delete-vehicle/delete-vehicle.component';
 
 @Component({
   selector: 'app-vehicles-table',
@@ -27,30 +29,22 @@ export class VehiclesTableComponent implements OnInit {
     private route: ActivatedRoute,
     private snacker: SnackerService,
     private vehicleSrv: VehicleService,
-    private errorMessage: ErrorMessageService
+    private errorMessage: ErrorMessageService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.refreshTable();
   }
 
-  async deleteVehicle(vehicle: Vehicle): Promise<void> {
-    console.log('deleting: ', vehicle);
+  openDeleteDialog(vehicle: Vehicle): void {
+    const deleteVehicleDialog = this.dialog.open(DeleteVehicleComponent);
 
-    // TODO: Preguntar: ¿Está seguro...?
-
-    this.vehicleSrv.delete(vehicle.id).subscribe(
-      async () => {
-        this.vehicles = this.vehicles.filter((v) => v !== vehicle);
-        this.snacker.open(
-          `El vehículo ${vehicle.brand} ${vehicle.model} ha sido eliminado.`
-        );
-      },
-      async (error) => {
-        const message = this.errorMessage.get(error);
-        this.snacker.open(message);
+    deleteVehicleDialog.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteVehicle(vehicle);
       }
-    );
+    });
   }
 
   refreshTable(): void {
@@ -65,6 +59,21 @@ export class VehiclesTableComponent implements OnInit {
     this.vehicleSrv.patch(vehicle.id, data).subscribe(
       async (response) => {
         vehicle.is_disabled = response.is_disabled;
+      },
+      async (error) => {
+        const message = this.errorMessage.get(error);
+        this.snacker.open(message);
+      }
+    );
+  }
+
+  private deleteVehicle(vehicle: Vehicle): void {
+    this.vehicleSrv.delete(vehicle.id).subscribe(
+      async () => {
+        this.vehicles = this.vehicles.filter((v) => v !== vehicle);
+        this.snacker.open(
+          `El vehículo ${vehicle.brand} ${vehicle.model} ha sido eliminado.`
+        );
       },
       async (error) => {
         const message = this.errorMessage.get(error);

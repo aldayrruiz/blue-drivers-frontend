@@ -12,6 +12,7 @@ import { VehiclesComponent } from './gps-positions/vehicles/vehicles.component';
 import { UsersComponentsModule } from './users/users-components.module';
 import { IncidentsComponentsModule } from './incidents/incidents-components.module';
 import { ReservationsComponentsModule } from './reservations/reservations.table.module';
+import { DialogModule } from './dialogs/dialogs.module';
 @NgModule({
   declarations: [
     LoginFormComponent,
@@ -23,6 +24,7 @@ import { ReservationsComponentsModule } from './reservations/reservations.table.
     CommonModule,
     /* Due to all of these declared components needs Angular Material. I need to import them */
     MyAngularMaterialModule,
+    DialogModule
   ],
   exports: [
     LoginFormComponent,
