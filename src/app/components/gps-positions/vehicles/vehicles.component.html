@@ -1,37 +1,31 @@
-<!-- <mat-grid-list cols="4" rowHeight="430px">
-  <mat-grid-tile [colspan]="3" [rowspan]="2">
-    <div id="map"></div>
-  </mat-grid-tile>
-  <mat-grid-tile [colspan]="1" [rowspan]=2>
-    <div class="vehicles-container">
-      <cdk-virtual-scroll-viewport [itemSize]="50" class="example-viewport">
-        <mat-nav-list class="no-top-padding">
-          <mat-list-item>
-            <mat-icon matListIcon>gps_fixed</mat-icon>
-            <h4 matLine>Vehicle 1</h4>
-          </mat-list-item>
-          <mat-list-item>
-            <mat-icon matListIcon>gps_fixed</mat-icon>
-            <h4 matLine>Vehicle 2</h4>
-          </mat-list-item>
-          <mat-list-item>
-            <mat-icon matListIcon>gps_fixed</mat-icon>
-            <h4 matLine>Vehicle 3</h4>
-          </mat-list-item>
-        </mat-nav-list>
-      </cdk-virtual-scroll-viewport>
-    </div>
-  </mat-grid-tile>
-</mat-grid-list> -->
-
 <div id="map"></div>
 <div class="vehicles-container">
   <cdk-virtual-scroll-viewport [itemSize]="50" class="example-viewport">
-    <mat-nav-list class="no-top-padding">
-      <mat-list-item *cdkVirtualFor="let vehicle of vehicles" (click)="focusOn(vehicle)">
-        <mat-icon matListIcon>gps_fixed</mat-icon>
-        <h4 matLine>{{ vehicle.brand }} {{ vehicle.model }}</h4>
-      </mat-list-item>
-    </mat-nav-list>
+    <mat-accordion class="example-viewport" *ngFor="let vehiclePositionMarker of vehiclePositionMarkers$ | async; let index=index">
+      <mat-expansion-panel 
+      (opened)="step = index"
+      (closed)="step = -1"
+      [expanded]="step === index"
+      [disabled]="vehiclePositionMarker.position === undefined || vehiclePositionMarker.marker === undefined">
+        <mat-expansion-panel-header>
+          <mat-panel-title> {{ vehiclePositionMarker.vehicle.brand }} {{ vehiclePositionMarker.vehicle.model}} </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="table-container">
+          <table mat-table [dataSource]="getDataSource(vehiclePositionMarker.position)">
+            <ng-container matColumnDef="feature">
+              <th mat-header-cell *matHeaderCellDef> Carácteristica </th>
+              <td mat-cell *matCellDef="let featureValue">{{ featureValue.feature }}</td>
+            </ng-container>
+            <ng-container matColumnDef="value">
+              <th mat-header-cell *matHeaderCellDef> Valor </th>
+              <td mat-cell *matCellDef="let featureValue">{{ featureValue.value }}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+        <!-- <mat-icon matListIcon>gps_fixed</mat-icon> -->
+      </mat-expansion-panel>
+    </mat-accordion>
   </cdk-virtual-scroll-viewport>
 </div>
