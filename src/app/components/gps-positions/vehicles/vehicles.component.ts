@@ -24,7 +24,7 @@ interface VehiclePositionMarker {
 }
 
 // Refresh time: Send GET HTTP to get positions, refresh map and data.
-const refreshTime = 10000;
+const refreshTime = 60000;
 
 @Component({
   selector: 'app-vehicles',
