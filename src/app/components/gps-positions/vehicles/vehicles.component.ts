@@ -1,8 +1,11 @@
+import { formatDate } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   AfterViewInit,
   Component,
   OnInit,
+  LOCALE_ID,
+  Inject,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as L from 'leaflet';
@@ -11,6 +14,7 @@ import { PositionService } from 'src/app/core';
 import { Vehicle } from 'src/app/core/models';
 import { Position } from 'src/app/core/models/position.model';
 import { AssetsService } from 'src/app/core/services/assets.service';
+import { PipeDates } from 'src/app/shared/utils/pipe-dates';
 
 interface FeatureValue {
   feature: string;
@@ -33,6 +37,7 @@ const refreshTime = 60000;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VehiclesComponent implements OnInit, AfterViewInit {
+  private dateTimeFormat = PipeDates.dateTimeFormat;
   private mapHtmlId = 'map';
   private map: L.Map;
   private positions: Position[];
@@ -45,6 +50,7 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
   panelOpenState = false;
 
   constructor(
+    @Inject(LOCALE_ID) private locale: string,
     private route: ActivatedRoute,
     private positionSrv: PositionService,
     private assetsSrv: AssetsService
@@ -96,8 +102,13 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     if (position === undefined) {
       return [];
     }
+    const sTime = new Date(position.serverTime);
+    const dTime = new Date(position.deviceTime);
 
-    const dataSource = [
+    const serverTime = formatDate(sTime, this.dateTimeFormat, this.locale);
+    const deviceTime = formatDate(dTime, this.dateTimeFormat, this.locale);
+
+    const dataSource: FeatureValue[] = [
       {
         feature: 'Latitud',
         value: position.latitude,
@@ -107,16 +118,16 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
         value: position.longitude,
       },
       {
+        feature: 'Altitud',
+        value: position.altitude,
+      },
+      {
         feature: 'Tiempo de dispositivo',
-        value: position.deviceTime,
+        value: deviceTime,
       },
       {
         feature: 'Tiempo del servidor',
-        value: position.serverTime,
-      },
-      {
-        feature: 'Altitud',
-        value: position.altitude,
+        value: serverTime,
       },
       {
         feature: 'Velocidad',
