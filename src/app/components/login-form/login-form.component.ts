@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 import { LoginService, SnackerService } from 'src/app/core';
 import { ErrorMessageService } from 'src/app/core/services/error-message.service';
 
@@ -38,6 +39,7 @@ export class LoginFormComponent implements OnInit {
   credentials: FormGroup;
   submitted = false;
   hide = true;
+  sending = false;
 
   constructor(
     private fb: FormBuilder,
@@ -49,10 +51,7 @@ export class LoginFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.credentials = this.fb.group({
-      email: [
-        '',
-        [Validators.required, Validators.email],
-      ],
+      email: ['', [Validators.required, Validators.email]],
       password: [
         '',
         [Validators.required, Validators.minLength(MIN_PASS_LENGTH)],
@@ -69,18 +68,21 @@ export class LoginFormComponent implements OnInit {
   }
 
   async login(): Promise<void> {
+    this.sending = true;
     const credentials = this.getFormData();
-    console.log('Login: ', credentials);
 
-    this.loginService.login(credentials).subscribe(
-      async () => {
-        this.router.navigateByUrl('/admin', { replaceUrl: true });
-      },
-      async (error) => {
-        const message = this.errorMessage.get(error);
-        this.snacker.openError(message);
-      }
-    );
+    this.loginService
+      .login(credentials)
+      .pipe(finalize(() => (this.sending = false)))
+      .subscribe(
+        async () => {
+          this.router.navigateByUrl('/admin', { replaceUrl: true });
+        },
+        async (error) => {
+          const message = this.errorMessage.get(error);
+          this.snacker.openError(message);
+        }
+      );
   }
 
   get email(): AbstractControl {

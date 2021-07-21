@@ -2,6 +2,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router, ActivatedRoute } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 import { User, UserService, SnackerService, Vehicle } from 'src/app/core';
 import { ErrorMessageService } from 'src/app/core/services/error-message.service';
 
@@ -17,6 +18,7 @@ export class EditAllowedVehiclesComponent implements OnInit {
   displayedColumns: string[] = ['select', 'vehicle'];
   dataSource: MatTableDataSource<Vehicle>;
   selection: SelectionModel<Vehicle>;
+  sending = false;
 
   constructor(
     private router: Router,
@@ -30,10 +32,7 @@ export class EditAllowedVehiclesComponent implements OnInit {
     this.resolve();
     this.dataSource = new MatTableDataSource<Vehicle>(this.vehicles);
     const initiallySelectedValues = this.getInitiallySelectedVehicles();
-    this.selection = new SelectionModel<Vehicle>(
-      true,
-      initiallySelectedValues
-    );
+    this.selection = new SelectionModel<Vehicle>(true, initiallySelectedValues);
   }
 
   resolve(): void {
@@ -69,10 +68,12 @@ export class EditAllowedVehiclesComponent implements OnInit {
   }
 
   save(): void {
+    this.sending = true;
     const selectedVehicles = this.selection.selected;
     const vehicleIds = this.mapToIds(selectedVehicles);
     this.userSrv
       .updateAllowedVehicles(this.user.id, vehicleIds)
+      .pipe(finalize(() => (this.sending = false)))
       .subscribe(
         async () => {
           const message = 'Vehículos asignados con exito';

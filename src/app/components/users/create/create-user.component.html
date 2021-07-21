@@ -43,9 +43,9 @@
           <tr>
             <td>
               <div>
-                <button class="cancel" mat-raised-button color="warn" routerLink="..">Cancelar</button>
+                <button class="cancel" mat-raised-button color="warn" routerLink=".." [disabled]="sending">Cancelar</button>
                 <button class="create" (click)="createUser()" mat-raised-button color="primary" type="submit" expand="block"
-                [disabled]="!credentials.valid">Crear</button>
+                [disabled]="!credentials.valid || sending">Crear</button>
               </div>
               
             </td>

@@ -50,7 +50,7 @@
           <tr>
             <td>
               <button (click)="login()" mat-raised-button color="primary" type="submit" expand="block"
-                [disabled]="!credentials.valid">Log in</button>
+                [disabled]="!credentials.valid || sending">Log in</button>
             </td>
           </tr>
         </table>

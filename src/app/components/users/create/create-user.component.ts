@@ -6,6 +6,7 @@ import {
   AbstractControl,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { finalize, tap } from 'rxjs/operators';
 import { Role, UserService, SnackerService, CreateUser } from 'src/app/core';
 import { ErrorMessageService } from 'src/app/core/services/error-message.service';
 import { MyErrorStateMatcher } from 'src/app/pages/login/login.component';
@@ -22,6 +23,7 @@ export class CreateUserComponent implements OnInit {
   submitted = false;
   hide = true;
   hide2 = true;
+  sending = false;
 
   constructor(
     private fb: FormBuilder,
@@ -49,19 +51,27 @@ export class CreateUserComponent implements OnInit {
 
   createUser(): void {
     const newUser = this.getFormData();
+    this.sending = true;
 
-    this.userSrv.create(newUser).subscribe(
-      async () => {
-        this.router.navigate(['..'], { relativeTo: this.route });
-        const message =
-          'Se ha enviado un email al nuevo usuario con sus credenciales para entrar en la app móvil.';
-        this.snacker.openSuccessful(message);
-      },
-      async (error) => {
-        const message = this.errorMessage.get(error);
-        this.snacker.openError(message);
-      }
-    );
+    this.userSrv
+      .create(newUser)
+      .pipe(
+        finalize(() => {
+          this.sending = false;
+        })
+      )
+      .subscribe(
+        async () => {
+          this.router.navigate(['..'], { relativeTo: this.route });
+          const message =
+            'Se ha enviado un email al nuevo usuario con sus credenciales para entrar en la app móvil.';
+          this.snacker.openSuccessful(message);
+        },
+        async (error) => {
+          const message = this.errorMessage.get(error);
+          this.snacker.openError(message);
+        }
+      );
   }
 
   get fullname(): AbstractControl {

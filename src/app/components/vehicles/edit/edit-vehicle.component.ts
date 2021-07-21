@@ -6,11 +6,12 @@ import {
   AbstractControl,
 } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 import {
   SnackerService,
   Vehicle,
   EditVehicle,
-  VehicleService
+  VehicleService,
 } from 'src/app/core';
 import { ErrorMessageService } from 'src/app/core/services/error-message.service';
 import { MyErrorStateMatcher } from 'src/app/pages/login/login.component';
@@ -26,7 +27,7 @@ export class EditVehicleComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
   vehicle: Vehicle;
   formGroup: FormGroup;
-  submitted = false;
+  sending = false;
   isDisabled = 'abled';
 
   constructor(
@@ -61,7 +62,6 @@ export class EditVehicleComponent implements OnInit {
   }
 
   private getUdpatedData(): EditVehicle {
-
     const isDisabled = this.isDisabled === 'abled' ? false : true;
 
     const updatedData: EditVehicle = {
@@ -69,27 +69,29 @@ export class EditVehicleComponent implements OnInit {
       brand: this.brand.value,
       number_plate: this.numberPlate.value,
       gps_device: this.imei.value,
-      is_disabled: isDisabled
+      is_disabled: isDisabled,
     };
     return updatedData;
   }
 
   edit(): void {
+    this.sending = true;
     const updatedData = this.getUdpatedData();
 
-    console.log(updatedData);
-
-    this.vehicleSrv.update(this.vehicle.id, updatedData).subscribe(
-      async () => {
-        this.router.navigate(['../..'], { relativeTo: this.route });
-        const message = 'Vehículo editado con exito!';
-        this.snacker.openSuccessful(message);
-      },
-      async (error) => {
-        const message = this.errorMessage.get(error);
-        this.snacker.openError(message);
-      }
-    );
+    this.vehicleSrv
+      .update(this.vehicle.id, updatedData)
+      .pipe(finalize(() => (this.sending = false)))
+      .subscribe(
+        async () => {
+          this.router.navigate(['../..'], { relativeTo: this.route });
+          const message = 'Vehículo editado con exito!';
+          this.snacker.openSuccessful(message);
+        },
+        async (error) => {
+          const message = this.errorMessage.get(error);
+          this.snacker.openError(message);
+        }
+      );
   }
 
   resolve(): void {

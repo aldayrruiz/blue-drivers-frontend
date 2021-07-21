@@ -40,6 +40,6 @@
     </tr>
   </table>
   <div class="button-container">
-    <button (click)="save()" mat-raised-button color="primary" expand="block">Guardar los cambios</button>
+    <button [disabled]="sending" (click)="save()" mat-raised-button color="primary" expand="block">Guardar los cambios</button>
   </div>
 </div>

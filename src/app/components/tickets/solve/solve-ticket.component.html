@@ -53,10 +53,10 @@
     <!-- Choice Buttons -->
     <mat-grid-tile [colspan]="2">
       <div>
-        <button mat-raised-button color="primary" (click)="acceptTicket()">Aceptar Ticket</button>
+        <button [disabled]="sending" mat-raised-button color="primary" (click)="acceptTicket()">Aceptar Ticket</button>
       </div>
       <div>
-        <button mat-raised-button color="warn" (click)="denyTicket()">Denegar Ticket</button>
+        <button [disabled]="sending" mat-raised-button color="warn" (click)="denyTicket()">Denegar Ticket</button>
       </div>
     </mat-grid-tile>
   </mat-grid-list>
