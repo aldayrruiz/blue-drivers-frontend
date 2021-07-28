@@ -47,7 +47,6 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
   vehiclePositionMarkers$ = this.vehiclePositionMarkersSubject.asObservable();
   vehiclePositionMarkers: VehiclePositionMarker[] = [];
   displayedColumns = ['feature', 'value'];
-  panelOpenState = false;
 
   constructor(
     @Inject(LOCALE_ID) private locale: string,
@@ -102,10 +101,8 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     if (position === undefined) {
       return [];
     }
-    const sTime = new Date(position.serverTime);
     const dTime = new Date(position.deviceTime);
 
-    const serverTime = formatDate(sTime, this.dateTimeFormat, this.locale);
     const deviceTime = formatDate(dTime, this.dateTimeFormat, this.locale);
 
     const dataSource: FeatureValue[] = [
@@ -122,12 +119,8 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
         value: position.altitude,
       },
       {
-        feature: 'Tiempo de dispositivo',
+        feature: 'Tiempo del dispositivo',
         value: deviceTime,
-      },
-      {
-        feature: 'Tiempo del servidor',
-        value: serverTime,
       },
       {
         feature: 'Velocidad',
@@ -217,8 +210,8 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
 
   private createIconMarker(): L.Icon {
     return L.icon({
-      iconUrl: this.assetsSrv.getUrl('img/full-moon.png'),
-      iconSize: [15, 15], // size of the icon
+      iconUrl: this.assetsSrv.getUrl(this.icons.pop()),
+      iconSize: [22, 22], // size of the icon
       iconAnchor: [0, 0], // point of the icon which will correspond to marker's location
       popupAnchor: [0, 0], // point from which the popup should open relative to the iconAnchor
     });
@@ -239,4 +232,17 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
   private updateData(data: VehiclePositionMarker[]) {
     this.vehiclePositionMarkersSubject.next(data);
   }
+
+  private icons = [
+    'img/pink-car.png',
+    'img/light-green-car.png',
+    'img/light-blue-car.png',
+    'img/brown-car.png',
+    'img/orange-car.png',
+    'img/yellow-car.png',
+    'img/green-car.png',
+    'img/red-car.png',
+    'img/blue-car.png',
+    'img/black-car.png',
+  ]
 }

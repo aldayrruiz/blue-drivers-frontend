@@ -1,14 +1,17 @@
 <div id="map"></div>
 <div class="vehicles-container">
   <cdk-virtual-scroll-viewport [itemSize]="50" class="example-viewport">
-    <mat-accordion class="example-viewport" *ngFor="let vehiclePositionMarker of vehiclePositionMarkers$ | async; let index=index">
+    <mat-accordion class="example-viewport" >
       <mat-expansion-panel 
+      *ngFor="let vehiclePositionMarker of vehiclePositionMarkers$ | async; let index=index"
       (opened)="step = index"
       (closed)="step = -1"
       [expanded]="step === index"
-      [disabled]="vehiclePositionMarker.position === undefined || vehiclePositionMarker.marker === undefined">
+      [disabled]="vehiclePositionMarker.position === undefined || vehiclePositionMarker.marker === undefined"
+      hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title> {{ vehiclePositionMarker.vehicle.brand }} {{ vehiclePositionMarker.vehicle.model}} </mat-panel-title>
+          <img class="car-icon" [src]="vehiclePositionMarker.marker._icon.src" alt="something">
         </mat-expansion-panel-header>
         <div class="table-container">
           <table mat-table [dataSource]="getDataSource(vehiclePositionMarker.position)">
@@ -24,7 +27,7 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           </table>
         </div>
-        <!-- <mat-icon matListIcon>gps_fixed</mat-icon> -->
+        
       </mat-expansion-panel>
     </mat-accordion>
   </cdk-virtual-scroll-viewport>

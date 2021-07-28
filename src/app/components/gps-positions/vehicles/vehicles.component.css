@@ -41,3 +41,8 @@ table {
 tr.mat-footer-row {
   font-weight: bold;
 }
+
+.car-icon {
+  width: 20px;
+  height: 20px;
+}
