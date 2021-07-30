@@ -8,4 +8,5 @@ export interface Incident {
   owner: User;
   reservation: Reservation;
   type: IncidentType;
+  photo: string;
 }
