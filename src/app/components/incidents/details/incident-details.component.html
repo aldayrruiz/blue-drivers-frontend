@@ -19,7 +19,12 @@
       <mat-list-item role="listitem"><b>Descripción: &nbsp;</b>{{ incident.description }}</mat-list-item>
     </mat-list>
   </div>
-  <div>
-    <img [src]="incident.photo" alt="Foto del incidente">
+  <div *ngIf="incident.photo !== '/media/incidents/none.png'; else NoPhoto">
+    <img class="max-width" [src]="incident.photo" alt="Foto del incidente">
   </div>
+  <ng-template #NoPhoto>
+    <div>
+      <p>No se ha adjuntado una imágen</p>
+    </div>
+  </ng-template>
 </div>
