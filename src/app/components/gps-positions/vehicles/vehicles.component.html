@@ -11,7 +11,7 @@
       hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title> {{ vehiclePositionMarker.vehicle.brand }} {{ vehiclePositionMarker.vehicle.model}} </mat-panel-title>
-          <img class="car-icon" [src]="vehiclePositionMarker.marker._icon.src" alt="something">
+          <img *ngIf="vehiclePositionMarker.marker" class="car-icon" [src]="vehiclePositionMarker.marker._icon.src" alt="something">
         </mat-expansion-panel-header>
         <div class="table-container">
           <table mat-table [dataSource]="getDataSource(vehiclePositionMarker.position)">
