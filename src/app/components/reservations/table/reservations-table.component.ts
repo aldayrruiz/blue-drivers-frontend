@@ -24,7 +24,7 @@ export class ReservationsTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.reservationSrv.getAll().subscribe((reservations) => {
-      this.reservations = reservations.reverse();
+      this.reservations = reservations;
     });
   }
 
