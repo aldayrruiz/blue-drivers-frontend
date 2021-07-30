@@ -47,7 +47,7 @@
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let reservation">
         <button mat-icon-button color="error" aria-label="Go to statistics"
-          routerLink="../statistics/{{reservation.id}}">
+          routerLink="../statistics/{{reservation.id}}" disabled>
           <mat-icon aria-hidden="false" aria-label="bar_chart icon">bar_chart</mat-icon>
         </button>
       </td>
