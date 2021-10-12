@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MyAngularMaterialModule } from '../../shared/angular-material.module';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { UsersTableComponent } from './table/users-table.component';
+import { UsersRoutingModule } from 'src/app/pages/users/users-routing.module';
+import { MyAngularMaterialModule } from '../../shared/angular-material.module';
 import { CreateUserComponent } from './create/create-user.component';
 import { EditAllowedVehiclesComponent } from './edit-allowed-vehicles/edit-allowed-vehicles.component';
-import { UsersRoutingModule } from 'src/app/pages/users/users-routing.module';
+import { UsersTableComponent } from './table/users-table.component';
 
 @NgModule({
   declarations: [

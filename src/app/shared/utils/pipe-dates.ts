@@ -2,7 +2,7 @@
  * @Pipe decorator is used for more complex cases. Just use text to transform dates.
  */
 
-export enum PipeDates  {
+export enum PipeDates {
   dateTimeFormat = 'dd/MM/YYYY, HH:mm',
-  dateFormat = 'dd/MM/YYYY'
+  dateFormat = 'dd/MM/YYYY',
 }

@@ -18,13 +18,13 @@ const routes: Routes = [
       {
         path: 'vehicles',
         component: VehiclesComponent,
-        resolve: { 
+        resolve: {
           vehicles: VehiclesResolver,
           positions: PositionsResolver,
-        }
-      }
-    ]
-  }
+        },
+      },
+    ],
+  },
 ];
 
 @NgModule({

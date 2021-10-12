@@ -1,4 +1,4 @@
-import { Device } from "./device.model";
+import { Device } from './device.model';
 
 /**
  * This interface is used to charge a list of vehicles.

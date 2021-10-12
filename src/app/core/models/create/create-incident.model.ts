@@ -1,4 +1,4 @@
-import { IncidentType } from "..";
+import { IncidentType } from '..';
 
 export interface CreateIncident {
   id?: string;

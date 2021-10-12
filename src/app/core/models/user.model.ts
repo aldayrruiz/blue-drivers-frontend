@@ -1,5 +1,5 @@
-import { Role } from "./enums/role.model";
-import { Vehicle } from "./vehicle.model";
+import { Role } from './enums/role.model';
+import { Vehicle } from './vehicle.model';
 
 export interface User {
   id: string;
@@ -8,5 +8,5 @@ export interface User {
   date_joined: string;
   allowed_vehicles: Vehicle[];
   is_disabled: boolean;
-  role: Role
+  role: Role;
 }

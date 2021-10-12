@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  FormGroup,
-  FormBuilder,
-  Validators,
   AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
 } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import {
+  EditVehicle,
   SnackerService,
   Vehicle,
-  EditVehicle,
   VehicleService,
 } from 'src/app/core';
 import { ErrorMessageService } from 'src/app/core/services/error-message.service';
-import { MyErrorStateMatcher } from 'src/app/pages/login/login.component';
+import { CustomErrorStateMatcher } from 'src/app/pages/login/login.component';
 
 const NUMBER_PLATE_LENGTH = 7;
 
@@ -24,7 +24,7 @@ const NUMBER_PLATE_LENGTH = 7;
   styleUrls: ['./edit-vehicle.component.css'],
 })
 export class EditVehicleComponent implements OnInit {
-  matcher = new MyErrorStateMatcher();
+  matcher = new CustomErrorStateMatcher();
   vehicle: Vehicle;
   formGroup: FormGroup;
   sending = false;

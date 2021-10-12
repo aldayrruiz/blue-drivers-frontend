@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  FormGroup,
-  FormBuilder,
-  Validators,
   AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { finalize, tap } from 'rxjs/operators';
-import { Role, UserService, SnackerService, CreateUser } from 'src/app/core';
+import { finalize } from 'rxjs/operators';
+import { CreateUser, Role, SnackerService, UserService } from 'src/app/core';
 import { ErrorMessageService } from 'src/app/core/services/error-message.service';
-import { MyErrorStateMatcher } from 'src/app/pages/login/login.component';
+import { CustomErrorStateMatcher } from 'src/app/pages/login/login.component';
 
 @Component({
   selector: 'app-create-user',
@@ -17,7 +17,7 @@ import { MyErrorStateMatcher } from 'src/app/pages/login/login.component';
   styleUrls: ['./create-user.component.css'],
 })
 export class CreateUserComponent implements OnInit {
-  matcher = new MyErrorStateMatcher();
+  matcher = new CustomErrorStateMatcher();
   roleSelected = Role.USER;
   credentials: FormGroup;
   submitted = false;

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiPaths } from 'src/app/shared/utils/api-paths.enum';
 import { environment } from 'src/environments/environment';
-import { CreateVehicle, Vehicle, EditVehicle } from '..';
+import { CreateVehicle, EditVehicle, Vehicle } from '..';
 import { EditPatchVehicle } from '../models/edit/edit-patch-vehicle.model';
 
 @Injectable({
@@ -20,13 +20,13 @@ export class VehicleService {
   }
 
   get(id: string): Observable<Vehicle> {
-    const options = { params: new HttpParams().set('evenDisabled', true)};
+    const options = { params: new HttpParams().set('evenDisabled', true) };
     const path = `${this.vehicleUrl}/${id}/`;
     return this.http.get<Vehicle>(path, options);
   }
 
   getAll(): Observable<Vehicle[]> {
-    const options = { params: new HttpParams().set('evenDisabled', true)};
+    const options = { params: new HttpParams().set('evenDisabled', true) };
     const path = `${this.vehicleUrl}/`;
     return this.http.get<Vehicle[]>(path, options);
   }

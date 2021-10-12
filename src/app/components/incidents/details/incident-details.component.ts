@@ -6,23 +6,22 @@ import { PipeDates } from 'src/app/shared/utils/pipe-dates';
 @Component({
   selector: 'app-incident-details',
   templateUrl: './incident-details.component.html',
-  styleUrls: ['./incident-details.component.css']
+  styleUrls: ['./incident-details.component.css'],
 })
 export class IncidentDetailsComponent implements OnInit {
-
   incident: Incident;
   dateTimeFormat = PipeDates.dateTimeFormat;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.resolveData();
   }
 
   resolveData(): void {
-    this.route.data.subscribe(data => {
+    this.route.data.subscribe((data) => {
       this.incident = data.incident;
-    })
+    });
   }
 
   translateType = translateType;

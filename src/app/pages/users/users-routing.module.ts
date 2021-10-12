@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CreateUserComponent } from 'src/app/components/users/create/create-user.component';
 import { EditAllowedVehiclesComponent } from 'src/app/components/users/edit-allowed-vehicles/edit-allowed-vehicles.component';
 import { UsersTableComponent } from 'src/app/components/users/table/users-table.component';
-import { UsersResolver, UserResolver, VehiclesResolver } from 'src/app/core';
+import { UserResolver, UsersResolver, VehiclesResolver } from 'src/app/core';
 import { UsersComponent } from './users.component';
 
 const routes: Routes = [

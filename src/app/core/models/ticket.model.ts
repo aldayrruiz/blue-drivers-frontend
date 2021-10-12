@@ -1,4 +1,4 @@
-import { User, Reservation, TicketStatus } from '.';
+import { Reservation, TicketStatus, User } from '.';
 
 export interface Ticket {
   id: string;

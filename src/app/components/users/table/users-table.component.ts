@@ -3,11 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import {
-  User,
-  UserService,
-  SnackerService,
   EditPatchUser,
   LocalStorageService,
+  SnackerService,
+  User,
+  UserService,
   USER_ID,
 } from 'src/app/core';
 import { ErrorMessageService } from 'src/app/core/services/error-message.service';
@@ -83,7 +83,9 @@ export class UsersTableComponent implements OnInit {
     this.userSrv.delete(user.id).subscribe(
       async () => {
         this.users = this.users.filter((u) => u !== user);
-        this.snacker.openSuccessful(`El usuario ${user.fullname} ha sido eliminado.`);
+        this.snacker.openSuccessful(
+          `El usuario ${user.fullname} ha sido eliminado.`
+        );
       },
       async (error) => {
         const message = this.errorMessage.get(error);

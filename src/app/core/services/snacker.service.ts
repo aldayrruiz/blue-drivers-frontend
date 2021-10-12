@@ -12,14 +12,14 @@ export class SnackerService {
   openSuccessful(message: string): void {
     this._snackBar.open(message, '', {
       duration: this.duration,
-      panelClass: ['sucessful-color-snackbar']
+      panelClass: ['sucessful-color-snackbar'],
     });
   }
 
   openError(message: string): void {
     this._snackBar.open(message, '', {
       duration: this.duration,
-      panelClass: ['error-color-snackbar']
+      panelClass: ['error-color-snackbar'],
     });
   }
 

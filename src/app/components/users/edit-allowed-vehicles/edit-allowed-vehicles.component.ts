@@ -1,9 +1,9 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
-import { User, UserService, SnackerService, Vehicle } from 'src/app/core';
+import { SnackerService, User, UserService, Vehicle } from 'src/app/core';
 import { ErrorMessageService } from 'src/app/core/services/error-message.service';
 
 @Component({
