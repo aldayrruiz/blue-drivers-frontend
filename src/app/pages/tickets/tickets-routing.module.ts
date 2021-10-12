@@ -23,9 +23,9 @@ const routes: Routes = [
       },
       {
         path: 'solve/:ticketId',
-        component: SolveTicketComponent, 
-        resolve: { ticket: TicketResolver }
-      }
+        component: SolveTicketComponent,
+        resolve: { ticket: TicketResolver },
+      },
     ],
   },
 ];

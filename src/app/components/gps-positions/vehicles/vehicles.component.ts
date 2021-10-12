@@ -1,11 +1,11 @@
 import { formatDate } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
-  OnInit,
-  LOCALE_ID,
   Inject,
+  LOCALE_ID,
+  OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as L from 'leaflet';
@@ -244,5 +244,5 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     'img/red-car.png',
     'img/blue-car.png',
     'img/black-car.png',
-  ]
+  ];
 }

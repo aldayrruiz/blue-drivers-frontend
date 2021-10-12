@@ -1,15 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-reservations-statistics',
   templateUrl: './reservations-statistics.component.html',
-  styleUrls: ['./reservations-statistics.component.css']
+  styleUrls: ['./reservations-statistics.component.css'],
 })
-export class ReservationsStatisticsComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-}
+export class ReservationsStatisticsComponent {}

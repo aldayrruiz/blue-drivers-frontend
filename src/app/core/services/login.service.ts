@@ -1,15 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
-
-import { ApiPaths } from 'src/app/shared/utils/api-paths.enum';
-
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ApiPaths } from 'src/app/shared/utils/api-paths.enum';
+import { environment } from 'src/environments/environment';
 import {
   LocalStorageService,
-  USER_TOKEN,
   USER_ID,
+  USER_TOKEN,
 } from './local-storage.service';
 
 const path = `${environment.baseURL}${ApiPaths.AdminLogin}/`;
@@ -52,7 +50,7 @@ export class LoginService {
 
           this.userId = data.user_id;
           this.storage.set(USER_ID, data.user_id);
-          
+
           this.isAuthenticated.next(true);
         }
       })

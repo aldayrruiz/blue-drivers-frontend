@@ -6,12 +6,12 @@ import { environment } from 'src/environments/environment';
 import { CreateIncident, Incident } from '../models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class IncidentService {
   private incidentURL = `${environment.baseURL}${ApiPaths.Incident}`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   create(incident: CreateIncident): Observable<CreateIncident> {
     const path = `${this.incidentURL}/`;
@@ -19,7 +19,7 @@ export class IncidentService {
   }
 
   getAll(): Observable<Incident[]> {
-    const options = { params: new HttpParams().set('takeAll', true)};
+    const options = { params: new HttpParams().set('takeAll', true) };
     const path = `${this.incidentURL}/`;
     return this.http.get<Incident[]>(path, options);
   }

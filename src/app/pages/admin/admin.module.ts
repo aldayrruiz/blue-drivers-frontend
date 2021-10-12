@@ -1,9 +1,8 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
+import { SharedModule } from 'src/app/components/shared.module';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
-import { SharedModule } from 'src/app/components/shared.module';
 
 @NgModule({
   declarations: [AdminComponent],

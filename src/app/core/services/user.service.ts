@@ -6,18 +6,19 @@ import { environment } from 'src/environments/environment';
 import { CreateUser, EditPatchUser, User } from '../models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-
   private registerUrl = `${environment.baseURL}${ApiPaths.Register}`;
   private userUrl = `${environment.baseURL}${ApiPaths.User}`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getAll(evenDisabled: boolean): Observable<User[]> {
     const strEvenDisabled = evenDisabled ? 'True' : 'False';
-    const options = { params: new HttpParams().set('even_disabled', strEvenDisabled)};
+    const options = {
+      params: new HttpParams().set('even_disabled', strEvenDisabled),
+    };
     const path = `${this.userUrl}/`;
     return this.http.get<User[]>(path, options);
   }
@@ -31,7 +32,7 @@ export class UserService {
    * Send a POST HTTP request to the server to register a user.
    * @param user data of the new user.
    */
-   create(user: CreateUser): Observable<CreateUser> {
+  create(user: CreateUser): Observable<CreateUser> {
     const path = `${this.registerUrl}/`;
     return this.http.post<CreateUser>(path, user);
   }
@@ -39,7 +40,7 @@ export class UserService {
   /**
    * Send a DELETE HTTP request to server to delete a user.
    * @param id of user to delete.
-   * @returns 
+   * @returns
    */
   delete(id: string): Observable<void> {
     const path = `${this.userUrl}/${id}/`;
@@ -50,7 +51,7 @@ export class UserService {
    * Send a PUT HTTP request to server to update user data.
    * @param id of user to edit.
    * @param user data updated of user.
-   * @returns 
+   * @returns
    */
   update(id: string, user: EditPatchUser): Observable<User> {
     const path = `${this.userUrl}/${id}/`;

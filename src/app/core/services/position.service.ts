@@ -6,17 +6,16 @@ import { environment } from 'src/environments/environment';
 import { Position } from '../models/position.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PositionService {
-
   private positionUrl = `${environment.baseURL}${ApiPaths.Position}`;
 
   constructor(private http: HttpClient) {}
 
   /**
-   * 
-   * @returns 
+   *
+   * @returns
    */
   getAll(): Observable<Position[]> {
     const path = `${this.positionUrl}/`;

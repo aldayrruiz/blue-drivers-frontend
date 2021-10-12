@@ -40,7 +40,7 @@ export class VehiclesTableComponent implements OnInit {
   openDeleteDialog(vehicle: Vehicle): void {
     const deleteVehicleDialog = this.dialog.open(DeleteVehicleComponent);
 
-    deleteVehicleDialog.afterClosed().subscribe(result => {
+    deleteVehicleDialog.afterClosed().subscribe((result) => {
       if (result) {
         this.deleteVehicle(vehicle);
       }

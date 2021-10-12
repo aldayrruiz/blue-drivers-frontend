@@ -1,8 +1,7 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { TicketsRoutingModule } from './tickets-routing.module';
+import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/components/shared.module';
+import { TicketsRoutingModule } from './tickets-routing.module';
 import { TicketsComponent } from './tickets.component';
 
 @NgModule({

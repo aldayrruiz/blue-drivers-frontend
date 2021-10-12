@@ -22,6 +22,6 @@ export class AutoLoginGuard implements CanLoad {
           return true;
         }
       })
-    )
+    );
   }
 }

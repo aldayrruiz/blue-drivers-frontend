@@ -12,7 +12,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/core';
 
-export class MyErrorStateMatcher implements ErrorStateMatcher {
+export class CustomErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
     control: FormControl | null,
     form: FormGroupDirective | NgForm | null
@@ -31,7 +31,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginPage implements OnInit {
+export class LoginComponent implements OnInit {
   credentials: FormGroup;
   submitted = false;
   hide = true;
@@ -71,5 +71,5 @@ export class LoginPage implements OnInit {
     return this.credentials.get('password');
   }
 
-  matcher = new MyErrorStateMatcher();
+  matcher = new CustomErrorStateMatcher();
 }

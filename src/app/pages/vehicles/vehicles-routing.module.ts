@@ -5,7 +5,7 @@ import { EditVehicleComponent } from 'src/app/components/vehicles/edit/edit-vehi
 import { VehiclesTableComponent } from 'src/app/components/vehicles/table/vehicles-table.component';
 import { VehiclesResolver } from 'src/app/core';
 import { VehicleResolver } from 'src/app/core/resolvers/vehicles/vehicle.resolver';
-import { VehiclesPage } from './vehicles.component';
+import { VehiclesComponent } from './vehicles.component';
 
 const routes: Routes = [
   {
@@ -15,7 +15,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    component: VehiclesPage,
+    component: VehiclesComponent,
     children: [
       {
         path: 'table',

@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MyAngularMaterialModule } from '../../shared/angular-material.module';
-import { VehiclesTableComponent } from './table/vehicles-table.component';
-import { VehiclesPageRoutingModule } from 'src/app/pages/vehicles/vehicles-routing.module';
-import { EditVehicleComponent } from './edit/edit-vehicle.component';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { VehiclesPageRoutingModule } from 'src/app/pages/vehicles/vehicles-routing.module';
+import { MyAngularMaterialModule } from '../../shared/angular-material.module';
 import { CreateVehicleComponent } from './create/create-vehicle.component';
+import { EditVehicleComponent } from './edit/edit-vehicle.component';
+import { VehiclesTableComponent } from './table/vehicles-table.component';
 
 @NgModule({
   declarations: [

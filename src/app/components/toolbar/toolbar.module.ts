@@ -1,19 +1,16 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdminRoutingModule } from '../../pages/admin/admin-routing.module'
-import { ToolbarComponent } from './toolbar.component';
+import { NgModule } from '@angular/core';
+import { AdminRoutingModule } from '../../pages/admin/admin-routing.module';
 import { MyAngularMaterialModule } from '../../shared/angular-material.module';
-
+import { ToolbarComponent } from './toolbar.component';
 
 @NgModule({
-  declarations: [
-    ToolbarComponent
-  ],
+  declarations: [ToolbarComponent],
   imports: [
     CommonModule,
-    AdminRoutingModule, /* This toolbar is using admin routing /admin/ */
+    AdminRoutingModule /* This toolbar is using admin routing /admin/ */,
     MyAngularMaterialModule,
   ],
-  exports: [ToolbarComponent]
+  exports: [ToolbarComponent],
 })
-export class ToolbarModule { }
+export class ToolbarModule {}

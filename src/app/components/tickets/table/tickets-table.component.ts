@@ -20,9 +20,7 @@ export class TicketsTableComponent implements OnInit {
     'decide',
   ];
 
-  constructor(
-    private route: ActivatedRoute
-  ) {}
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.resolve();

@@ -4,10 +4,9 @@ export const USER_TOKEN = 'token';
 export const USER_ID = 'user_id';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LocalStorageService {
-
   constructor() {}
 
   set(key: string, value: string): void {
