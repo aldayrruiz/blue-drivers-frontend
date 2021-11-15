@@ -2,33 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
-  FormControl,
   FormGroup,
-  FormGroupDirective,
-  NgForm,
   Validators,
 } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { LoginService, SnackerService } from 'src/app/core';
 import { ErrorMessageService } from 'src/app/core/services/error-message.service';
+import { MyErrorStateMatcher } from 'src/app/shared/utils/my-error-state-matcher';
 
 const MIN_PASS_LENGTH = 6;
-
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(
-    control: FormControl | null,
-    form: FormGroupDirective | NgForm | null
-  ): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(
-      control &&
-      control.invalid &&
-      (control.dirty || control.touched || isSubmitted)
-    );
-  }
-}
 
 @Component({
   selector: 'app-login-form',
