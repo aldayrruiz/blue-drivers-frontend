@@ -20,7 +20,7 @@
     </mat-list>
   </div>
   <div *ngIf="incident.photo !== '/media/incidents/none.png'; else NoPhoto">
-    <img class="max-width" [src]="incident.photo" alt="Foto del incidente">
+    <img class="photo-size" [src]="incident.photo" alt="Foto del incidente">
   </div>
   <ng-template #NoPhoto>
     <div>
