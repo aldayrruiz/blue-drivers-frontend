@@ -16,6 +16,6 @@ section {
   padding-top: 1%;
 }
 
-.max-width {
-  max-width: 100%;
+.photo-size {
+  width: 300px;
 }
