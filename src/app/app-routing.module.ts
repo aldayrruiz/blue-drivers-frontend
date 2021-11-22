@@ -20,14 +20,6 @@ const routes: Routes = [
       import('./pages/admin/admin.module').then((m) => m.AdminPageModule),
     canLoad: [AuthGuard],
   },
-  {
-    path: 'register',
-    loadChildren: () =>
-      import('./pages/register/register.module').then(
-        (m) => m.RegisterPageModule
-      ),
-    canLoad: [AutoLoginGuard],
-  },
 ];
 
 @NgModule({
