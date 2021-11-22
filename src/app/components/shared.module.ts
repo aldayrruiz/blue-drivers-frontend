@@ -7,7 +7,6 @@ import { VehiclesComponent } from './gps-positions/vehicles/vehicles.component';
 import { IncidentsComponentsModule } from './incidents/incidents-components.module';
 // My components & modules
 import { LoginFormComponent } from './login-form/login-form.component';
-import { RegisterFormComponent } from './register-form/register-form.component';
 import { ReservationsComponentsModule } from './reservations/reservations.table.module';
 import { TicketsComponentsModule } from './tickets/tickets.table.module';
 import { ToolbarModule } from './toolbar/toolbar.module';
@@ -15,7 +14,7 @@ import { UsersComponentsModule } from './users/users-components.module';
 import { VehiclesComponentsModule } from './vehicles/vehicles-components.module';
 
 @NgModule({
-  declarations: [LoginFormComponent, VehiclesComponent, RegisterFormComponent],
+  declarations: [LoginFormComponent, VehiclesComponent],
   imports: [
     FormsModule,
     ReactiveFormsModule,
@@ -26,7 +25,6 @@ import { VehiclesComponentsModule } from './vehicles/vehicles-components.module'
   ],
   exports: [
     LoginFormComponent,
-    RegisterFormComponent,
     CommonModule,
     MyAngularMaterialModule,
     /* Exports ToolbarModule because it need admin routing */
