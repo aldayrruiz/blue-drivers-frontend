@@ -17,7 +17,7 @@ export class UserService {
   getAll(evenDisabled: boolean): Observable<User[]> {
     const strEvenDisabled = evenDisabled ? 'True' : 'False';
     const options = {
-      params: new HttpParams().set('even_disabled', strEvenDisabled),
+      params: new HttpParams().set('evenDisabled', strEvenDisabled),
     };
     const path = `${this.userUrl}/`;
     return this.http.get<User[]>(path, options);
