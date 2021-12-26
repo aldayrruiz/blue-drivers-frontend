@@ -4,7 +4,7 @@ import es from 'date-fns/locale/es';
 import { finalize } from 'rxjs/operators';
 import { Reservation, ReservationService } from 'src/app/core';
 import { PipeDates } from 'src/app/shared/utils/pipe-dates';
-import { BaseTableComponent } from 'src/app/shared/utils/tables/base-table/base-table.component';
+import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
 
 interface ReservationRow {
   id: string;

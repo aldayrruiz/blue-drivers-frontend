@@ -4,7 +4,7 @@ import { finalize } from 'rxjs/operators';
 import { SnackerService, Vehicle, VehicleService } from 'src/app/core';
 import { EditPatchVehicle } from 'src/app/core/models/edit/edit-patch-vehicle.model';
 import { ErrorMessageService } from 'src/app/core/services/error-message.service';
-import { BaseTableComponent } from 'src/app/shared/utils/tables/base-table/base-table.component';
+import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
 import { DeleteVehicleComponent } from '../../dialogs/delete-vehicle/delete-vehicle.component';
 
 interface VehicleRow {

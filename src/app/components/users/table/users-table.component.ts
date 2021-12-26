@@ -14,7 +14,7 @@ import {
 } from 'src/app/core';
 import { ErrorMessageService } from 'src/app/core/services/error-message.service';
 import { PipeDates } from 'src/app/shared/utils/pipe-dates';
-import { BaseTableComponent } from 'src/app/shared/utils/tables/base-table/base-table.component';
+import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
 import { DeleteUserComponent } from '../../dialogs/delete-user/delete-user.component';
 
 interface UserRow {
