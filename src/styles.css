@@ -1,14 +1,52 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
 
-.sucessful-color-snackbar {
-  color: #FCF6F5FF;
-  background: #2BAE66FF;
+.successful-color-snackbar {
+  color: #fcf6f5ff;
+  background: #2bae66ff;
 }
 
 .error-color-snackbar {
-  color: #FCF6F5FF;
+  color: #fcf6f5ff;
   background: #f04141;
+}
+
+/* Table styles */
+
+/* Filter box */
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+/* Other fields except buttons */
+table td,
+table th {
+  width: 15%;
+}
+
+/* Buttons like allow_vehicles, delete in table */
+.button-table {
+  width: 5%;
+}
+
+.example-loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

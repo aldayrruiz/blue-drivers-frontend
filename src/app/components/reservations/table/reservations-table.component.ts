@@ -1,39 +1,64 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { format, formatDuration, intervalToDuration } from 'date-fns';
+import es from 'date-fns/locale/es';
+import { finalize } from 'rxjs/operators';
 import { Reservation, ReservationService } from 'src/app/core';
 import { PipeDates } from 'src/app/shared/utils/pipe-dates';
+import { BaseTableComponent } from 'src/app/shared/utils/tables/base-table/base-table.component';
+
+interface ReservationRow {
+  id: string;
+  title: string;
+  owner: string;
+  vehicle: string;
+  start: string;
+  hourMin: string;
+}
 
 @Component({
   selector: 'app-reservations-table',
   templateUrl: './reservations-table.component.html',
   styleUrls: ['./reservations-table.component.css'],
 })
-export class ReservationsTableComponent implements OnInit {
-  reservations: Reservation[];
-  dateTimeFormat = PipeDates.dateTimeFormat;
-
+export class ReservationsTableComponent extends BaseTableComponent<
+  Reservation,
+  ReservationRow
+> {
   displayedColumns: string[] = [
     'title',
     'owner',
     'vehicle',
-    'dateStored',
+    'start',
     'hourMin',
     'statistics',
   ];
 
-  constructor(private reservationSrv: ReservationService) {}
-
-  ngOnInit(): void {
-    this.reservationSrv.getAll().subscribe((reservations) => {
-      this.reservations = reservations;
-    });
+  constructor(private reservationsSrv: ReservationService) {
+    super();
   }
 
   getTimeReserved(reservation: Reservation): string {
     const start = new Date(reservation.start);
     const end = new Date(reservation.end);
-    const milliseconds = end.getTime() - start.getTime(); // milliseconds
-    const hours = Math.floor((milliseconds % 86400000) / 3600000); // hours
-    const minutes = Math.round(((milliseconds % 86400000) % 3600000) / 60000); // minutes
-    return `${hours}h ${minutes}m`;
+    const duration = intervalToDuration({ start, end });
+    return formatDuration(duration, { locale: es });
+  }
+
+  preprocessData(reservations: Reservation[]): ReservationRow[] {
+    return reservations.map((reservation) => ({
+      id: reservation.id,
+      title: reservation.title,
+      owner: reservation.owner.fullname,
+      vehicle: `${reservation.vehicle.model} ${reservation.vehicle.brand}`,
+      start: format(new Date(reservation.start), PipeDates.dateTimeFormat),
+      hourMin: this.getTimeReserved(reservation),
+    }));
+  }
+
+  fetchDataAndUpdate() {
+    this.reservationsSrv
+      .getAll()
+      .pipe(finalize(() => this.hideLoadingSpinner()))
+      .subscribe((reservations) => this.updateTable(reservations));
   }
 }

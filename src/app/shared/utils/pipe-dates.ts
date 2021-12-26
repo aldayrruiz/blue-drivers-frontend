@@ -3,6 +3,6 @@
  */
 
 export enum PipeDates {
-  dateTimeFormat = 'dd/MM/YYYY, HH:mm',
-  dateFormat = 'dd/MM/YYYY',
+  dateTimeFormat = 'dd/MM/yyyy, HH:mm',
+  dateFormat = 'dd/MM/yyyy',
 }
