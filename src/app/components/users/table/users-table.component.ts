@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { format } from 'date-fns';
 import { finalize } from 'rxjs/operators';
+import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
 import {
   EditPatchUser,
   LocalStorageService,
@@ -14,7 +15,6 @@ import {
 } from 'src/app/core';
 import { ErrorMessageService } from 'src/app/core/services/error-message.service';
 import { PipeDates } from 'src/app/shared/utils/pipe-dates';
-import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
 import { DeleteUserComponent } from '../../dialogs/delete-user/delete-user.component';
 
 interface UserRow {
@@ -33,12 +33,12 @@ interface UserRow {
   styleUrls: ['./users-table.component.css'],
 })
 export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
-  displayedColumns: string[] = [
+  columns = [
     'fullname',
     'email',
-    'date_joined',
-    'allowed_vehicle_types',
-    'is_disabled',
+    'dateJoined',
+    'allowedTypes',
+    'isDisabled',
     'delete',
   ];
 

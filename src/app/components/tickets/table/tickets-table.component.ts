@@ -1,45 +1,63 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Ticket } from 'src/app/core';
+import { Component } from '@angular/core';
+import { format, isFuture } from 'date-fns';
+import { finalize } from 'rxjs/operators';
+import { Ticket, TicketService, TicketStatus } from 'src/app/core';
 import { PipeDates } from 'src/app/shared/utils/pipe-dates';
+import { BaseTableComponent } from '../../base-table/base-table.component';
+
+interface TicketRow {
+  id: string;
+  title: string;
+  owner: string;
+  dateStored: string;
+  status: TicketStatus;
+}
 
 @Component({
   selector: 'app-tickets-table',
   templateUrl: './tickets-table.component.html',
   styleUrls: ['./tickets-table.component.css'],
 })
-export class TicketsTableComponent implements OnInit {
-  tickets: Ticket[];
-  dateTimeFormat = PipeDates.dateTimeFormat;
+export class TicketsTableComponent extends BaseTableComponent<
+  Ticket,
+  TicketRow
+> {
+  columns = ['title', 'owner', 'dateStored', 'status', 'decide'];
 
-  displayedColumns: string[] = [
-    'title',
-    'owner',
-    'dateStored',
-    'status',
-    'decide',
-  ];
-
-  constructor(private route: ActivatedRoute) {}
-
-  ngOnInit(): void {
-    this.resolve();
-    this.tickets = this.removeTicketsUnsolvable(this.tickets);
+  constructor(private ticketSrv: TicketService) {
+    super();
   }
 
-  private resolve() {
-    this.route.data.subscribe((response) => {
-      console.log(response['tickets']);
-      this.tickets = response['tickets'];
-    });
+  updateTable(models: Ticket[]): void {
+    const futureTickets = this.removePastTickets(models);
+    super.updateTable(futureTickets);
   }
 
-  private removeTicketsUnsolvable(tickets: Ticket[]): Ticket[] {
+  preprocessData(data: Ticket[]): TicketRow[] {
+    return data.map((ticket) => ({
+      id: ticket.id,
+      title: ticket.title,
+      owner: ticket.owner.fullname,
+      dateStored: format(
+        new Date(ticket.date_stored),
+        PipeDates.dateTimeFormat
+      ),
+      status: ticket.status,
+    }));
+  }
+
+  fetchDataAndUpdate(): void {
+    this.ticketSrv
+      .getAll()
+      .pipe(finalize(() => this.hideLoadingSpinner()))
+      .subscribe((tickets) => this.updateTable(tickets));
+  }
+
+  private removePastTickets(tickets: Ticket[]): Ticket[] {
     return tickets.filter((ticket) => {
       const reservation = ticket.reservation;
-      const reservationStart = new Date(reservation.start);
-      const now = new Date();
-      return now < reservationStart;
+      const start = new Date(reservation.start);
+      return isFuture(start);
     });
   }
 }

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { finalize } from 'rxjs/operators';
+import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
 import { SnackerService, Vehicle, VehicleService } from 'src/app/core';
 import { EditPatchVehicle } from 'src/app/core/models/edit/edit-patch-vehicle.model';
 import { ErrorMessageService } from 'src/app/core/services/error-message.service';
-import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
 import { DeleteVehicleComponent } from '../../dialogs/delete-vehicle/delete-vehicle.component';
 
 interface VehicleRow {
@@ -24,14 +24,7 @@ export class VehiclesTableComponent extends BaseTableComponent<
   Vehicle,
   VehicleRow
 > {
-  displayedColumns: string[] = [
-    'model',
-    'brand',
-    'numberPlate',
-    'edit',
-    'is_disabled',
-    'delete',
-  ];
+  columns = ['model', 'brand', 'numberPlate', 'edit', 'isDisabled', 'delete'];
 
   constructor(
     private errorMessage: ErrorMessageService,

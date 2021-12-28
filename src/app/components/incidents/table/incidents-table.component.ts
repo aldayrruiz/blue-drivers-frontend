@@ -1,39 +1,54 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Incident, translateType } from 'src/app/core';
+import { Component } from '@angular/core';
+import { format } from 'date-fns';
+import { finalize } from 'rxjs/operators';
+import { Incident, IncidentService, translateType } from 'src/app/core';
 import { PipeDates } from 'src/app/shared/utils/pipe-dates';
+import { BaseTableComponent } from '../../base-table/base-table.component';
+
+interface RowIncident {
+  id: string;
+  title: string;
+  owner: string;
+  vehicle: string;
+  type: string;
+  dateStored: string;
+}
 
 @Component({
   selector: 'app-incidents-table',
   templateUrl: './incidents-table.component.html',
   styleUrls: ['./incidents-table.component.css'],
 })
-export class IncidentsTableComponent implements OnInit {
-  incidents: Incident[] = [];
+export class IncidentsTableComponent extends BaseTableComponent<
+  Incident,
+  RowIncident
+> {
   dateTimeFormat = PipeDates.dateTimeFormat;
 
-  displayedColumns: string[] = [
-    'title',
-    'owner',
-    'vehicle',
-    'type',
-    'date_stored',
-    'details',
-  ];
+  columns = ['title', 'owner', 'vehicle', 'type', 'dateStored', 'details'];
 
-  constructor(private route: ActivatedRoute) {}
-
-  ngOnInit(): void {
-    // First: Load table
-    this.refreshTable();
+  constructor(private incidentSrv: IncidentService) {
+    super();
   }
 
-  refreshTable(): void {
-    this.route.data.subscribe((response) => {
-      console.log('Incidents response received!', response);
-      this.incidents = response['incidents'];
-    });
+  preprocessData(data: Incident[]): RowIncident[] {
+    return data.map((incident) => ({
+      id: incident.id,
+      title: incident.title,
+      owner: incident.owner.fullname,
+      vehicle: `${incident.reservation.vehicle.model} ${incident.reservation.vehicle.brand}`,
+      type: translateType(incident.type),
+      dateStored: format(
+        new Date(incident.date_stored),
+        PipeDates.dateTimeFormat
+      ),
+    }));
   }
 
-  translateType = translateType;
+  fetchDataAndUpdate(): void {
+    this.incidentSrv
+      .getAll()
+      .pipe(finalize(() => this.hideLoadingSpinner()))
+      .subscribe((incidents) => this.updateTable(incidents));
+  }
 }

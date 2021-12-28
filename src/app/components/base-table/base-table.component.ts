@@ -19,7 +19,7 @@ export abstract class BaseTableComponent<M, T>
 
   isLoadingResults = true;
 
-  abstract displayedColumns: string[];
+  abstract columns: string[];
 
   constructor() {
     this.dataSource = new MatTableDataSource([]);

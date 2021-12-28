@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { format, formatDuration, intervalToDuration } from 'date-fns';
 import es from 'date-fns/locale/es';
 import { finalize } from 'rxjs/operators';
+import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
 import { Reservation, ReservationService } from 'src/app/core';
 import { PipeDates } from 'src/app/shared/utils/pipe-dates';
-import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
 
 interface ReservationRow {
   id: string;
@@ -24,14 +24,7 @@ export class ReservationsTableComponent extends BaseTableComponent<
   Reservation,
   ReservationRow
 > {
-  displayedColumns: string[] = [
-    'title',
-    'owner',
-    'vehicle',
-    'start',
-    'hourMin',
-    'statistics',
-  ];
+  columns = ['title', 'owner', 'vehicle', 'start', 'hourMin', 'statistics'];
 
   constructor(private reservationsSrv: ReservationService) {
     super();
