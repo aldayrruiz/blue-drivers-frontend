@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { format } from 'date-fns';
 import { finalize } from 'rxjs/operators';
 import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
 import {
@@ -14,7 +13,7 @@ import {
   Vehicle,
 } from 'src/app/core';
 import { ErrorMessageService } from 'src/app/core/services/error-message.service';
-import { PipeDates } from 'src/app/shared/utils/pipe-dates';
+import { formatDateTime } from 'src/app/shared/utils/dates/custom-fns';
 import { DeleteUserComponent } from '../../dialogs/delete-user/delete-user.component';
 
 interface UserRow {
@@ -76,7 +75,7 @@ export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
       fullname: user.fullname,
       email: user.email,
       role: user.role,
-      dateJoined: format(new Date(user.date_joined), PipeDates.dateTimeFormat),
+      dateJoined: formatDateTime(user.date_joined),
       isDisabled: user.is_disabled,
       allowedVehicleTypes: user.allowed_vehicles,
     }));

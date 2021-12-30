@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { format } from 'date-fns';
 import { finalize } from 'rxjs/operators';
 import { Incident, IncidentService, translateType } from 'src/app/core';
-import { PipeDates } from 'src/app/shared/utils/pipe-dates';
+import { formatDateTime } from 'src/app/shared/utils/dates/custom-fns';
 import { BaseTableComponent } from '../../base-table/base-table.component';
 
 interface RowIncident {
@@ -23,8 +22,6 @@ export class IncidentsTableComponent extends BaseTableComponent<
   Incident,
   RowIncident
 > {
-  dateTimeFormat = PipeDates.dateTimeFormat;
-
   columns = ['title', 'owner', 'vehicle', 'type', 'dateStored', 'details'];
 
   constructor(private incidentSrv: IncidentService) {
@@ -38,10 +35,7 @@ export class IncidentsTableComponent extends BaseTableComponent<
       owner: incident.owner.fullname,
       vehicle: `${incident.reservation.vehicle.model} ${incident.reservation.vehicle.brand}`,
       type: translateType(incident.type),
-      dateStored: format(
-        new Date(incident.date_stored),
-        PipeDates.dateTimeFormat
-      ),
+      dateStored: formatDateTime(incident.date_stored),
     }));
   }
 

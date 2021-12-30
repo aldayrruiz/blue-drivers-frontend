@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { format, isFuture } from 'date-fns';
+import { isFuture } from 'date-fns';
 import { finalize } from 'rxjs/operators';
 import { Ticket, TicketService, TicketStatus } from 'src/app/core';
-import { PipeDates } from 'src/app/shared/utils/pipe-dates';
+import { formatDateTime } from 'src/app/shared/utils/dates/custom-fns';
 import { BaseTableComponent } from '../../base-table/base-table.component';
 
 interface TicketRow {
@@ -38,10 +38,7 @@ export class TicketsTableComponent extends BaseTableComponent<
       id: ticket.id,
       title: ticket.title,
       owner: ticket.owner.fullname,
-      dateStored: format(
-        new Date(ticket.date_stored),
-        PipeDates.dateTimeFormat
-      ),
+      dateStored: formatDateTime(ticket.date_stored),
       status: ticket.status,
     }));
   }

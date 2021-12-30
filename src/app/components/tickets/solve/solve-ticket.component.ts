@@ -10,7 +10,7 @@ import {
   Vehicle,
 } from 'src/app/core';
 import { ErrorMessageService } from 'src/app/core/services/error-message.service';
-import { PipeDates } from 'src/app/shared/utils/pipe-dates';
+import { PipeDates } from 'src/app/shared/utils/dates/pipe-dates';
 
 @Component({
   selector: 'app-solve-ticket',
@@ -40,7 +40,6 @@ export class SolveTicketComponent implements OnInit {
 
   resolveTicket(): void {
     this.route.data.subscribe((response) => {
-      console.log('Ticket reponse received!', response);
       this.ticket = response['ticket'];
     });
   }

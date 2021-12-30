@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Incident, translateType } from 'src/app/core';
-import { PipeDates } from 'src/app/shared/utils/pipe-dates';
+import { PipeDates } from 'src/app/shared/utils/dates/pipe-dates';
 
 @Component({
   selector: 'app-incident-details',

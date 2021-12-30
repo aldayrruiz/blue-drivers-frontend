@@ -14,9 +14,9 @@ import { PositionService } from 'src/app/core';
 import { Vehicle } from 'src/app/core/models';
 import { Position } from 'src/app/core/models/position.model';
 import { AssetsService } from 'src/app/core/services/assets.service';
+import { PipeDates } from 'src/app/shared/utils/dates/pipe-dates';
 import { MapConfiguration } from 'src/app/shared/utils/leaflet/map-configuration';
 import { MapCreator } from 'src/app/shared/utils/leaflet/map-creator';
-import { PipeDates } from 'src/app/shared/utils/pipe-dates';
 
 interface FeatureValue {
   feature: string;
@@ -39,7 +39,6 @@ const refreshTime = 3000;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VehiclesComponent implements OnInit, AfterViewInit {
-  private dateTimeFormat = PipeDates.dateTimeFormat;
   private map: L.Map;
   private positions: Position[];
   private vehicles: Vehicle[];
@@ -81,7 +80,7 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     }
     const dTime = new Date(position.deviceTime);
 
-    const deviceTime = formatDate(dTime, this.dateTimeFormat, this.locale);
+    const deviceTime = formatDate(dTime, PipeDates.dateTimeFormat, this.locale);
 
     const dataSource: FeatureValue[] = [
       {

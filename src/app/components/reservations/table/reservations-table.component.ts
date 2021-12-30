@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
-import { format, formatDuration, intervalToDuration, isFuture } from 'date-fns';
-import es from 'date-fns/locale/es';
+import { intervalToDuration, isFuture } from 'date-fns';
 import { finalize } from 'rxjs/operators';
 import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
 import { Reservation, ReservationService, SnackerService } from 'src/app/core';
 import { Ghost } from 'src/app/core/services/ghost.service';
-import { PipeDates } from 'src/app/shared/utils/pipe-dates';
+import {
+  formatDateTime,
+  formatDuration,
+} from 'src/app/shared/utils/dates/custom-fns';
 
 interface ReservationRow {
   id: string;
@@ -42,7 +44,7 @@ export class ReservationsTableComponent extends BaseTableComponent<
     const start = new Date(reservation.start);
     const end = new Date(reservation.end);
     const duration = intervalToDuration({ start, end });
-    return formatDuration(duration, { locale: es });
+    return formatDuration(duration);
   }
 
   preprocessData(reservations: Reservation[]): ReservationRow[] {
@@ -51,11 +53,8 @@ export class ReservationsTableComponent extends BaseTableComponent<
       title: reservation.title,
       owner: reservation.owner.fullname,
       vehicle: `${reservation.vehicle.model} ${reservation.vehicle.brand}`,
-      startFormatted: format(
-        new Date(reservation.start),
-        PipeDates.dateTimeFormat
-      ),
-      endFormatted: format(new Date(reservation.end), PipeDates.dateTimeFormat),
+      startFormatted: formatDateTime(reservation.start),
+      endFormatted: formatDateTime(reservation.end),
       start: reservation.start,
       end: reservation.end,
       hourMin: this.getTimeReserved(reservation),
