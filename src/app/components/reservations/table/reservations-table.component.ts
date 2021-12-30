@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { format, formatDuration, intervalToDuration } from 'date-fns';
+import { format, formatDuration, intervalToDuration, isFuture } from 'date-fns';
 import es from 'date-fns/locale/es';
 import { finalize } from 'rxjs/operators';
 import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
-import { Reservation, ReservationService } from 'src/app/core';
+import { Reservation, ReservationService, SnackerService } from 'src/app/core';
+import { Ghost } from 'src/app/core/services/ghost.service';
 import { PipeDates } from 'src/app/shared/utils/pipe-dates';
 
 interface ReservationRow {
@@ -11,7 +12,10 @@ interface ReservationRow {
   title: string;
   owner: string;
   vehicle: string;
+  startFormatted: string;
+  endFormatted: string;
   start: string;
+  end: string;
   hourMin: string;
 }
 
@@ -26,7 +30,11 @@ export class ReservationsTableComponent extends BaseTableComponent<
 > {
   columns = ['title', 'owner', 'vehicle', 'start', 'hourMin', 'statistics'];
 
-  constructor(private reservationsSrv: ReservationService) {
+  constructor(
+    private readonly reservationsSrv: ReservationService,
+    private readonly snacker: SnackerService,
+    private readonly ghost: Ghost
+  ) {
     super();
   }
 
@@ -43,7 +51,13 @@ export class ReservationsTableComponent extends BaseTableComponent<
       title: reservation.title,
       owner: reservation.owner.fullname,
       vehicle: `${reservation.vehicle.model} ${reservation.vehicle.brand}`,
-      start: format(new Date(reservation.start), PipeDates.dateTimeFormat),
+      startFormatted: format(
+        new Date(reservation.start),
+        PipeDates.dateTimeFormat
+      ),
+      endFormatted: format(new Date(reservation.end), PipeDates.dateTimeFormat),
+      start: reservation.start,
+      end: reservation.end,
       hourMin: this.getTimeReserved(reservation),
     }));
   }
@@ -53,5 +67,17 @@ export class ReservationsTableComponent extends BaseTableComponent<
       .getAll()
       .pipe(finalize(() => this.hideLoadingSpinner()))
       .subscribe((reservations) => this.updateTable(reservations));
+  }
+
+  goToStatistics(reservationRow: ReservationRow) {
+    const end = new Date(reservationRow.end);
+    const reservationNotCompleted = isFuture(end);
+    if (reservationNotCompleted) {
+      const msg = 'La reserva debe haber ocurrido para ver las estadísticas';
+      this.snacker.openError(msg);
+      return;
+    }
+
+    this.ghost.goToReservationStatistics(reservationRow.id);
   }
 }
