@@ -14,21 +14,23 @@ import { PositionService } from 'src/app/core';
 import { Vehicle } from 'src/app/core/models';
 import { Position } from 'src/app/core/models/position.model';
 import { AssetsService } from 'src/app/core/services/assets.service';
-import { PipeDates } from 'src/app/shared/utils/pipe-dates';
+import { PipeDates } from 'src/app/shared/utils/dates/pipe-dates';
+import { MapConfiguration } from 'src/app/shared/utils/leaflet/map-configuration';
+import { MapCreator } from 'src/app/shared/utils/leaflet/map-creator';
 
 interface FeatureValue {
   feature: string;
   value: number | string | boolean;
 }
 
-interface VehiclePositionMarker {
+interface MyMarker {
   vehicle: Vehicle;
   position: Position;
   marker: L.Marker;
 }
 
 // Refresh time: Send GET HTTP to get positions, refresh map and data.
-const refreshTime = 60000;
+const refreshTime = 3000;
 
 @Component({
   selector: 'app-vehicles',
@@ -37,15 +39,14 @@ const refreshTime = 60000;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VehiclesComponent implements OnInit, AfterViewInit {
-  private dateTimeFormat = PipeDates.dateTimeFormat;
-  private mapHtmlId = 'map';
   private map: L.Map;
   private positions: Position[];
   private vehicles: Vehicle[];
-  private vehiclePositionMarkersSubject: Subject<VehiclePositionMarker[]> =
-    new Subject<VehiclePositionMarker[]>();
-  vehiclePositionMarkers$ = this.vehiclePositionMarkersSubject.asObservable();
-  vehiclePositionMarkers: VehiclePositionMarker[] = [];
+  private positionMarkersSubject: Subject<MyMarker[]> = new Subject<
+    MyMarker[]
+  >();
+  positionMarkers$ = this.positionMarkersSubject.asObservable();
+  positionMarkers: MyMarker[] = [];
   displayedColumns = ['feature', 'value'];
 
   constructor(
@@ -55,29 +56,8 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     private assetsSrv: AssetsService
   ) {}
 
-  initMap(): void {
-    const mapPosition: [number, number] = [40.423516, -4.202832]; // Madrid, Spain
-    const initialZoom = 6;
-
-    const attribution =
-      '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>';
-    const urlTemplate = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-    const maxZoom = 18;
-    const minZoom = 3;
-
-    this.map = L.map(this.mapHtmlId).setView(mapPosition, initialZoom);
-
-    const tiles = L.tileLayer(urlTemplate, {
-      maxZoom: maxZoom,
-      minZoom: minZoom,
-      attribution: attribution,
-    });
-
-    tiles.addTo(this.map);
-  }
-
   ngOnInit(): void {
-    this.keepSubscribed();
+    this.listenForNewPositions();
     this.resolveData();
     this.initMap();
   }
@@ -86,24 +66,21 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.initMarkers(this.vehicles, this.positions);
     });
-    this.keepResetingMarkers(refreshTime);
+    this.keepUpdatingMarkers(refreshTime);
   }
 
-  focusOn(vehicle: Vehicle): void {
-    const vehicleMarker = this.vehiclePositionMarkers.find(
-      (vehicleMarker) => vehicleMarker.vehicle.id == vehicle.id
-    );
-    const latlng = vehicleMarker.marker.getLatLng();
-    this.map.panTo(latlng);
+  initMap(): void {
+    const { tiles, map } = MapCreator.create(new MapConfiguration());
+    this.map = map;
   }
 
   getDataSource(position: Position): FeatureValue[] {
-    if (position === undefined) {
+    if (!position) {
       return [];
     }
     const dTime = new Date(position.deviceTime);
 
-    const deviceTime = formatDate(dTime, this.dateTimeFormat, this.locale);
+    const deviceTime = formatDate(dTime, PipeDates.dateTimeFormat, this.locale);
 
     const dataSource: FeatureValue[] = [
       {
@@ -131,84 +108,70 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     return dataSource;
   }
 
-  private initMarkers(vehicles: Vehicle[], positions: Position[]): void {
-    vehicles.forEach((vehicle: Vehicle) => {
-      const position = this.getPosFromVehicle(positions, vehicle);
-      if (position) {
-        const latlng = this.latLng(position);
-        const marker = L.marker(latlng, {
-          icon: this.createIconMarker(),
-        }).addTo(this.map);
-        this.updateData([
-          ...this.vehiclePositionMarkers,
-          {
-            vehicle: vehicle,
-            position: position,
-            marker: marker,
-          },
-        ]);
-      } else {
-        this.updateData([
-          ...this.vehiclePositionMarkers,
-          {
-            vehicle: vehicle,
-            position: undefined,
-            marker: undefined,
-          },
-        ]);
-      }
+  private initMarkers(vehicles: Vehicle[], positions: Position[]) {
+    const positionsMarkers = [];
+
+    vehicles.forEach((vehicle) => {
+      const position = this.findPosition(positions, vehicle);
+      const icon = this.randomIcon();
+      const marker = this.addMarkerToMap(position, icon);
+      const myMarker = { vehicle, position, marker };
+      positionsMarkers.push(myMarker);
     });
+
+    this.updateMarkers(positionsMarkers);
+  }
+
+  private addMarkerToMap(position: Position, icon?: L.Icon<L.IconOptions>) {
+    if (!position) {
+      return undefined;
+    }
+
+    if (!icon) {
+      icon = this.randomIcon();
+    }
+
+    const latLng = this.latLng(position);
+    const marker = L.marker(latLng, { icon }).addTo(this.map);
+    return marker;
   }
 
   private resolveData(): void {
     this.route.data.subscribe((data) => {
       this.vehicles = data['vehicles'];
-      this.positions = data['positions'];
-
-      if (this.vehicles.length !== this.positions.length) {
-        const nV = this.vehicles.length;
-        const nP = this.positions.length;
-        console.error(`Se ha recibido ${nP} posiciones y ${nV} vehículos`);
-      }
+      // this.positions = data['positions'];
+      this.positions = this.getFakePositions();
+      const nVehicles = this.vehicles.length;
+      const nPositions = this.positions.length;
+      const msg = `Se ha recibido ${nPositions} posiciones y ${nVehicles} vehículos`;
+      console.assert(nVehicles != nPositions, msg);
     });
   }
 
-  private keepResetingMarkers(timeReset: number): void {
-    let newData: VehiclePositionMarker[] = [];
+  private keepUpdatingMarkers(timeReset: number): void {
+    const positionMarkers: MyMarker[] = [];
 
     setTimeout(() => {
-      this.positionSrv.getAll().subscribe((positions: Position[]) => {
-        this.positions = positions;
-        this.vehiclePositionMarkers.forEach((vehiclePositionMarker) => {
-          const vehicle = vehiclePositionMarker.vehicle;
-          let marker = vehiclePositionMarker.marker;
-          const position = this.getPosFromVehicle(positions, vehicle);
-          if (position) {
-            const latlng = this.latLng(position);
-            if (!marker) {
-              marker = L.marker(latlng, {
-                icon: this.createIconMarker(),
-              }).addTo(this.map);
-            }
-            marker.setLatLng(latlng);
-            newData = [...newData, { vehicle, position, marker }];
-          } else {
-            if (marker) {
-              marker.remove();
-            }
-            newData = [
-              ...newData,
-              { vehicle: vehicle, position: undefined, marker: undefined },
-            ];
-          }
+      this.positionSrv.getAll().subscribe((positions) => {
+        this.positions = this.getFakePositions();
+        this.positionMarkers.forEach((positionMarker) => {
+          const vehicle = positionMarker.vehicle;
+          const visibleMarker = positionMarker.marker;
+          // * If marker is on map remove it and get his icon (to put the same). Otherwise do not anything.
+          visibleMarker?.remove();
+          const icon = visibleMarker?.getIcon() as L.Icon<L.IconOptions>;
+          // * Set a new marker on map with previous icon or a new one.
+          const position = this.findPosition(this.positions, vehicle);
+          const marker = this.addMarkerToMap(position, icon);
+          positionMarkers.push({ vehicle, position, marker });
         });
-        this.updateData(newData);
+        this.updateMarkers(positionMarkers);
       });
-      this.keepResetingMarkers(timeReset);
+      this.keepUpdatingMarkers(timeReset);
     }, timeReset);
   }
 
-  private createIconMarker(): L.Icon {
+  private randomIcon() {
     return L.icon({
       iconUrl: this.assetsSrv.getUrl(this.icons.pop()),
       iconSize: [22, 22], // size of the icon
@@ -217,20 +180,20 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private getPosFromVehicle(positions: Position[], vehicle: Vehicle): Position {
+  private findPosition(positions: Position[], vehicle: Vehicle) {
     return positions.find((pos) => pos.deviceId === vehicle.gps_device.id);
   }
 
   private latLng = (p: Position): [number, number] => [p.latitude, p.longitude];
 
-  private keepSubscribed() {
-    this.vehiclePositionMarkers$.subscribe((data) => {
-      this.vehiclePositionMarkers = data;
+  private listenForNewPositions() {
+    this.positionMarkers$.subscribe((data) => {
+      this.positionMarkers = data;
     });
   }
 
-  private updateData(data: VehiclePositionMarker[]) {
-    this.vehiclePositionMarkersSubject.next(data);
+  private updateMarkers(myMarkers: MyMarker[]) {
+    this.positionMarkersSubject.next(myMarkers);
   }
 
   private icons = [
@@ -245,4 +208,26 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     'img/blue-car.png',
     'img/black-car.png',
   ];
+
+  private getFakePositions() {
+    return [
+      {
+        id: 4,
+        deviceId: 12,
+        protocol: '',
+        deviceTime: new Date().toJSON(),
+        fixTime: new Date().toJSON(),
+        serverTime: new Date().toJSON(),
+        outdated: false,
+        valid: false,
+        latitude: Math.floor(Math.random() * 42) + 1,
+        longitude: Math.floor(Math.random() * 42) + 1,
+        altitude: 600,
+        speed: 3.4,
+        course: 1,
+        address: '',
+        accuracy: 8,
+      },
+    ];
+  }
 }

@@ -4,47 +4,77 @@
       <h1>Panel de Tickets</h1>
     </div>
   </section>
-  <table mat-table [dataSource]="tickets" class="mat-elevation-z8">
 
-    <!--- Note that these columns can be defined in any order.
+  <!-- Filter -->
+  <mat-form-field appearance="standard">
+    <mat-label>Filter</mat-label>
+    <input
+      matInput
+      (keyup)="applyFilter($event)"
+      placeholder="Ex. Mia"
+      #input
+    />
+  </mat-form-field>
+
+  <div class="mat-elevation-z8">
+    <!-- Spinner -->
+    <div class="example-loading-shade" *ngIf="isLoadingResults">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <table mat-table [dataSource]="dataSource">
+      <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
 
-    <!-- Title Column -->
-    <ng-container matColumnDef="title">
-      <th mat-header-cell *matHeaderCellDef> Título </th>
-      <td mat-cell *matCellDef="let ticket"> {{ ticket.title }} </td>
-    </ng-container>
+      <!-- Title Column -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef>Título</th>
+        <td mat-cell *matCellDef="let ticket">{{ ticket.title }}</td>
+      </ng-container>
 
-    <!-- Owner Column -->
-    <ng-container matColumnDef="owner">
-      <th mat-header-cell *matHeaderCellDef> Creador </th>
-      <td mat-cell *matCellDef="let ticket"> {{ ticket.owner.fullname }} </td>
-    </ng-container>
+      <!-- Owner Column -->
+      <ng-container matColumnDef="owner">
+        <th mat-header-cell *matHeaderCellDef>Creador</th>
+        <td mat-cell *matCellDef="let ticket">{{ ticket.owner }}</td>
+      </ng-container>
 
-    <!-- Date Stored Column -->
-    <ng-container matColumnDef="dateStored">
-      <th mat-header-cell *matHeaderCellDef> Fecha de creación </th>
-      <td mat-cell *matCellDef="let ticket"> {{ ticket.date_stored | date: dateTimeFormat }} </td>
-    </ng-container>
+      <!-- Date Stored Column -->
+      <ng-container matColumnDef="dateStored">
+        <th mat-header-cell *matHeaderCellDef>Fecha de creación</th>
+        <td mat-cell *matCellDef="let ticket">{{ ticket.dateStored }}</td>
+      </ng-container>
 
-    <!-- Status Column -->
-    <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef> Estado </th>
-      <td mat-cell *matCellDef="let ticket"> {{ ticket.status }} </td>
-    </ng-container>
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Estado</th>
+        <td mat-cell *matCellDef="let ticket">{{ ticket.status }}</td>
+      </ng-container>
 
-    <!-- Decide Column -->
-    <ng-container matColumnDef="decide">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let ticket">
-        <button mat-icon-button color="error" aria-label="Decide ticket icon" routerLink="../solve/{{ticket.id}}">
-          <mat-icon aria-hidden="false" aria-label="gavel icon">gavel</mat-icon>
-        </button>
-      </td>
-    </ng-container>
+      <!-- Decide Column -->
+      <ng-container matColumnDef="decide">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let ticket">
+          <button
+            mat-icon-button
+            color="error"
+            aria-label="Decide ticket icon"
+            routerLink="../solve/{{ ticket.id }}"
+          >
+            <mat-icon aria-hidden="false" aria-label="gavel icon"
+              >gavel</mat-icon
+            >
+          </button>
+        </td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns"></tr>
+    </table>
 
+    <!-- Paginator -->
+    <mat-paginator
+      [pageSizeOptions]="[10, 25, 50, 100]"
+      aria-label="Select page of tickets"
+    ></mat-paginator>
+  </div>
 </div>

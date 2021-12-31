@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { finalize } from 'rxjs/operators';
+import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
 import {
   EditPatchUser,
   LocalStorageService,
@@ -9,45 +10,56 @@ import {
   User,
   UserService,
   USER_ID,
+  Vehicle,
 } from 'src/app/core';
 import { ErrorMessageService } from 'src/app/core/services/error-message.service';
-import { PipeDates } from 'src/app/shared/utils/pipe-dates';
+import { formatDateTime } from 'src/app/shared/utils/dates/custom-fns';
 import { DeleteUserComponent } from '../../dialogs/delete-user/delete-user.component';
+
+interface UserRow {
+  id: string;
+  fullname: string;
+  email: string;
+  dateJoined: string;
+  role: string;
+  allowedVehicleTypes?: Vehicle[];
+  isDisabled?: boolean;
+}
 
 @Component({
   selector: 'app-users-table',
   templateUrl: './users-table.component.html',
   styleUrls: ['./users-table.component.css'],
 })
-export class UsersTableComponent implements OnInit {
-  users: User[] = [];
-  dateTimeFormat = PipeDates.dateTimeFormat;
-  private myId: string;
-
-  displayedColumns: string[] = [
+export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
+  columns = [
     'fullname',
     'email',
-    'date_joined',
-    'allowed_vehicle_types',
-    'is_disabled',
+    'dateJoined',
+    'allowedTypes',
+    'isDisabled',
     'delete',
   ];
 
-  constructor(
-    private route: ActivatedRoute,
-    private userSrv: UserService,
-    private snacker: SnackerService,
-    private storage: LocalStorageService,
-    private errorMessage: ErrorMessageService,
-    private dialog: MatDialog
-  ) {}
+  private myId: string;
 
+  constructor(
+    private errorMessage: ErrorMessageService,
+    private storage: LocalStorageService,
+    private snacker: SnackerService,
+    private userSrv: UserService,
+    private dialog: MatDialog
+  ) {
+    super();
+  }
+
+  // eslint-disable-next-line @angular-eslint/use-lifecycle-interface
   ngOnInit(): void {
-    this.refreshTable();
+    super.ngOnInit();
     this.myId = this.storage.get(USER_ID);
   }
 
-  openDeleteDialog(user: User): void {
+  openDeleteDialog(user: UserRow): void {
     const deleteUserDialog = this.dialog.open(DeleteUserComponent);
 
     deleteUserDialog.afterClosed().subscribe((result) => {
@@ -57,32 +69,45 @@ export class UsersTableComponent implements OnInit {
     });
   }
 
-  refreshTable(): void {
-    this.route.data.subscribe((response) => {
-      console.log('Users response received!', response);
-      this.users = response['users'];
-    });
+  preprocessData(data: User[]): UserRow[] {
+    return data.map((user) => ({
+      id: user.id,
+      fullname: user.fullname,
+      email: user.email,
+      role: user.role,
+      dateJoined: formatDateTime(user.date_joined),
+      isDisabled: user.is_disabled,
+      allowedVehicleTypes: user.allowed_vehicles,
+    }));
   }
 
-  changeDisabled(user: User): void {
-    const newIsDisabledStatus = !user.is_disabled;
+  fetchDataAndUpdate(): void {
+    this.userSrv
+      .getAll(true)
+      .pipe(finalize(() => this.hideLoadingSpinner()))
+      .subscribe((users) => this.updateTable(users));
+  }
+
+  changeDisabled(user: UserRow): void {
+    const newIsDisabledStatus = !user.isDisabled;
     const data: EditPatchUser = { is_disabled: newIsDisabledStatus };
     this.userSrv.patch(user.id, data).subscribe(
       (response: EditPatchUser) => {
-        user.is_disabled = response.is_disabled;
+        user.isDisabled = response.is_disabled;
       },
       (errors) => console.error(errors)
     );
   }
 
-  isMe = (u: User) => this.myId === u.id;
+  isMe = (u: UserRow) => this.myId === u.id;
 
   getBadgeColor = (n: number) => (n === 0 ? 'warn' : 'primary');
 
-  private deleteUser(user: User) {
+  private deleteUser(user: UserRow) {
     this.userSrv.delete(user.id).subscribe(
       async () => {
-        this.users = this.users.filter((u) => u !== user);
+        const newUsers = this.models.filter((u) => u.id !== user.id);
+        this.updateTable(newUsers);
         this.snacker.openSuccessful(
           `El usuario ${user.fullname} ha sido eliminado.`
         );

@@ -8,12 +8,11 @@ export class AssetsService {
   private baseUrl: string;
 
   constructor() {
-    this.baseUrl =
-      environment.production === true ? 'static/ang/assets/' : 'assets/';
+    this.baseUrl = environment.production ? 'static/ang/assets/' : 'assets/';
   }
 
   /**
-   * Return Correct Url for assests in dev and prod env.
+   * Return Correct Url for assets in dev and prod env.
    *
    * @param target Relative path under assets directory. For example, 'img/full-moon-png'
    * @returns

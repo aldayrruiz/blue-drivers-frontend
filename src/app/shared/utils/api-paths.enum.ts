@@ -8,4 +8,5 @@ export enum ApiPaths {
   Register = '/api/register',
   User = '/api/users',
   Position = '/api/positions',
+  Report = '/api/reports'
 }

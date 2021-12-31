@@ -1,39 +1,82 @@
-import { Component, OnInit } from '@angular/core';
-import { Reservation, ReservationService } from 'src/app/core';
-import { PipeDates } from 'src/app/shared/utils/pipe-dates';
+import { Component } from '@angular/core';
+import { intervalToDuration, isFuture } from 'date-fns';
+import { finalize } from 'rxjs/operators';
+import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
+import { Reservation, ReservationService, SnackerService } from 'src/app/core';
+import { Ghost } from 'src/app/core/services/ghost.service';
+import {
+  formatDateTime,
+  formatDuration,
+} from 'src/app/shared/utils/dates/custom-fns';
+
+interface ReservationRow {
+  id: string;
+  title: string;
+  owner: string;
+  vehicle: string;
+  startFormatted: string;
+  endFormatted: string;
+  start: string;
+  end: string;
+  hourMin: string;
+}
 
 @Component({
   selector: 'app-reservations-table',
   templateUrl: './reservations-table.component.html',
   styleUrls: ['./reservations-table.component.css'],
 })
-export class ReservationsTableComponent implements OnInit {
-  reservations: Reservation[];
-  dateTimeFormat = PipeDates.dateTimeFormat;
+export class ReservationsTableComponent extends BaseTableComponent<
+  Reservation,
+  ReservationRow
+> {
+  columns = ['title', 'owner', 'vehicle', 'start', 'hourMin', 'statistics'];
 
-  displayedColumns: string[] = [
-    'title',
-    'owner',
-    'vehicle',
-    'dateStored',
-    'hourMin',
-    'statistics',
-  ];
-
-  constructor(private reservationSrv: ReservationService) {}
-
-  ngOnInit(): void {
-    this.reservationSrv.getAll().subscribe((reservations) => {
-      this.reservations = reservations;
-    });
+  constructor(
+    private readonly reservationsSrv: ReservationService,
+    private readonly snacker: SnackerService,
+    private readonly ghost: Ghost
+  ) {
+    super();
   }
 
   getTimeReserved(reservation: Reservation): string {
     const start = new Date(reservation.start);
     const end = new Date(reservation.end);
-    const milliseconds = end.getTime() - start.getTime(); // milliseconds
-    const hours = Math.floor((milliseconds % 86400000) / 3600000); // hours
-    const minutes = Math.round(((milliseconds % 86400000) % 3600000) / 60000); // minutes
-    return `${hours}h ${minutes}m`;
+    const duration = intervalToDuration({ start, end });
+    return formatDuration(duration);
+  }
+
+  preprocessData(reservations: Reservation[]): ReservationRow[] {
+    return reservations.map((reservation) => ({
+      id: reservation.id,
+      title: reservation.title,
+      owner: reservation.owner.fullname,
+      vehicle: `${reservation.vehicle.model} ${reservation.vehicle.brand}`,
+      startFormatted: formatDateTime(reservation.start),
+      endFormatted: formatDateTime(reservation.end),
+      start: reservation.start,
+      end: reservation.end,
+      hourMin: this.getTimeReserved(reservation),
+    }));
+  }
+
+  fetchDataAndUpdate() {
+    this.reservationsSrv
+      .getAll()
+      .pipe(finalize(() => this.hideLoadingSpinner()))
+      .subscribe((reservations) => this.updateTable(reservations));
+  }
+
+  goToStatistics(reservationRow: ReservationRow) {
+    const end = new Date(reservationRow.end);
+    const reservationNotCompleted = isFuture(end);
+    if (reservationNotCompleted) {
+      const msg = 'La reserva debe haber ocurrido para ver las estadísticas';
+      this.snacker.openError(msg);
+      return;
+    }
+
+    this.ghost.goToReservationStatistics(reservationRow.id);
   }
 }

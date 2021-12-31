@@ -1,0 +1,37 @@
+<div class="container">
+  <section>
+    <div class="example-label">
+      <h1>Reservas - Estadísticas</h1>
+    </div>
+  </section>
+  <mat-card class="example-card">
+    <app-ant-map></app-ant-map>
+    <mat-card-content>
+      <mat-list role="list">
+        <mat-list-item role="listitem">
+          <b>Velocidad máxima:&nbsp; </b>
+          {{ summary?.maxSpeed }} km/s
+        </mat-list-item>
+
+        <mat-list-item role="listitem">
+          <b>Velocidad media:&nbsp; </b>{{ summary?.averageSpeed }} km/s
+        </mat-list-item>
+
+        <mat-list-item role="listitem">
+          <b>Consumo de combustible estimado:&nbsp; </b>
+          {{ summary?.spentFuel }} litros
+        </mat-list-item>
+
+        <mat-list-item role="listitem">
+          <b>Distancia recorrida:&nbsp; </b>
+          {{ summary?.distance / 1000 }} km
+        </mat-list-item>
+
+        <mat-list-item role="listitem">
+          <b>Motor encendido:&nbsp; </b>
+          {{ summary?.engineHours | duration }}
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+</div>

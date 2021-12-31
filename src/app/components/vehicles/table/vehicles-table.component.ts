@@ -1,43 +1,51 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { finalize } from 'rxjs/operators';
+import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
 import { SnackerService, Vehicle, VehicleService } from 'src/app/core';
 import { EditPatchVehicle } from 'src/app/core/models/edit/edit-patch-vehicle.model';
 import { ErrorMessageService } from 'src/app/core/services/error-message.service';
-import { PipeDates } from 'src/app/shared/utils/pipe-dates';
 import { DeleteVehicleComponent } from '../../dialogs/delete-vehicle/delete-vehicle.component';
+
+interface VehicleRow {
+  id: string;
+  model: string;
+  brand: string;
+  numberPlate: string;
+  isDisabled: boolean;
+}
 
 @Component({
   selector: 'app-vehicles-table',
   templateUrl: './vehicles-table.component.html',
   styleUrls: ['./vehicles-table.component.css'],
 })
-export class VehiclesTableComponent implements OnInit {
-  vehicles: Vehicle[] = [];
-  dateTimeFormat = PipeDates.dateTimeFormat;
-
-  displayedColumns: string[] = [
-    'model',
-    'brand',
-    'numberPlate',
-    'edit',
-    'is_disabled',
-    'delete',
-  ];
+export class VehiclesTableComponent extends BaseTableComponent<
+  Vehicle,
+  VehicleRow
+> {
+  columns = ['model', 'brand', 'numberPlate', 'edit', 'isDisabled', 'delete'];
 
   constructor(
-    private route: ActivatedRoute,
-    private snacker: SnackerService,
-    private vehicleSrv: VehicleService,
     private errorMessage: ErrorMessageService,
+    private vehicleSrv: VehicleService,
+    private snacker: SnackerService,
     private dialog: MatDialog
-  ) {}
-
-  ngOnInit(): void {
-    this.refreshTable();
+  ) {
+    super();
   }
 
-  openDeleteDialog(vehicle: Vehicle): void {
+  preprocessData(data: Vehicle[]): VehicleRow[] {
+    return data.map((vehicle) => ({
+      id: vehicle.id,
+      model: vehicle.model,
+      brand: vehicle.brand,
+      numberPlate: vehicle.number_plate,
+      isDisabled: vehicle.is_disabled,
+    }));
+  }
+
+  openDeleteDialog(vehicle: VehicleRow): void {
     const deleteVehicleDialog = this.dialog.open(DeleteVehicleComponent);
 
     deleteVehicleDialog.afterClosed().subscribe((result) => {
@@ -47,18 +55,12 @@ export class VehiclesTableComponent implements OnInit {
     });
   }
 
-  refreshTable(): void {
-    this.route.data.subscribe((response) => {
-      this.vehicles = response['vehicles'];
-    });
-  }
-
-  changeDisabled(vehicle: Vehicle): void {
-    const newIsDisabledStatus = !vehicle.is_disabled;
+  changeDisabled(vehicle: VehicleRow) {
+    const newIsDisabledStatus = !vehicle.isDisabled;
     const data: EditPatchVehicle = { is_disabled: newIsDisabledStatus };
     this.vehicleSrv.patch(vehicle.id, data).subscribe(
       async (response) => {
-        vehicle.is_disabled = response.is_disabled;
+        vehicle.isDisabled = response.is_disabled;
       },
       async (error) => {
         const message = this.errorMessage.get(error);
@@ -67,10 +69,18 @@ export class VehiclesTableComponent implements OnInit {
     );
   }
 
-  private deleteVehicle(vehicle: Vehicle): void {
+  fetchDataAndUpdate() {
+    this.vehicleSrv
+      .getAll()
+      .pipe(finalize(() => this.hideLoadingSpinner()))
+      .subscribe((vehicles) => this.updateTable(vehicles));
+  }
+
+  private deleteVehicle(vehicle: VehicleRow) {
     this.vehicleSrv.delete(vehicle.id).subscribe(
       async () => {
-        this.vehicles = this.vehicles.filter((v) => v !== vehicle);
+        const newVehicles = this.models.filter((v) => v.id !== vehicle.id);
+        this.updateTable(newVehicles);
         this.snacker.openSuccessful(
           `El vehículo ${vehicle.brand} ${vehicle.model} ha sido eliminado.`
         );
