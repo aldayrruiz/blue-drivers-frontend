@@ -1,18 +1,18 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiPaths } from 'src/app/shared/utils/api-paths.enum';
+import { API } from 'src/app/shared/utils/api-paths.enum';
 import { environment } from 'src/environments/environment';
-import { CreateVehicle, EditVehicle, Vehicle } from '..';
-import { EditPatchVehicle } from '../models/edit/edit-patch-vehicle.model';
+import { CreateVehicle, EditVehicle, Vehicle } from '../..';
+import { EditPatchVehicle } from '../../models/edit/edit-patch-vehicle.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class VehicleService {
-  private vehicleUrl = `${environment.baseURL}${ApiPaths.Vehicle}`;
+  private vehicleUrl = `${environment.baseURL}${API.VEHICLES}`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   create(vehicleType: CreateVehicle): Observable<CreateVehicle> {
     const path = `${this.vehicleUrl}/`;

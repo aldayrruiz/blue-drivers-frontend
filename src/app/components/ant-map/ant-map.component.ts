@@ -21,7 +21,7 @@ export class AntMapComponent implements OnInit {
 
   addAntPath(positions: Position[]) {
     if (positions.length === 0) {
-      this.snacker.openError('Se recibieron 0 posiciones');
+      this.snacker.showError('Se recibieron 0 posiciones');
       return;
     }
     positions = this.removeInvalidPositions(positions);

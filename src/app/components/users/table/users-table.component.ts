@@ -108,13 +108,13 @@ export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
       async () => {
         const newUsers = this.models.filter((u) => u.id !== user.id);
         this.updateTable(newUsers);
-        this.snacker.openSuccessful(
+        this.snacker.showSuccessful(
           `El usuario ${user.fullname} ha sido eliminado.`
         );
       },
       async (error) => {
         const message = this.errorMessage.get(error);
-        this.snacker.openError(message);
+        this.snacker.showError(message);
       }
     );
   }

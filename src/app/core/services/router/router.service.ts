@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Injectable({
   providedIn: 'root',
 })
-export class Ghost {
+export class CustomRouter {
   extras = { replaceUrl: true };
 
   constructor(private readonly router: Router) {}

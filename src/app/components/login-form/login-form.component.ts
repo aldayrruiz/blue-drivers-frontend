@@ -63,7 +63,7 @@ export class LoginFormComponent implements OnInit {
         },
         async (error) => {
           const message = this.errorMessage.get(error);
-          this.snacker.openError(message);
+          this.snacker.showError(message);
         }
       );
   }

@@ -5,10 +5,10 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class AssetsService {
-  private baseUrl: string;
+  private assetsUrl: string;
 
   constructor() {
-    this.baseUrl = environment.production ? 'static/ang/assets/' : 'assets/';
+    this.assetsUrl = environment.assetsDir;
   }
 
   /**
@@ -18,6 +18,6 @@ export class AssetsService {
    * @returns
    */
   getUrl(target: string): string {
-    return `${this.baseUrl}${target}`;
+    return `${this.assetsUrl}${target}`;
   }
 }

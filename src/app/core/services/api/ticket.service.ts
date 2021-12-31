@@ -1,15 +1,15 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { ApiPaths } from '../../shared/utils/api-paths.enum';
-import { CreateTicket, Ticket, TicketStatus } from '../models';
+import { API } from 'src/app/shared/utils/api-paths.enum';
+import { environment } from 'src/environments/environment';
+import { CreateTicket, Ticket, TicketStatus } from '../..';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TicketService {
-  private ticketURL = `${environment.baseURL}${ApiPaths.Ticket}`;
+  private ticketURL = `${environment.baseURL}${API.TICKETS}`;
 
   constructor(private http: HttpClient) {}
 

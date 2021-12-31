@@ -65,11 +65,11 @@ export class CreateUserComponent implements OnInit {
           this.router.navigate(['..'], { relativeTo: this.route });
           const message =
             'Se ha enviado un email al nuevo usuario con sus credenciales para entrar en la app móvil.';
-          this.snacker.openSuccessful(message);
+          this.snacker.showSuccessful(message);
         },
         async (error) => {
           const message = this.errorMessage.get(error);
-          this.snacker.openError(message);
+          this.snacker.showError(message);
         }
       );
   }

@@ -69,11 +69,11 @@ export class CreateVehicleComponent implements OnInit {
       async () => {
         this.router.navigate(['..'], { relativeTo: this.route });
         const message = 'Vehículo creado con éxito';
-        this.snacker.openSuccessful(message);
+        this.snacker.showSuccessful(message);
       },
       async (error) => {
         const message = this.errorMessage.get(error);
-        this.snacker.openError(message);
+        this.snacker.showError(message);
       }
     );
   }

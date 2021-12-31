@@ -1,16 +1,15 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { ApiPaths } from '../../shared/utils/api-paths.enum';
-import { CreateReservation } from '../models';
-import { Reservation } from '../models/reservation.model';
+import { API } from 'src/app/shared/utils/api-paths.enum';
+import { environment } from 'src/environments/environment';
+import { CreateReservation, Reservation } from '../..';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReservationService {
-  private reservationURL = `${environment.baseURL}${ApiPaths.Reservation}`;
+  private reservationURL = `${environment.baseURL}${API.RESERVATIONS}`;
 
   constructor(private http: HttpClient) {}
 

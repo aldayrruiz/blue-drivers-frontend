@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SnackerService } from 'src/app/core';
 import { Position } from 'src/app/core/models/position.model';
 import { ReportSummary } from 'src/app/core/models/report.summary.model';
-import { ReportService } from 'src/app/core/services/report.service';
+import { ReportService } from 'src/app/core/services/api/report.service';
 import { AntMapComponent } from '../../ant-map/ant-map.component';
 
 @Component({
@@ -38,14 +38,14 @@ export class ReservationsStatisticsComponent implements OnInit {
   private fetchReportSummary(reservationId: string) {
     this.reportSrv.getReservationSummary(reservationId).subscribe(
       (summary) => (this.summary = summary),
-      () => this.snacker.openError('No hay un resumen para esta reserva.')
+      () => this.snacker.showError('No hay un resumen para esta reserva.')
     );
   }
 
   private fetchPositions(reservationId: string) {
     this.reportSrv.getReservationPositions(reservationId).subscribe(
       (positions) => this.antMap.addAntPath(positions),
-      () => this.snacker.openError('No se recibieron posiciones')
+      () => this.snacker.showError('No se recibieron posiciones')
     );
   }
 }

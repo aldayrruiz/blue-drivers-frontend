@@ -1,19 +1,25 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiPaths } from 'src/app/shared/utils/api-paths.enum';
+import { API } from 'src/app/shared/utils/api-paths.enum';
 import { environment } from 'src/environments/environment';
-import { CreateUser, EditPatchUser, User } from '../models';
+import { CreateUser, EditPatchUser, User } from '../..';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private registerUrl = `${environment.baseURL}${ApiPaths.Register}`;
-  private userUrl = `${environment.baseURL}${ApiPaths.User}`;
+  private registerUrl = `${environment.baseURL}${API.REGISTER}`;
+  private userUrl = `${environment.baseURL}${API.USERS}`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
+  /**
+   * Get users info
+   *
+   * @param evenDisabled if true all users will be fetched, even disabled.
+   * @returns users
+   */
   getAll(evenDisabled: boolean): Observable<User[]> {
     const strEvenDisabled = evenDisabled ? 'True' : 'False';
     const options = {
@@ -23,14 +29,21 @@ export class UserService {
     return this.http.get<User[]>(path, options);
   }
 
+  /**
+   * Get user info
+   *
+   * @param id
+   * @returns user
+   */
   get(id: string): Observable<User> {
     const path = `${this.userUrl}/${id}/`;
     return this.http.get<User>(path);
   }
 
   /**
-   * Send a POST HTTP request to the server to register a user.
-   * @param user data of the new user.
+   * Register / Create user
+   * @param user user
+   * @returns user created
    */
   create(user: CreateUser): Observable<CreateUser> {
     const path = `${this.registerUrl}/`;
@@ -38,8 +51,8 @@ export class UserService {
   }
 
   /**
-   * Send a DELETE HTTP request to server to delete a user.
-   * @param id of user to delete.
+   * Delete a user
+   * @param id user id
    * @returns
    */
   delete(id: string): Observable<void> {
@@ -48,8 +61,8 @@ export class UserService {
   }
 
   /**
-   * Send a PUT HTTP request to server to update user data.
-   * @param id of user to edit.
+   * Update user profile.
+   * @param id user id
    * @param user data updated of user.
    * @returns
    */
@@ -58,11 +71,24 @@ export class UserService {
     return this.http.put<User>(path, user);
   }
 
+  /**
+   * Update user's vehicle permissions.
+   *
+   * @param id of user to update
+   * @param vehicleIds array of vehicles ids
+   * @returns
+   */
   updateAllowedVehicles(id: string, vehicleIds: string[]): Observable<void> {
     const path = `${this.userUrl}/allowed-vehicles/${id}/`;
     return this.http.put<void>(path, vehicleIds);
   }
 
+  /**
+   * Edit only attributes of EditPatchUser -> isDisabled
+   * @param id user id
+   * @param data update data
+   * @returns
+   */
   patch(id: string, data: EditPatchUser): Observable<EditPatchUser> {
     const path = `${this.userUrl}/${id}/`;
     return this.http.patch<EditPatchUser>(path, data);

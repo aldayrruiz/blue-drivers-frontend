@@ -3,7 +3,7 @@ import { intervalToDuration, isFuture } from 'date-fns';
 import { finalize } from 'rxjs/operators';
 import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
 import { Reservation, ReservationService, SnackerService } from 'src/app/core';
-import { Ghost } from 'src/app/core/services/ghost.service';
+import { CustomRouter } from 'src/app/core/services/router/router.service';
 import {
   formatDateTime,
   formatDuration,
@@ -35,7 +35,7 @@ export class ReservationsTableComponent extends BaseTableComponent<
   constructor(
     private readonly reservationsSrv: ReservationService,
     private readonly snacker: SnackerService,
-    private readonly ghost: Ghost
+    private readonly ghost: CustomRouter
   ) {
     super();
   }
@@ -73,7 +73,7 @@ export class ReservationsTableComponent extends BaseTableComponent<
     const reservationNotCompleted = isFuture(end);
     if (reservationNotCompleted) {
       const msg = 'La reserva debe haber ocurrido para ver las estadísticas';
-      this.snacker.openError(msg);
+      this.snacker.showError(msg);
       return;
     }
 

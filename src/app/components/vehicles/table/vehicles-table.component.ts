@@ -64,7 +64,7 @@ export class VehiclesTableComponent extends BaseTableComponent<
       },
       async (error) => {
         const message = this.errorMessage.get(error);
-        this.snacker.openError(message);
+        this.snacker.showError(message);
       }
     );
   }
@@ -81,13 +81,13 @@ export class VehiclesTableComponent extends BaseTableComponent<
       async () => {
         const newVehicles = this.models.filter((v) => v.id !== vehicle.id);
         this.updateTable(newVehicles);
-        this.snacker.openSuccessful(
+        this.snacker.showSuccessful(
           `El vehículo ${vehicle.brand} ${vehicle.model} ha sido eliminado.`
         );
       },
       async (error) => {
         const message = this.errorMessage.get(error);
-        this.snacker.openError(message);
+        this.snacker.showError(message);
       }
     );
   }

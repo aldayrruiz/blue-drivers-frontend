@@ -77,11 +77,11 @@ export class EditAllowedVehiclesComponent implements OnInit {
       .subscribe(
         async () => {
           const message = 'Vehículos asignados con exito';
-          this.snacker.openSuccessful(message);
+          this.snacker.showSuccessful(message);
         },
         async (error) => {
           const message = this.errorMessage.get(error);
-          this.snacker.openError(message);
+          this.snacker.showError(message);
         }
       );
   }
