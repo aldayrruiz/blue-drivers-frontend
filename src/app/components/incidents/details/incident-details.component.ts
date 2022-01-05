@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Incident, translateType } from 'src/app/core';
+import { Incident, IncidentService, translateType } from 'src/app/core';
 import { PipeDates } from 'src/app/shared/utils/dates/pipe-dates';
 
 @Component({
@@ -12,7 +12,10 @@ export class IncidentDetailsComponent implements OnInit {
   incident: Incident;
   dateTimeFormat = PipeDates.dateTimeFormat;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private readonly incidentSrv: IncidentService,
+    private readonly route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.resolveData();
@@ -22,6 +25,13 @@ export class IncidentDetailsComponent implements OnInit {
     this.route.data.subscribe((data) => {
       this.incident = data.incident;
     });
+  }
+
+  solve() {
+    this.incidentSrv.solve(this.incident.id).subscribe(
+      () => console.log('Solved'),
+      () => console.log('Not Solved')
+    );
   }
 
   translateType = translateType;
