@@ -29,7 +29,15 @@ export class IncidentsTableComponent extends BaseTableComponent<
     { display: 'Solucionados', value: 'Solucionado' },
   ];
 
-  columns = ['title', 'owner', 'vehicle', 'type', 'dateStored', 'details'];
+  columns = [
+    'title',
+    'owner',
+    'vehicle',
+    'type',
+    'status',
+    'dateStored',
+    'details',
+  ];
 
   constructor(private incidentSrv: IncidentService) {
     super();
@@ -41,8 +49,8 @@ export class IncidentsTableComponent extends BaseTableComponent<
       return;
     }
     const solved = this.showOptionSelected === 'Solucionado' ? true : false;
-    const models = this.getIncidents(solved);
-    this.updateTable(models);
+    const incidents = this.filterIncidents(solved);
+    this.updateTable(incidents);
   }
 
   preprocessData(data: Incident[]): RowIncident[] {
@@ -64,7 +72,7 @@ export class IncidentsTableComponent extends BaseTableComponent<
       .subscribe((incidents) => this.initTable(incidents));
   }
 
-  getIncidents(solved: boolean) {
+  filterIncidents(solved: boolean) {
     const incidents = this.models.filter((model) => model.solved === solved);
     return incidents;
   }
