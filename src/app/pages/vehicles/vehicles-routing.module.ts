@@ -20,7 +20,6 @@ const routes: Routes = [
       {
         path: 'table',
         component: VehiclesTableComponent,
-        resolve: { vehicles: VehiclesResolver },
       },
       {
         path: 'create',

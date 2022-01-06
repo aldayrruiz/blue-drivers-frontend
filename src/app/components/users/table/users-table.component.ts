@@ -85,7 +85,7 @@ export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
     this.userSrv
       .getAll(true)
       .pipe(finalize(() => this.hideLoadingSpinner()))
-      .subscribe((users) => this.updateTable(users));
+      .subscribe((users) => this.initTable(users));
   }
 
   changeDisabled(user: UserRow): void {

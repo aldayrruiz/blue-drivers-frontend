@@ -22,10 +22,27 @@ export class IncidentsTableComponent extends BaseTableComponent<
   Incident,
   RowIncident
 > {
+  showOptionSelected = '';
+  showOptions = [
+    { display: 'Todos', value: '' },
+    { display: 'No solucionados', value: 'No Solucionado' },
+    { display: 'Solucionados', value: 'Solucionado' },
+  ];
+
   columns = ['title', 'owner', 'vehicle', 'type', 'dateStored', 'details'];
 
   constructor(private incidentSrv: IncidentService) {
     super();
+  }
+
+  onShowSelectionChanged() {
+    if (this.showOptionSelected === '') {
+      this.updateTable(this.models);
+      return;
+    }
+    const solved = this.showOptionSelected === 'Solucionado' ? true : false;
+    const models = this.getIncidents(solved);
+    this.updateTable(models);
   }
 
   preprocessData(data: Incident[]): RowIncident[] {
@@ -36,6 +53,7 @@ export class IncidentsTableComponent extends BaseTableComponent<
       vehicle: `${incident.reservation.vehicle.model} ${incident.reservation.vehicle.brand}`,
       type: translateType(incident.type),
       dateStored: formatDateTime(incident.date_stored),
+      status: incident.solved ? 'Solucionado' : 'No Solucionado',
     }));
   }
 
@@ -43,6 +61,11 @@ export class IncidentsTableComponent extends BaseTableComponent<
     this.incidentSrv
       .getAll()
       .pipe(finalize(() => this.hideLoadingSpinner()))
-      .subscribe((incidents) => this.updateTable(incidents));
+      .subscribe((incidents) => this.initTable(incidents));
+  }
+
+  getIncidents(solved: boolean) {
+    const incidents = this.models.filter((model) => model.solved === solved);
+    return incidents;
   }
 }

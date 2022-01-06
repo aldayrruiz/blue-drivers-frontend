@@ -65,7 +65,7 @@ export class ReservationsTableComponent extends BaseTableComponent<
     this.reservationsSrv
       .getAll()
       .pipe(finalize(() => this.hideLoadingSpinner()))
-      .subscribe((reservations) => this.updateTable(reservations));
+      .subscribe((reservations) => this.initTable(reservations));
   }
 
   goToStatistics(reservationRow: ReservationRow) {

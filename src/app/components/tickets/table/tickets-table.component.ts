@@ -47,7 +47,7 @@ export class TicketsTableComponent extends BaseTableComponent<
     this.ticketSrv
       .getAll()
       .pipe(finalize(() => this.hideLoadingSpinner()))
-      .subscribe((tickets) => this.updateTable(tickets));
+      .subscribe((tickets) => this.initTable(tickets));
   }
 
   private removePastTickets(tickets: Ticket[]): Ticket[] {

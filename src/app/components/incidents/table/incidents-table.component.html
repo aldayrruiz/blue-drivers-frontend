@@ -16,6 +16,18 @@
     />
   </mat-form-field>
 
+  <mat-form-field appearance="fill">
+    <mat-label>Mostrar</mat-label>
+    <mat-select
+      (selectionChange)="onShowSelectionChanged()"
+      [(value)]="showOptionSelected"
+    >
+      <mat-option *ngFor="let option of showOptions" [value]="option.value">
+        {{ option.display }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
   <div class="mat-elevation-z8">
     <!-- Spinner -->
     <div class="example-loading-shade" *ngIf="isLoadingResults">
