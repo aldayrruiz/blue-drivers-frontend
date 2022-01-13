@@ -4,11 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { API } from 'src/app/shared/utils/api-paths.enum';
 import { environment } from 'src/environments/environment';
-import {
-  LocalStorageService,
-  USER_ID,
-  USER_TOKEN,
-} from '../local-storage.service';
+import { LocalStorage } from '../local-storage.service';
 
 const path = `${environment.baseURL}${API.LOGIN}/`;
 
@@ -23,47 +19,66 @@ export class LoginService {
   token = '';
   userId = '';
 
-  constructor(private http: HttpClient, private storage: LocalStorageService) {
+  constructor(
+    private readonly storage: LocalStorage,
+    private readonly http: HttpClient
+  ) {
     this.loadToken();
   }
 
-  loadToken(): void {
-    console.log('Loading the token...');
-    const receivedToken = this.storage.get(USER_TOKEN);
-    if (receivedToken) {
-      this.token = receivedToken;
-      this.isAuthenticated.next(true);
+  loadToken() {
+    const token = this.storage.getUserToken();
+    if (token) {
+      this.token = token;
+      this.markAsAuthenticated();
     } else {
-      this.isAuthenticated.next(false);
+      this.markAsUnAuthenticated();
     }
-    console.log('Ending the loading token');
   }
 
-  login(credentials: { username: string; password: string }): Observable<void> {
-    console.log('Login...');
+  login(credentials: Credentials): Observable<void> {
     return this.http.post<void>(path, credentials).pipe(
       // data: {token: "the token", user_id: "..."}
       map((data: any) => {
         if (data) {
-          this.token = data.token;
-          this.storage.set(USER_TOKEN, data.token);
-
-          this.userId = data.user_id;
-          this.storage.set(USER_ID, data.user_id);
-
-          this.isAuthenticated.next(true);
+          const { token, user_id } = data;
+          this.storeToken(token);
+          this.storeUserId(user_id);
+          this.markAsAuthenticated();
         }
       })
     );
   }
 
   logout(): void {
-    this.isAuthenticated.next(false);
-    this.storage.remove(USER_TOKEN);
-    this.storage.remove(USER_ID);
+    this.markAsUnAuthenticated();
+    this.storage.removeAll();
   }
 
   getToken(): string {
     return this.token;
   }
+
+  private storeToken(token: string) {
+    this.token = token;
+    this.storage.setUserToken(token);
+  }
+
+  private storeUserId(id: string) {
+    this.userId = id;
+    this.storage.setUserId(id);
+  }
+
+  private markAsAuthenticated() {
+    this.isAuthenticated.next(true);
+  }
+
+  private markAsUnAuthenticated() {
+    this.isAuthenticated.next(false);
+  }
+}
+
+interface Credentials {
+  username: string; // Email must be sent into username attribute.
+  password: string;
 }

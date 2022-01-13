@@ -6,18 +6,39 @@ export const USER_ID = 'user_id';
 @Injectable({
   providedIn: 'root',
 })
-export class LocalStorageService {
+export class LocalStorage {
   constructor() {}
 
-  set(key: string, value: string): void {
+  setUserToken(token: string) {
+    this.set(USER_TOKEN, token);
+  }
+
+  setUserId(id: string) {
+    this.set(USER_ID, id);
+  }
+
+  getUserToken() {
+    return this.get(USER_TOKEN);
+  }
+
+  getUserId() {
+    return this.get(USER_ID);
+  }
+
+  removeAll() {
+    this.remove(USER_TOKEN);
+    this.remove(USER_ID);
+  }
+
+  private set(key: string, value: string): void {
     localStorage.setItem(key, value);
   }
 
-  get(key: string): string {
+  private get(key: string): string {
     return localStorage.getItem(key);
   }
 
-  remove(key: string): void {
+  private remove(key: string): void {
     localStorage.removeItem(key);
   }
 }
