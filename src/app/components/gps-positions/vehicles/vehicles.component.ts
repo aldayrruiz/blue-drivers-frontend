@@ -70,7 +70,7 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
   }
 
   initMap(): void {
-    const { tiles, map } = MapCreator.create(new MapConfiguration());
+    const { map } = MapCreator.create(new MapConfiguration());
     this.map = map;
   }
 
@@ -139,12 +139,11 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
   private resolveData(): void {
     this.route.data.subscribe((data) => {
       this.vehicles = data['vehicles'];
-      // this.positions = data['positions'];
-      this.positions = this.getFakePositions();
+      this.positions = data['positions'];
       const nVehicles = this.vehicles.length;
       const nPositions = this.positions.length;
       const msg = `Se ha recibido ${nPositions} posiciones y ${nVehicles} vehículos`;
-      console.assert(nVehicles != nPositions, msg);
+      console.log(msg);
     });
   }
 
@@ -153,7 +152,7 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
 
     setTimeout(() => {
       this.positionSrv.getAll().subscribe((positions) => {
-        this.positions = this.getFakePositions();
+        this.positions = positions;
         this.positionMarkers.forEach((positionMarker) => {
           const vehicle = positionMarker.vehicle;
           const visibleMarker = positionMarker.marker;
@@ -208,26 +207,4 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     'img/blue-car.png',
     'img/black-car.png',
   ];
-
-  private getFakePositions() {
-    return [
-      {
-        id: 4,
-        deviceId: 12,
-        protocol: '',
-        deviceTime: new Date().toJSON(),
-        fixTime: new Date().toJSON(),
-        serverTime: new Date().toJSON(),
-        outdated: false,
-        valid: false,
-        latitude: Math.floor(Math.random() * 42) + 1,
-        longitude: Math.floor(Math.random() * 42) + 1,
-        altitude: 600,
-        speed: 3.4,
-        course: 1,
-        address: '',
-        accuracy: 8,
-      },
-    ];
-  }
 }

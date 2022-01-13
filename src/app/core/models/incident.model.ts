@@ -9,4 +9,5 @@ export interface Incident {
   reservation: Reservation;
   type: IncidentType;
   photo: string;
+  solved: boolean;
 }

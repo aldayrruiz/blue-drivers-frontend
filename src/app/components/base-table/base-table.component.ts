@@ -47,8 +47,16 @@ export abstract class BaseTableComponent<M, T>
     this.isLoadingResults = false;
   }
 
-  updateTable(models: M[]): void {
+  initTable(models: M[]): void {
+    this.setModels(models);
+    this.updateTable(models);
+  }
+
+  setModels(models: M[]): void {
     this.models = models;
+  }
+
+  updateTable(models: M[]): void {
     const data = this.preprocessData(models);
     this.dataSource.data = data;
   }

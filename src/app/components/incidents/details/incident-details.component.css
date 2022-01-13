@@ -16,6 +16,10 @@ section {
   padding-top: 1%;
 }
 
+.center-items {
+  text-align: center;
+}
+
 .photo-size {
   width: 300px;
 }

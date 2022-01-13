@@ -73,7 +73,7 @@ export class VehiclesTableComponent extends BaseTableComponent<
     this.vehicleSrv
       .getAll()
       .pipe(finalize(() => this.hideLoadingSpinner()))
-      .subscribe((vehicles) => this.updateTable(vehicles));
+      .subscribe((vehicles) => this.initTable(vehicles));
   }
 
   private deleteVehicle(vehicle: VehicleRow) {

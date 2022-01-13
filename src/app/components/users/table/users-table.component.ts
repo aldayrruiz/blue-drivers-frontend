@@ -5,11 +5,10 @@ import { finalize } from 'rxjs/operators';
 import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
 import {
   EditPatchUser,
-  LocalStorageService,
+  LocalStorage,
   SnackerService,
   User,
   UserService,
-  USER_ID,
   Vehicle,
 } from 'src/app/core';
 import { ErrorMessageService } from 'src/app/core/services/error-message.service';
@@ -45,7 +44,7 @@ export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
 
   constructor(
     private errorMessage: ErrorMessageService,
-    private storage: LocalStorageService,
+    private storage: LocalStorage,
     private snacker: SnackerService,
     private userSrv: UserService,
     private dialog: MatDialog
@@ -56,7 +55,7 @@ export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
   // eslint-disable-next-line @angular-eslint/use-lifecycle-interface
   ngOnInit(): void {
     super.ngOnInit();
-    this.myId = this.storage.get(USER_ID);
+    this.myId = this.storage.getUserId();
   }
 
   openDeleteDialog(user: UserRow): void {
@@ -85,7 +84,7 @@ export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
     this.userSrv
       .getAll(true)
       .pipe(finalize(() => this.hideLoadingSpinner()))
-      .subscribe((users) => this.updateTable(users));
+      .subscribe((users) => this.initTable(users));
   }
 
   changeDisabled(user: UserRow): void {
