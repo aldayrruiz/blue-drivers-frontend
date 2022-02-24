@@ -30,7 +30,7 @@ interface MyMarker {
 }
 
 // Refresh time: Send GET HTTP to get positions, refresh map and data.
-const refreshTime = 3000;
+const refreshTime = 10000;
 
 @Component({
   selector: 'app-vehicles',
