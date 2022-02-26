@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { intervalToDuration, isFuture } from 'date-fns';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { intervalToDuration, isAfter, isBefore, isFuture, set } from 'date-fns';
 import { finalize } from 'rxjs/operators';
 import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
 import { Reservation, ReservationService, SnackerService } from 'src/app/core';
@@ -8,8 +10,9 @@ import {
   formatDateTime,
   formatDuration,
 } from 'src/app/shared/utils/dates/custom-fns';
+import { ReservationTablePdfExporter } from './pdf/exporter';
 
-interface ReservationRow {
+export interface ReservationRow {
   id: string;
   title: string;
   owner: string;
@@ -31,6 +34,11 @@ export class ReservationsTableComponent extends BaseTableComponent<
   ReservationRow
 > {
   columns = ['title', 'owner', 'vehicle', 'start', 'hourMin', 'statistics'];
+
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl(),
+  });
 
   constructor(
     private readonly reservationsSrv: ReservationService,
@@ -65,7 +73,14 @@ export class ReservationsTableComponent extends BaseTableComponent<
     this.reservationsSrv
       .getAll()
       .pipe(finalize(() => this.hideLoadingSpinner()))
-      .subscribe((reservations) => this.initTable(reservations));
+      .subscribe((reservations) => {
+        this.initTable(reservations);
+      });
+  }
+
+  onDateFilterChange(type: string, event: MatDatepickerInputEvent<Date>) {
+    this.resetTable();
+    this.updateTableByDateRangeFilter();
   }
 
   goToStatistics(reservationRow: ReservationRow) {
@@ -78,5 +93,62 @@ export class ReservationsTableComponent extends BaseTableComponent<
     }
 
     this.ghost.goToReservationStatistics(reservationRow.id);
+  }
+
+  exportPdf() {
+    const pdfExporter = new ReservationTablePdfExporter(this.dataSource.data);
+    pdfExporter.export();
+  }
+
+  private updateTableByDateRangeFilter() {
+    const rows = this.dataSource.filteredData; // filtered rows by search bar filter
+    let newRows = rows;
+    if (!this.start && !this.end) {
+      return;
+    } else if (this.start && this.end) {
+      newRows = this.getReservationsStartedBetween(rows);
+    } else if (!this.end) {
+      newRows = this.getReservationsStartedAfter(rows);
+    } else {
+      newRows = this.getReservationsStartedBefore(rows);
+    }
+    this.updateTableWithRows(newRows);
+  }
+
+  private getReservationsStartedBetween(rows: ReservationRow[]) {
+    return rows.filter((reservation) => {
+      const reservationStart = new Date(reservation.start);
+      return (
+        isAfter(reservationStart, this.start) &&
+        isBefore(reservationStart, this.end)
+      );
+    });
+  }
+
+  private getReservationsStartedAfter(rows: ReservationRow[]) {
+    rows.fill;
+    return rows.filter((reservation) => {
+      const reservationStart = new Date(reservation.start);
+      return isAfter(reservationStart, this.start);
+    });
+  }
+
+  private getReservationsStartedBefore(rows: ReservationRow[]) {
+    return rows.filter((reservation) => {
+      const reservationStart = new Date(reservation.start);
+      return isBefore(reservationStart, this.end);
+    });
+  }
+
+  private get start(): Date {
+    const { start } = this.range.value;
+    return start;
+  }
+
+  private get end(): Date {
+    const { end }: { end: Date } = this.range.value;
+    const options = { hours: 23, minutes: 59, seconds: 59, milliseconds: 59 };
+    const endOfTheDay = set(end, options);
+    return endOfTheDay;
   }
 }

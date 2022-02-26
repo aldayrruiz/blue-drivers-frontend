@@ -14,6 +14,8 @@ export abstract class BaseTableComponent<M, T>
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  // models: are initial values for table. This would never be updated.
+  // So we can reset to initial values.
   models: M[] = [];
   dataSource: MatTableDataSource<T>;
 
@@ -52,13 +54,17 @@ export abstract class BaseTableComponent<M, T>
     this.updateTable(models);
   }
 
-  setModels(models: M[]): void {
-    this.models = models;
+  resetTable(): void {
+    this.updateTable(this.models);
   }
 
   updateTable(models: M[]): void {
     const data = this.preprocessData(models);
     this.dataSource.data = data;
+  }
+
+  updateTableWithRows(rows: T[]): void {
+    this.dataSource.data = rows;
   }
 
   /**
@@ -73,4 +79,8 @@ export abstract class BaseTableComponent<M, T>
    * Because, if there are a lot of data, we must load the page, then charge the data.
    */
   abstract fetchDataAndUpdate(): void;
+
+  private setModels(models: M[]): void {
+    this.models = models;
+  }
 }
