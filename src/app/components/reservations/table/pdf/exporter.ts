@@ -6,11 +6,11 @@ import { ReservationRow } from '../reservations-table.component';
 export class ReservationTablePdfExporter {
   constructor(private rows: ReservationRow[]) {}
 
-  export() {
+  export(reservationDay: Date) {
     const columnHeaders = this.getColumHeaders();
     const tableRows = this.getTableRows();
     const pdf = this.createPdf(columnHeaders, tableRows);
-    const pdfName = this.getPdfName();
+    const pdfName = this.getPdfName(reservationDay);
     pdf.save(pdfName);
   }
 
@@ -25,9 +25,13 @@ export class ReservationTablePdfExporter {
     });
   }
 
-  private getPdfName() {
-    const today = format(new Date(), 'ddMMyyyy');
-    const pdfName = `Reservations_${today}`;
+  private getPdfName(reservationDay: Date) {
+    const pdfDefaultName = `Fleet_Management_Reservas`;
+    if (!reservationDay) {
+      return pdfDefaultName;
+    }
+    const date = format(reservationDay, 'dd_MM_yyyy');
+    const pdfName = `${pdfDefaultName}_Con_Fecha_De_Recogida_${date}`;
     return pdfName;
   }
 

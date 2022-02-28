@@ -40,6 +40,8 @@ export class ReservationsTableComponent extends BaseTableComponent<
     end: new FormControl(),
   });
 
+  datePicker = new FormControl();
+
   constructor(
     private readonly reservationsSrv: ReservationService,
     private readonly snacker: SnackerService,
@@ -97,7 +99,7 @@ export class ReservationsTableComponent extends BaseTableComponent<
 
   exportPdf() {
     const pdfExporter = new ReservationTablePdfExporter(this.dataSource.data);
-    pdfExporter.export();
+    pdfExporter.export(this.start);
   }
 
   private updateTableByDateRangeFilter() {
@@ -126,7 +128,6 @@ export class ReservationsTableComponent extends BaseTableComponent<
   }
 
   private getReservationsStartedAfter(rows: ReservationRow[]) {
-    rows.fill;
     return rows.filter((reservation) => {
       const reservationStart = new Date(reservation.start);
       return isAfter(reservationStart, this.start);
@@ -141,14 +142,24 @@ export class ReservationsTableComponent extends BaseTableComponent<
   }
 
   private get start(): Date {
-    const { start } = this.range.value;
+    const start = this.datePicker.value;
+    // const { start } = this.range.value;
     return start;
   }
 
   private get end(): Date {
-    const { end }: { end: Date } = this.range.value;
+    const end = this.datePicker.value;
+    if (!end) {
+      return null;
+    }
+    // const { end }: { end: Date } = this.range.value;
+    const endOfTheDay = this.getEndOfTheDay(end);
+    return endOfTheDay;
+  }
+
+  private getEndOfTheDay(day: Date) {
     const options = { hours: 23, minutes: 59, seconds: 59, milliseconds: 59 };
-    const endOfTheDay = set(end, options);
+    const endOfTheDay = set(day, options);
     return endOfTheDay;
   }
 }
