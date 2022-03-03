@@ -10,11 +10,11 @@
       <mat-list role="list">
         <mat-list-item role="listitem">
           <b>Velocidad máxima:&nbsp; </b>
-          {{ summary?.maxSpeed }} km/h
+          {{ summary?.maxSpeed | number : '1.0-0'}} km/h
         </mat-list-item>
 
         <mat-list-item role="listitem">
-          <b>Velocidad media:&nbsp; </b>{{ summary?.averageSpeed }} km/h
+          <b>Velocidad media:&nbsp; </b>{{ summary?.averageSpeed | number : '1.0-0'}} km/h
         </mat-list-item>
 
         <mat-list-item role="listitem">
@@ -24,7 +24,7 @@
 
         <mat-list-item role="listitem">
           <b>Distancia recorrida:&nbsp; </b>
-          {{ summary?.distance }} km
+          {{ summary?.distance | number : '1.0-0'}} km
         </mat-list-item>
 
         <mat-list-item role="listitem">
