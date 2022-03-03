@@ -1,10 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { API } from 'src/app/shared/utils/api-paths.enum';
+import { API } from 'src/app/core/utils/api-paths.enum';
 import { environment } from 'src/environments/environment';
 import { CreateVehicle, EditVehicle, Vehicle } from '../..';
-import { EditPatchVehicle } from '../../models/edit/edit-patch-vehicle.model';
+import { EditPatchVehicle } from '../../models/vehicles/patch.model';
 
 @Injectable({
   providedIn: 'root',

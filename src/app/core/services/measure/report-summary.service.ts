@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ReportSummary } from '../../models/report.summary.model';
+import { ReportSummary } from '../../models/reports/report.summary.model';
 import { fromKnotsToKph, fromMetersToKm } from './converter';
 
 @Injectable({ providedIn: 'root' })

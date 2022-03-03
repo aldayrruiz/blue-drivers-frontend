@@ -34,7 +34,7 @@ export class ToolbarComponent implements OnInit {
         index: 2,
       },
       {
-        label: 'Incidentes',
+        label: 'Incidencias',
         link: 'incidents',
         index: 3,
       },

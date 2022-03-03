@@ -15,7 +15,7 @@ export class ReservationTablePdfExporter {
   }
 
   private getColumHeaders() {
-    return [['Propietario', 'Vehicle', 'Fecha de recogida', 'Duración']];
+    return [['Propietario', 'Vehículo', 'Fecha de recogida', 'Duración']];
   }
 
   private getTableRows() {

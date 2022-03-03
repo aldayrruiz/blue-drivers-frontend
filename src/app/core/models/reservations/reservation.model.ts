@@ -1,4 +1,4 @@
-import { User, Vehicle } from '.';
+import { User, Vehicle } from '..';
 
 export interface Reservation {
   id?: string;

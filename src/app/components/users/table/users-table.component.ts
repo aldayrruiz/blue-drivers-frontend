@@ -12,7 +12,7 @@ import {
   Vehicle,
 } from 'src/app/core';
 import { ErrorMessageService } from 'src/app/core/services/error-message.service';
-import { formatDateTime } from 'src/app/shared/utils/dates/custom-fns';
+import { formatDateTime } from 'src/app/core/utils/dates/custom-fns';
 import { DeleteUserComponent } from '../../dialogs/delete-user/delete-user.component';
 
 interface UserRow {

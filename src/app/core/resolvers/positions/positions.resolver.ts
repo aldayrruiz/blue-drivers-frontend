@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Position } from '../../models/position.model';
+import { Position } from '../../models/positions/position.model';
 import { PositionService } from '../../services';
 
 @Injectable({

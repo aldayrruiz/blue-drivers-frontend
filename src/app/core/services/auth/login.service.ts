@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { API } from 'src/app/shared/utils/api-paths.enum';
+import { API } from 'src/app/core/utils/api-paths.enum';
 import { environment } from 'src/environments/environment';
 import { LocalStorage } from '../local-storage.service';
 

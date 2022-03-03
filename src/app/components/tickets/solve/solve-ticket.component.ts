@@ -10,7 +10,7 @@ import {
   Vehicle,
 } from 'src/app/core';
 import { ErrorMessageService } from 'src/app/core/services/error-message.service';
-import { PipeDates } from 'src/app/shared/utils/dates/pipe-dates';
+import { PipeDates } from 'src/app/core/utils/dates/pipe-dates';
 
 @Component({
   selector: 'app-solve-ticket',

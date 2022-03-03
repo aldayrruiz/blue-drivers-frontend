@@ -3,7 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { finalize } from 'rxjs/operators';
 import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
 import { SnackerService, Vehicle, VehicleService } from 'src/app/core';
-import { EditPatchVehicle } from 'src/app/core/models/edit/edit-patch-vehicle.model';
+import { EditPatchVehicle } from 'src/app/core/models';
+import { fuelLabel } from 'src/app/core/models/vehicles/fuel.model';
 import { ErrorMessageService } from 'src/app/core/services/error-message.service';
 import { DeleteVehicleComponent } from '../../dialogs/delete-vehicle/delete-vehicle.component';
 
@@ -24,7 +25,15 @@ export class VehiclesTableComponent extends BaseTableComponent<
   Vehicle,
   VehicleRow
 > {
-  columns = ['model', 'brand', 'numberPlate', 'edit', 'isDisabled', 'delete'];
+  columns = [
+    'brand',
+    'model',
+    'fuel',
+    'numberPlate',
+    'edit',
+    'isDisabled',
+    'delete',
+  ];
 
   constructor(
     private errorMessage: ErrorMessageService,
@@ -40,6 +49,7 @@ export class VehiclesTableComponent extends BaseTableComponent<
       id: vehicle.id,
       model: vehicle.model,
       brand: vehicle.brand,
+      fuel: fuelLabel(vehicle.fuel),
       numberPlate: vehicle.number_plate,
       isDisabled: vehicle.is_disabled,
     }));

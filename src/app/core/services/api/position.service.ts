@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { API } from 'src/app/shared/utils/api-paths.enum';
+import { API } from 'src/app/core/utils/api-paths.enum';
 import { environment } from 'src/environments/environment';
-import { Position } from '../../models/position.model';
+import { Position } from '../../models/positions/position.model';
 
 @Injectable({
   providedIn: 'root',

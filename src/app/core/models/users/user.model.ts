@@ -1,5 +1,5 @@
-import { Role } from './enums/role.model';
-import { Vehicle } from './vehicle.model';
+import { Role } from './role.model';
+import { Vehicle } from '..';
 
 export interface User {
   id: string;

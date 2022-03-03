@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { LoginService, SnackerService } from 'src/app/core';
 import { ErrorMessageService } from 'src/app/core/services/error-message.service';
-import { MyErrorStateMatcher } from 'src/app/shared/utils/my-error-state-matcher';
+import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
 
 const MIN_PASS_LENGTH = 6;
 

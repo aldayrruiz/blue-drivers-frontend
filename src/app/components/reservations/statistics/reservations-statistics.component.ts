@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SnackerService } from 'src/app/core';
-import { Position } from 'src/app/core/models/position.model';
-import { ReportSummary } from 'src/app/core/models/report.summary.model';
+import { Position } from 'src/app/core/models';
+import { ReportSummary } from 'src/app/core/models/reports/report.summary.model';
 import { ReportService } from 'src/app/core/services/api/report.service';
 import { ReportSummarySerializer } from 'src/app/core/services/measure/report-summary.service';
 import { AntMapComponent } from '../../ant-map/ant-map.component';

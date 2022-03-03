@@ -12,11 +12,11 @@ import * as L from 'leaflet';
 import { Subject } from 'rxjs';
 import { PositionService } from 'src/app/core';
 import { Vehicle } from 'src/app/core/models';
-import { Position } from 'src/app/core/models/position.model';
+import { Position } from 'src/app/core/models/positions/position.model';
 import { AssetsService } from 'src/app/core/services/assets.service';
-import { PipeDates } from 'src/app/shared/utils/dates/pipe-dates';
-import { MapConfiguration } from 'src/app/shared/utils/leaflet/map-configuration';
-import { MapCreator } from 'src/app/shared/utils/leaflet/map-creator';
+import { PipeDates } from 'src/app/core/utils/dates/pipe-dates';
+import { MapConfiguration } from 'src/app/core/utils/leaflet/map-configuration';
+import { MapCreator } from 'src/app/core/utils/leaflet/map-creator';
 
 interface FeatureValue {
   feature: string;

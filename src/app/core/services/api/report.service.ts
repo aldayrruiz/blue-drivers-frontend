@@ -1,10 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { API } from 'src/app/shared/utils/api-paths.enum';
+import { API } from 'src/app/core/utils/api-paths.enum';
 import { environment } from 'src/environments/environment';
-import { Position } from '../../models/position.model';
-import { ReportSummary } from '../../models/report.summary.model';
+import { Position } from '../../models/positions/position.model';
+import { ReportSummary } from '../../models/reports/report.summary.model';
 
 @Injectable({
   providedIn: 'root',

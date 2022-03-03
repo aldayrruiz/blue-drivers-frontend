@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UsersRoutingModule } from 'src/app/pages/users/users-routing.module';
-import { MyAngularMaterialModule } from '../../shared/angular-material.module';
+import { MyAngularMaterialModule } from '../../core/modules/angular-material.module';
 import { CreateUserComponent } from './create/create-user.component';
 import { EditAllowedVehiclesComponent } from './edit-allowed-vehicles/edit-allowed-vehicles.component';
 import { UsersTableComponent } from './table/users-table.component';

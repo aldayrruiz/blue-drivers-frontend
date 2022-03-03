@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { finalize } from 'rxjs/operators';
-import { Incident, IncidentService, translateType } from 'src/app/core';
-import { formatDateTime } from 'src/app/shared/utils/dates/custom-fns';
+import { Incident, IncidentService, incidentTypeLabel } from 'src/app/core';
+import { formatDateTime } from 'src/app/core/utils/dates/custom-fns';
 import { BaseTableComponent } from '../../base-table/base-table.component';
 
 interface RowIncident {
@@ -59,7 +59,7 @@ export class IncidentsTableComponent extends BaseTableComponent<
       title: incident.title,
       owner: incident.owner.fullname,
       vehicle: `${incident.reservation.vehicle.model} ${incident.reservation.vehicle.brand}`,
-      type: translateType(incident.type),
+      type: incidentTypeLabel(incident.type),
       dateStored: formatDateTime(incident.date_stored),
       status: incident.solved ? 'Solucionado' : 'No Solucionado',
     }));

@@ -9,7 +9,7 @@ import { CustomRouter } from 'src/app/core/services/router/router.service';
 import {
   formatDateTime,
   formatDuration,
-} from 'src/app/shared/utils/dates/custom-fns';
+} from 'src/app/core/utils/dates/custom-fns';
 import { ReservationTablePdfExporter } from './pdf/exporter';
 
 export interface ReservationRow {
