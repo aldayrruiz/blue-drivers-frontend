@@ -25,6 +25,11 @@ export class ReportService {
     return this.http.get<ReportSummary>(path, options);
   }
 
+  /**
+   * Get positions given a reservation.
+   * @param reservationId
+   * @returns
+   */
   getReservationPositions(reservationId: string): Observable<Position[]> {
     const options = {
       params: new HttpParams().set('reservationId', reservationId),

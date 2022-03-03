@@ -4,6 +4,7 @@ import { SnackerService } from 'src/app/core';
 import { Position } from 'src/app/core/models/position.model';
 import { ReportSummary } from 'src/app/core/models/report.summary.model';
 import { ReportService } from 'src/app/core/services/api/report.service';
+import { ReportSummarySerializer } from 'src/app/core/services/measure/report-summary.service';
 import { AntMapComponent } from '../../ant-map/ant-map.component';
 
 @Component({
@@ -18,6 +19,7 @@ export class ReservationsStatisticsComponent implements OnInit {
   private antMap: AntMapComponent;
 
   constructor(
+    private readonly reportSerializer: ReportSummarySerializer,
     private readonly reportSrv: ReportService,
     private readonly snacker: SnackerService,
     private readonly route: ActivatedRoute
@@ -37,7 +39,7 @@ export class ReservationsStatisticsComponent implements OnInit {
 
   private fetchReportSummary(reservationId: string) {
     this.reportSrv.getReservationSummary(reservationId).subscribe(
-      (summary) => (this.summary = summary),
+      (summary) => (this.summary = this.serializeSummary(summary)),
       () => this.snacker.showError('No hay un resumen para esta reserva.')
     );
   }
@@ -47,5 +49,9 @@ export class ReservationsStatisticsComponent implements OnInit {
       (positions) => this.antMap.addAntPath(positions),
       () => this.snacker.showError('No se recibieron posiciones')
     );
+  }
+
+  private serializeSummary(summary: ReportSummary) {
+    return this.reportSerializer.convert(summary);
   }
 }
