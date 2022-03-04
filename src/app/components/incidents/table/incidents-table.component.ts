@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { finalize } from 'rxjs/operators';
-import { Incident, IncidentService, incidentTypeLabel } from 'src/app/core';
+import { Incident, incidentTypeLabel } from 'src/app/core/models';
+import { IncidentService } from 'src/app/core/services';
 import { formatDateTime } from 'src/app/core/utils/dates/custom-fns';
 import { BaseTableComponent } from '../../base-table/base-table.component';
 

@@ -10,10 +10,8 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import * as L from 'leaflet';
 import { Subject } from 'rxjs';
-import { PositionService } from 'src/app/core';
-import { Vehicle } from 'src/app/core/models';
-import { Position } from 'src/app/core/models/positions/position.model';
-import { AssetsService } from 'src/app/core/services/assets.service';
+import { Position, Vehicle } from 'src/app/core/models';
+import { AssetsService, PositionService } from 'src/app/core/services';
 import { PipeDates } from 'src/app/core/utils/dates/pipe-dates';
 import { MapConfiguration } from 'src/app/core/utils/leaflet/map-configuration';
 import { MapCreator } from 'src/app/core/utils/leaflet/map-creator';

@@ -1,9 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { API } from 'src/app/core/utils/api-paths.enum';
 import { environment } from 'src/environments/environment';
-import { CreateUser, EditPatchUser, User } from '../..';
+import { CreateUser, EditPatchUser, User } from '../../models';
+import { API } from '../../utils/api-paths.enum';
 
 @Injectable({
   providedIn: 'root',

@@ -1,15 +1,17 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { intervalToDuration, isAfter, isBefore, isFuture, set } from 'date-fns';
+import { isAfter, isBefore, isFuture, set } from 'date-fns';
 import { finalize } from 'rxjs/operators';
-import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
-import { Reservation, ReservationService, SnackerService } from 'src/app/core';
-import { CustomRouter } from 'src/app/core/services/router/router.service';
+import { Reservation } from 'src/app/core/models';
 import {
-  formatDateTime,
-  formatDuration,
-} from 'src/app/core/utils/dates/custom-fns';
+  CustomRouter,
+  ReservationService,
+  SnackerService,
+  TimeReservedService,
+} from 'src/app/core/services';
+import { formatDateTime } from 'src/app/core/utils/dates/custom-fns';
+import { BaseTableComponent } from '../../base-table/base-table.component';
 import { ReservationTablePdfExporter } from './pdf/exporter';
 
 export interface ReservationRow {
@@ -43,18 +45,12 @@ export class ReservationsTableComponent extends BaseTableComponent<
   datePicker = new FormControl();
 
   constructor(
+    private readonly timeReservedSrv: TimeReservedService,
     private readonly reservationsSrv: ReservationService,
     private readonly snacker: SnackerService,
     private readonly ghost: CustomRouter
   ) {
     super();
-  }
-
-  getTimeReserved(reservation: Reservation): string {
-    const start = new Date(reservation.start);
-    const end = new Date(reservation.end);
-    const duration = intervalToDuration({ start, end });
-    return formatDuration(duration);
   }
 
   preprocessData(reservations: Reservation[]): ReservationRow[] {
@@ -67,7 +63,7 @@ export class ReservationsTableComponent extends BaseTableComponent<
       endFormatted: formatDateTime(reservation.end),
       start: reservation.start,
       end: reservation.end,
-      hourMin: this.getTimeReserved(reservation),
+      hourMin: this.timeReservedSrv.getFromReservation(reservation),
     }));
   }
 

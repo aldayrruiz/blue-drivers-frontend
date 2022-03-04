@@ -2,10 +2,12 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { finalize } from 'rxjs/operators';
 import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
-import { SnackerService, Vehicle, VehicleService } from 'src/app/core';
-import { EditPatchVehicle } from 'src/app/core/models';
-import { fuelLabel } from 'src/app/core/models/vehicles/fuel.model';
-import { ErrorMessageService } from 'src/app/core/services/error-message.service';
+import { EditPatchVehicle, fuelLabel, Vehicle } from 'src/app/core/models';
+import {
+  ErrorMessageService,
+  SnackerService,
+  VehicleService,
+} from 'src/app/core/services';
 import { DeleteVehicleComponent } from '../../dialogs/delete-vehicle/delete-vehicle.component';
 
 interface VehicleRow {

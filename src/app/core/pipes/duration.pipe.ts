@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { fromMillisecondsToSeconds } from 'src/app/core/services/measure/converter';
+import { fromMillisecondsToSeconds } from 'src/app/core/services/measure/report-summary/converter';
 import { formatDuration } from '../utils/dates/custom-fns';
 
 @Pipe({

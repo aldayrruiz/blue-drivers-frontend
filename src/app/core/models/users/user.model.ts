@@ -1,5 +1,5 @@
-import { Role } from './role.model';
 import { Vehicle } from '..';
+import { Role } from './role.model';
 
 export interface User {
   id: string;

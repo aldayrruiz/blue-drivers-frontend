@@ -3,8 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
-import { SnackerService, User, UserService, Vehicle } from 'src/app/core';
-import { ErrorMessageService } from 'src/app/core/services/error-message.service';
+import { User, Vehicle } from 'src/app/core/models';
+import {
+  ErrorMessageService,
+  SnackerService,
+  UserService,
+} from 'src/app/core/services';
 
 @Component({
   selector: 'app-edit-allowed-vehicles',

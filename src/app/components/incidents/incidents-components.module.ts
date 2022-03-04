@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { IncidentsRoutingModule } from 'src/app/pages/incidents/incidents-routing.module';
 import { MyAngularMaterialModule } from 'src/app/core/modules/angular-material.module';
+import { IncidentsRoutingModule } from 'src/app/pages/incidents/incidents-routing.module';
 import { IncidentDetailsComponent } from './details/incident-details.component';
 import { IncidentsTableComponent } from './table/incidents-table.component';
 

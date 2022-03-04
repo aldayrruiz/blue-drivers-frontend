@@ -3,15 +3,13 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { finalize } from 'rxjs/operators';
 import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
+import { EditPatchUser, User, Vehicle } from 'src/app/core/models';
 import {
-  EditPatchUser,
+  ErrorMessageService,
   LocalStorage,
   SnackerService,
-  User,
   UserService,
-  Vehicle,
-} from 'src/app/core';
-import { ErrorMessageService } from 'src/app/core/services/error-message.service';
+} from 'src/app/core/services';
 import { formatDateTime } from 'src/app/core/utils/dates/custom-fns';
 import { DeleteUserComponent } from '../../dialogs/delete-user/delete-user.component';
 

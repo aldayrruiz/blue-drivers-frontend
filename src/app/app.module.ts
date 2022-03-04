@@ -1,12 +1,15 @@
+import { registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import localeEs from '@angular/common/locales/es';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import 'moment/locale/es';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CoreModule } from './core';
+import { CoreModule } from './core/core.module';
 import { SpanishDateMaterialModule } from './core/modules/spanish-dates.module';
+registerLocaleData(localeEs, 'es');
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,7 +21,7 @@ import { SpanishDateMaterialModule } from './core/modules/spanish-dates.module';
     BrowserAnimationsModule,
     SpanishDateMaterialModule,
   ],
-  providers: [],
+  providers: [{ provide: LOCALE_ID, useValue: 'es-ES' }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

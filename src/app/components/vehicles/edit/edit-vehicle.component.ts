@@ -1,22 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
+import { EditVehicle, Vehicle } from 'src/app/core/models';
 import {
-  EditVehicle,
+  ErrorMessageService,
   SnackerService,
-  Vehicle,
   VehicleService,
-} from 'src/app/core';
-import { ErrorMessageService } from 'src/app/core/services/error-message.service';
+} from 'src/app/core/services';
+import {
+  brandValidators,
+  imeiValidators,
+  modelValidators,
+  numberPlateValidators,
+} from 'src/app/core/validators/vehicle';
 import { CustomErrorStateMatcher } from 'src/app/pages/login/login.component';
-
-const NUMBER_PLATE_LENGTH = 7;
 
 @Component({
   selector: 'app-edit-vehicle',
@@ -28,15 +26,14 @@ export class EditVehicleComponent implements OnInit {
   vehicle: Vehicle;
   formGroup: FormGroup;
   sending = false;
-  isDisabled = 'abled';
 
   constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private route: ActivatedRoute,
-    private snacker: SnackerService,
-    private vehicleSrv: VehicleService,
-    private errorMessage: ErrorMessageService
+    private readonly fb: FormBuilder,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly snacker: SnackerService,
+    private readonly vehicleSrv: VehicleService,
+    private readonly errorMessage: ErrorMessageService
   ) {}
 
   ngOnInit(): void {
@@ -46,37 +43,28 @@ export class EditVehicleComponent implements OnInit {
 
   private setFormGroup(vehicle: Vehicle) {
     this.formGroup = this.fb.group({
-      brand: [vehicle.brand, [Validators.required]],
-      model: [vehicle.model, [Validators.required]],
-      numberPlate: [
-        vehicle.number_plate,
-        [
-          Validators.required,
-          Validators.minLength(NUMBER_PLATE_LENGTH),
-          Validators.maxLength(NUMBER_PLATE_LENGTH),
-        ],
-      ],
-      imei: [vehicle.gps_device.imei, [Validators.required]],
+      brand: [vehicle.brand, brandValidators],
+      model: [vehicle.model, modelValidators],
+      numberPlate: [vehicle.number_plate, numberPlateValidators],
+      imei: [vehicle.gps_device.imei, imeiValidators],
+      isDisabled: [vehicle.is_disabled],
     });
-    this.isDisabled = vehicle.is_disabled === false ? 'abled' : 'disabled';
   }
 
-  private getUdpatedData(): EditVehicle {
-    const isDisabled = this.isDisabled === 'abled' ? false : true;
-
+  private getUpdatedData(): EditVehicle {
     const updatedData: EditVehicle = {
       model: this.model.value,
       brand: this.brand.value,
       number_plate: this.numberPlate.value,
       gps_device: this.imei.value,
-      is_disabled: isDisabled,
+      is_disabled: this.isDisabled.value,
     };
     return updatedData;
   }
 
   edit(): void {
     this.sending = true;
-    const updatedData = this.getUdpatedData();
+    const updatedData = this.getUpdatedData();
 
     this.vehicleSrv
       .update(this.vehicle.id, updatedData)
@@ -96,7 +84,6 @@ export class EditVehicleComponent implements OnInit {
 
   resolve(): void {
     this.route.data.subscribe((response) => {
-      console.log('Response received!', response);
       this.vehicle = response['vehicle'];
     });
   }
@@ -115,5 +102,9 @@ export class EditVehicleComponent implements OnInit {
 
   get imei(): AbstractControl {
     return this.formGroup.get('imei');
+  }
+
+  get isDisabled(): AbstractControl {
+    return this.formGroup.get('isDisabled');
   }
 }

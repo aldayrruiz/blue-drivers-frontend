@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { AdminRoutingModule } from '../../pages/admin/admin-routing.module';
 import { MyAngularMaterialModule } from '../../core/modules/angular-material.module';
+import { AdminRoutingModule } from '../../pages/admin/admin-routing.module';
 import { ToolbarComponent } from './toolbar.component';
 
 @NgModule({

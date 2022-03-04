@@ -1,10 +1,19 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SnackerService } from 'src/app/core';
-import { Position } from 'src/app/core/models';
-import { ReportSummary } from 'src/app/core/models/reports/report.summary.model';
-import { ReportService } from 'src/app/core/services/api/report.service';
-import { ReportSummarySerializer } from 'src/app/core/services/measure/report-summary.service';
+import {
+  fuelLabel,
+  Position,
+  ReportSummary,
+  Reservation,
+  Vehicle,
+} from 'src/app/core/models';
+import {
+  FuelPriceCalculatorFactory,
+  ReportService,
+  ReportSummarySerializer,
+  ReservationService,
+  TimeReservedService,
+} from 'src/app/core/services';
 import { AntMapComponent } from '../../ant-map/ant-map.component';
 
 @Component({
@@ -13,15 +22,23 @@ import { AntMapComponent } from '../../ant-map/ant-map.component';
   styleUrls: ['./reservations-statistics.component.css'],
 })
 export class ReservationsStatisticsComponent implements OnInit {
+  vehicle: Vehicle;
   summary: ReportSummary;
   positions: Position[] = [];
   @ViewChild(AntMapComponent)
   private antMap: AntMapComponent;
+  reservation: Reservation;
+
+  priceFuelConsumed = 0;
+  fuel: string;
+  timeReserved: string;
 
   constructor(
+    private readonly priceFuelCalculatorFactory: FuelPriceCalculatorFactory,
     private readonly reportSerializer: ReportSummarySerializer,
+    private readonly timeReservedSrv: TimeReservedService,
+    private readonly reservationSrv: ReservationService,
     private readonly reportSrv: ReportService,
-    private readonly snacker: SnackerService,
     private readonly route: ActivatedRoute
   ) {}
 
@@ -30,28 +47,62 @@ export class ReservationsStatisticsComponent implements OnInit {
   }
 
   fetchData() {
-    this.route.params.subscribe((params) => {
+    this.route.params.subscribe(async (params) => {
       const reservationId = params.reservationId;
-      this.fetchReportSummary(reservationId);
-      this.fetchPositions(reservationId);
+      const response = await this.promisesToFetch(reservationId);
+      const [reservation, summary, positions] = response;
+      this.serializeSummary(summary);
+      this.positions = positions;
+      this.reservation = reservation;
     });
   }
 
+  private async promisesToFetch(reservationId: string) {
+    const reservation = this.fetchReservation(reservationId);
+    const reportSummary = this.fetchReportSummary(reservationId);
+    const positions = this.fetchPositions(reservationId);
+    return Promise.all([reservation, reportSummary, positions]);
+  }
+
+  private fetchReservation(reservationId: string) {
+    return this.reservationSrv.get(reservationId).toPromise();
+  }
+
   private fetchReportSummary(reservationId: string) {
-    this.reportSrv.getReservationSummary(reservationId).subscribe(
-      (summary) => (this.summary = this.serializeSummary(summary)),
-      () => this.snacker.showError('No hay un resumen para esta reserva.')
-    );
+    return this.reportSrv.getReservationSummary(reservationId).toPromise();
   }
 
   private fetchPositions(reservationId: string) {
-    this.reportSrv.getReservationPositions(reservationId).subscribe(
-      (positions) => this.antMap.addAntPath(positions),
-      () => this.snacker.showError('No se recibieron posiciones')
-    );
+    return this.reportSrv.getReservationPositions(reservationId).toPromise();
+  }
+
+  private loadDataForUI() {
+    this.vehicle = this.reservation.vehicle;
+    this.fuel = fuelLabel(this.vehicle.fuel);
+    this.setTimeReserved();
+    this.calculatePriceFuelConsumed();
   }
 
   private serializeSummary(summary: ReportSummary) {
-    return this.reportSerializer.convert(summary);
+    this.summary = this.reportSerializer.convert(summary);
+  }
+
+  private calculatePriceFuelConsumed() {
+    console.log(this.vehicle);
+    const fuel = this.vehicle.fuel;
+
+    const calculator = this.priceFuelCalculatorFactory.getCalculator(fuel);
+    const price = calculator.getPrice(this.summary.distance);
+    this.priceFuelConsumed = price;
+  }
+
+  private setTimeReserved() {
+    this.timeReserved = this.timeReservedSrv.getFromReservation(
+      this.reservation
+    );
+  }
+
+  private loadAntMap() {
+    this.antMap.addAntPath(this.positions);
   }
 }

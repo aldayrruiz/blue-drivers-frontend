@@ -41,7 +41,7 @@
                 <mat-label>Nº Matricula</mat-label>
                 <input type="text" matInput [formControl]="numberPlate" [errorStateMatcher]="matcher">
                 <mat-error *ngIf="
-                numberPlate.hasError('required') || 
+                numberPlate.hasError('required') ||
                 numberPlate.hasError('maxLength') ||
                 numberPlate.hasError('minLength')">
                   El nº de matricula debe tener <strong>7 caractéres</strong>
@@ -67,9 +67,9 @@
           <tr>
             <td>
               <mat-form-field class="full-width" appearance="fill">
-                <mat-select [(value)]="isDisabled">
-                  <mat-option value="abled">Habilitado</mat-option>
-                  <mat-option value="disabled">Deshabilitado</mat-option>
+                <mat-select [formControl]="isDisabled">
+                  <mat-option [value]="false">Habilitado</mat-option>
+                  <mat-option [value]="true">Deshabilitado</mat-option>
                 </mat-select>
               </mat-form-field>
             </td>
@@ -83,7 +83,7 @@
                 <button class="edit" (click)="edit()" mat-raised-button color="primary" type="submit" expand="block"
                   [disabled]="!formGroup.valid || sending">Editar</button>
               </div>
-              
+
             </td>
           </tr>
         </table>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Incident, IncidentService, incidentTypeLabel } from 'src/app/core';
+import { Incident, incidentTypeLabel } from 'src/app/core/models';
+import { IncidentService } from 'src/app/core/services';
 import { PipeDates } from 'src/app/core/utils/dates/pipe-dates';
 
 @Component({

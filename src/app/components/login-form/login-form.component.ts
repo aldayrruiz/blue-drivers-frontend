@@ -7,8 +7,11 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
-import { LoginService, SnackerService } from 'src/app/core';
-import { ErrorMessageService } from 'src/app/core/services/error-message.service';
+import {
+  ErrorMessageService,
+  LoginService,
+  SnackerService,
+} from 'src/app/core/services';
 import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
 
 const MIN_PASS_LENGTH = 6;
@@ -25,7 +28,7 @@ export class LoginFormComponent implements OnInit {
   sending = false;
 
   constructor(
-    private fb: FormBuilder,
+    private formBuilder: FormBuilder,
     private loginService: LoginService,
     private router: Router,
     private snacker: SnackerService,
@@ -33,7 +36,7 @@ export class LoginFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.credentials = this.fb.group({
+    this.credentials = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: [
         '',

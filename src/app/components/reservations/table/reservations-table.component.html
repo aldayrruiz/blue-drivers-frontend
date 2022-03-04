@@ -75,7 +75,7 @@
       <ng-container matColumnDef="start">
         <th mat-header-cell *matHeaderCellDef>Fecha de recogida</th>
         <td mat-cell *matCellDef="let reservation">
-          {{ reservation.startFormatted }}
+          {{ reservation.start | essential }}
         </td>
       </ng-container>
 
@@ -83,7 +83,7 @@
       <ng-container matColumnDef="hourMin">
         <th mat-header-cell *matHeaderCellDef>Tiempo reservado</th>
         <td mat-cell *matCellDef="let reservation">
-          {{ reservation.hourMin }}
+          {{ reservation.hourMin}}
         </td>
       </ng-container>
 
@@ -95,8 +95,7 @@
             mat-icon-button
             color="error"
             aria-label="Go to statistics"
-            (click)="goToStatistics(reservation)"
-          >
+            (click)="goToStatistics(reservation)">
             <mat-icon aria-hidden="false" aria-label="bar_chart icon"
               >bar_chart</mat-icon
             >

@@ -10,7 +10,7 @@ import {
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
-import { LoginService } from 'src/app/core';
+import { LoginService } from 'src/app/core/services';
 
 export class CustomErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -37,9 +37,9 @@ export class LoginComponent implements OnInit {
   hide = true;
 
   constructor(
-    private fb: FormBuilder,
-    private loginService: LoginService,
-    private router: Router
+    private readonly fb: FormBuilder,
+    private readonly loginService: LoginService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {

@@ -3,13 +3,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import {
   Reservation,
-  SnackerService,
   Ticket,
-  TicketService,
   TicketStatus,
   Vehicle,
-} from 'src/app/core';
-import { ErrorMessageService } from 'src/app/core/services/error-message.service';
+} from 'src/app/core/models';
+import {
+  ErrorMessageService,
+  SnackerService,
+  TicketService,
+} from 'src/app/core/services';
 import { PipeDates } from 'src/app/core/utils/dates/pipe-dates';
 
 @Component({

@@ -7,8 +7,12 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
-import { CreateUser, Role, SnackerService, UserService } from 'src/app/core';
-import { ErrorMessageService } from 'src/app/core/services/error-message.service';
+import { CreateUser, Role } from 'src/app/core/models';
+import {
+  ErrorMessageService,
+  SnackerService,
+  UserService,
+} from 'src/app/core/services';
 import { CustomErrorStateMatcher } from 'src/app/pages/login/login.component';
 
 @Component({
