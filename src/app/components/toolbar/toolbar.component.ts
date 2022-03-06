@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FleetRouter, LoginService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-toolbar',
@@ -11,7 +12,11 @@ export class ToolbarComponent implements OnInit {
   navLinks: any[];
   activeLinkIndex = -1;
 
-  constructor(private router: Router) {
+  constructor(
+    private readonly loginService: LoginService,
+    private readonly fleetRouter: FleetRouter,
+    private readonly router: Router
+  ) {
     this.navLinks = [
       {
         label: 'Usuarios',
@@ -52,5 +57,10 @@ export class ToolbarComponent implements OnInit {
         this.navLinks.find((tab) => tab.link === '.' + this.router.url)
       );
     });
+  }
+
+  async logOut() {
+    this.loginService.logout();
+    await this.fleetRouter.goToLogin();
   }
 }

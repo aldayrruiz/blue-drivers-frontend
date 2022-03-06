@@ -1,20 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { Router } from '@angular/router';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 import {
   ErrorMessageService,
+  FleetRouter,
   LoginService,
   SnackerService,
 } from 'src/app/core/services';
 import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
-
-const MIN_PASS_LENGTH = 6;
+import {
+  emailValidators,
+  passwordValidators,
+} from 'src/app/core/validators/user';
 
 @Component({
   selector: 'app-login-form',
@@ -22,26 +19,23 @@ const MIN_PASS_LENGTH = 6;
   styleUrls: ['./login-form.component.css'],
 })
 export class LoginFormComponent implements OnInit {
+  matcher = new MyErrorStateMatcher();
   credentials: FormGroup;
-  submitted = false;
   hide = true;
   sending = false;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private loginService: LoginService,
-    private router: Router,
-    private snacker: SnackerService,
-    private errorMessage: ErrorMessageService
+    private readonly errorMessage: ErrorMessageService,
+    private readonly loginService: LoginService,
+    private readonly formBuilder: FormBuilder,
+    private readonly snacker: SnackerService,
+    private readonly router: FleetRouter
   ) {}
 
   ngOnInit(): void {
     this.credentials = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: [
-        '',
-        [Validators.required, Validators.minLength(MIN_PASS_LENGTH)],
-      ],
+      email: ['', emailValidators],
+      password: ['', passwordValidators],
     });
   }
 
@@ -53,7 +47,7 @@ export class LoginFormComponent implements OnInit {
     };
   }
 
-  async login(): Promise<void> {
+  async login() {
     this.sending = true;
     const credentials = this.getFormData();
 
@@ -61,9 +55,7 @@ export class LoginFormComponent implements OnInit {
       .login(credentials)
       .pipe(finalize(() => (this.sending = false)))
       .subscribe(
-        async () => {
-          this.router.navigateByUrl('/admin', { replaceUrl: true });
-        },
+        async () => this.router.goToHome(),
         async (error) => {
           const message = this.errorMessage.get(error);
           this.snacker.showError(message);
@@ -78,6 +70,4 @@ export class LoginFormComponent implements OnInit {
   get password(): AbstractControl {
     return this.credentials.get('password');
   }
-
-  matcher = new MyErrorStateMatcher();
 }

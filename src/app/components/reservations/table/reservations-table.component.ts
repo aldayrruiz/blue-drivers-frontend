@@ -5,7 +5,7 @@ import { isAfter, isBefore, isFuture, set } from 'date-fns';
 import { finalize } from 'rxjs/operators';
 import { Reservation } from 'src/app/core/models';
 import {
-  CustomRouter,
+  FleetRouter,
   ReservationService,
   SnackerService,
   TimeReservedService,
@@ -48,7 +48,7 @@ export class ReservationsTableComponent extends BaseTableComponent<
     private readonly timeReservedSrv: TimeReservedService,
     private readonly reservationsSrv: ReservationService,
     private readonly snacker: SnackerService,
-    private readonly ghost: CustomRouter
+    private readonly ghost: FleetRouter
   ) {
     super();
   }

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { EditVehicle, Vehicle } from 'src/app/core/models';
 import {
+  FleetRouter,
   ErrorMessageService,
   SnackerService,
   VehicleService,
@@ -28,10 +29,10 @@ export class EditVehicleComponent implements OnInit {
   sending = false;
 
   constructor(
-    private readonly fb: FormBuilder,
-    private readonly router: Router,
+    private readonly router: FleetRouter,
     private readonly route: ActivatedRoute,
     private readonly snacker: SnackerService,
+    private readonly formBuilder: FormBuilder,
     private readonly vehicleSrv: VehicleService,
     private readonly errorMessage: ErrorMessageService
   ) {}
@@ -42,7 +43,7 @@ export class EditVehicleComponent implements OnInit {
   }
 
   private setFormGroup(vehicle: Vehicle) {
-    this.formGroup = this.fb.group({
+    this.formGroup = this.formBuilder.group({
       brand: [vehicle.brand, brandValidators],
       model: [vehicle.model, modelValidators],
       numberPlate: [vehicle.number_plate, numberPlateValidators],
@@ -62,7 +63,7 @@ export class EditVehicleComponent implements OnInit {
     return updatedData;
   }
 
-  edit(): void {
+  async edit() {
     this.sending = true;
     const updatedData = this.getUpdatedData();
 
@@ -71,8 +72,8 @@ export class EditVehicleComponent implements OnInit {
       .pipe(finalize(() => (this.sending = false)))
       .subscribe(
         async () => {
-          this.router.navigate(['../..'], { relativeTo: this.route });
-          const message = 'Vehículo editado con exito!';
+          this.router.goToVehicles();
+          const message = 'Vehículo editado con éxito!';
           this.snacker.showSuccessful(message);
         },
         async (error) => {

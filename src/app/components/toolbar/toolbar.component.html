@@ -11,6 +11,7 @@
   </a>
 </nav> -->
 <mat-toolbar color="primary">
+  <!-- Navigation Menu -->
   <button mat-button [matMenuTriggerFor]="menu">
     <mat-icon>menu</mat-icon>
   </button>
@@ -25,7 +26,12 @@
     </button>
   </mat-menu>
   <span class="example-spacer">Fleet Management</span>
-  <button mat-icon-button aria-label="User settings">
+  <!-- Account Menu -->
+  <button mat-button [matMenuTriggerFor]="account"
+  >
     <mat-icon>person</mat-icon>
   </button>
+  <mat-menu #account="matMenu">
+    <button mat-menu-item (click)="logOut()">Cerrar sesión</button>
+  </mat-menu>
 </mat-toolbar>

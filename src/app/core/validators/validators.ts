@@ -7,3 +7,4 @@ export const exactLength = (length: number) => [
   minLength(length),
   maxLength(length),
 ];
+export const isEmail = Validators.email;

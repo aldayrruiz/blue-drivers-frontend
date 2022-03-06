@@ -42,9 +42,9 @@
                 <input type="text" matInput [formControl]="numberPlate" [errorStateMatcher]="matcher">
                 <mat-error *ngIf="
                 numberPlate.hasError('required') ||
-                numberPlate.hasError('maxLength') ||
-                numberPlate.hasError('minLength')">
-                  El nº de matricula debe tener <strong>7 caractéres</strong>
+                numberPlate.hasError('maxlength') ||
+                numberPlate.hasError('minlength')">
+                  El nº de matricula debe tener <strong>7 caracteres</strong>
                 </mat-error>
               </mat-form-field>
             </td>
