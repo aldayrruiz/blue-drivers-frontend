@@ -37,21 +37,21 @@ const refreshTime = 10000;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VehiclesComponent implements OnInit, AfterViewInit {
-  private map: L.Map;
+  private positionMarkersSubject = new Subject<MyMarker[]>();
+  private positionMarkers: MyMarker[] = [];
   private positions: Position[];
   private vehicles: Vehicle[];
-  private positionMarkersSubject: Subject<MyMarker[]> = new Subject<
-    MyMarker[]
-  >();
+  private map: L.Map;
+
   positionMarkers$ = this.positionMarkersSubject.asObservable();
-  positionMarkers: MyMarker[] = [];
   displayedColumns = ['feature', 'value'];
 
   constructor(
-    @Inject(LOCALE_ID) private locale: string,
-    private route: ActivatedRoute,
-    private positionSrv: PositionService,
-    private assetsSrv: AssetsService
+    @Inject(LOCALE_ID)
+    private readonly locale: string,
+    private readonly route: ActivatedRoute,
+    private readonly positionSrv: PositionService,
+    private readonly assetsSrv: AssetsService
   ) {}
 
   ngOnInit(): void {
@@ -81,18 +81,6 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     const deviceTime = formatDate(dTime, PipeDates.dateTimeFormat, this.locale);
 
     const dataSource: FeatureValue[] = [
-      {
-        feature: 'Latitud',
-        value: position.latitude,
-      },
-      {
-        feature: 'Longitud',
-        value: position.longitude,
-      },
-      {
-        feature: 'Altitud',
-        value: position.altitude,
-      },
       {
         feature: 'Tiempo del dispositivo',
         value: deviceTime,
