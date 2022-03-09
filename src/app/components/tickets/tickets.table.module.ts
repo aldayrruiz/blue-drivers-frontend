@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { TicketsRoutingModule } from 'src/app/pages/tickets/tickets-routing.module';
-import { MyAngularMaterialModule } from '../../shared/angular-material.module';
+import { MyAngularMaterialModule } from '../../core/modules/angular-material.module';
 import { SolveTicketComponent } from './solve/solve-ticket.component';
 import { TicketsTableComponent } from './table/tickets-table.component';
 

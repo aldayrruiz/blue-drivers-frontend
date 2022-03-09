@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { isFuture } from 'date-fns';
 import { finalize } from 'rxjs/operators';
-import { Ticket, TicketService, TicketStatus } from 'src/app/core';
-import { formatDateTime } from 'src/app/shared/utils/dates/custom-fns';
+import { Ticket, TicketStatus } from 'src/app/core/models';
+import { TicketService } from 'src/app/core/services';
+import { formatDateTime } from 'src/app/core/utils/dates/custom-fns';
 import { BaseTableComponent } from '../../base-table/base-table.component';
 
 interface TicketRow {

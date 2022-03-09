@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Incident, IncidentService, translateType } from 'src/app/core';
-import { PipeDates } from 'src/app/shared/utils/dates/pipe-dates';
+import { Incident, incidentTypeLabel } from 'src/app/core/models';
+import { IncidentService } from 'src/app/core/services';
+import { PipeDates } from 'src/app/core/utils/dates/pipe-dates';
 
 @Component({
   selector: 'app-incident-details',
@@ -34,5 +35,5 @@ export class IncidentDetailsComponent implements OnInit {
     );
   }
 
-  translateType = translateType;
+  translateType = incidentTypeLabel;
 }

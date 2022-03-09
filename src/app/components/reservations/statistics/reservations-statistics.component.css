@@ -13,3 +13,8 @@ section {
   width: 98%;
   height: 600px;
 }
+
+.medium-card-size {
+  height: 400px;
+  width: 400px;
+}

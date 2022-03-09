@@ -3,14 +3,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import {
   Reservation,
-  SnackerService,
   Ticket,
-  TicketService,
   TicketStatus,
   Vehicle,
-} from 'src/app/core';
-import { ErrorMessageService } from 'src/app/core/services/error-message.service';
-import { PipeDates } from 'src/app/shared/utils/dates/pipe-dates';
+} from 'src/app/core/models';
+import {
+  ErrorMessageService,
+  SnackerService,
+  TicketService,
+} from 'src/app/core/services';
+import { PipeDates } from 'src/app/core/utils/dates/pipe-dates';
 
 @Component({
   selector: 'app-solve-ticket',

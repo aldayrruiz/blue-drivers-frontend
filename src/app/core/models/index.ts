@@ -1,16 +1,28 @@
-export * from './create/create-incident.model';
-export * from './create/create-reservation.model';
-export * from './create/create-ticket.model';
-export * from './create/create-user.model';
-export * from './create/create-vehicle.model';
-export * from './edit/edit-patch-user.model';
-export * from './edit/edit-vehicle.model';
-export * from './enums/incident-type.model';
-export * from './enums/role.model';
-export * from './enums/ticket-status.model';
-export * from './incident.model';
-export * from './reservation.model';
-export * from './ticket.model';
-export * from './user-options.model';
-export * from './user.model';
-export * from './vehicle.model';
+// Incidents
+export * from './incidents/create.model';
+export * from './incidents/incident.model';
+export * from './incidents/type.model';
+//Positions
+export * from './positions/position.model';
+//Reports
+export * from './reports/report.summary.model';
+// Reservations
+export * from './reservations/create.model';
+export * from './reservations/reservation.model';
+// Tickets
+export * from './tickets/create.model';
+export * from './tickets/status.model';
+export * from './tickets/ticket.model';
+// Users
+export * from './users/create.model';
+export * from './users/options.model';
+export * from './users/patch.model';
+export * from './users/role.model';
+export * from './users/user.model';
+// Vehicles
+export * from './vehicles/create.model';
+export * from './vehicles/device.model';
+export * from './vehicles/fuel.model';
+export * from './vehicles/patch.model';
+export * from './vehicles/put.model';
+export * from './vehicles/vehicle.model';

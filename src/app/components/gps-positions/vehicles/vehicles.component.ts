@@ -10,13 +10,11 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import * as L from 'leaflet';
 import { Subject } from 'rxjs';
-import { PositionService } from 'src/app/core';
-import { Vehicle } from 'src/app/core/models';
-import { Position } from 'src/app/core/models/position.model';
-import { AssetsService } from 'src/app/core/services/assets.service';
-import { PipeDates } from 'src/app/shared/utils/dates/pipe-dates';
-import { MapConfiguration } from 'src/app/shared/utils/leaflet/map-configuration';
-import { MapCreator } from 'src/app/shared/utils/leaflet/map-creator';
+import { Position, Vehicle } from 'src/app/core/models';
+import { AssetsService, PositionService } from 'src/app/core/services';
+import { PipeDates } from 'src/app/core/utils/dates/pipe-dates';
+import { MapConfiguration } from 'src/app/core/utils/leaflet/map-configuration';
+import { MapCreator } from 'src/app/core/utils/leaflet/map-creator';
 
 interface FeatureValue {
   feature: string;
@@ -30,7 +28,7 @@ interface MyMarker {
 }
 
 // Refresh time: Send GET HTTP to get positions, refresh map and data.
-const refreshTime = 3000;
+const refreshTime = 10000;
 
 @Component({
   selector: 'app-vehicles',
@@ -39,21 +37,21 @@ const refreshTime = 3000;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VehiclesComponent implements OnInit, AfterViewInit {
-  private map: L.Map;
+  private positionMarkersSubject = new Subject<MyMarker[]>();
+  private positionMarkers: MyMarker[] = [];
   private positions: Position[];
   private vehicles: Vehicle[];
-  private positionMarkersSubject: Subject<MyMarker[]> = new Subject<
-    MyMarker[]
-  >();
+  private map: L.Map;
+
   positionMarkers$ = this.positionMarkersSubject.asObservable();
-  positionMarkers: MyMarker[] = [];
   displayedColumns = ['feature', 'value'];
 
   constructor(
-    @Inject(LOCALE_ID) private locale: string,
-    private route: ActivatedRoute,
-    private positionSrv: PositionService,
-    private assetsSrv: AssetsService
+    @Inject(LOCALE_ID)
+    private readonly locale: string,
+    private readonly route: ActivatedRoute,
+    private readonly positionSrv: PositionService,
+    private readonly assetsSrv: AssetsService
   ) {}
 
   ngOnInit(): void {
@@ -83,18 +81,6 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     const deviceTime = formatDate(dTime, PipeDates.dateTimeFormat, this.locale);
 
     const dataSource: FeatureValue[] = [
-      {
-        feature: 'Latitud',
-        value: position.latitude,
-      },
-      {
-        feature: 'Longitud',
-        value: position.longitude,
-      },
-      {
-        feature: 'Altitud',
-        value: position.altitude,
-      },
       {
         feature: 'Tiempo del dispositivo',
         value: deviceTime,

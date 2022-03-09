@@ -14,5 +14,6 @@ export const formatDateTime = (date: StringOrDate) => {
 };
 
 export const formatDuration = (duration: Duration) => {
-  return formatDurationFns(duration, { locale: es });
+  const displayableUnits = ['hours', 'minutes'];
+  return formatDurationFns(duration, { format: displayableUnits, locale: es });
 };

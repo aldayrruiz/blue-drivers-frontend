@@ -1,15 +1,20 @@
 import { Component } from '@angular/core';
-import { intervalToDuration, isFuture } from 'date-fns';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { isAfter, isBefore, isFuture, set } from 'date-fns';
 import { finalize } from 'rxjs/operators';
-import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
-import { Reservation, ReservationService, SnackerService } from 'src/app/core';
-import { CustomRouter } from 'src/app/core/services/router/router.service';
+import { Reservation } from 'src/app/core/models';
 import {
-  formatDateTime,
-  formatDuration,
-} from 'src/app/shared/utils/dates/custom-fns';
+  FleetRouter,
+  ReservationService,
+  SnackerService,
+  TimeReservedService,
+} from 'src/app/core/services';
+import { formatDateTime } from 'src/app/core/utils/dates/custom-fns';
+import { BaseTableComponent } from '../../base-table/base-table.component';
+import { ReservationTablePdfExporter } from './pdf/exporter';
 
-interface ReservationRow {
+export interface ReservationRow {
   id: string;
   title: string;
   owner: string;
@@ -32,19 +37,20 @@ export class ReservationsTableComponent extends BaseTableComponent<
 > {
   columns = ['title', 'owner', 'vehicle', 'start', 'hourMin', 'statistics'];
 
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl(),
+  });
+
+  datePicker = new FormControl();
+
   constructor(
+    private readonly timeReservedSrv: TimeReservedService,
     private readonly reservationsSrv: ReservationService,
     private readonly snacker: SnackerService,
-    private readonly ghost: CustomRouter
+    private readonly ghost: FleetRouter
   ) {
     super();
-  }
-
-  getTimeReserved(reservation: Reservation): string {
-    const start = new Date(reservation.start);
-    const end = new Date(reservation.end);
-    const duration = intervalToDuration({ start, end });
-    return formatDuration(duration);
   }
 
   preprocessData(reservations: Reservation[]): ReservationRow[] {
@@ -57,7 +63,7 @@ export class ReservationsTableComponent extends BaseTableComponent<
       endFormatted: formatDateTime(reservation.end),
       start: reservation.start,
       end: reservation.end,
-      hourMin: this.getTimeReserved(reservation),
+      hourMin: this.timeReservedSrv.getFromReservation(reservation),
     }));
   }
 
@@ -65,7 +71,14 @@ export class ReservationsTableComponent extends BaseTableComponent<
     this.reservationsSrv
       .getAll()
       .pipe(finalize(() => this.hideLoadingSpinner()))
-      .subscribe((reservations) => this.initTable(reservations));
+      .subscribe((reservations) => {
+        this.initTable(reservations);
+      });
+  }
+
+  onDateFilterChange(type: string, event: MatDatepickerInputEvent<Date>) {
+    this.resetTable();
+    this.updateTableByDateRangeFilter();
   }
 
   goToStatistics(reservationRow: ReservationRow) {
@@ -78,5 +91,71 @@ export class ReservationsTableComponent extends BaseTableComponent<
     }
 
     this.ghost.goToReservationStatistics(reservationRow.id);
+  }
+
+  exportPdf() {
+    const pdfExporter = new ReservationTablePdfExporter(this.dataSource.data);
+    pdfExporter.export(this.start);
+  }
+
+  private updateTableByDateRangeFilter() {
+    const rows = this.dataSource.filteredData; // filtered rows by search bar filter
+    let newRows = rows;
+    if (!this.start && !this.end) {
+      return;
+    } else if (this.start && this.end) {
+      newRows = this.getReservationsStartedBetween(rows);
+    } else if (!this.end) {
+      newRows = this.getReservationsStartedAfter(rows);
+    } else {
+      newRows = this.getReservationsStartedBefore(rows);
+    }
+    this.updateTableWithRows(newRows);
+  }
+
+  private getReservationsStartedBetween(rows: ReservationRow[]) {
+    return rows.filter((reservation) => {
+      const reservationStart = new Date(reservation.start);
+      return (
+        isAfter(reservationStart, this.start) &&
+        isBefore(reservationStart, this.end)
+      );
+    });
+  }
+
+  private getReservationsStartedAfter(rows: ReservationRow[]) {
+    return rows.filter((reservation) => {
+      const reservationStart = new Date(reservation.start);
+      return isAfter(reservationStart, this.start);
+    });
+  }
+
+  private getReservationsStartedBefore(rows: ReservationRow[]) {
+    return rows.filter((reservation) => {
+      const reservationStart = new Date(reservation.start);
+      return isBefore(reservationStart, this.end);
+    });
+  }
+
+  private get start(): Date {
+    const start = this.datePicker.value;
+    // const { start } = this.range.value;
+    return start;
+  }
+
+  private get end(): Date {
+    const end = this.datePicker.value;
+    if (!end) {
+      return null;
+    }
+    // const { end }: { end: Date } = this.range.value;
+    const endOfTheDay = this.getEndOfTheDay(end);
+    return endOfTheDay;
+  }
+
+  private getEndOfTheDay(day: Date) {
+    const options = { hours: 23, minutes: 59, seconds: 59, milliseconds: 59 };
+    const endOfTheDay = set(day, options);
+    return endOfTheDay;
   }
 }

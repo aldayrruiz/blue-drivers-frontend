@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MyAngularMaterialModule } from '../shared/angular-material.module';
+import { MyAngularMaterialModule } from '../core/modules/angular-material.module';
 import { DialogModule } from './dialogs/dialogs.module';
 import { VehiclesComponent } from './gps-positions/vehicles/vehicles.component';
 import { IncidentsComponentsModule } from './incidents/incidents-components.module';

@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { finalize } from 'rxjs/operators';
-import { Incident, IncidentService, translateType } from 'src/app/core';
-import { formatDateTime } from 'src/app/shared/utils/dates/custom-fns';
+import { Incident, incidentTypeLabel } from 'src/app/core/models';
+import { IncidentService } from 'src/app/core/services';
+import { formatDateTime } from 'src/app/core/utils/dates/custom-fns';
 import { BaseTableComponent } from '../../base-table/base-table.component';
 
 interface RowIncident {
   id: string;
-  title: string;
   owner: string;
   vehicle: string;
   type: string;
@@ -30,11 +30,11 @@ export class IncidentsTableComponent extends BaseTableComponent<
   ];
 
   columns = [
-    'title',
     'owner',
     'vehicle',
     'type',
     'status',
+    'description',
     'dateStored',
     'details',
   ];
@@ -56,10 +56,10 @@ export class IncidentsTableComponent extends BaseTableComponent<
   preprocessData(data: Incident[]): RowIncident[] {
     return data.map((incident) => ({
       id: incident.id,
-      title: incident.title,
       owner: incident.owner.fullname,
       vehicle: `${incident.reservation.vehicle.model} ${incident.reservation.vehicle.brand}`,
-      type: translateType(incident.type),
+      type: incidentTypeLabel(incident.type),
+      description: incident.description,
       dateStored: formatDateTime(incident.date_stored),
       status: incident.solved ? 'Solucionado' : 'No Solucionado',
     }));

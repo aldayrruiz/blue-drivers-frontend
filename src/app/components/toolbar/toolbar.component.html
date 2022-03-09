@@ -1,9 +1,37 @@
-<nav mat-tab-nav-bar>
-  <a mat-tab-link
-  *ngFor="let link of navLinks"
-  [routerLink]="link.link"
-  routerLinkActive #rla="routerLinkActive"
-  [active]="rla.isActive">
- {{link.label}}
-</a>
-</nav>
+<!-- <nav mat-tab-nav-bar>
+  <a
+    mat-tab-link
+    *ngFor="let link of navLinks"
+    [routerLink]="link.link"
+    routerLinkActive
+    #rla="routerLinkActive"
+    [active]="rla.isActive"
+  >
+    {{ link.label }}
+  </a>
+</nav> -->
+<mat-toolbar color="primary">
+  <!-- Navigation Menu -->
+  <button mat-button [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button
+      mat-menu-item
+      [routerLink]="link.link"
+      routerLinkActive
+      *ngFor="let link of navLinks"
+    >
+      {{ link.label }}
+    </button>
+  </mat-menu>
+  <span class="example-spacer">Fleet Management</span>
+  <!-- Account Menu -->
+  <button mat-button [matMenuTriggerFor]="account"
+  >
+    <mat-icon>person</mat-icon>
+  </button>
+  <mat-menu #account="matMenu">
+    <button mat-menu-item (click)="logOut()">Cerrar sesión</button>
+  </mat-menu>
+</mat-toolbar>

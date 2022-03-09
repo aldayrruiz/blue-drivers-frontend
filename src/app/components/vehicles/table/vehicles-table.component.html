@@ -31,6 +31,12 @@
       <!--- Note that these columns can be defined in any order.
         The actual rendered columns are set as a property on the row definition" -->
 
+      <!-- Brand Column -->
+      <ng-container matColumnDef="brand">
+        <th mat-header-cell *matHeaderCellDef>Marca</th>
+        <td mat-cell *matCellDef="let vehicle">{{ vehicle.brand }}</td>
+      </ng-container>
+
       <!-- Model Column -->
       <ng-container matColumnDef="model">
         <th mat-header-cell *matHeaderCellDef>Modelo</th>
@@ -38,9 +44,9 @@
       </ng-container>
 
       <!-- Brand Column -->
-      <ng-container matColumnDef="brand">
-        <th mat-header-cell *matHeaderCellDef>Marca</th>
-        <td mat-cell *matCellDef="let vehicle">{{ vehicle.brand }}</td>
+      <ng-container matColumnDef="fuel">
+        <th mat-header-cell *matHeaderCellDef>Combustible</th>
+        <td mat-cell *matCellDef="let vehicle">{{ vehicle.fuel }}</td>
       </ng-container>
 
       <!-- Number plate Column -->

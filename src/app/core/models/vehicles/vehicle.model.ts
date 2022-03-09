@@ -1,4 +1,5 @@
 import { Device } from './device.model';
+import { VehicleFuel } from './fuel.model';
 
 /**
  * This interface is used to charge a list of vehicles.
@@ -9,6 +10,7 @@ export interface Vehicle {
   date_stored: string;
   brand: string;
   model: string;
+  fuel: VehicleFuel;
   number_plate: string;
   gps_device: Device;
   is_disabled: boolean;

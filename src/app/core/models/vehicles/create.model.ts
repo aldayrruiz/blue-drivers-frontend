@@ -3,4 +3,5 @@ export interface CreateVehicle {
   brand: string;
   number_plate: string;
   gps_device: string;
+  fuel: string;
 }

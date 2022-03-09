@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { SnackerService } from 'src/app/core';
-import { Position } from 'src/app/core/models/position.model';
-import { createAntPath } from 'src/app/shared/utils/leaflet/ant-path';
-import { MapConfiguration } from 'src/app/shared/utils/leaflet/map-configuration';
-import { MapCreator } from 'src/app/shared/utils/leaflet/map-creator';
+import { Position } from 'src/app/core/models';
+import { SnackerService } from 'src/app/core/services';
+import { createAntPath } from 'src/app/core/utils/leaflet/ant-path';
+import { MapConfiguration } from 'src/app/core/utils/leaflet/map-configuration';
+import { MapCreator } from 'src/app/core/utils/leaflet/map-creator';
 
 @Component({
   selector: 'app-ant-map',

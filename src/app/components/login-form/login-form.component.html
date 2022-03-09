@@ -38,7 +38,7 @@
                   <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
                 <mat-error *ngIf="password.hasError('minlength') && !password.hasError('required')">
-                  Por favor, introduzca una contraseña con mas de 5 carácteres
+                  Por favor, introduzca una contraseña con mas de 5 caracteres
                 </mat-error>
                 <mat-error *ngIf="password.hasError('required')">
                   Contraseña es <strong>obligatoria</strong>

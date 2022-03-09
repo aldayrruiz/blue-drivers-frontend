@@ -1,16 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CreateVehicle, SnackerService, VehicleService } from 'src/app/core';
-import { ErrorMessageService } from 'src/app/core/services/error-message.service';
-import { MyErrorStateMatcher } from 'src/app/shared/utils/my-error-state-matcher';
-
-const NUMBER_PLATE_LENGTH = 7;
+import { CreateVehicle } from 'src/app/core/models';
+import {
+  ErrorMessageService,
+  SnackerService,
+  VehicleService,
+} from 'src/app/core/services';
+import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
+import {
+  brandValidators,
+  fuelValidators,
+  imeiValidators,
+  modelValidators,
+  numberPlateValidators,
+} from 'src/app/core/validators/vehicle';
 
 @Component({
   selector: 'app-create-vehicle',
@@ -37,17 +41,11 @@ export class CreateVehicleComponent implements OnInit {
 
   createFormGroup(): void {
     this.formGroup = this.fb.group({
-      brand: ['', [Validators.required]],
-      model: ['', [Validators.required]],
-      numberPlate: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(NUMBER_PLATE_LENGTH),
-          Validators.maxLength(NUMBER_PLATE_LENGTH),
-        ],
-      ],
-      imei: ['', [Validators.required]],
+      brand: ['', brandValidators],
+      model: ['', modelValidators],
+      numberPlate: ['', numberPlateValidators],
+      imei: ['', imeiValidators],
+      fuel: ['DIESEL', fuelValidators],
     });
   }
 
@@ -57,13 +55,12 @@ export class CreateVehicleComponent implements OnInit {
       model: this.model.value,
       number_plate: this.numberPlate.value,
       gps_device: this.imei.value,
+      fuel: this.fuel.value,
     };
   }
 
   createVehicle(): void {
     const newVehicle = this.getFormData();
-
-    console.log(newVehicle);
 
     this.vehicleSrv.create(newVehicle).subscribe(
       async () => {
@@ -92,5 +89,9 @@ export class CreateVehicleComponent implements OnInit {
 
   get imei(): AbstractControl {
     return this.formGroup.get('imei');
+  }
+
+  get fuel(): AbstractControl {
+    return this.formGroup.get('fuel');
   }
 }
