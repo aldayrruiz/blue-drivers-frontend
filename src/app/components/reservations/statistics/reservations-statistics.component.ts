@@ -54,6 +54,8 @@ export class ReservationsStatisticsComponent implements OnInit {
       this.serializeSummary(summary);
       this.positions = positions;
       this.reservation = reservation;
+      this.loadAntMap();
+      this.loadDataForUI();
     });
   }
 
