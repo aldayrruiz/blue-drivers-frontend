@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { fromMillisecondsToSeconds } from 'src/app/core/services/measure/report-summary/converter';
+import { intervalToDuration } from 'date-fns';
 import { formatDuration } from '../utils/dates/custom-fns';
 
 @Pipe({
@@ -13,10 +13,12 @@ export class DurationPipe implements PipeTransform {
    * @returns
    */
   transform(value: number, ...args: unknown[]): string {
-    if (value === 0) {
+    const milliseconds = Number(value);
+    if (milliseconds === 0) {
       return '0 minutos';
     }
-    const seconds = fromMillisecondsToSeconds(value);
-    return formatDuration({ seconds });
+    const interval = intervalToDuration({ start: 0, end: milliseconds });
+    const result = formatDuration(interval);
+    return result;
   }
 }
