@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CreateVehicle } from 'src/app/core/models';
+import { CreateVehicle, VehicleFuel } from 'src/app/core/models';
 import {
   ErrorMessageService,
   SnackerService,
@@ -45,7 +45,7 @@ export class CreateVehicleComponent implements OnInit {
       model: ['', modelValidators],
       numberPlate: ['', numberPlateValidators],
       imei: ['', imeiValidators],
-      fuel: ['DIESEL', fuelValidators],
+      fuel: [VehicleFuel.DIESEL, fuelValidators],
     });
   }
 

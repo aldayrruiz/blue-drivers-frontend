@@ -58,7 +58,7 @@ export class ReservationsTableComponent extends BaseTableComponent<
       id: reservation.id,
       title: reservation.title,
       owner: reservation.owner.fullname,
-      vehicle: `${reservation.vehicle.model} ${reservation.vehicle.brand}`,
+      vehicle: `${reservation.vehicle.brand} ${reservation.vehicle.model}`,
       startFormatted: formatDateTime(reservation.start),
       endFormatted: formatDateTime(reservation.end),
       start: reservation.start,

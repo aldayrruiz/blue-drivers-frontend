@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { EditVehicle, Vehicle } from 'src/app/core/models';
 import {
-  FleetRouter,
   ErrorMessageService,
+  FleetRouter,
   SnackerService,
   VehicleService,
 } from 'src/app/core/services';
 import {
   brandValidators,
+  fuelValidators,
   imeiValidators,
   modelValidators,
   numberPlateValidators,
@@ -49,6 +50,7 @@ export class EditVehicleComponent implements OnInit {
       numberPlate: [vehicle.number_plate, numberPlateValidators],
       imei: [vehicle.gps_device.imei, imeiValidators],
       isDisabled: [vehicle.is_disabled],
+      fuel: [vehicle.fuel, fuelValidators],
     });
   }
 
@@ -59,6 +61,7 @@ export class EditVehicleComponent implements OnInit {
       number_plate: this.numberPlate.value,
       gps_device: this.imei.value,
       is_disabled: this.isDisabled.value,
+      fuel: this.fuel.value,
     };
     return updatedData;
   }
@@ -107,5 +110,9 @@ export class EditVehicleComponent implements OnInit {
 
   get isDisabled(): AbstractControl {
     return this.formGroup.get('isDisabled');
+  }
+
+  get fuel(): AbstractControl {
+    return this.formGroup.get('fuel');
   }
 }
