@@ -104,7 +104,7 @@ export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
     this.userSrv.delete(user.id).subscribe(
       async () => {
         const newUsers = this.models.filter((u) => u.id !== user.id);
-        this.updateTable(newUsers);
+        this.initTable(newUsers);
         this.snacker.showSuccessful(
           `El usuario ${user.fullname} ha sido eliminado.`
         );

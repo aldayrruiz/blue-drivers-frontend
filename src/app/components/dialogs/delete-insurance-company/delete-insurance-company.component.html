@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Alerta</h2>
+<mat-dialog-content class="mat-typography">
+  <h3>¿Está seguro de eliminar la compañía aseguradora?</h3>
+  <h4>Al eliminar la compañía aseguradora: </h4>
+  <ul>
+    <li>Todos los vehículos que tengan asociado esta compañía. Pasarán a no tener ninguna compañía aseguradora.</li>
+  </ul>
+  <p>
+    Por lo tanto, tendrá que editar los vehículos asociados para cambiar de compañía aseguradora.
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Eliminar</button>
+</mat-dialog-actions>

@@ -2,29 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
-  FormControl,
   FormGroup,
-  FormGroupDirective,
-  NgForm,
   Validators,
 } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/core/services';
-
-export class CustomErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(
-    control: FormControl | null,
-    form: FormGroupDirective | NgForm | null
-  ): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(
-      control &&
-      control.invalid &&
-      (control.dirty || control.touched || isSubmitted)
-    );
-  }
-}
+import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
 
 @Component({
   selector: 'app-login',
@@ -71,5 +54,5 @@ export class LoginComponent implements OnInit {
     return this.credentials.get('password');
   }
 
-  matcher = new CustomErrorStateMatcher();
+  matcher = new MyErrorStateMatcher();
 }

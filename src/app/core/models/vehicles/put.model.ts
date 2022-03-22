@@ -7,4 +7,6 @@ export interface EditVehicle {
   gps_device: string;
   is_disabled: boolean;
   fuel: VehicleFuel;
+  insurance_company: string;
+  policy_number: string;
 }

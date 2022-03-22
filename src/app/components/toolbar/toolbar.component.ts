@@ -34,19 +34,24 @@ export class ToolbarComponent implements OnInit {
         index: 2,
       },
       {
+        label: 'Compañías aseguradoras',
+        link: 'insurance-companies',
+        index: 3,
+      },
+      {
         label: 'Tickets',
         link: 'tickets',
-        index: 2,
+        index: 4,
       },
       {
         label: 'Incidencias',
         link: 'incidents',
-        index: 3,
+        index: 5,
       },
       {
         label: 'GNSS',
         link: 'positions',
-        index: 4,
+        index: 6,
       },
     ];
   }

@@ -4,4 +4,6 @@ export interface CreateVehicle {
   number_plate: string;
   gps_device: string;
   fuel: string;
+  insurance_company: string;
+  policy_number: string;
 }

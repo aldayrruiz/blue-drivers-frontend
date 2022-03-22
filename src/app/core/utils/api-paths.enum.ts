@@ -4,6 +4,7 @@ export enum API {
   TICKETS = '/api/tickets',
   SOLVE_TICKET = '/api/tickets/solve',
   INCIDENTS = '/api/incidents',
+  INSURANCE_COMPANIES = '/api/insurance-companies',
   LOGIN = '/api/login',
   REGISTER = '/api/register',
   USERS = '/api/users',

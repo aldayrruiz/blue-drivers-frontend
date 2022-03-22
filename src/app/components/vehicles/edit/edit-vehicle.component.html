@@ -67,6 +67,7 @@
           <tr>
             <td>
               <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Disponibilidad</mat-label>
                 <mat-select [formControl]="isDisabled">
                   <mat-option [value]="false">Habilitado</mat-option>
                   <mat-option [value]="true">Deshabilitado</mat-option>
@@ -85,6 +86,31 @@
                   <mat-option value="GASOLINE">Gasolina</mat-option>
                   <mat-option value="ELECTRIC">Eléctrico</mat-option>
                 </mat-select>
+              </mat-form-field>
+            </td>
+          </tr>
+
+          <!-- Insurance Company -->
+          <tr>
+            <td>
+              <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Compañía aseguradora</mat-label>
+                <mat-select [formControl]="insuranceCompany">
+                  <mat-option>Ninguna</mat-option>
+                  <mat-option *ngFor="let company of insuranceCompanies" [value]="company.id">
+                    {{ company.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+          </tr>
+
+          <!-- Policy Number -->
+          <tr>
+            <td>
+              <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Número de póliza</mat-label>
+                <input type="text" matInput [formControl]="policyNumber" [errorStateMatcher]="matcher">
               </mat-form-field>
             </td>
           </tr>

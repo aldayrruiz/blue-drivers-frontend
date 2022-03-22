@@ -16,6 +16,7 @@ interface VehicleRow {
   brand: string;
   numberPlate: string;
   isDisabled: boolean;
+  insuranceCompany: string;
 }
 
 @Component({
@@ -32,16 +33,17 @@ export class VehiclesTableComponent extends BaseTableComponent<
     'model',
     'fuel',
     'numberPlate',
+    'insuranceCompany',
     'edit',
     'isDisabled',
     'delete',
   ];
 
   constructor(
-    private errorMessage: ErrorMessageService,
-    private vehicleSrv: VehicleService,
-    private snacker: SnackerService,
-    private dialog: MatDialog
+    private readonly errorMessage: ErrorMessageService,
+    private readonly vehicleSrv: VehicleService,
+    private readonly snacker: SnackerService,
+    private readonly dialog: MatDialog
   ) {
     super();
   }
@@ -52,6 +54,7 @@ export class VehiclesTableComponent extends BaseTableComponent<
       model: vehicle.model,
       brand: vehicle.brand,
       fuel: fuelLabel(vehicle.fuel),
+      insuranceCompany: vehicle?.insurance_company?.name,
       numberPlate: vehicle.number_plate,
       isDisabled: vehicle.is_disabled,
     }));
@@ -85,14 +88,17 @@ export class VehiclesTableComponent extends BaseTableComponent<
     this.vehicleSrv
       .getAll()
       .pipe(finalize(() => this.hideLoadingSpinner()))
-      .subscribe((vehicles) => this.initTable(vehicles));
+      .subscribe((vehicles) => {
+        console.log(vehicles);
+        this.initTable(vehicles);
+      });
   }
 
   private deleteVehicle(vehicle: VehicleRow) {
     this.vehicleSrv.delete(vehicle.id).subscribe(
       async () => {
         const newVehicles = this.models.filter((v) => v.id !== vehicle.id);
-        this.updateTable(newVehicles);
+        this.initTable(newVehicles);
         this.snacker.showSuccessful(
           `El vehículo ${vehicle.brand} ${vehicle.model} ha sido eliminado.`
         );

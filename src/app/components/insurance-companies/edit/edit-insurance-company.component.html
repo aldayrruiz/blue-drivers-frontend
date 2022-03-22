@@ -1,0 +1,70 @@
+<div class="main-div">
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>
+        Editar Vehículo
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="company">
+        <table cellspacing="0">
+          <!-- Name -->
+          <tr>
+            <td>
+              <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Nombre</mat-label>
+                <div>
+                  <input
+                    type="text"
+                    matInput
+                    [formControl]="name"
+                    [errorStateMatcher]="matcher"
+                  />
+                </div>
+                <mat-error *ngIf="name.hasError('required')">
+                  El nombre es <strong>obligatorio</strong>
+                </mat-error>
+              </mat-form-field>
+            </td>
+          </tr>
+          <!-- Phone -->
+          <tr>
+            <td>
+              <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Teléfono</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  [formControl]="phone"
+                  placeholder="9218721122"
+                  [errorStateMatcher]="matcher"
+                />
+                <mat-error
+                  *ngIf="
+                    phone.hasError('required') ||
+                    phone.hasError('maxlength') ||
+                    phone.hasError('minlength')
+                  "
+                >
+                  Un teléfono debe tener <strong>9 caracteres</strong>
+                </mat-error>
+              </mat-form-field>
+            </td>
+          </tr>
+
+          <!-- Button - Edit Vehicle -->
+          <tr>
+            <td>
+              <div>
+                <button class="cancel" mat-raised-button color="warn" routerLink="../..">Cancelar</button>
+                <button class="edit" (click)="edit()" mat-raised-button color="primary" type="submit" expand="block"
+                  [disabled]="!company.valid || sending">Editar</button>
+              </div>
+
+            </td>
+          </tr>
+        </table>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

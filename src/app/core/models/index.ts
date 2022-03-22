@@ -2,6 +2,9 @@
 export * from './incidents/create.model';
 export * from './incidents/incident.model';
 export * from './incidents/type.model';
+// Insurance Companies
+export * from './insurance-companies/create.model';
+export * from './insurance-companies/insurance-company.model';
 //Positions
 export * from './positions/position.model';
 //Reports

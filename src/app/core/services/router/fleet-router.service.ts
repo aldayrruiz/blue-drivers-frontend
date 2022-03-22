@@ -37,6 +37,11 @@ export class FleetRouter {
     return this.router.navigateByUrl(to, this.extras);
   }
 
+  async goToInsuranceCompanies() {
+    const to = `admin/insurance-companies`;
+    return this.router.navigateByUrl(to, this.extras);
+  }
+
   async goToIncidents() {
     const to = `admin/incidents`;
     return this.router.navigateByUrl(to, this.extras);

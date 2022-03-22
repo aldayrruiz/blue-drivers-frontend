@@ -44,6 +44,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'insurance-companies',
+        loadChildren: () =>
+          import('../insurance-companies/insurance-companies.module').then(
+            (m) => m.InsuranceCompaniesPageModule
+          ),
+      },
+      {
         path: 'positions',
         loadChildren: () =>
           import('../gps-positions/gps-positions.module').then(
