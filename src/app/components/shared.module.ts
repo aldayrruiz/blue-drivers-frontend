@@ -4,11 +4,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MyAngularMaterialModule } from '../core/modules/angular-material.module';
 import { DialogModule } from './dialogs/dialogs.module';
 import { GNSSComponentsModule } from './gps-positions/gnss.module';
-import { VehiclesComponent } from './gps-positions/vehicles/vehicles.component';
 import { IncidentsComponentsModule } from './incidents/incidents-components.module';
 import { InsuranceCompaniesComponentsModule } from './insurance-companies/insurance-companies.module';
 // My components & modules
 import { LoginFormComponent } from './login-form/login-form.component';
+import { ReservationTemplatesComponentsModule } from './reservation-templates/reservation-templates.module';
 import { ReservationsComponentsModule } from './reservations/reservations.table.module';
 import { TicketsComponentsModule } from './tickets/tickets.table.module';
 import { ToolbarModule } from './toolbar/toolbar.module';
@@ -37,7 +37,8 @@ import { VehiclesComponentsModule } from './vehicles/vehicles-components.module'
     ReservationsComponentsModule,
     IncidentsComponentsModule,
     InsuranceCompaniesComponentsModule,
-    GNSSComponentsModule
+    GNSSComponentsModule,
+    ReservationTemplatesComponentsModule,
   ],
 })
 export class SharedModule {}

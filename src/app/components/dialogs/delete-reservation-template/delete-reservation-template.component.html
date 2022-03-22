@@ -1,0 +1,14 @@
+<p>delete-reservation-template works!</p>
+<h2 mat-dialog-title>Alerta</h2>
+<mat-dialog-content class="mat-typography">
+  <h3>¿Está seguro de eliminar la plantilla de la reserva?</h3>
+  <h4>Al eliminar la plantilla de reserva: </h4>
+  <ul>
+    <li>Los usuarios dejarán de tener la plantilla disponible.</li>
+    <li>Las reservas que hayan sido creadas con la plantilla hasta el momento, no se verán afectadas.</li>
+  </ul>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Eliminar</button>
+</mat-dialog-actions>

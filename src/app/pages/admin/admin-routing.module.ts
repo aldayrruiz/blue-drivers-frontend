@@ -51,6 +51,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'reservation-templates',
+        loadChildren: () =>
+          import('../reservation-templates/reservation-templates.module').then(
+            (m) => m.ReservationTemplatesPageModule
+          ),
+      },
+      {
         path: 'positions',
         loadChildren: () =>
           import('../gps-positions/gps-positions.module').then(

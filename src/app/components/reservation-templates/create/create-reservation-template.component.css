@@ -1,0 +1,27 @@
+.example-card {
+  width: 600px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+table {
+  width: 100%;
+  text-align: center;
+}
+
+.main-div {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cancel {
+  margin-right: 5rem;
+}
+
+.create {
+  margin-left: 5rem;
+}

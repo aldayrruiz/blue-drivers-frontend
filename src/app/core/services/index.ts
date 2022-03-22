@@ -2,6 +2,7 @@ export * from './api/incident.service';
 export * from './api/insurance-companies.service';
 export * from './api/position.service';
 export * from './api/report.service';
+export * from './api/reservation-template.service';
 export * from './api/reservation.service';
 export * from './api/ticket.service';
 export * from './api/user.service';

@@ -1,0 +1,59 @@
+<div class="main-div">
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title> Nueva plantilla de reserva </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="template">
+        <table cellspacing="0">
+          <!-- Title -->
+          <tr>
+            <td>
+              <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Título</mat-label>
+                <div>
+                  <input
+                    type="text"
+                    matInput
+                    [formControl]="title"
+                    [errorStateMatcher]="matcher"
+                  />
+                </div>
+                <mat-error *ngIf="title.hasError('required')">
+                  El título es <strong>obligatorio</strong>
+                </mat-error>
+              </mat-form-field>
+            </td>
+          </tr>
+          <!-- Button - Create -->
+          <tr>
+            <td>
+              <div>
+                <button
+                  class="cancel"
+                  mat-raised-button
+                  color="warn"
+                  routerLink=".."
+                  [disabled]="sending"
+                >
+                  Cancelar
+                </button>
+                <button
+                  class="create"
+                  (click)="create()"
+                  mat-raised-button
+                  color="primary"
+                  type="submit"
+                  expand="block"
+                  [disabled]="!template.valid || sending"
+                >
+                  Crear
+                </button>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

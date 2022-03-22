@@ -6,12 +6,14 @@ import { DeleteInsuranceCompanyComponent } from './delete-insurance-company/dele
 import { DeleteUserComponent } from './delete-user/delete-user.component';
 // My components & modules
 import { DeleteVehicleComponent } from './delete-vehicle/delete-vehicle.component';
+import { DeleteReservationTemplateComponent } from './delete-reservation-template/delete-reservation-template.component';
 
 @NgModule({
   declarations: [
     DeleteUserComponent,
     DeleteVehicleComponent,
     DeleteInsuranceCompanyComponent,
+    DeleteReservationTemplateComponent,
   ],
   imports: [
     FormsModule,

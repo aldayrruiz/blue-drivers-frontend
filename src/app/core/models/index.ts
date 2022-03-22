@@ -9,6 +9,9 @@ export * from './insurance-companies/insurance-company.model';
 export * from './positions/position.model';
 //Reports
 export * from './reports/report.summary.model';
+// Reservation templates
+export * from './reservation-templates/create.model';
+export * from './reservation-templates/reservation-template.model';
 // Reservations
 export * from './reservations/create.model';
 export * from './reservations/reservation.model';
