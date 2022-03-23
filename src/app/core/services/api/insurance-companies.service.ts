@@ -9,7 +9,7 @@ import { API } from '../../utils/api-paths.enum';
   providedIn: 'root',
 })
 export class InsuranceCompanyService {
-  private baseUrl = `${environment.baseURL}${API.INSURANCE_COMPANIES}`;
+  private baseUrl = `${environment.baseURL}${API.insuranceCompanies}`;
 
   constructor(private http: HttpClient) {}
 

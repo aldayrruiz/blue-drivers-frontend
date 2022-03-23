@@ -6,7 +6,7 @@ import { API } from 'src/app/core/utils/api-paths.enum';
 import { environment } from 'src/environments/environment';
 import { LocalStorage } from '../storage/local-storage.service';
 
-const path = `${environment.baseURL}${API.LOGIN}/`;
+const path = `${environment.baseURL}${API.login}/`;
 
 @Injectable({
   providedIn: 'root',

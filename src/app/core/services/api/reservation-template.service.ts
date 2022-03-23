@@ -9,7 +9,7 @@ import { API } from '../../utils/api-paths.enum';
   providedIn: 'root',
 })
 export class ReservationTemplateService {
-  private baseUrl = `${environment.baseURL}${API.RESERVATION_TEMPLATES}`;
+  private baseUrl = `${environment.baseURL}${API.reservationTemplates}`;
 
   constructor(private http: HttpClient) {}
 

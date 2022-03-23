@@ -9,7 +9,7 @@ import { API } from '../../utils/api-paths.enum';
   providedIn: 'root',
 })
 export class TicketService {
-  private ticketURL = `${environment.baseURL}${API.TICKETS}`;
+  private ticketURL = `${environment.baseURL}${API.tickets}`;
 
   constructor(private http: HttpClient) {}
 
