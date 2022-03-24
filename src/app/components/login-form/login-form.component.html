@@ -1,9 +1,7 @@
 <div class="main-div">
   <mat-card class="example-card">
     <mat-card-header>
-      <mat-card-title>
-        Login
-      </mat-card-title>
+      <mat-card-title> Login </mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <form [formGroup]="credentials">
@@ -14,10 +12,17 @@
               <mat-form-field class="full-width" appearance="fill">
                 <mat-label>Email</mat-label>
                 <div>
-                  <input type="email" matInput [formControl]="email" [errorStateMatcher]="matcher"
-                    placeholder="Ex. pat@example.com">
+                  <input
+                    type="email"
+                    matInput
+                    [formControl]="email"
+                    [errorStateMatcher]="matcher"
+                    placeholder="Ex. pat@example.com"
+                  />
                 </div>
-                <mat-error *ngIf="email.hasError('email') && !email.hasError('required')">
+                <mat-error
+                  *ngIf="email.hasError('email') && !email.hasError('required')"
+                >
                   Por favor, introduzca un email correcto
                 </mat-error>
                 <mat-error *ngIf="email.hasError('required')">
@@ -31,13 +36,30 @@
             <td>
               <mat-form-field class="full-width" appearance="fill">
                 <mat-label>Contraseña</mat-label>
-                <input matInput [type]="hide ? 'password' : 'text'" matInput [formControl]="password"
-                  [errorStateMatcher]="matcher">
-                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-                  [attr.aria-pressed]="hide">
-                  <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                <input
+                  matInput
+                  [type]="hide ? 'password' : 'text'"
+                  matInput
+                  [formControl]="password"
+                  [errorStateMatcher]="matcher"
+                />
+                <button
+                  mat-icon-button
+                  matSuffix
+                  (click)="hide = !hide"
+                  [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hide"
+                >
+                  <mat-icon>{{
+                    hide ? 'visibility_off' : 'visibility'
+                  }}</mat-icon>
                 </button>
-                <mat-error *ngIf="password.hasError('minlength') && !password.hasError('required')">
+                <mat-error
+                  *ngIf="
+                    password.hasError('minlength') &&
+                    !password.hasError('required')
+                  "
+                >
                   Por favor, introduzca una contraseña con mas de 5 caracteres
                 </mat-error>
                 <mat-error *ngIf="password.hasError('required')">
@@ -46,11 +68,48 @@
               </mat-form-field>
             </td>
           </tr>
+
+          <tr *ngIf="isSuperAdmin">
+            <td>
+              <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Elige un tenant</mat-label>
+                <mat-select [(value)]="tenantToChange">
+                  <mat-option
+                    *ngFor="let tenant of tenants"
+                    [value]="tenant.id"
+                  >
+                    {{ tenant.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+          </tr>
+
           <!-- Button - Create User -->
           <tr>
-            <td>
-              <button (click)="login()" mat-raised-button color="primary" type="submit" expand="block"
-                [disabled]="!credentials.valid || sending">Log in</button>
+            <td class="centered">
+              <button
+                class="form-buttons"
+                (click)="login()"
+                mat-raised-button
+                color="primary"
+                type="submit"
+                expand="block"
+                [disabled]="!credentials.valid || sending"
+              >
+                Log in
+              </button>
+              <button
+                *ngIf="isSuperAdmin"
+                class="form-buttons"
+                (click)="changeTenant()"
+                mat-raised-button
+                color="primary"
+                expand="block"
+                [disabled]="sending"
+              >
+                Cambiar tenant
+              </button>
             </td>
           </tr>
         </table>

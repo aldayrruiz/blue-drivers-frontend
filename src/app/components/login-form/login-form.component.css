@@ -17,3 +17,8 @@ table {
   justify-content: center;
   align-items: center;
 }
+
+.form-buttons {
+  margin-left: 5rem;
+  margin-right: 5rem;
+}

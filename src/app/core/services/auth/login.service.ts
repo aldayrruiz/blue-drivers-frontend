@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { API } from 'src/app/core/utils/api-paths.enum';
 import { environment } from 'src/environments/environment';
+import { Role } from '../../models';
 import { LocalStorage } from '../storage/local-storage.service';
 
 const path = `${environment.baseURL}${API.login}/`;
@@ -36,16 +37,17 @@ export class LoginService {
     }
   }
 
-  login(credentials: Credentials): Observable<void> {
+  login(credentials: Credentials) {
     return this.http.post<void>(path, credentials).pipe(
       // data: {token: "the token", user_id: "..."}
       map((data: any) => {
-        if (data) {
+        if (data && data?.role !== Role.USER) {
           const { token, user_id } = data;
           this.storeToken(token);
           this.storeUserId(user_id);
           this.markAsAuthenticated();
         }
+        return data;
       })
     );
   }
