@@ -80,7 +80,7 @@
       <ng-container matColumnDef="isDisabled">
         <th class="button-table" mat-header-cell *matHeaderCellDef></th>
         <td class="button-table" mat-cell *matCellDef="let user">
-          <span *ngIf="user.role !== 'ADMIN'">
+          <span *ngIf="user.role === 'USER'">
             <span *ngIf="!user.isDisabled; else disabledIcon">
               <button
                 mat-icon-button

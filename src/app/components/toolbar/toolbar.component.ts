@@ -57,7 +57,7 @@ export class ToolbarComponent implements OnInit {
         label: 'Plantillas de reservas',
         link: 'reservation-templates',
         index: 7,
-      }
+      },
     ];
   }
 

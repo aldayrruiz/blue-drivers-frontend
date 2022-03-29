@@ -3,10 +3,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MyAngularMaterialModule } from 'src/app/core/modules/angular-material.module';
 import { DeleteInsuranceCompanyComponent } from './delete-insurance-company/delete-insurance-company.component';
+import { DeleteReservationTemplateComponent } from './delete-reservation-template/delete-reservation-template.component';
 import { DeleteUserComponent } from './delete-user/delete-user.component';
 // My components & modules
 import { DeleteVehicleComponent } from './delete-vehicle/delete-vehicle.component';
-import { DeleteReservationTemplateComponent } from './delete-reservation-template/delete-reservation-template.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +25,7 @@ import { DeleteReservationTemplateComponent } from './delete-reservation-templat
     DeleteUserComponent,
     DeleteVehicleComponent,
     DeleteInsuranceCompanyComponent,
+    DeleteReservationTemplateComponent,
   ],
 })
 export class DialogModule {}

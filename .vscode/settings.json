@@ -1,10 +1,4 @@
 {
-    "cSpell.words": [
-        "fullname",
-        "GNSS",
-        "imei",
-        "snacker",
-        "Snacker"
-    ],
-    "cSpell.language": "en,es-ES"
+    "angular.enable-strict-mode-prompt": false,
+    "cSpell.language": "es,en"
 }

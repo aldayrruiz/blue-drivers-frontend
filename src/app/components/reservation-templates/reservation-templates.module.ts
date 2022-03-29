@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CustomPipesModule } from 'src/app/core/pipes/custom-pipes.module';
 import { ReservationTemplatesPageRoutingModule } from 'src/app/pages/reservation-templates/reservation-templates-routing.module';
 import { MyAngularMaterialModule } from '../../core/modules/angular-material.module';
 import { CreateReservationTemplateComponent } from './create/create-reservation-template.component';

@@ -27,7 +27,7 @@ module.exports = function (config) {
     coverageReporter: {
       dir: require('path').join(
         __dirname,
-        './coverage/AdminWebFleetManagement'
+        './coverage/admin-web-fleet-management'
       ),
       subdir: '.',
       reporters: [{ type: 'html' }, { type: 'text-summary' }],

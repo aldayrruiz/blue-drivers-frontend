@@ -5,4 +5,3 @@ export function fromKnotsToKph(knots: number) {
 export function fromMetersToKm(meters: number) {
   return meters / 1000;
 }
-
