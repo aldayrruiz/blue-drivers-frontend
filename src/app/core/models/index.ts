@@ -2,13 +2,21 @@
 export * from './incidents/create.model';
 export * from './incidents/incident.model';
 export * from './incidents/type.model';
+// Insurance Companies
+export * from './insurance-companies/create.model';
+export * from './insurance-companies/insurance-company.model';
 //Positions
 export * from './positions/position.model';
 //Reports
 export * from './reports/report.summary.model';
+// Reservation templates
+export * from './reservation-templates/create.model';
+export * from './reservation-templates/reservation-template.model';
 // Reservations
 export * from './reservations/create.model';
 export * from './reservations/reservation.model';
+//Tenants
+export * from './tenants/tenant.model';
 // Tickets
 export * from './tickets/create.model';
 export * from './tickets/status.model';

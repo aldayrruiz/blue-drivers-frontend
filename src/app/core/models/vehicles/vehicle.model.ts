@@ -1,3 +1,4 @@
+import { InsuranceCompany } from '../insurance-companies/insurance-company.model';
 import { Device } from './device.model';
 import { VehicleFuel } from './fuel.model';
 
@@ -14,4 +15,6 @@ export interface Vehicle {
   number_plate: string;
   gps_device: Device;
   is_disabled: boolean;
+  insurance_company: InsuranceCompany;
+  policy_number: string;
 }

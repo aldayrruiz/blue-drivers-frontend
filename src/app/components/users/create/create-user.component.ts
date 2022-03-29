@@ -8,11 +8,11 @@ import {
   SnackerService,
   UserService,
 } from 'src/app/core/services';
+import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
 import {
   emailValidators,
   fullnameValidators,
 } from 'src/app/core/validators/user';
-import { CustomErrorStateMatcher } from 'src/app/pages/login/login.component';
 
 @Component({
   selector: 'app-create-user',
@@ -20,7 +20,7 @@ import { CustomErrorStateMatcher } from 'src/app/pages/login/login.component';
   styleUrls: ['./create-user.component.css'],
 })
 export class CreateUserComponent implements OnInit {
-  matcher = new CustomErrorStateMatcher();
+  matcher = new MyErrorStateMatcher();
   credentials: FormGroup;
   sending = false;
 

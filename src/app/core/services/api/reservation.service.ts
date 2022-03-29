@@ -9,7 +9,7 @@ import { API } from '../../utils/api-paths.enum';
   providedIn: 'root',
 })
 export class ReservationService {
-  private reservationURL = `${environment.baseURL}${API.RESERVATIONS}`;
+  private reservationURL = `${environment.baseURL}${API.reservations}`;
 
   constructor(private http: HttpClient) {}
 

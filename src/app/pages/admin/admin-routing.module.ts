@@ -44,6 +44,20 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'insurance-companies',
+        loadChildren: () =>
+          import('../insurance-companies/insurance-companies.module').then(
+            (m) => m.InsuranceCompaniesPageModule
+          ),
+      },
+      {
+        path: 'reservation-templates',
+        loadChildren: () =>
+          import('../reservation-templates/reservation-templates.module').then(
+            (m) => m.ReservationTemplatesPageModule
+          ),
+      },
+      {
         path: 'positions',
         loadChildren: () =>
           import('../gps-positions/gps-positions.module').then(

@@ -14,7 +14,7 @@ import { API } from '../../utils/api-paths.enum';
   providedIn: 'root',
 })
 export class VehicleService {
-  private vehicleUrl = `${environment.baseURL}${API.VEHICLES}`;
+  private vehicleUrl = `${environment.baseURL}${API.vehicles}`;
 
   constructor(private readonly http: HttpClient) {}
 

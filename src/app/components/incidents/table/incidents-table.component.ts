@@ -57,7 +57,7 @@ export class IncidentsTableComponent extends BaseTableComponent<
     return data.map((incident) => ({
       id: incident.id,
       owner: incident.owner.fullname,
-      vehicle: `${incident.reservation.vehicle.model} ${incident.reservation.vehicle.brand}`,
+      vehicle: `${incident.reservation.vehicle.brand} ${incident.reservation.vehicle.model}`,
       type: incidentTypeLabel(incident.type),
       description: incident.description,
       dateStored: formatDateTime(incident.date_stored),

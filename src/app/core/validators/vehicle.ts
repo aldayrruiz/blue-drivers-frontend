@@ -7,3 +7,4 @@ export const modelValidators = [required];
 export const numberPlateValidators = [required, ...exactLength(BRAND_LENGTH)];
 export const imeiValidators = [required];
 export const fuelValidators = [required];
+export const policyNumberValidators = [];

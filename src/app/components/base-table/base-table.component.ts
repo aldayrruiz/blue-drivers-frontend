@@ -15,6 +15,7 @@ export abstract class BaseTableComponent<M, T>
   @ViewChild(MatSort) sort: MatSort;
 
   // models: are initial values for table. This would never be updated.
+  // The only case when this value must be updated is when a row is deleted.
   // So we can reset to initial values.
   models: M[] = [];
   dataSource: MatTableDataSource<T>;
@@ -49,20 +50,41 @@ export abstract class BaseTableComponent<M, T>
     this.isLoadingResults = false;
   }
 
+  /**
+   * Init table or update table.
+   * Use it when you first receive rows data.
+   * Or when you want to delete a row, and you want to that row never appear anymore.
+   * @param models
+   */
   initTable(models: M[]): void {
     this.setModels(models);
     this.updateTable(models);
   }
 
+  /**
+   * Reset table to last values you passed to initTable().
+   * Use it when user is not filtering.
+   */
   resetTable(): void {
     this.updateTable(this.models);
   }
 
+  /**
+   * Update UI table rows.
+   * Use it when rows must be filtered and your intent is to comeback to initial values later.
+   * @param models
+   */
   updateTable(models: M[]): void {
     const data = this.preprocessData(models);
     this.dataSource.data = data;
   }
 
+  /**
+   * Update UI table rows.
+   * Use it when rows must be filtered and your intent is to comeback to initial values later.
+   *
+   * It does the same that updateTable.
+   */
   updateTableWithRows(rows: T[]): void {
     this.dataSource.data = rows;
   }

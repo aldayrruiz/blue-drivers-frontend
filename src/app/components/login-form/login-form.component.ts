@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
+import { Role, Tenant } from 'src/app/core/models';
 import {
   ErrorMessageService,
   FleetRouter,
   LoginService,
   SnackerService,
+  TenantService,
 } from 'src/app/core/services';
 import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
 import {
@@ -20,11 +22,15 @@ import {
 })
 export class LoginFormComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
+  tenants: Tenant[] = [];
+  isSuperAdmin = false;
+  tenantToChange: string;
   credentials: FormGroup;
   hide = true;
   sending = false;
 
   constructor(
+    private readonly tenantService: TenantService,
     private readonly errorMessage: ErrorMessageService,
     private readonly loginService: LoginService,
     private readonly formBuilder: FormBuilder,
@@ -36,6 +42,7 @@ export class LoginFormComponent implements OnInit {
     this.credentials = this.formBuilder.group({
       email: ['', emailValidators],
       password: ['', passwordValidators],
+      tenant: [],
     });
   }
 
@@ -55,12 +62,34 @@ export class LoginFormComponent implements OnInit {
       .login(credentials)
       .pipe(finalize(() => (this.sending = false)))
       .subscribe(
-        async () => this.router.goToHome(),
+        async (response) => {
+          if (response.role == Role.SUPER_ADMIN) {
+            this.isSuperAdmin = true;
+            this.tenantToChange = response.tenant;
+            this.getTenants();
+          } else if (response.role == Role.ADMIN) {
+            this.router.goToHome();
+          } else {
+            this.snacker.showError('No eres administrador');
+          }
+        },
         async (error) => {
           const message = this.errorMessage.get(error);
           this.snacker.showError(message);
         }
       );
+  }
+
+  getTenants() {
+    this.tenantService
+      .getAll()
+      .subscribe((tenants) => (this.tenants = tenants));
+  }
+
+  async changeTenant() {
+    this.tenantService
+      .changeTenant(this.tenantToChange)
+      .subscribe(() => this.router.goToHome());
   }
 
   get email(): AbstractControl {

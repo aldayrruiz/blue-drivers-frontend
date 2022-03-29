@@ -27,7 +27,7 @@
 
               <mat-list-item role="listitem">
                 <b>Coste de combustible consumido:&nbsp; </b>
-                {{ priceFuelConsumed | currency: 'EUR':'€' }}
+                {{ priceFuelConsumed | number: '1.0-0' | currency: 'EUR':'€' }}
               </mat-list-item>
 
               <mat-list-item role="listitem">

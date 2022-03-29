@@ -49,6 +49,18 @@
         <td mat-cell *matCellDef="let vehicle">{{ vehicle.fuel }}</td>
       </ng-container>
 
+      <!-- Insurance Company Column -->
+      <ng-container matColumnDef="insuranceCompany">
+        <th mat-header-cell *matHeaderCellDef>Aseguradora</th>
+        <td mat-cell *matCellDef="let vehicle">{{ vehicle.insuranceCompany || 'Ninguna' }}</td>
+      </ng-container>
+
+      <!-- Insurance Company Column -->
+      <ng-container matColumnDef="policyNumber">
+        <th mat-header-cell *matHeaderCellDef>Número de póliza</th>
+        <td mat-cell *matCellDef="let vehicle">{{ vehicle.policyNumber }}</td>
+      </ng-container>
+
       <!-- Number plate Column -->
       <ng-container matColumnDef="numberPlate">
         <th mat-header-cell *matHeaderCellDef>Nº Matricula</th>

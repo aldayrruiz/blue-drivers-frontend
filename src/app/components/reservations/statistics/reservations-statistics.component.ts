@@ -90,7 +90,6 @@ export class ReservationsStatisticsComponent implements OnInit {
   }
 
   private calculatePriceFuelConsumed() {
-    console.log(this.vehicle);
     const fuel = this.vehicle.fuel;
 
     const calculator = this.priceFuelCalculatorFactory.getCalculator(fuel);
