@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 import { Role } from '../../models';
 import { LocalStorage } from '../storage/local-storage.service';
 
-const path = `${environment.baseURL}${API.login}/`;
+const path = `${environment.fleetBaseUrl}${API.login}/`;
 
 @Injectable({
   providedIn: 'root',

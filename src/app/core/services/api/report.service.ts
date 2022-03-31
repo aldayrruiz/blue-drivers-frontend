@@ -10,7 +10,7 @@ import { ReportSummary } from '../../models/reports/report.summary.model';
   providedIn: 'root',
 })
 export class ReportService {
-  private reportsURL = `${environment.baseURL}${API.reservationReports}`;
+  private reportsURL = `${environment.fleetBaseUrl}${API.reservationReports}`;
 
   constructor(private http: HttpClient) {}
 

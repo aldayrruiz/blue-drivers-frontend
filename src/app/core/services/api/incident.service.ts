@@ -9,7 +9,7 @@ import { API } from '../../utils/api-paths.enum';
   providedIn: 'root',
 })
 export class IncidentService {
-  private incidentURL = `${environment.baseURL}${API.incidents}`;
+  private incidentURL = `${environment.fleetBaseUrl}${API.incidents}`;
 
   constructor(private http: HttpClient) {}
 

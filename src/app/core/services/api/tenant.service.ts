@@ -9,7 +9,7 @@ import { API } from '../../utils/api-paths.enum';
   providedIn: 'root',
 })
 export class TenantService {
-  private baseUrl = `${environment.baseURL}${API.tenants}`;
+  private baseUrl = `${environment.fleetBaseUrl}${API.tenants}`;
 
   constructor(private http: HttpClient) {}
 

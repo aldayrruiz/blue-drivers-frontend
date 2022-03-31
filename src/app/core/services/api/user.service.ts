@@ -9,8 +9,8 @@ import { API } from '../../utils/api-paths.enum';
   providedIn: 'root',
 })
 export class UserService {
-  private registerUrl = `${environment.baseURL}${API.register}`;
-  private userUrl = `${environment.baseURL}${API.users}`;
+  private registerUrl = `${environment.fleetBaseUrl}${API.register}`;
+  private userUrl = `${environment.fleetBaseUrl}${API.users}`;
 
   constructor(private readonly http: HttpClient) {}
 
