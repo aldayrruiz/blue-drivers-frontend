@@ -1,4 +1,4 @@
-import { APP_BASE_HREF, registerLocaleData } from '@angular/common';
+import { registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import localeEs from '@angular/common/locales/es';
 import { LOCALE_ID, NgModule } from '@angular/core';
@@ -21,10 +21,7 @@ registerLocaleData(localeEs, 'es');
     BrowserAnimationsModule,
     SpanishDateMaterialModule,
   ],
-  providers: [
-    { provide: LOCALE_ID, useValue: 'es-ES' },
-    { provide: APP_BASE_HREF, useValue: '/static/ang/' },
-  ],
+  providers: [{ provide: LOCALE_ID, useValue: 'es-ES' }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
