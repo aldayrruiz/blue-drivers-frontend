@@ -13,7 +13,7 @@
       {{ link.label }}
     </button>
   </mat-menu>
-  <img class="logo" src="assets/logo/blue-drivers-logo.png" />
+  <img class="logo" [src]="logoUrl" />
   <span class="example-spacer"> BLUE Drivers </span>
   <!-- Account Menu -->
   <button mat-button [matMenuTriggerFor]="account">
