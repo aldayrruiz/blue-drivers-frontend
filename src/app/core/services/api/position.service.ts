@@ -9,7 +9,7 @@ import { Position } from '../../models/positions/position.model';
   providedIn: 'root',
 })
 export class PositionService {
-  private positionUrl = `${environment.baseURL}${API.lastPositions}`;
+  private positionUrl = `${environment.fleetBaseUrl}${API.lastPositions}`;
 
   constructor(private http: HttpClient) {}
 

@@ -1,15 +1,3 @@
-<!-- <nav mat-tab-nav-bar>
-  <a
-    mat-tab-link
-    *ngFor="let link of navLinks"
-    [routerLink]="link.link"
-    routerLinkActive
-    #rla="routerLinkActive"
-    [active]="rla.isActive"
-  >
-    {{ link.label }}
-  </a>
-</nav> -->
 <mat-toolbar color="primary">
   <!-- Navigation Menu -->
   <button mat-button [matMenuTriggerFor]="menu">
@@ -25,10 +13,10 @@
       {{ link.label }}
     </button>
   </mat-menu>
-  <span class="example-spacer">BLUE Drivers</span>
+  <img class="logo" src="assets/logo/blue-drivers-logo.png" />
+  <span class="example-spacer"> BLUE Drivers </span>
   <!-- Account Menu -->
-  <button mat-button [matMenuTriggerFor]="account"
-  >
+  <button mat-button [matMenuTriggerFor]="account">
     <mat-icon>person</mat-icon>
   </button>
   <mat-menu #account="matMenu">

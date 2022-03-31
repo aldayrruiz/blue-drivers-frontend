@@ -15,6 +15,6 @@
  */
 export const environment = {
   production: true,
-  baseURL: '',
+  fleetBaseUrl: '',
   assetsDir: '',
 };
