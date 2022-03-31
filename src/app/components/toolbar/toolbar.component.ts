@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FleetRouter, LoginService } from 'src/app/core/services';
+import {
+  AssetsService,
+  FleetRouter,
+  LoginService,
+} from 'src/app/core/services';
 
 @Component({
   selector: 'app-toolbar',
@@ -9,10 +13,12 @@ import { FleetRouter, LoginService } from 'src/app/core/services';
 })
 export class ToolbarComponent implements OnInit {
   title = 'angular-material-tab-router';
+  logoUrl: string;
   navLinks: any[];
   activeLinkIndex = -1;
 
   constructor(
+    private readonly assetsService: AssetsService,
     private readonly loginService: LoginService,
     private readonly fleetRouter: FleetRouter,
     private readonly router: Router
@@ -62,6 +68,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.logoUrl = this.assetsService.getUrl('logo/blue-drivers-logo.png');
     this.router.events.subscribe((res) => {
       this.activeLinkIndex = this.navLinks.indexOf(
         this.navLinks.find((tab) => tab.link === '.' + this.router.url)
