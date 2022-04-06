@@ -128,8 +128,8 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
   private resolveData(): void {
     this.route.data.subscribe((data) => {
       this.vehicles = data.vehicles;
-      // this.positions = data.positions;
-      this.positions = this.getFakePositions();
+      this.positions = data.positions;
+      // this.positions = this.getFakePositions();
       const nVehicles = this.vehicles.length;
       const nPositions = this.positions.length;
       const msg = `Se ha recibido ${nPositions} posiciones y ${nVehicles} vehículos`;
@@ -142,8 +142,8 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
 
     setTimeout(() => {
       this.positionSrv.getAll().subscribe((positions) => {
-        // this.positions = positions;
-        this.positions = this.getFakePositions();
+        this.positions = positions;
+        // this.positions = this.getFakePositions();
         this.positionMarkers.forEach((positionMarker) => {
           const vehicle = positionMarker.vehicle;
           const visibleMarker = positionMarker.marker;
