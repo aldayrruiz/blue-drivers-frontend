@@ -11,7 +11,7 @@ export class InsuranceCompanyResolver implements Resolve<InsuranceCompany> {
   constructor(private insuranceCompanyService: InsuranceCompanyService) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<InsuranceCompany> {
-    const id = route.params['insuranceCompanyId'];
+    const id = route.params.insuranceCompanyId;
     return this.insuranceCompanyService.get(id);
   }
 }

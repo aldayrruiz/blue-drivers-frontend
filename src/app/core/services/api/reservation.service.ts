@@ -24,6 +24,7 @@ export class ReservationService {
 
   /**
    * Sends a GET HTTP request to the server to get a reservation given an identifier.
+   *
    * @param id identifier of the reservation to get.
    */
   get(id: string): Observable<Reservation> {
@@ -33,6 +34,7 @@ export class ReservationService {
 
   /**
    * Send a POST HTTP request to the server to store the given reservation data.
+   *
    * @param reservation data of the reservation to store.
    */
   create(reservation: CreateReservation): Observable<CreateReservation> {
@@ -42,6 +44,7 @@ export class ReservationService {
 
   /**
    * Sends a DELETE HTTP request to the server to delete the resource.
+   *
    * @param id Reservation's id to delete
    */
   delete(id: string): Observable<void> {

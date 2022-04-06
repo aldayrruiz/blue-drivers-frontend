@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,7 +11,6 @@ import {
   SnackerService,
   UserService,
 } from 'src/app/core/services';
-import { formatDateTime } from 'src/app/core/utils/dates/custom-fns';
 import { DeleteUserComponent } from '../../dialogs/delete-user/delete-user.component';
 
 interface UserRow {
@@ -29,14 +29,7 @@ interface UserRow {
   styleUrls: ['./users-table.component.css'],
 })
 export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
-  columns = [
-    'fullname',
-    'email',
-    'dateJoined',
-    'allowedTypes',
-    'isDisabled',
-    'delete',
-  ];
+  columns = ['fullname', 'email', 'dateJoined', 'allowedTypes', 'isDisabled', 'delete'];
 
   private myId: string;
 
@@ -72,7 +65,7 @@ export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
       fullname: user.fullname,
       email: user.email,
       role: user.role,
-      dateJoined: formatDateTime(user.date_joined),
+      dateJoined: user.date_joined,
       isDisabled: user.is_disabled,
       allowedVehicleTypes: user.allowed_vehicles,
     }));
@@ -105,9 +98,7 @@ export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
       async () => {
         const newUsers = this.models.filter((u) => u.id !== user.id);
         this.initTable(newUsers);
-        this.snacker.showSuccessful(
-          `El usuario ${user.fullname} ha sido eliminado.`
-        );
+        this.snacker.showSuccessful(`El usuario ${user.fullname} ha sido eliminado.`);
       },
       async (error) => {
         const message = this.errorMessage.get(error);

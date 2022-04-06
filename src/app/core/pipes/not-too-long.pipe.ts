@@ -6,6 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class NotTooLongPipe implements PipeTransform {
   /**
    * Value in milliseconds
+   *
    * @param value
    * @param args
    * @returns

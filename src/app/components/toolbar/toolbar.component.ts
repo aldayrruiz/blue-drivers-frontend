@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  AssetsService,
-  FleetRouter,
-  LoginService,
-} from 'src/app/core/services';
+import { AssetsService, FleetRouter, LoginService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-toolbar',

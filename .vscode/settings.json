@@ -1,4 +1,7 @@
 {
     "angular.enable-strict-mode-prompt": false,
-    "cSpell.language": "es,en"
+    "cSpell.language": "es,en",
+    "cSpell.words": [
+        "gnss"
+    ]
 }

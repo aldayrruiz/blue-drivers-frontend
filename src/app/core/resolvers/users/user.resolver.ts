@@ -11,7 +11,7 @@ export class UserResolver implements Resolve<User> {
   constructor(private userSrv: UserService) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<User> {
-    const userId = route.params['userId'];
+    const userId = route.params.userId;
     return this.userSrv.get(userId);
   }
 }

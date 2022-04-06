@@ -25,6 +25,7 @@ export class TenantService {
 
   /**
    * Change user tenant.
+   *
    * @param id tenant who will be assigned to user
    * @returns
    */

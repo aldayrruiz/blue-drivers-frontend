@@ -11,7 +11,7 @@ export class IncidentResolver implements Resolve<Incident> {
   constructor(private incidentSrv: IncidentService) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<Incident> {
-    const incidentId = route.params['incidentId'];
+    const incidentId = route.params.incidentId;
     return this.incidentSrv.get(incidentId);
   }
 }

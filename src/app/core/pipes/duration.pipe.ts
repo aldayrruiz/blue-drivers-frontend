@@ -8,6 +8,7 @@ import { formatDuration } from '../utils/dates/custom-fns';
 export class DurationPipe implements PipeTransform {
   /**
    * Value in milliseconds
+   *
    * @param value
    * @param args
    * @returns

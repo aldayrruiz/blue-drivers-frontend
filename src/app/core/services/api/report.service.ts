@@ -27,6 +27,7 @@ export class ReportService {
 
   /**
    * Get positions given a reservation.
+   *
    * @param reservationId
    * @returns
    */

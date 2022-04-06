@@ -10,14 +10,12 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () =>
-      import('./pages/login/login.module').then((m) => m.LoginPageModule),
+    loadChildren: () => import('./pages/login/login.module').then((m) => m.LoginPageModule),
     canLoad: [AutoLoginGuard],
   },
   {
     path: 'admin',
-    loadChildren: () =>
-      import('./pages/admin/admin.module').then((m) => m.AdminPageModule),
+    loadChildren: () => import('./pages/admin/admin.module').then((m) => m.AdminPageModule),
     canLoad: [AuthGuard],
   },
 ];

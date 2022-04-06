@@ -9,10 +9,7 @@ import {
   UserService,
 } from 'src/app/core/services';
 import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
-import {
-  emailValidators,
-  fullnameValidators,
-} from 'src/app/core/validators/user';
+import { emailValidators, fullnameValidators } from 'src/app/core/validators/user';
 
 @Component({
   selector: 'app-create-user',

@@ -3,11 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { finalize } from 'rxjs/operators';
 import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
 import { EditPatchVehicle, fuelLabel, Vehicle } from 'src/app/core/models';
-import {
-  ErrorMessageService,
-  SnackerService,
-  VehicleService,
-} from 'src/app/core/services';
+import { ErrorMessageService, SnackerService, VehicleService } from 'src/app/core/services';
 import { DeleteVehicleComponent } from '../../dialogs/delete-vehicle/delete-vehicle.component';
 
 interface VehicleRow {
@@ -24,10 +20,7 @@ interface VehicleRow {
   templateUrl: './vehicles-table.component.html',
   styleUrls: ['./vehicles-table.component.css'],
 })
-export class VehiclesTableComponent extends BaseTableComponent<
-  Vehicle,
-  VehicleRow
-> {
+export class VehiclesTableComponent extends BaseTableComponent<Vehicle, VehicleRow> {
   columns = [
     'brand',
     'model',

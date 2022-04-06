@@ -14,34 +14,25 @@ const routes: Routes = [
     children: [
       {
         path: 'users',
-        loadChildren: () =>
-          import('../users/users.module').then((m) => m.UsersPageModule),
+        loadChildren: () => import('../users/users.module').then((m) => m.UsersPageModule),
       },
       {
         path: 'vehicles',
-        loadChildren: () =>
-          import('../vehicles/vehicles.module').then(
-            (m) => m.VehiclesPageModule
-          ),
+        loadChildren: () => import('../vehicles/vehicles.module').then((m) => m.VehiclesPageModule),
       },
       {
         path: 'reservations',
         loadChildren: () =>
-          import('../reservations/reservations.module').then(
-            (m) => m.ReservationsPageModule
-          ),
+          import('../reservations/reservations.module').then((m) => m.ReservationsPageModule),
       },
       {
         path: 'tickets',
-        loadChildren: () =>
-          import('../tickets/tickets.module').then((m) => m.TicketsPageModule),
+        loadChildren: () => import('../tickets/tickets.module').then((m) => m.TicketsPageModule),
       },
       {
         path: 'incidents',
         loadChildren: () =>
-          import('../incidents/incidents.module').then(
-            (m) => m.IncidentsPageModule
-          ),
+          import('../incidents/incidents.module').then((m) => m.IncidentsPageModule),
       },
       {
         path: 'insurance-companies',
@@ -60,9 +51,7 @@ const routes: Routes = [
       {
         path: 'positions',
         loadChildren: () =>
-          import('../gps-positions/gps-positions.module').then(
-            (m) => m.GpsPositionsPageModule
-          ),
+          import('../gps-positions/gps-positions.module').then((m) => m.GpsPositionsPageModule),
       },
     ],
   },

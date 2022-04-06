@@ -2,10 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
-import {
-  CreateReservationTemplate,
-  ReservationTemplate,
-} from 'src/app/core/models';
+import { CreateReservationTemplate, ReservationTemplate } from 'src/app/core/models';
 import {
   ErrorMessageService,
   FleetRouter,
@@ -75,7 +72,7 @@ export class EditReservationTemplateComponent implements OnInit {
 
   resolve(): void {
     this.route.data.subscribe((response) => {
-      this.oldTemplateReservation = response['reservationTemplate'];
+      this.oldTemplateReservation = response.reservationTemplate;
     });
   }
 

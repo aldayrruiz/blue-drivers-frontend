@@ -11,6 +11,4 @@ const antPathOptions = {
   hardwareAccelerated: true,
 };
 
-export const createAntPath = (route: number[][]) => {
-  return antPath(route, antPathOptions);
-};
+export const createAntPath = (route: number[][]) => antPath(route, antPathOptions);

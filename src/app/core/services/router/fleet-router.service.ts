@@ -7,10 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class FleetRouter {
   extras = { replaceUrl: true };
 
-  constructor(
-    private readonly router: Router,
-    private readonly route: ActivatedRoute
-  ) {}
+  constructor(private readonly router: Router, private readonly route: ActivatedRoute) {}
 
   async goToHome() {
     const to = `admin`;
