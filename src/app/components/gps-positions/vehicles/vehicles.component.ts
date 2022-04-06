@@ -182,15 +182,12 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
   }
 
   private icons = [
-    'img/pink-car.png',
-    'img/light-green-car.png',
-    'img/light-blue-car.png',
-    'img/brown-car.png',
-    'img/orange-car.png',
-    'img/yellow-car.png',
-    'img/green-car.png',
-    'img/red-car.png',
-    'img/blue-car.png',
-    'img/black-car.png',
+    'img/blue-vehicle.png',
+    'img/green-vehicle.png',
+    'img/grey-vehicle.png',
+    'img/orange-vehicle.png',
+    'img/purple-vehicle.png',
+    'img/red-vehicle.png',
+    'img/yellow-vehicle.png',
   ];
 }
