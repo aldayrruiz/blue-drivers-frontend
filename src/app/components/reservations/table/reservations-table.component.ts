@@ -31,10 +31,7 @@ export interface ReservationRow {
   templateUrl: './reservations-table.component.html',
   styleUrls: ['./reservations-table.component.css'],
 })
-export class ReservationsTableComponent extends BaseTableComponent<
-  Reservation,
-  ReservationRow
-> {
+export class ReservationsTableComponent extends BaseTableComponent<Reservation, ReservationRow> {
   columns = ['title', 'owner', 'vehicle', 'start', 'hourMin', 'statistics'];
 
   range = new FormGroup({
@@ -51,6 +48,22 @@ export class ReservationsTableComponent extends BaseTableComponent<
     private readonly ghost: FleetRouter
   ) {
     super();
+  }
+
+  get start(): Date {
+    const start = this.datePicker.value;
+    // const { start } = this.range.value;
+    return start;
+  }
+
+  get end(): Date {
+    const end = this.datePicker.value;
+    if (!end) {
+      return null;
+    }
+    // const { end }: { end: Date } = this.range.value;
+    const endOfTheDay = this.getEndOfTheDay(end);
+    return endOfTheDay;
   }
 
   preprocessData(reservations: Reservation[]): ReservationRow[] {
@@ -116,10 +129,7 @@ export class ReservationsTableComponent extends BaseTableComponent<
   private getReservationsStartedBetween(rows: ReservationRow[]) {
     return rows.filter((reservation) => {
       const reservationStart = new Date(reservation.start);
-      return (
-        isAfter(reservationStart, this.start) &&
-        isBefore(reservationStart, this.end)
-      );
+      return isAfter(reservationStart, this.start) && isBefore(reservationStart, this.end);
     });
   }
 
@@ -135,22 +145,6 @@ export class ReservationsTableComponent extends BaseTableComponent<
       const reservationStart = new Date(reservation.start);
       return isBefore(reservationStart, this.end);
     });
-  }
-
-  private get start(): Date {
-    const start = this.datePicker.value;
-    // const { start } = this.range.value;
-    return start;
-  }
-
-  private get end(): Date {
-    const end = this.datePicker.value;
-    if (!end) {
-      return null;
-    }
-    // const { end }: { end: Date } = this.range.value;
-    const endOfTheDay = this.getEndOfTheDay(end);
-    return endOfTheDay;
   }
 
   private getEndOfTheDay(day: Date) {

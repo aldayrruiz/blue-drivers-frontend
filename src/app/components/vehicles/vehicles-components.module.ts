@@ -8,21 +8,13 @@ import { EditVehicleComponent } from './edit/edit-vehicle.component';
 import { VehiclesTableComponent } from './table/vehicles-table.component';
 
 @NgModule({
-  declarations: [
-    VehiclesTableComponent,
-    EditVehicleComponent,
-    CreateVehicleComponent,
-  ],
+  declarations: [VehiclesTableComponent, EditVehicleComponent, CreateVehicleComponent],
   imports: [
     CommonModule,
     VehiclesPageRoutingModule /* This component is using vehicles routing /admin/vehicles */,
     MyAngularMaterialModule,
     ReactiveFormsModule,
   ],
-  exports: [
-    VehiclesTableComponent,
-    EditVehicleComponent,
-    CreateVehicleComponent,
-  ],
+  exports: [VehiclesTableComponent, EditVehicleComponent, CreateVehicleComponent],
 })
 export class VehiclesComponentsModule {}

@@ -1,4 +1,3 @@
-import { formatDate } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -8,11 +7,13 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { formatDistanceToNowStrict } from 'date-fns';
+import es from 'date-fns/locale/es';
 import * as L from 'leaflet';
 import { Subject } from 'rxjs';
 import { Position, Vehicle } from 'src/app/core/models';
-import { AssetsService, PositionService } from 'src/app/core/services';
-import { PipeDates } from 'src/app/core/utils/dates/pipe-dates';
+import { AssetsService, fromKnotsToKph, PositionService } from 'src/app/core/services';
+import { GnssIconProvider } from 'src/app/core/services/view/gnss-icon.service';
 import { MapConfiguration } from 'src/app/core/utils/leaflet/map-configuration';
 import { MapCreator } from 'src/app/core/utils/leaflet/map-creator';
 
@@ -37,24 +38,27 @@ const refreshTime = 10000;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VehiclesComponent implements OnInit, AfterViewInit {
-  private positionMarkersSubject = new Subject<MyMarker[]>();
+  positionMarkersSubject = new Subject<MyMarker[]>();
+  positionMarkers$ = this.positionMarkersSubject.asObservable();
+  displayedColumns = ['feature', 'value'];
+
   private positionMarkers: MyMarker[] = [];
   private positions: Position[];
   private vehicles: Vehicle[];
   private map: L.Map;
-
-  positionMarkers$ = this.positionMarkersSubject.asObservable();
-  displayedColumns = ['feature', 'value'];
+  private icons: string[];
 
   constructor(
     @Inject(LOCALE_ID)
     private readonly locale: string,
     private readonly route: ActivatedRoute,
+    private readonly gnssIconProvider: GnssIconProvider,
     private readonly positionSrv: PositionService,
     private readonly assetsSrv: AssetsService
   ) {}
 
   ngOnInit(): void {
+    this.icons = this.gnssIconProvider.getIconsPaths();
     this.listenForNewPositions();
     this.resolveData();
     this.initMap();
@@ -76,18 +80,17 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     if (!position) {
       return [];
     }
-    const dTime = new Date(position.deviceTime);
-
-    const deviceTime = formatDate(dTime, PipeDates.dateTimeFormat, this.locale);
+    const timestamp = new Date(position.deviceTime);
+    const distanceToNow = formatDistanceToNowStrict(timestamp, { addSuffix: true, locale: es });
 
     const dataSource: FeatureValue[] = [
       {
-        feature: 'Tiempo del dispositivo',
-        value: deviceTime,
+        feature: 'Última posición',
+        value: distanceToNow,
       },
       {
         feature: 'Velocidad',
-        value: position.speed,
+        value: fromKnotsToKph(Math.round(position.speed)) + 'km/h',
       },
     ];
 
@@ -124,8 +127,9 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
 
   private resolveData(): void {
     this.route.data.subscribe((data) => {
-      this.vehicles = data['vehicles'];
-      this.positions = data['positions'];
+      this.vehicles = data.vehicles;
+      this.positions = data.positions;
+      // this.positions = this.getFakePositions();
       const nVehicles = this.vehicles.length;
       const nPositions = this.positions.length;
       const msg = `Se ha recibido ${nPositions} posiciones y ${nVehicles} vehículos`;
@@ -139,6 +143,7 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.positionSrv.getAll().subscribe((positions) => {
         this.positions = positions;
+        // this.positions = this.getFakePositions();
         this.positionMarkers.forEach((positionMarker) => {
           const vehicle = positionMarker.vehicle;
           const visibleMarker = positionMarker.marker;
@@ -181,16 +186,29 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     this.positionMarkersSubject.next(myMarkers);
   }
 
-  private icons = [
-    'img/pink-car.png',
-    'img/light-green-car.png',
-    'img/light-blue-car.png',
-    'img/brown-car.png',
-    'img/orange-car.png',
-    'img/yellow-car.png',
-    'img/green-car.png',
-    'img/red-car.png',
-    'img/blue-car.png',
-    'img/black-car.png',
-  ];
+  private getFakePositions() {
+    return [
+      {
+        latitude: Math.floor(Math.random() * 10),
+        longitude: Math.floor(Math.random() * 10),
+        deviceId: 20,
+        deviceTime: new Date('2022-04-03T18:09:04.067Z').toJSON(),
+        speed: 10,
+      },
+      {
+        latitude: Math.floor(Math.random() * 10),
+        longitude: Math.floor(Math.random() * 10),
+        deviceId: 24,
+        deviceTime: new Date('2022-04-02T18:09:04.067Z').toJSON(),
+        speed: 20,
+      },
+      {
+        latitude: Math.floor(Math.random() * 10),
+        longitude: Math.floor(Math.random() * 10),
+        deviceId: 67,
+        deviceTime: new Date('2022-03-03T18:09:04.067Z').toJSON(),
+        speed: 30,
+      },
+    ];
+  }
 }

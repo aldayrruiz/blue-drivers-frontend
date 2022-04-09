@@ -7,11 +7,6 @@ import { ReservationTemplatesComponent } from './reservation-templates.component
 
 @NgModule({
   declarations: [ReservationTemplatesComponent],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReservationTemplatesPageRoutingModule,
-    SharedModule,
-  ],
+  imports: [CommonModule, FormsModule, ReservationTemplatesPageRoutingModule, SharedModule],
 })
 export class ReservationTemplatesPageModule {}

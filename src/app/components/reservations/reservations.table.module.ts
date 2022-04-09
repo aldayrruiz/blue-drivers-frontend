@@ -9,11 +9,7 @@ import { ReservationsStatisticsComponent } from './statistics/reservations-stati
 import { ReservationsTableComponent } from './table/reservations-table.component';
 
 @NgModule({
-  declarations: [
-    ReservationsTableComponent,
-    ReservationsStatisticsComponent,
-    AntMapComponent,
-  ],
+  declarations: [ReservationsTableComponent, ReservationsStatisticsComponent, AntMapComponent],
   imports: [
     CommonModule,
     ReservationsRoutingModule /* This component is using reservations routing /admin/reservations */,

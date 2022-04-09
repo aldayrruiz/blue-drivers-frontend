@@ -10,10 +10,7 @@ import {
   TenantService,
 } from 'src/app/core/services';
 import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
-import {
-  emailValidators,
-  passwordValidators,
-} from 'src/app/core/validators/user';
+import { emailValidators, passwordValidators } from 'src/app/core/validators/user';
 
 @Component({
   selector: 'app-login-form',
@@ -81,15 +78,11 @@ export class LoginFormComponent implements OnInit {
   }
 
   getTenants() {
-    this.tenantService
-      .getAll()
-      .subscribe((tenants) => (this.tenants = tenants));
+    this.tenantService.getAll().subscribe((tenants) => (this.tenants = tenants));
   }
 
   async changeTenant() {
-    this.tenantService
-      .changeTenant(this.tenantToChange)
-      .subscribe(() => this.router.goToHome());
+    this.tenantService.changeTenant(this.tenantToChange).subscribe(() => this.router.goToHome());
   }
 
   get email(): AbstractControl {

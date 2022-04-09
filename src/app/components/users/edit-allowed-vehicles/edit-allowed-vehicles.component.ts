@@ -4,11 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { User, Vehicle } from 'src/app/core/models';
-import {
-  ErrorMessageService,
-  SnackerService,
-  UserService,
-} from 'src/app/core/services';
+import { ErrorMessageService, SnackerService, UserService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-edit-allowed-vehicles',
@@ -40,8 +36,8 @@ export class EditAllowedVehiclesComponent implements OnInit {
 
   resolve(): void {
     this.route.data.subscribe((response) => {
-      this.user = response['user'];
-      this.vehicles = response['vehicles'];
+      this.user = response.user;
+      this.vehicles = response.vehicles;
     });
   }
 

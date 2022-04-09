@@ -7,11 +7,6 @@ import { InsuranceCompaniesComponent } from './insurance-companies.component';
 
 @NgModule({
   declarations: [InsuranceCompaniesComponent],
-  imports: [
-    CommonModule,
-    FormsModule,
-    InsuranceCompaniesPageRoutingModule,
-    SharedModule,
-  ],
+  imports: [CommonModule, FormsModule, InsuranceCompaniesPageRoutingModule, SharedModule],
 })
 export class InsuranceCompaniesPageModule {}

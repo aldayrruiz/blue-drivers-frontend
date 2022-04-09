@@ -1,8 +1,4 @@
-import {
-  Duration,
-  format,
-  formatDuration as formatDurationFns,
-} from 'date-fns';
+import { Duration, format, formatDuration as formatDurationFns } from 'date-fns';
 import es from 'date-fns/locale/es';
 import { PipeDates } from './pipe-dates';
 

@@ -42,6 +42,7 @@ export class UserService {
 
   /**
    * Register / Create user
+   *
    * @param user user
    * @returns user created
    */
@@ -52,6 +53,7 @@ export class UserService {
 
   /**
    * Delete a user
+   *
    * @param id user id
    * @returns
    */
@@ -62,6 +64,7 @@ export class UserService {
 
   /**
    * Update user profile.
+   *
    * @param id user id
    * @param user data updated of user.
    * @returns
@@ -85,6 +88,7 @@ export class UserService {
 
   /**
    * Edit only attributes of EditPatchUser -> isDisabled
+   *
    * @param id user id
    * @param data update data
    * @returns

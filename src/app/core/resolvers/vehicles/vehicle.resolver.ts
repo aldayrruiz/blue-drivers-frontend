@@ -11,7 +11,7 @@ export class VehicleResolver implements Resolve<Vehicle> {
   constructor(private vehicleSrv: VehicleService) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<Vehicle> {
-    const vehicleId = route.params['vehicleId'];
+    const vehicleId = route.params.vehicleId;
     return this.vehicleSrv.get(vehicleId);
   }
 }

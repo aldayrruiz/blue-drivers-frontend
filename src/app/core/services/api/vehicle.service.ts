@@ -2,12 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import {
-  CreateVehicle,
-  EditPatchVehicle,
-  EditVehicle,
-  Vehicle,
-} from '../../models';
+import { CreateVehicle, EditPatchVehicle, EditVehicle, Vehicle } from '../../models';
 import { API } from '../../utils/api-paths.enum';
 
 @Injectable({
@@ -47,6 +42,7 @@ export class VehicleService {
 
   /**
    * Send data to update partially. By the moment, just 'is_disabled' field.
+   *
    * @param id of Vehicle
    * @param data To change
    * @returns Observable

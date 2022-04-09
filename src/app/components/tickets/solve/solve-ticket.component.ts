@@ -1,17 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
-import {
-  Reservation,
-  Ticket,
-  TicketStatus,
-  Vehicle,
-} from 'src/app/core/models';
-import {
-  ErrorMessageService,
-  SnackerService,
-  TicketService,
-} from 'src/app/core/services';
+import { Reservation, Ticket, TicketStatus, Vehicle } from 'src/app/core/models';
+import { ErrorMessageService, SnackerService, TicketService } from 'src/app/core/services';
 import { PipeDates } from 'src/app/core/utils/dates/pipe-dates';
 
 @Component({
@@ -42,7 +33,7 @@ export class SolveTicketComponent implements OnInit {
 
   resolveTicket(): void {
     this.route.data.subscribe((response) => {
-      this.ticket = response['ticket'];
+      this.ticket = response.ticket;
     });
   }
 

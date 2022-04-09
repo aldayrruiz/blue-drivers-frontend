@@ -24,6 +24,7 @@ export class TicketService {
 
   /**
    * Sends a GET HTTP request to the server to get a ticket given an identifier.
+   *
    * @param id identifier of the ticket to get.
    */
   get(id: string): Observable<Ticket> {
@@ -33,6 +34,7 @@ export class TicketService {
 
   /**
    * Send a POST HTTP request to the server to store the given ticket data.
+   *
    * @param ticket data of the ticket to store.
    */
   create(ticket: CreateTicket): Observable<CreateTicket> {
@@ -42,6 +44,7 @@ export class TicketService {
 
   /**
    * Send an PUT HTTP request to the server to solve (update) the ticket.
+   *
    * @param id of the ticket to solve
    * @param newStatus of the ticket
    * @returns Just an observable

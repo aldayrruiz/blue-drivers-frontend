@@ -8,9 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
   templateUrl: './base-table.component.html',
   styleUrls: ['./base-table.component.css'],
 })
-export abstract class BaseTableComponent<M, T>
-  implements OnInit, AfterViewInit
-{
+export abstract class BaseTableComponent<M, T> implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -54,6 +52,7 @@ export abstract class BaseTableComponent<M, T>
    * Init table or update table.
    * Use it when you first receive rows data.
    * Or when you want to delete a row, and you want to that row never appear anymore.
+   *
    * @param models
    */
   initTable(models: M[]): void {
@@ -72,6 +71,7 @@ export abstract class BaseTableComponent<M, T>
   /**
    * Update UI table rows.
    * Use it when rows must be filtered and your intent is to comeback to initial values later.
+   *
    * @param models
    */
   updateTable(models: M[]): void {

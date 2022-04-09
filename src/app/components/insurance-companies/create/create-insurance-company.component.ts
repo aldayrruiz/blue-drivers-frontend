@@ -9,10 +9,7 @@ import {
   SnackerService,
 } from 'src/app/core/services';
 import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
-import {
-  nameValidators,
-  phoneValidators,
-} from 'src/app/core/validators/insurance-company';
+import { nameValidators, phoneValidators } from 'src/app/core/validators/insurance-company';
 
 @Component({
   selector: 'app-create-insurance-company',

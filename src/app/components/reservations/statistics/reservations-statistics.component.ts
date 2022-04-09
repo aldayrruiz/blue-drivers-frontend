@@ -1,12 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {
-  fuelLabel,
-  Position,
-  ReportSummary,
-  Reservation,
-  Vehicle,
-} from 'src/app/core/models';
+import { fuelLabel, Position, ReportSummary, Reservation, Vehicle } from 'src/app/core/models';
 import {
   FuelPriceCalculatorFactory,
   ReportService,
@@ -98,9 +92,7 @@ export class ReservationsStatisticsComponent implements OnInit {
   }
 
   private setTimeReserved() {
-    this.timeReserved = this.timeReservedSrv.getFromReservation(
-      this.reservation
-    );
+    this.timeReserved = this.timeReservedSrv.getFromReservation(this.reservation);
   }
 
   private loadAntMap() {

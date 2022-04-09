@@ -82,7 +82,7 @@
       <ng-container matColumnDef="dateStored">
         <th mat-header-cell *matHeaderCellDef>Fecha de creación</th>
         <td mat-cell *matCellDef="let incident">
-          {{ incident.dateStored }}
+          {{ incident.dateStored  | essential}}
         </td>
       </ng-container>
 

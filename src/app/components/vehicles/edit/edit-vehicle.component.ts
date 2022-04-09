@@ -93,8 +93,8 @@ export class EditVehicleComponent implements OnInit {
 
   resolve(): void {
     this.route.data.subscribe((response) => {
-      this.vehicle = response['vehicle'];
-      this.insuranceCompanies = response['insuranceCompanies'];
+      this.vehicle = response.vehicle;
+      this.insuranceCompanies = response.insuranceCompanies;
     });
   }
 

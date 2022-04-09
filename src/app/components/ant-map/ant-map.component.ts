@@ -37,9 +37,7 @@ export class AntMapComponent implements OnInit {
   }
 
   private convertPositionsToLatLng(positions: Position[]) {
-    const latLongs = positions.map((position) => {
-      return [position.latitude, position.longitude];
-    });
+    const latLongs = positions.map((position) => [position.latitude, position.longitude]);
 
     return latLongs;
   }

@@ -3,7 +3,6 @@ import { isFuture } from 'date-fns';
 import { finalize } from 'rxjs/operators';
 import { Ticket, TicketStatus } from 'src/app/core/models';
 import { TicketService } from 'src/app/core/services';
-import { formatDateTime } from 'src/app/core/utils/dates/custom-fns';
 import { BaseTableComponent } from '../../base-table/base-table.component';
 
 interface TicketRow {
@@ -19,10 +18,7 @@ interface TicketRow {
   templateUrl: './tickets-table.component.html',
   styleUrls: ['./tickets-table.component.css'],
 })
-export class TicketsTableComponent extends BaseTableComponent<
-  Ticket,
-  TicketRow
-> {
+export class TicketsTableComponent extends BaseTableComponent<Ticket, TicketRow> {
   columns = ['title', 'owner', 'dateStored', 'status', 'decide'];
 
   constructor(private ticketSrv: TicketService) {
@@ -39,7 +35,7 @@ export class TicketsTableComponent extends BaseTableComponent<
       id: ticket.id,
       title: ticket.title,
       owner: ticket.owner.fullname,
-      dateStored: formatDateTime(ticket.date_stored),
+      dateStored: ticket.date_stored,
       status: ticket.status,
     }));
   }

@@ -11,7 +11,7 @@ export class TicketResolver implements Resolve<Ticket> {
   constructor(private ticketSrv: TicketService) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<Ticket> {
-    const ticketId = route.params['ticketId'];
+    const ticketId = route.params.ticketId;
     return this.ticketSrv.get(ticketId);
   }
 }

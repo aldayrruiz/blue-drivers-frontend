@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import {
-  CreateVehicle,
-  InsuranceCompany,
-  VehicleFuel,
-} from 'src/app/core/models';
+import { CreateVehicle, InsuranceCompany, VehicleFuel } from 'src/app/core/models';
 import {
   ErrorMessageService,
   FleetRouter,
@@ -89,7 +85,7 @@ export class CreateVehicleComponent implements OnInit {
 
   private resolveData() {
     this.route.data.subscribe((response) => {
-      this.insuranceCompanies = response['insuranceCompanies'];
+      this.insuranceCompanies = response.insuranceCompanies;
     });
   }
 

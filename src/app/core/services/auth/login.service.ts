@@ -13,17 +13,12 @@ const path = `${environment.fleetBaseUrl}${API.login}/`;
   providedIn: 'root',
 })
 export class LoginService {
-  isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    null
-  );
+  isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
 
   token = '';
   userId = '';
 
-  constructor(
-    private readonly storage: LocalStorage,
-    private readonly http: HttpClient
-  ) {
+  constructor(private readonly storage: LocalStorage, private readonly http: HttpClient) {
     this.loadToken();
   }
 

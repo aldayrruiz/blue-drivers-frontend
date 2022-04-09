@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { Incident, incidentTypeLabel } from 'src/app/core/models';
 import { IncidentService } from 'src/app/core/services';
-import { formatDateTime } from 'src/app/core/utils/dates/custom-fns';
 import { BaseTableComponent } from '../../base-table/base-table.component';
 
 interface RowIncident {
@@ -18,10 +17,7 @@ interface RowIncident {
   templateUrl: './incidents-table.component.html',
   styleUrls: ['./incidents-table.component.css'],
 })
-export class IncidentsTableComponent extends BaseTableComponent<
-  Incident,
-  RowIncident
-> {
+export class IncidentsTableComponent extends BaseTableComponent<Incident, RowIncident> {
   showOptionSelected = '';
   showOptions = [
     { display: 'Todos', value: '' },
@@ -29,15 +25,7 @@ export class IncidentsTableComponent extends BaseTableComponent<
     { display: 'Solucionados', value: 'Solucionado' },
   ];
 
-  columns = [
-    'owner',
-    'vehicle',
-    'type',
-    'status',
-    'description',
-    'dateStored',
-    'details',
-  ];
+  columns = ['owner', 'vehicle', 'type', 'status', 'description', 'dateStored', 'details'];
 
   constructor(private incidentSrv: IncidentService) {
     super();
@@ -60,7 +48,7 @@ export class IncidentsTableComponent extends BaseTableComponent<
       vehicle: `${incident.reservation.vehicle.brand} ${incident.reservation.vehicle.model}`,
       type: incidentTypeLabel(incident.type),
       description: incident.description,
-      dateStored: formatDateTime(incident.date_stored),
+      dateStored: incident.date_stored,
       status: incident.solved ? 'Solucionado' : 'No Solucionado',
     }));
   }

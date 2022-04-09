@@ -5,9 +5,7 @@ import { ReservationTemplate } from 'src/app/core/models';
 import { ReservationTemplateService } from '../../services';
 
 @Injectable({ providedIn: 'root' })
-export class ReservationTemplatesResolver
-  implements Resolve<ReservationTemplate[]>
-{
+export class ReservationTemplatesResolver implements Resolve<ReservationTemplate[]> {
   constructor(private reservationTemplateSrv: ReservationTemplateService) {}
 
   resolve(): Observable<ReservationTemplate[]> {
