@@ -12,8 +12,8 @@ import es from 'date-fns/locale/es';
 import * as L from 'leaflet';
 import { Subject } from 'rxjs';
 import { Position, Vehicle } from 'src/app/core/models';
-import { AssetsService, fromKnotsToKph, PositionService } from 'src/app/core/services';
-import { GnssIconProvider } from 'src/app/core/services/view/gnss-icon.service';
+import { fromKnotsToKph, PositionService } from 'src/app/core/services';
+import { VehicleIcon, VehicleIconProvider } from 'src/app/core/services/view/vehicle-icon.service';
 import { MapConfiguration } from 'src/app/core/utils/leaflet/map-configuration';
 import { MapCreator } from 'src/app/core/utils/leaflet/map-creator';
 
@@ -46,19 +46,17 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
   private positions: Position[];
   private vehicles: Vehicle[];
   private map: L.Map;
-  private icons: string[];
+  private icons: VehicleIcon[];
 
   constructor(
-    @Inject(LOCALE_ID)
-    private readonly locale: string,
-    private readonly route: ActivatedRoute,
-    private readonly gnssIconProvider: GnssIconProvider,
+    private readonly vehicleIconProvider: VehicleIconProvider,
     private readonly positionSrv: PositionService,
-    private readonly assetsSrv: AssetsService
-  ) {}
+    private readonly route: ActivatedRoute
+  ) {
+    this.icons = this.vehicleIconProvider.getIcons();
+  }
 
   ngOnInit(): void {
-    this.icons = this.gnssIconProvider.getIconsPaths();
     this.listenForNewPositions();
     this.resolveData();
     this.initMap();
@@ -102,7 +100,8 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
 
     vehicles.forEach((vehicle) => {
       const position = this.findPosition(positions, vehicle);
-      const icon = this.randomIcon();
+      const vehicleIcon = this.getIconFromVehicle(vehicle);
+      const icon = this.createLeafIcon(vehicleIcon.src);
       const marker = this.addMarkerToMap(position, icon);
       const myMarker = { vehicle, position, marker };
       positionsMarkers.push(myMarker);
@@ -114,10 +113,6 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
   private addMarkerToMap(position: Position, icon?: L.Icon<L.IconOptions>) {
     if (!position) {
       return undefined;
-    }
-
-    if (!icon) {
-      icon = this.randomIcon();
     }
 
     const latLng = this.latLng(position);
@@ -161,13 +156,18 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     }, timeReset);
   }
 
-  private randomIcon() {
+  private createLeafIcon(iconSrc: string) {
     return L.icon({
-      iconUrl: this.assetsSrv.getUrl(this.icons.pop()),
+      iconUrl: iconSrc,
       iconSize: [22, 22], // size of the icon
       iconAnchor: [0, 0], // point of the icon which will correspond to marker's location
       popupAnchor: [0, 0], // point from which the popup should open relative to the iconAnchor
     });
+  }
+
+  private getIconFromVehicle(vehicle: Vehicle) {
+    const icon = this.icons.filter((i) => i.value === vehicle.icon)[0];
+    return icon;
   }
 
   private findPosition(positions: Position[], vehicle: Vehicle) {
@@ -191,21 +191,21 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
       {
         latitude: Math.floor(Math.random() * 10),
         longitude: Math.floor(Math.random() * 10),
-        deviceId: 20,
+        deviceId: 1,
         deviceTime: new Date('2022-04-03T18:09:04.067Z').toJSON(),
         speed: 10,
       },
       {
         latitude: Math.floor(Math.random() * 10),
         longitude: Math.floor(Math.random() * 10),
-        deviceId: 24,
+        deviceId: 2,
         deviceTime: new Date('2022-04-02T18:09:04.067Z').toJSON(),
         speed: 20,
       },
       {
         latitude: Math.floor(Math.random() * 10),
         longitude: Math.floor(Math.random() * 10),
-        deviceId: 67,
+        deviceId: 3,
         deviceTime: new Date('2022-03-03T18:09:04.067Z').toJSON(),
         speed: 30,
       },

@@ -1,9 +1,16 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { finalize } from 'rxjs/operators';
 import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
 import { EditPatchVehicle, fuelLabel, Vehicle } from 'src/app/core/models';
-import { ErrorMessageService, SnackerService, VehicleService } from 'src/app/core/services';
+import {
+  ErrorMessageService,
+  SnackerService,
+  VehicleIcon,
+  VehicleIconProvider,
+  VehicleService,
+} from 'src/app/core/services';
 import { DeleteVehicleComponent } from '../../dialogs/delete-vehicle/delete-vehicle.component';
 
 interface VehicleRow {
@@ -21,7 +28,9 @@ interface VehicleRow {
   styleUrls: ['./vehicles-table.component.css'],
 })
 export class VehiclesTableComponent extends BaseTableComponent<Vehicle, VehicleRow> {
+  icons: VehicleIcon[];
   columns = [
+    'icon',
     'brand',
     'model',
     'fuel',
@@ -33,12 +42,14 @@ export class VehiclesTableComponent extends BaseTableComponent<Vehicle, VehicleR
   ];
 
   constructor(
+    private readonly vehicleIconProvider: VehicleIconProvider,
     private readonly errorMessage: ErrorMessageService,
     private readonly vehicleSrv: VehicleService,
     private readonly snacker: SnackerService,
     private readonly dialog: MatDialog
   ) {
     super();
+    this.icons = this.vehicleIconProvider.getIcons();
   }
 
   preprocessData(data: Vehicle[]): VehicleRow[] {
@@ -50,6 +61,7 @@ export class VehiclesTableComponent extends BaseTableComponent<Vehicle, VehicleR
       insuranceCompany: vehicle?.insurance_company?.name,
       numberPlate: vehicle.number_plate,
       isDisabled: vehicle.is_disabled,
+      icon: this.getIconFromVehicle(vehicle),
     }));
   }
 
@@ -98,5 +110,10 @@ export class VehiclesTableComponent extends BaseTableComponent<Vehicle, VehicleR
         this.snacker.showError(message);
       }
     );
+  }
+
+  private getIconFromVehicle(vehicle: Vehicle) {
+    const icon = this.icons.filter((i) => i.value === vehicle.icon)[0];
+    return icon;
   }
 }

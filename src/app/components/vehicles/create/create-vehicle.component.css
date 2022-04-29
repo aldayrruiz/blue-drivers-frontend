@@ -25,3 +25,22 @@ table {
 .create {
   margin-left: 5rem;
 }
+
+.wrapper {
+  width: 100px;
+  position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.text {
+  flex-basis: 80%;
+  overflow: hidden;
+}
+
+.icon {
+  flex-basis: 20%;
+  position: relative;
+  width: 20px;
+  height: 20px;
+}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { VehicleFuel } from './fuel.model';
 
 export interface EditVehicle {
@@ -9,4 +10,5 @@ export interface EditVehicle {
   fuel: VehicleFuel;
   insurance_company: string;
   policy_number: string;
+  icon: number;
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 export interface CreateVehicle {
   model: string;
   brand: string;
@@ -6,4 +7,5 @@ export interface CreateVehicle {
   fuel: string;
   insurance_company: string;
   policy_number: string;
+  icon: number;
 }

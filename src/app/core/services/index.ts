@@ -15,3 +15,4 @@ export * from './measure';
 export * from './router/fleet-router.service';
 export * from './storage/local-storage.service';
 export * from './view/snacker.service';
+export * from './view/vehicle-icon.service';

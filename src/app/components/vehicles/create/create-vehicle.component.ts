@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -8,6 +9,7 @@ import {
   SnackerService,
   VehicleService,
 } from 'src/app/core/services';
+import { VehicleIcon, VehicleIconProvider } from 'src/app/core/services/view/vehicle-icon.service';
 import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
 import {
   brandValidators,
@@ -26,67 +28,22 @@ import {
 export class CreateVehicleComponent implements OnInit {
   insuranceCompanies: InsuranceCompany[] = [];
   matcher = new MyErrorStateMatcher();
+  icons: VehicleIcon[];
+  iconSelected: VehicleIcon;
   formGroup: FormGroup;
   submitted = false;
 
   constructor(
+    private readonly vehicleIconProvider: VehicleIconProvider,
     private readonly errorMessage: ErrorMessageService,
     private readonly vehicleSrv: VehicleService,
     private readonly fleetRouter: FleetRouter,
     private readonly snacker: SnackerService,
     private readonly route: ActivatedRoute,
     private readonly fb: FormBuilder
-  ) {}
-
-  ngOnInit(): void {
-    this.resolveData();
-    this.createFormGroup();
-  }
-
-  createFormGroup(): void {
-    this.formGroup = this.fb.group({
-      brand: ['', brandValidators],
-      model: ['', modelValidators],
-      numberPlate: ['', numberPlateValidators],
-      imei: ['', imeiValidators],
-      fuel: [VehicleFuel.DIESEL, fuelValidators],
-      insuranceCompany: [],
-      policyNumber: ['', policyNumberValidators],
-    });
-  }
-
-  createVehicle(): void {
-    const vehicle = this.getFormData();
-
-    this.vehicleSrv.create(vehicle).subscribe(
-      async () => {
-        await this.fleetRouter.goToVehicles();
-        const message = 'Vehículo creado con éxito';
-        this.snacker.showSuccessful(message);
-      },
-      async (error) => {
-        const message = this.errorMessage.get(error);
-        this.snacker.showError(message);
-      }
-    );
-  }
-
-  private getFormData(): CreateVehicle {
-    return {
-      brand: this.brand.value,
-      model: this.model.value,
-      number_plate: this.numberPlate.value,
-      gps_device: this.imei.value,
-      fuel: this.fuel.value,
-      insurance_company: this.insuranceCompany.value,
-      policy_number: this.policyNumber.value,
-    };
-  }
-
-  private resolveData() {
-    this.route.data.subscribe((response) => {
-      this.insuranceCompanies = response.insuranceCompanies;
-    });
+  ) {
+    this.icons = this.vehicleIconProvider.getIcons();
+    this.iconSelected = this.icons[0]; // Pre-select first icon
   }
 
   get brand(): AbstractControl {
@@ -115,5 +72,62 @@ export class CreateVehicleComponent implements OnInit {
 
   get policyNumber(): AbstractControl {
     return this.formGroup.get('policyNumber');
+  }
+
+  get icon(): AbstractControl {
+    return this.formGroup.get('icon');
+  }
+
+  ngOnInit(): void {
+    this.resolveData();
+    this.createFormGroup();
+  }
+
+  createFormGroup(): void {
+    this.formGroup = this.fb.group({
+      brand: ['', brandValidators],
+      model: ['', modelValidators],
+      numberPlate: ['', numberPlateValidators],
+      imei: ['', imeiValidators],
+      fuel: [VehicleFuel.DIESEL, fuelValidators],
+      insuranceCompany: [],
+      policyNumber: ['', policyNumberValidators],
+      icon: [this.iconSelected, []], // Pre-select first icon
+    });
+  }
+
+  createVehicle(): void {
+    const vehicle = this.getFormData();
+
+    this.vehicleSrv.create(vehicle).subscribe(
+      async () => {
+        await this.fleetRouter.goToVehicles();
+        const message = 'Vehículo creado con éxito';
+        this.snacker.showSuccessful(message);
+      },
+      async (error) => {
+        const message = this.errorMessage.get(error);
+        this.snacker.showError(message);
+      }
+    );
+  }
+
+  private getFormData(): CreateVehicle {
+    return {
+      brand: this.brand.value,
+      model: this.model.value,
+      number_plate: this.numberPlate.value,
+      gps_device: this.imei.value,
+      fuel: this.fuel.value,
+      insurance_company: this.insuranceCompany.value,
+      policy_number: this.policyNumber.value,
+      icon: this.icon.value.value,
+    };
+  }
+
+  private resolveData() {
+    this.route.data.subscribe((response) => {
+      this.insuranceCompanies = response.insuranceCompanies;
+    });
   }
 }
