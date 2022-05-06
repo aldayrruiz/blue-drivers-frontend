@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { isAfter, isBefore, isFuture, set } from 'date-fns';
+import { isAfter, isBefore, isFuture, isPast, set } from 'date-fns';
 import { finalize } from 'rxjs/operators';
 import { Reservation } from 'src/app/core/models';
 import {
@@ -109,6 +109,10 @@ export class ReservationsTableComponent extends BaseTableComponent<Reservation, 
   exportPdf() {
     const pdfExporter = new ReservationTablePdfExporter(this.dataSource.data);
     pdfExporter.export(this.start);
+  }
+
+  hasFinished(reservation: ReservationRow) {
+    return isPast(new Date(reservation.end));
   }
 
   private updateTableByDateRangeFilter() {
