@@ -1,42 +1,35 @@
 <div class="table-container">
   <section>
-    <div class="example-label">
-      <h1>Panel de Reservas</h1>
-    </div>
+    <div class="example-label"></div>
     <div class="example-button-row">
       <button mat-raised-button (click)="exportPdf()" color="primary">
+        <mat-icon>insert_drive_file</mat-icon>
         Exportar Pdf
       </button>
     </div>
   </section>
 
-  <!-- Filter -->
-  <mat-form-field appearance="standard">
-    <mat-label>Filter</mat-label>
-    <input
-      matInput
-      (keyup)="applyFilter($event)"
-      placeholder="Ex. Mia"
-      #input
-    />
-  </mat-form-field>
+  <div class="filters">
+    <!-- Filter -->
+    <mat-form-field appearance="fill">
+      <mat-label>Buscar por palabra clave</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
 
-  <!-- Date filter -->
-  <mat-form-field>
-    <mat-label>Fecha de recogida</mat-label>
-    <input (dateChange)="onDateFilterChange('change', $event)" [formControl]="datePicker" matInput [matDatepicker]="picker" />
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
-  <!-- <mat-form-field>
-    <mat-label>Enter a date range</mat-label>
-    <mat-date-range-input [formGroup]="range"[rangePicker]="picker">
-      <input (dateChange)="onDateFilterChange('change', $event)" matStartDate formControlName="start" placeholder="Start date" />
-      <input (dateChange)="onDateFilterChange('change', $event)" matEndDate formControlName="end"  placeholder="End date" />
-    </mat-date-range-input>
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker></mat-date-range-picker>
-  </mat-form-field> -->
+    <!-- Date filter -->
+    <mat-form-field appearance="fill">
+      <mat-label>Buscar por fecha</mat-label>
+      <input
+        (dateChange)="onDateFilterChange('change', $event)"
+        [formControl]="datePicker"
+        matInput
+        [matDatepicker]="picker"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
 
   <div class="mat-elevation-z8">
     <!-- Spinner -->
@@ -83,22 +76,22 @@
       <ng-container matColumnDef="hourMin">
         <th mat-header-cell *matHeaderCellDef>Tiempo reservado</th>
         <td mat-cell *matCellDef="let reservation">
-          {{ reservation.hourMin}}
+          {{ reservation.hourMin }}
         </td>
       </ng-container>
 
       <!-- Statistics Column -->
       <ng-container matColumnDef="statistics">
-        <th class="button-table" mat-header-cell *matHeaderCellDef></th>
+        <th class="button-table" mat-header-cell *matHeaderCellDef>Resumen</th>
         <td class="button-table" mat-cell *matCellDef="let reservation">
           <button
             mat-icon-button
             color="error"
             aria-label="Go to statistics"
-            (click)="goToStatistics(reservation)">
-            <mat-icon aria-hidden="false" aria-label="bar_chart icon"
-              >bar_chart</mat-icon
-            >
+            (click)="goToStatistics(reservation)"
+            [disabled]="!hasFinished(reservation)"
+          >
+            <mat-icon aria-hidden="false" aria-label="bar_chart icon">bar_chart</mat-icon>
           </button>
         </td>
       </ng-container>
