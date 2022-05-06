@@ -1,20 +1,30 @@
-<mat-toolbar color="primary">
-  <!-- Navigation Menu -->
-  <button mat-button [matMenuTriggerFor]="menu">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <mat-menu #menu="matMenu">
+<mat-toolbar>
+  <img class="logo" [src]="logoUrl" />
+  <div class="container">
     <button
-      mat-menu-item
+      mat-raised-button
       [routerLink]="link.link"
       routerLinkActive
+      [color]="currentLink === link ? 'warn' : ''"
       *ngFor="let link of navLinks"
+      (click)="changeColorTo(link)"
     >
       {{ link.label }}
     </button>
-  </mat-menu>
-  <img class="logo" [src]="logoUrl" />
-  <span class="example-spacer"> BLUE Drivers </span>
+    <button [color]="isOnConfigPage() ? 'warn' : ''" mat-raised-button [matMenuTriggerFor]="menu">
+      CONFIG.
+    </button>
+    <mat-menu #menu="matMenu">
+      <button
+        mat-menu-item
+        [routerLink]="link.link"
+        routerLinkActive
+        *ngFor="let link of menuLinks"
+      >
+        {{ link.label }}
+      </button>
+    </mat-menu>
+  </div>
   <!-- Account Menu -->
   <button mat-button [matMenuTriggerFor]="account">
     <mat-icon>person</mat-icon>

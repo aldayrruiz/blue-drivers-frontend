@@ -35,6 +35,14 @@ export class LoginFormComponent implements OnInit {
     private readonly router: FleetRouter
   ) {}
 
+  get email(): AbstractControl {
+    return this.credentials.get('email');
+  }
+
+  get password(): AbstractControl {
+    return this.credentials.get('password');
+  }
+
   ngOnInit(): void {
     this.credentials = this.formBuilder.group({
       email: ['', emailValidators],
@@ -43,12 +51,8 @@ export class LoginFormComponent implements OnInit {
     });
   }
 
-  private getFormData() {
-    // username is used instead of email because of server convert username to email by default at login.
-    return {
-      username: this.email.value,
-      password: this.password.value,
-    };
+  onEnter() {
+    console.log('falksdflk');
   }
 
   async login() {
@@ -60,11 +64,11 @@ export class LoginFormComponent implements OnInit {
       .pipe(finalize(() => (this.sending = false)))
       .subscribe(
         async (response) => {
-          if (response.role == Role.SUPER_ADMIN) {
+          if (response.role === Role.SUPER_ADMIN) {
             this.isSuperAdmin = true;
             this.tenantToChange = response.tenant;
             this.getTenants();
-          } else if (response.role == Role.ADMIN) {
+          } else if (response.role === Role.ADMIN) {
             this.router.goToHome();
           } else {
             this.snacker.showError('No eres administrador');
@@ -85,11 +89,11 @@ export class LoginFormComponent implements OnInit {
     this.tenantService.changeTenant(this.tenantToChange).subscribe(() => this.router.goToHome());
   }
 
-  get email(): AbstractControl {
-    return this.credentials.get('email');
-  }
-
-  get password(): AbstractControl {
-    return this.credentials.get('password');
+  private getFormData() {
+    // username is used instead of email because of server convert username to email by default at login.
+    return {
+      username: this.email.value,
+      password: this.password.value,
+    };
   }
 }
