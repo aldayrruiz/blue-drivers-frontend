@@ -16,13 +16,11 @@ import { AntMapComponent } from '../../ant-map/ant-map.component';
   styleUrls: ['./reservations-statistics.component.css'],
 })
 export class ReservationsStatisticsComponent implements OnInit {
+  @ViewChild(AntMapComponent) antMap: AntMapComponent;
   vehicle: Vehicle;
   summary: ReportSummary;
   positions: Position[] = [];
-  @ViewChild(AntMapComponent)
-  private antMap: AntMapComponent;
   reservation: Reservation;
-
   priceFuelConsumed = 0;
   fuel: string;
   timeReserved: string;

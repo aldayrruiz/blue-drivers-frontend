@@ -1,39 +1,38 @@
 <div class="table-container">
-  <section>
-    <div class="example-label"></div>
-    <div class="example-button-row">
+  <div id="wrapper">
+    <div class="filters" id="first">
+      <!-- Filter -->
+      <mat-form-field appearance="fill">
+        <mat-label>Buscar por palabra clave</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <!-- Date filter -->
+      <mat-form-field appearance="fill">
+        <mat-label>Buscar por fecha</mat-label>
+        <input
+          (dateChange)="onDateFilterChange('change', $event)"
+          [formControl]="datePicker"
+          matInput
+          [matDatepicker]="picker"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <div id="second">
       <button mat-raised-button (click)="exportPdf()" color="primary">
         <mat-icon>insert_drive_file</mat-icon>
         Exportar Pdf
       </button>
     </div>
-  </section>
-
-  <div class="filters">
-    <!-- Filter -->
-    <mat-form-field appearance="fill">
-      <mat-label>Buscar por palabra clave</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
-      <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
-
-    <!-- Date filter -->
-    <mat-form-field appearance="fill">
-      <mat-label>Buscar por fecha</mat-label>
-      <input
-        (dateChange)="onDateFilterChange('change', $event)"
-        [formControl]="datePicker"
-        matInput
-        [matDatepicker]="picker"
-      />
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
   </div>
 
   <div class="mat-elevation-z8">
     <!-- Spinner -->
-    <div class="example-loading-shade" *ngIf="isLoadingResults">
+    <div *ngIf="isLoadingResults">
       <mat-spinner></mat-spinner>
     </div>
 

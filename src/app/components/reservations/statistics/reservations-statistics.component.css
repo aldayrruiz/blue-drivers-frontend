@@ -3,18 +3,31 @@ section {
 }
 
 .container {
+  position: absolute;
+  overflow: hidden;
   width: 98%;
-  padding-right: 1%;
-  padding-left: 1%;
-  padding-top: 1%;
+  height: 100%;
+  margin: 10px;
 }
 
 .map-size {
-  width: 98%;
-  height: 600px;
+  float: left;
+  width: 75%;
+  height: 800px;
 }
 
-.medium-card-size {
-  height: 400px;
-  width: 400px;
+.statistics {
+  overflow: hidden;
+  display: flex;
+  /* flex: 1 1 auto; */
+  align-items: center;
+  flex-direction: column;
+}
+
+.title {
+  background-color: grey;
+  border-radius: 10px;
+  border-width: 1px;
+  color: white;
+  text-align: center;
 }
