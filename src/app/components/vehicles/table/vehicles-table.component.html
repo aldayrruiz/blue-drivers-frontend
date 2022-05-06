@@ -1,19 +1,17 @@
 <div class="table-container">
-  <section>
-    <div class="example-label">
-      <h1>Panel de Vehículos</h1>
+  <div id="wrapper">
+    <div class="filters" id="first">
+      <!-- Filter -->
+      <mat-form-field appearance="fill">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
     </div>
-    <div class="example-button-row">
+    <div id="second">
       <button mat-raised-button routerLink="../create" color="primary">Añadir</button>
     </div>
-  </section>
-
-  <!-- Filter -->
-  <mat-form-field appearance="standard">
-    <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
-  </mat-form-field>
-
+  </div>
   <div class="mat-elevation-z8">
     <!-- Spinner -->
     <div class="example-loading-shade" *ngIf="isLoadingResults">

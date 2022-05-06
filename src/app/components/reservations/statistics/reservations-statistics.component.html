@@ -1,80 +1,65 @@
-<div class="container">
-  <section>
+<!-- <div class="container"> -->
+<!-- <section>
     <div class="example-label">
-      <h1>Reservas - Estadísticas</h1>
+      <h1>DETALLES DESPLAZAMIENTO</h1>
     </div>
-  </section>
-  <mat-card>
+  </section> -->
+<div class="container">
+  <div class="map-size">
     <app-ant-map></app-ant-map>
-    <mat-grid-list cols="2" rowHeight="500px">
-      <!-- Estadísticas -->
-      <mat-grid-tile>
-        <mat-card class="medium-card-size">
-          <mat-card-header>
-            <mat-card-title>Estadísticas</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <mat-list role="list">
-              <mat-list-item role="listitem">
-                <b>Velocidad máxima:&nbsp; </b>
-                {{ summary?.maxSpeed | number: '1.0-0' }} km/h
-              </mat-list-item>
+  </div>
+  <div class="statistics">
+    <!-- Estadísticas -->
+    <mat-list role="list">
+      <h2 class="title">DESPLAZAMIENTO</h2>
+      <mat-list-item role="listitem">
+        Velocidad máxima:&nbsp;
+        <b>{{ summary?.maxSpeed | number: '1.0-0' }} km/h</b>
+      </mat-list-item>
 
-              <mat-list-item role="listitem">
-                <b>Velocidad media:&nbsp; </b
-                >{{ summary?.averageSpeed | number: '1.0-0' }} km/h
-              </mat-list-item>
+      <mat-list-item role="listitem">
+        Velocidad media:&nbsp; <b>{{ summary?.averageSpeed | number: '1.0-0' }} km/h</b>
+      </mat-list-item>
 
-              <mat-list-item role="listitem">
-                <b>Coste de combustible consumido:&nbsp; </b>
-                {{ priceFuelConsumed | number: '1.0-0' | currency: 'EUR':'€' }}
-              </mat-list-item>
+      <mat-list-item role="listitem">
+        Coste de combustible consumido:&nbsp;
+        <b>{{ priceFuelConsumed | number: '1.0-0' | currency: 'EUR':'€' }}</b>
+      </mat-list-item>
 
-              <mat-list-item role="listitem">
-                <b>Distancia recorrida:&nbsp; </b>
-                {{ summary?.distance | number: '1.0-0' }} km
-              </mat-list-item>
+      <mat-list-item role="listitem">
+        Distancia recorrida:&nbsp;
+        <b>{{ summary?.distance | number: '1.0-0' }} km</b>
+      </mat-list-item>
 
-              <mat-list-item role="listitem">
-                <b>Motor encendido:&nbsp; </b>
-                {{ summary?.engineHours | duration }}
-              </mat-list-item>
-            </mat-list>
-          </mat-card-content>
-        </mat-card>
-      </mat-grid-tile>
-      <!-- Datos de la reserva -->
-      <mat-grid-tile>
-        <mat-card class="medium-card-size">
-          <mat-card-header>
-            <mat-card-title>Reserva</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <mat-list role="list">
-              <mat-list-item role="listitem">
-                <b>Propietario:&nbsp; </b> {{ reservation?.owner.fullname }}
-              </mat-list-item>
+      <mat-list-item role="listitem">
+        Motor encendido:&nbsp;
+        <b>{{ summary?.engineHours | duration }}</b>
+      </mat-list-item>
+    </mat-list>
 
-              <mat-list-item role="listitem">
-                <b>Vehículo:&nbsp; </b>{{ vehicle?.brand }} {{ vehicle?.model }}
-              </mat-list-item>
+    <!-- Datos de la reserva -->
+    <mat-list role="list">
+      <h2 class="title">RESERVA</h2>
 
-              <mat-list-item role="listitem">
-                <b>Combustible:&nbsp; </b>{{ fuel }}
-              </mat-list-item>
+      <mat-list-item role="listitem">
+        Propietario:&nbsp; <b>{{ reservation?.owner.fullname }}</b>
+      </mat-list-item>
 
-              <mat-list-item role="listitem">
-                <b>Fecha de recogida:&nbsp; </b
-                >{{ reservation?.start | essential }}
-              </mat-list-item>
+      <mat-list-item role="listitem">
+        Vehículo:&nbsp; <b>{{ vehicle?.brand }} {{ vehicle?.model }}</b>
+      </mat-list-item>
 
-              <mat-list-item role="listitem">
-                <b>Duración:&nbsp; </b>{{ timeReserved }}
-              </mat-list-item>
-            </mat-list>
-          </mat-card-content>
-        </mat-card>
-      </mat-grid-tile>
-    </mat-grid-list>
-  </mat-card>
+      <mat-list-item role="listitem">
+        Combustible:&nbsp; <b>{{ fuel }}</b>
+      </mat-list-item>
+
+      <mat-list-item role="listitem">
+        Fecha de recogida:&nbsp; <b>{{ reservation?.start | essential }}</b>
+      </mat-list-item>
+
+      <mat-list-item role="listitem">
+        Duración:&nbsp; <b>{{ timeReserved }}</b>
+      </mat-list-item>
+    </mat-list>
+  </div>
 </div>

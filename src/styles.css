@@ -4,9 +4,20 @@ html,
 body {
   height: 100%;
 }
+
+*,
+h6,
+h5,
+h4,
+h3,
+h2,
+h1,
+p {
+  font-family: 'Barlow';
+}
+
 body {
   margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
 .successful-color-snackbar {
@@ -51,11 +62,20 @@ table th {
   justify-content: center;
 }
 
-html,
-body {
-  height: 100%;
+.filters {
+  width: 500px;
 }
-body {
-  margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+
+/* Put div next to another div */
+#wrapper {
+  overflow: hidden; /* will contain if #first is longer than #second */
+}
+
+#first {
+  float: left; /* add this */
+}
+
+#second {
+  text-align: end;
+  overflow: hidden; /* if you don't want #second to wrap below #first */
 }
