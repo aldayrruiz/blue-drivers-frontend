@@ -1,118 +1,78 @@
 <div class="main-div">
-  <mat-card class="example-card">
-    <mat-card-header>
-      <mat-card-title> Login </mat-card-title>
-    </mat-card-header>
+  <mat-card>
+    <div style="text-align: center">
+      <img width="100px" src="assets/background/icon.png" alt="logo" />
+    </div>
     <mat-card-content>
-      <form [formGroup]="credentials">
-        <table cellspacing="0">
-          <!-- Email -->
-          <tr>
-            <td>
-              <mat-form-field class="full-width" appearance="fill">
-                <mat-label>Email</mat-label>
-                <div>
-                  <input
-                    type="email"
-                    matInput
-                    [formControl]="email"
-                    [errorStateMatcher]="matcher"
-                    placeholder="Ex. pat@example.com"
-                  />
-                </div>
-                <mat-error
-                  *ngIf="email.hasError('email') && !email.hasError('required')"
-                >
-                  Por favor, introduzca un email correcto
-                </mat-error>
-                <mat-error *ngIf="email.hasError('required')">
-                  Email es <strong>obligatorio</strong>
-                </mat-error>
-              </mat-form-field>
-            </td>
-          </tr>
-          <!-- Password -->
-          <tr>
-            <td>
-              <mat-form-field class="full-width" appearance="fill">
-                <mat-label>Contraseña</mat-label>
-                <input
-                  matInput
-                  [type]="hide ? 'password' : 'text'"
-                  matInput
-                  [formControl]="password"
-                  [errorStateMatcher]="matcher"
-                />
-                <button
-                  mat-icon-button
-                  matSuffix
-                  (click)="hide = !hide"
-                  [attr.aria-label]="'Hide password'"
-                  [attr.aria-pressed]="hide"
-                >
-                  <mat-icon>{{
-                    hide ? 'visibility_off' : 'visibility'
-                  }}</mat-icon>
-                </button>
-                <mat-error
-                  *ngIf="
-                    password.hasError('minlength') &&
-                    !password.hasError('required')
-                  "
-                >
-                  Por favor, introduzca una contraseña con mas de 5 caracteres
-                </mat-error>
-                <mat-error *ngIf="password.hasError('required')">
-                  Contraseña es <strong>obligatoria</strong>
-                </mat-error>
-              </mat-form-field>
-            </td>
-          </tr>
+      <form [formGroup]="credentials" (submit)="login()">
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Email</mat-label>
+          <div>
+            <input type="email" matInput [formControl]="email" [errorStateMatcher]="matcher" />
+          </div>
+          <mat-error *ngIf="email.hasError('email') && !email.hasError('required')">
+            Por favor, introduzca un email correcto
+          </mat-error>
+          <mat-error *ngIf="email.hasError('required')">
+            Email es <strong>obligatorio</strong>
+          </mat-error>
+        </mat-form-field>
+        <!-- Password -->
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            [type]="hide ? 'password' : 'text'"
+            [formControl]="password"
+            [errorStateMatcher]="matcher"
+            (keyup.enter)="onEnter()"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="password.hasError('minlength') && !password.hasError('required')">
+            Por favor, introduzca una contraseña con mas de 5 caracteres
+          </mat-error>
+          <mat-error *ngIf="password.hasError('required')">
+            Contraseña es <strong>obligatoria</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field *ngIf="isSuperAdmin" class="full-width" appearance="fill">
+          <mat-label>Elige un tenant</mat-label>
+          <mat-select [(value)]="tenantToChange">
+            <mat-option *ngFor="let tenant of tenants" [value]="tenant.id">
+              {{ tenant.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
-          <tr *ngIf="isSuperAdmin">
-            <td>
-              <mat-form-field class="full-width" appearance="fill">
-                <mat-label>Elige un tenant</mat-label>
-                <mat-select [(value)]="tenantToChange">
-                  <mat-option
-                    *ngFor="let tenant of tenants"
-                    [value]="tenant.id"
-                  >
-                    {{ tenant.name }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </td>
-          </tr>
-
-          <!-- Button - Create User -->
-          <tr>
-            <td class="centered">
-              <button
-                class="form-buttons"
-                (click)="login()"
-                mat-raised-button
-                color="primary"
-                type="submit"
-                expand="block"
-                [disabled]="!credentials.valid || sending"
-              >
-                Log in
-              </button>
-              <button
-                *ngIf="isSuperAdmin"
-                class="form-buttons"
-                (click)="changeTenant()"
-                mat-raised-button
-                color="primary"
-                expand="block"
-                [disabled]="sending"
-              >
-                Cambiar tenant
-              </button>
-            </td>
-          </tr>
-        </table>
+        <!-- Button - Log in -->
+        <div class="centered">
+          <button
+            (click)="login()"
+            mat-raised-button
+            type="submit"
+            color="warn"
+            [disabled]="!credentials.valid || sending"
+          >
+            Iniciar sesión
+          </button>
+          <button
+            *ngIf="isSuperAdmin"
+            (click)="changeTenant()"
+            mat-raised-button
+            color="warn"
+            [disabled]="sending"
+          >
+            Cambiar tenant
+          </button>
+        </div>
       </form>
     </mat-card-content>
   </mat-card>
