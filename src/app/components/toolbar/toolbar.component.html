@@ -2,6 +2,7 @@
   <img class="logo" [src]="logoUrl" />
   <div class="container">
     <button
+      class="toolbar-button"
       mat-raised-button
       [routerLink]="link.link"
       routerLinkActive
@@ -11,7 +12,12 @@
     >
       {{ link.label }}
     </button>
-    <button [color]="isOnConfigPage() ? 'warn' : ''" mat-raised-button [matMenuTriggerFor]="menu">
+    <button
+      class="toolbar-button"
+      [color]="isOnConfigPage() ? 'warn' : ''"
+      mat-raised-button
+      [matMenuTriggerFor]="menu"
+    >
       CONFIG.
     </button>
     <mat-menu #menu="matMenu">
@@ -20,6 +26,7 @@
         [routerLink]="link.link"
         routerLinkActive
         *ngFor="let link of menuLinks"
+        (click)="changeColorTo(link)"
       >
         {{ link.label }}
       </button>

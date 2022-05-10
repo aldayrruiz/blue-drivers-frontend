@@ -66,6 +66,10 @@ table th {
   width: 500px;
 }
 
+.no-margin {
+  margin: 0px;
+}
+
 /* Put div next to another div */
 #wrapper {
   overflow: hidden; /* will contain if #first is longer than #second */

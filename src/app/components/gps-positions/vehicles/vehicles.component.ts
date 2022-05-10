@@ -6,7 +6,7 @@ import {
   LOCALE_ID,
   OnInit,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, IsActiveMatchOptions, Router } from '@angular/router';
 import { formatDistanceToNowStrict } from 'date-fns';
 import es from 'date-fns/locale/es';
 import * as L from 'leaflet';
@@ -51,7 +51,8 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
   constructor(
     private readonly vehicleIconProvider: VehicleIconProvider,
     private readonly positionSrv: PositionService,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
   ) {
     this.icons = this.vehicleIconProvider.getIcons();
   }
@@ -133,6 +134,12 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
   }
 
   private keepUpdatingMarkers(timeReset: number): void {
+
+    if (!this.isThisPageActive()) {
+      // Stop sending request to server to get new positions.
+      return;
+    }
+
     const positionMarkers: MyMarker[] = [];
 
     setTimeout(() => {
@@ -193,7 +200,7 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
         longitude: Math.floor(Math.random() * 10),
         deviceId: 1,
         deviceTime: new Date('2022-04-03T18:09:04.067Z').toJSON(),
-        speed: 10,
+        speed: 10.111254,
       },
       {
         latitude: Math.floor(Math.random() * 10),
@@ -210,5 +217,16 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
         speed: 30,
       },
     ];
+  }
+
+  private isThisPageActive() {
+    const options: IsActiveMatchOptions = {
+      matrixParams: 'exact',
+      queryParams: 'ignored',
+      paths: 'exact',
+      fragment: 'exact',
+    };
+    const isActive = this.router.isActive('/admin/positions/vehicles', options);
+    return isActive;
   }
 }
