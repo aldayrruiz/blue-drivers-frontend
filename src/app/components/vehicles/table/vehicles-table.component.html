@@ -69,8 +69,8 @@
       </ng-container>
 
       <ng-container matColumnDef="isDisabled">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let vehicle">
+        <th class="button-table" mat-header-cell *matHeaderCellDef></th>
+        <td class="button-table" mat-cell *matCellDef="let vehicle">
           <span *ngIf="!vehicle.isDisabled; else disabledIcon">
             <button
               mat-icon-button
@@ -96,8 +96,8 @@
 
       <!-- Edit Column -->
       <ng-container matColumnDef="edit">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let vehicle">
+        <th class="button-table" mat-header-cell *matHeaderCellDef></th>
+        <td class="button-table" mat-cell *matCellDef="let vehicle">
           <button
             mat-icon-button
             color="dark"
@@ -111,8 +111,8 @@
 
       <!-- Delete Column -->
       <ng-container matColumnDef="delete">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let vehicle">
+        <th class="button-table" mat-header-cell *matHeaderCellDef></th>
+        <td class="button-table" mat-cell *matCellDef="let vehicle">
           <button
             mat-icon-button
             color="error"

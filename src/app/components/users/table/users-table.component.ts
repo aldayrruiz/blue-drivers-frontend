@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { finalize } from 'rxjs/operators';
 import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
-import { EditPatchUser, User, Vehicle } from 'src/app/core/models';
+import { EditPatchUser, Role, User, Vehicle } from 'src/app/core/models';
 import {
   ErrorMessageService,
   LocalStorage,
@@ -75,7 +75,7 @@ export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
     this.userSrv
       .getAll(true)
       .pipe(finalize(() => this.hideLoadingSpinner()))
-      .subscribe((users) => this.initTable(users));
+      .subscribe((users) => this.initTable(this.removeSuperAdmin(users)));
   }
 
   changeDisabled(user: UserRow): void {
@@ -105,5 +105,9 @@ export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
         this.snacker.showError(message);
       }
     );
+  }
+
+  private removeSuperAdmin(users: User[]) {
+    return users.filter((user) => user.role !== Role.SUPER_ADMIN);
   }
 }

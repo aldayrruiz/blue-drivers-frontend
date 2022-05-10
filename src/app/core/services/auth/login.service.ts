@@ -48,6 +48,7 @@ export class LoginService {
   }
 
   logout(): void {
+    // this.token = '';
     this.markAsUnAuthenticated();
     this.storage.removeAll();
   }
