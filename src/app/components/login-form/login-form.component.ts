@@ -3,6 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 import { Role, Tenant } from 'src/app/core/models';
 import {
+  AssetsService,
   ErrorMessageService,
   FleetRouter,
   LoginService,
@@ -18,6 +19,7 @@ import { emailValidators, passwordValidators } from 'src/app/core/validators/use
   styleUrls: ['./login-form.component.css'],
 })
 export class LoginFormComponent implements OnInit {
+  blueDriversLogo = '';
   matcher = new MyErrorStateMatcher();
   tenants: Tenant[] = [];
   isSuperAdmin = false;
@@ -27,13 +29,16 @@ export class LoginFormComponent implements OnInit {
   sending = false;
 
   constructor(
-    private readonly tenantService: TenantService,
     private readonly errorMessage: ErrorMessageService,
+    private readonly tenantService: TenantService,
+    private readonly assetsService: AssetsService,
     private readonly loginService: LoginService,
     private readonly formBuilder: FormBuilder,
     private readonly snacker: SnackerService,
-    private readonly router: FleetRouter
-  ) {}
+    private readonly fleetRouter: FleetRouter
+  ) {
+    this.blueDriversLogo = this.assetsService.getUrl('background/icon.png');
+  }
 
   get email(): AbstractControl {
     return this.credentials.get('email');
@@ -69,7 +74,7 @@ export class LoginFormComponent implements OnInit {
             this.tenantToChange = response.tenant;
             this.getTenants();
           } else if (response.role === Role.ADMIN) {
-            this.router.goToHome();
+            this.fleetRouter.goToHome();
           } else {
             this.snacker.showError('No eres administrador');
           }
@@ -86,7 +91,9 @@ export class LoginFormComponent implements OnInit {
   }
 
   async changeTenant() {
-    this.tenantService.changeTenant(this.tenantToChange).subscribe(() => this.router.goToHome());
+    this.tenantService
+      .changeTenant(this.tenantToChange)
+      .subscribe(() => this.fleetRouter.goToHome());
   }
 
   private getFormData() {

@@ -83,3 +83,26 @@ table th {
   text-align: end;
   overflow: hidden; /* if you don't want #second to wrap below #first */
 }
+
+/* Warn button to BLUE Drivers colors */
+
+.mat-button.mat-warn,
+.mat-stroked-button.mat-warn {
+  color: rgb(235,68,90	);
+}
+.mat-button.mat-warn:hover,
+.mat-stroked-button.mat-warn:hover {
+  background-color: #f0fff3;
+}
+
+.mat-raised-button.mat-warn,
+.mat-flat-button.mat-warn,
+.mat-fab.mat-warn,
+.mat-mini-fab.mat-warn {
+  color: #f0fff3;
+  background-color: rgb(235,68,90	);
+}
+
+.mat-icon-button.mat-warn {
+  color: rgb(235,68,90	);
+}

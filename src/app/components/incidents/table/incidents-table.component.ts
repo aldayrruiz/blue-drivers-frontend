@@ -25,7 +25,7 @@ export class IncidentsTableComponent extends BaseTableComponent<Incident, RowInc
     { display: 'Solucionados', value: 'Solucionado' },
   ];
 
-  columns = ['owner', 'vehicle', 'type', 'status', 'description', 'dateStored', 'details'];
+  columns = ['owner', 'vehicle', 'numberPlate', 'type', 'status', 'description', 'dateStored', 'details'];
 
   constructor(private incidentSrv: IncidentService) {
     super();

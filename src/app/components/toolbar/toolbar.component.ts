@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IsActiveMatchOptions, Router } from '@angular/router';
 import { AssetsService, FleetRouter, LoginService } from 'src/app/core/services';
 
 @Component({
@@ -50,12 +51,13 @@ export class ToolbarComponent implements OnInit {
   constructor(
     private readonly assetsService: AssetsService,
     private readonly loginService: LoginService,
-    private readonly fleetRouter: FleetRouter
+    private readonly fleetRouter: FleetRouter,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
-    this.logoUrl = this.assetsService.getUrl('logo/blue-drivers-logo.png');
-    this.changeColorTo(this.navLinks[0]);
+    this.logoUrl = this.assetsService.getUrl('background/icon.png');
+    this.changeColorTo(this.getCurrentLinkActive());
   }
 
   changeColorTo(link: any) {
@@ -69,5 +71,18 @@ export class ToolbarComponent implements OnInit {
   async logOut() {
     this.loginService.logout();
     await this.fleetRouter.goToLogin();
+  }
+
+  private getCurrentLinkActive() {
+    const options: IsActiveMatchOptions = {
+      matrixParams: 'ignored',
+      queryParams: 'ignored',
+      paths: 'subset',
+      fragment: 'ignored',
+    };
+
+    const links = [...this.navLinks, ...this.menuLinks];
+    const currentLink = links.find((link) => this.router.isActive(`admin/${link.link}`, options));
+    return currentLink;
   }
 }

@@ -75,6 +75,10 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     this.map = map;
   }
 
+  focusMapOnPosition(positionMarker: MyMarker) {
+    this.map.setView(positionMarker.marker.getLatLng(), 15);
+  }
+
   getDataSource(position: Position): FeatureValue[] {
     if (!position) {
       return [];

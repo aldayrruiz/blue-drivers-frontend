@@ -4,21 +4,14 @@
       <h1>Panel de Compañías Aseguradas</h1>
     </div>
     <div class="example-button-row">
-      <button mat-raised-button routerLink="../create" color="primary">
-        Añadir
-      </button>
+      <button mat-raised-button routerLink="../create" color="warn">Añadir</button>
     </div>
   </section>
 
   <!-- Filter -->
   <mat-form-field appearance="standard">
     <mat-label>Filter</mat-label>
-    <input
-      matInput
-      (keyup)="applyFilter($event)"
-      placeholder="Ex. Mia"
-      #input
-    />
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
   </mat-form-field>
 
   <div class="mat-elevation-z8">
@@ -69,9 +62,7 @@
             aria-label="Delete company icon"
             (click)="openDeleteDialog(company)"
           >
-            <mat-icon aria-hidden="false" aria-label="delete icon"
-              >delete</mat-icon
-            >
+            <mat-icon aria-hidden="false" aria-label="delete icon">delete</mat-icon>
           </button>
         </td>
       </ng-container>

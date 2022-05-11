@@ -23,7 +23,7 @@
     </div>
 
     <div id="second">
-      <button mat-raised-button (click)="exportPdf()" color="primary">
+      <button mat-raised-button (click)="exportPdf()" color="warn">
         <mat-icon>insert_drive_file</mat-icon>
         Exportar Pdf
       </button>
@@ -60,6 +60,14 @@
         <th mat-header-cell *matHeaderCellDef>Vehículo</th>
         <td mat-cell *matCellDef="let reservation">
           {{ reservation.vehicle }}
+        </td>
+      </ng-container>
+
+      <!-- Number Plate Column -->
+      <ng-container matColumnDef="numberPlate">
+        <th mat-header-cell *matHeaderCellDef>Nº Matricula</th>
+        <td mat-cell *matCellDef="let reservation">
+          {{ reservation.vehicle.number_plate }}
         </td>
       </ng-container>
 

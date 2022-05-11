@@ -5,7 +5,7 @@ import { AdminComponent } from './admin.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'users',
+    redirectTo: 'positions',
     pathMatch: 'full',
   },
   {
@@ -13,26 +13,32 @@ const routes: Routes = [
     component: AdminComponent,
     children: [
       {
-        path: 'users',
-        loadChildren: () => import('../users/users.module').then((m) => m.UsersPageModule),
-      },
-      {
-        path: 'vehicles',
-        loadChildren: () => import('../vehicles/vehicles.module').then((m) => m.VehiclesPageModule),
+        path: 'positions',
+        loadChildren: () =>
+          import('../gps-positions/gps-positions.module').then((m) => m.GpsPositionsPageModule),
       },
       {
         path: 'reservations',
         loadChildren: () =>
           import('../reservations/reservations.module').then((m) => m.ReservationsPageModule),
       },
+
+      {
+        path: 'incidents',
+        loadChildren: () =>
+          import('../incidents/incidents.module').then((m) => m.IncidentsPageModule),
+      },
       {
         path: 'tickets',
         loadChildren: () => import('../tickets/tickets.module').then((m) => m.TicketsPageModule),
       },
       {
-        path: 'incidents',
-        loadChildren: () =>
-          import('../incidents/incidents.module').then((m) => m.IncidentsPageModule),
+        path: 'users',
+        loadChildren: () => import('../users/users.module').then((m) => m.UsersPageModule),
+      },
+      {
+        path: 'vehicles',
+        loadChildren: () => import('../vehicles/vehicles.module').then((m) => m.VehiclesPageModule),
       },
       {
         path: 'insurance-companies',
@@ -47,11 +53,6 @@ const routes: Routes = [
           import('../reservation-templates/reservation-templates.module').then(
             (m) => m.ReservationTemplatesPageModule
           ),
-      },
-      {
-        path: 'positions',
-        loadChildren: () =>
-          import('../gps-positions/gps-positions.module').then((m) => m.GpsPositionsPageModule),
       },
     ],
   },

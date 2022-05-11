@@ -2,7 +2,10 @@
 <div class="vehicles-container">
   <cdk-virtual-scroll-viewport [itemSize]="50" class="scroll-bar">
     <mat-list role="list">
-      <mat-card *ngFor="let positionMarker of positionMarkers$ | async; let index = index">
+      <mat-card
+        *ngFor="let positionMarker of positionMarkers$ | async"
+        (click)="focusMapOnPosition(positionMarker)"
+      >
         <mat-card-content>
           <div id="wrapper">
             <div id="first">
@@ -13,7 +16,7 @@
                   {{ positionMarker?.vehicle?.model }}
                 </mat-card-title>
                 <mat-card-subtitle class="no-margin">
-                  {{ positionMarker.vehicle.number_plate }}
+                  {{ positionMarker?.vehicle?.number_plate }}
                 </mat-card-subtitle>
               </mat-card-header>
             </div>

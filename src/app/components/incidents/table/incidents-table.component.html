@@ -47,6 +47,14 @@
         </td>
       </ng-container>
 
+      <!-- Number Plate -->
+      <ng-container matColumnDef="numberPlate">
+        <th mat-header-cell *matHeaderCellDef>Nº Matricula</th>
+        <td mat-cell *matCellDef="let incident">
+          {{ incident.vehicle.number_plate }}
+        </td>
+      </ng-container>
+
       <!-- Incident type Column -->
       <ng-container matColumnDef="type">
         <th mat-header-cell *matHeaderCellDef>Tipo</th>

@@ -37,8 +37,11 @@ mat-card {
   text-align: center;
 }
 
+#first {
+  width: 240px;
+}
+
 #second {
-  padding-left: 30px;
   text-align: left;
 }
 

@@ -32,7 +32,7 @@ export interface ReservationRow {
   styleUrls: ['./reservations-table.component.css'],
 })
 export class ReservationsTableComponent extends BaseTableComponent<Reservation, ReservationRow> {
-  columns = ['title', 'owner', 'vehicle', 'start', 'hourMin', 'statistics'];
+  columns = ['title', 'owner', 'vehicle', 'numberPlate','start', 'hourMin', 'statistics'];
 
   range = new FormGroup({
     start: new FormControl(),
