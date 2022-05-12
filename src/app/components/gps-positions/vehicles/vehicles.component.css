@@ -6,7 +6,7 @@
   margin-right: 0.5rem;
   margin-bottom: 1rem;
   top: 60px;
-  right: 22%;
+  right: 25%;
   bottom: 0px;
   left: 0px;
 }
@@ -16,7 +16,7 @@
   top: 60px;
   right: 0px;
   bottom: 0px;
-  left: 78%;
+  left: 75%;
 }
 
 .scroll-bar {
@@ -42,7 +42,8 @@ mat-card {
 }
 
 #second {
-  text-align: left;
+  text-align: right;
+  padding-right: 100px;
 }
 
 .aligned-with-icon {

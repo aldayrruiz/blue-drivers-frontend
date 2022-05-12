@@ -46,6 +46,7 @@ export class IncidentsTableComponent extends BaseTableComponent<Incident, RowInc
       id: incident.id,
       owner: incident.owner.fullname,
       vehicle: `${incident.reservation.vehicle.brand} ${incident.reservation.vehicle.model}`,
+      numberPlate: incident.reservation.vehicle.number_plate,
       type: incidentTypeLabel(incident.type),
       description: incident.description,
       dateStored: incident.date_stored,
