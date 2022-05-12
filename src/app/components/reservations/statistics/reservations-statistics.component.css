@@ -1,31 +1,33 @@
-section {
-  display: table;
-}
-
-.container {
+.map {
   position: absolute;
-  overflow: hidden;
-  width: 98%;
-  height: 92%;
-  margin: 10px;
-}
-
-.map-size {
-  float: left;
-  width: 75%;
-  height: 98%;
+  margin-top: 1rem;
+  margin-left: 1rem;
+  margin-right: 0.5rem;
+  margin-bottom: 1rem;
+  top: 60px;
+  right: 25%;
+  bottom: 0px;
+  left: 0px;
 }
 
 .statistics {
-  overflow: hidden;
-  display: flex;
-  /* flex: 1 1 auto; */
-  align-items: center;
-  flex-direction: column;
+  position: absolute;
+  top: 60px;
+  right: 0px;
+  bottom: 0px;
+  left: 75%;
+}
+
+.scroll-bar {
+  margin-top: 15px;
+  width: 100%;
+  height: 98%;
 }
 
 .title {
-  background-color: grey;
+  margin-left: 15px;
+  margin-right: 15px;
+  background-color: rgb(128, 128, 128);
   border-radius: 10px;
   border-width: 1px;
   color: white;

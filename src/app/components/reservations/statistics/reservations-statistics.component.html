@@ -1,14 +1,8 @@
-<!-- <div class="container"> -->
-<!-- <section>
-    <div class="example-label">
-      <h1>DETALLES DESPLAZAMIENTO</h1>
-    </div>
-  </section> -->
-<div class="container">
-  <div class="map-size">
-    <app-ant-map></app-ant-map>
-  </div>
-  <div class="statistics">
+<div class="map">
+  <app-ant-map></app-ant-map>
+</div>
+<div class="statistics">
+  <cdk-virtual-scroll-viewport [itemSize]="50" class="scroll-bar">
     <!-- Estadísticas -->
     <mat-list role="list">
       <h2 class="title">DESPLAZAMIENTO</h2>
@@ -35,12 +29,9 @@
         Motor encendido:&nbsp;
         <b>{{ summary?.engineHours | duration }}</b>
       </mat-list-item>
-    </mat-list>
 
-    <!-- Datos de la reserva -->
-    <mat-list role="list">
+      <!-- Datos de la reserva -->
       <h2 class="title">RESERVA</h2>
-
       <mat-list-item role="listitem">
         Propietario:&nbsp; <b>{{ reservation?.owner.fullname }}</b>
       </mat-list-item>
@@ -65,5 +56,5 @@
         Duración:&nbsp; <b>{{ timeReserved }}</b>
       </mat-list-item>
     </mat-list>
-  </div>
+  </cdk-virtual-scroll-viewport>
 </div>
