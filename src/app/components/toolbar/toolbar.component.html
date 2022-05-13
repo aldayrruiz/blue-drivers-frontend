@@ -1,6 +1,6 @@
 <mat-toolbar>
-  <img class="logo" [src]="logoUrl" />
   <div class="container">
+    <img class="logo" [src]="logoUrl" />
     <button
       class="toolbar-button"
       mat-raised-button
@@ -33,7 +33,7 @@
     </mat-menu>
   </div>
   <!-- Account Menu -->
-  <button mat-button [matMenuTriggerFor]="account">
+  <button class="account-icon" mat-button [matMenuTriggerFor]="account">
     <mat-icon>person</mat-icon>
   </button>
   <mat-menu #account="matMenu">

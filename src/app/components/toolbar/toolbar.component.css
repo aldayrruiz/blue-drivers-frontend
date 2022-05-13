@@ -11,5 +11,13 @@
 }
 
 .toolbar-button {
-  width: 170px;
+  margin: 0px 0px;
+  padding: 0px 0px;
+  text-align: center;
+  width: 12%;
+}
+
+.account-icon {
+  padding: 0px 0px;
+  margin: 0px 0px;
 }
