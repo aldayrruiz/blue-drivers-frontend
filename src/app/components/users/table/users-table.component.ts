@@ -75,7 +75,13 @@ export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
     this.userSrv
       .getAll(true)
       .pipe(finalize(() => this.hideLoadingSpinner()))
-      .subscribe((users) => this.initTable(this.removeSuperAdmin(users)));
+      .subscribe((users) => {
+        const usersWithOutSuperAdmin = this.removeSuperAdmin(users);
+        console.log(usersWithOutSuperAdmin);
+        const usersOrdered = this.orderRows(usersWithOutSuperAdmin);
+        console.log(usersOrdered);
+        this.initTable(usersOrdered);
+      });
   }
 
   changeDisabled(user: UserRow): void {
@@ -109,5 +115,19 @@ export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
 
   private removeSuperAdmin(users: User[]) {
     return users.filter((user) => user.role !== Role.SUPER_ADMIN);
+  }
+
+  private orderRows(users: User[]) {
+    const usersOrderedAlphabetically = users.sort((a, b) => {
+      // Admin must appear first
+      if (b.role === Role.ADMIN) {
+        return 1;
+      }
+
+      // Then order alphabetically
+      return a.fullname.localeCompare(b.fullname);
+    });
+
+    return usersOrderedAlphabetically;
   }
 }

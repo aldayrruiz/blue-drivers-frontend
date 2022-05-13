@@ -89,6 +89,10 @@ export abstract class BaseTableComponent<M, T> implements OnInit, AfterViewInit 
     this.dataSource.data = rows;
   }
 
+  private setModels(models: M[]): void {
+    this.models = models;
+  }
+
   /**
    * Transform data into RowData.
    *
@@ -101,8 +105,4 @@ export abstract class BaseTableComponent<M, T> implements OnInit, AfterViewInit 
    * Because, if there are a lot of data, we must load the page, then charge the data.
    */
   abstract fetchDataAndUpdate(): void;
-
-  private setModels(models: M[]): void {
-    this.models = models;
-  }
 }

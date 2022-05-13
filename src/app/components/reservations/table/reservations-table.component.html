@@ -30,7 +30,7 @@
     </div>
   </div>
 
-  <div class="mat-elevation-z8">
+  <div class="mat-elevation-z8" *ngIf="dataSource.data.length !== 0; else noData">
     <!-- Spinner -->
     <div *ngIf="isLoadingResults">
       <mat-spinner></mat-spinner>
@@ -113,4 +113,6 @@
       aria-label="Select page of reservations"
     ></mat-paginator>
   </div>
+
+  <ng-template #noData> No hay reservas </ng-template>
 </div>

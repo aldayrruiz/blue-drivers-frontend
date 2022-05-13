@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { Reservation, Ticket, TicketStatus, Vehicle } from 'src/app/core/models';
-import { ErrorMessageService, SnackerService, TicketService } from 'src/app/core/services';
+import {
+  ErrorMessageService,
+  FleetRouter,
+  SnackerService,
+  TicketService,
+} from 'src/app/core/services';
 import { PipeDates } from 'src/app/core/utils/dates/pipe-dates';
 
 @Component({
@@ -18,11 +23,11 @@ export class SolveTicketComponent implements OnInit {
   sending = false;
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private ticketSrv: TicketService,
-    private snacker: SnackerService,
-    private errorMessage: ErrorMessageService
+    private readonly errorMessage: ErrorMessageService,
+    private readonly fleetRouter: FleetRouter,
+    private readonly ticketSrv: TicketService,
+    private readonly snacker: SnackerService,
+    private readonly route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -52,9 +57,9 @@ export class SolveTicketComponent implements OnInit {
       .pipe(finalize(() => (this.sending = false)))
       .subscribe(
         async () => {
-          const message = 'Ticket solucionado';
+          const message = 'Conflicto solucionado';
           this.snacker.showSuccessful(message);
-          this.router.navigate(['..'], { relativeTo: this.route });
+          this.fleetRouter.goToTickets();
         },
         async (error) => {
           const message = this.errorMessage.get(error);
