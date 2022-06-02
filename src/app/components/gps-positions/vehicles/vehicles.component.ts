@@ -71,7 +71,7 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
   }
 
   initMap(): void {
-    const { map } = MapCreator.create(new MapConfiguration());
+    const { map } = MapCreator.create(new MapConfiguration('vehiclesMap'));
     this.map = map;
   }
 

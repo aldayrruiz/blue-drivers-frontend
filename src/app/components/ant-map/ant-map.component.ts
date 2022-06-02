@@ -32,7 +32,7 @@ export class AntMapComponent implements OnInit {
   }
 
   private initMap(): void {
-    const { map } = MapCreator.create(new MapConfiguration());
+    const { map } = MapCreator.create(new MapConfiguration('antMap'));
     this.map = map;
   }
 
