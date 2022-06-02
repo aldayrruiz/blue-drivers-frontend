@@ -20,11 +20,13 @@ export class AntMapComponent implements OnInit {
   }
 
   addAntPath(positions: Position[]) {
+    positions = this.removeInvalidPositions(positions);
+
     if (positions.length === 0) {
       this.snacker.showError('Se recibieron 0 posiciones');
       return;
     }
-    positions = this.removeInvalidPositions(positions);
+
     const latLongs = this.convertPositionsToLatLng(positions);
     const antPath = createAntPath(latLongs);
     this.map.addLayer(antPath);
