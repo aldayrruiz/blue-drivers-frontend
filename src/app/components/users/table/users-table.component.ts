@@ -77,10 +77,9 @@ export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
       .pipe(finalize(() => this.hideLoadingSpinner()))
       .subscribe((users) => {
         const usersWithOutSuperAdmin = this.removeSuperAdmin(users);
-        console.log(usersWithOutSuperAdmin);
-        const usersOrdered = this.orderRows(usersWithOutSuperAdmin);
-        console.log(usersOrdered);
-        this.initTable(usersOrdered);
+        const usersOrderedAlphabetically = this.orderRowsAlphabetically(usersWithOutSuperAdmin);
+        const usersOrderedByRole = this.orderRowsByRole(usersOrderedAlphabetically);
+        this.initTable(usersOrderedByRole);
       });
   }
 
@@ -117,15 +116,26 @@ export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
     return users.filter((user) => user.role !== Role.SUPER_ADMIN);
   }
 
-  private orderRows(users: User[]) {
+  private orderRowsAlphabetically(users: User[]) {
+    const usersOrderedAlphabetically = users.sort((a, b) =>
+      // Then order alphabetically
+      a.fullname.localeCompare(b.fullname)
+    );
+
+    return usersOrderedAlphabetically;
+  }
+
+  private orderRowsByRole(users: User[]) {
     const usersOrderedAlphabetically = users.sort((a, b) => {
       // Admin must appear first
+      // console.log(`Comparing: ${a.fullname} - ${b.fullname}`);
       if (b.role === Role.ADMIN) {
         return 1;
       }
-
-      // Then order alphabetically
-      return a.fullname.localeCompare(b.fullname);
+      if (a.role === Role.ADMIN) {
+        return -1;
+      }
+      return 0;
     });
 
     return usersOrderedAlphabetically;

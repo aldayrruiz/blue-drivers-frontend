@@ -8,7 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
   templateUrl: './base-table.component.html',
   styleUrls: ['./base-table.component.css'],
 })
-export abstract class BaseTableComponent<M, T> implements OnInit, AfterViewInit {
+export abstract class BaseTableComponent<M, T> implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -22,9 +22,7 @@ export abstract class BaseTableComponent<M, T> implements OnInit, AfterViewInit 
 
   abstract columns: string[];
 
-  constructor() {
-    this.dataSource = new MatTableDataSource([]);
-  }
+  constructor() {}
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -33,11 +31,6 @@ export abstract class BaseTableComponent<M, T> implements OnInit, AfterViewInit 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
-  }
-
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   ngOnInit(): void {
@@ -56,6 +49,7 @@ export abstract class BaseTableComponent<M, T> implements OnInit, AfterViewInit 
    * @param models
    */
   initTable(models: M[]): void {
+    this.initDataSource();
     this.setModels(models);
     this.updateTable(models);
   }
@@ -87,6 +81,12 @@ export abstract class BaseTableComponent<M, T> implements OnInit, AfterViewInit 
    */
   updateTableWithRows(rows: T[]): void {
     this.dataSource.data = rows;
+  }
+
+  private initDataSource() {
+    this.dataSource = new MatTableDataSource([]);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   private setModels(models: M[]): void {

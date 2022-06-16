@@ -52,3 +52,7 @@ mat-card {
   margin-top: 5px;
   margin-left: 5px; /* optional */
 }
+
+.disabled {
+  opacity: 0.5;
+}

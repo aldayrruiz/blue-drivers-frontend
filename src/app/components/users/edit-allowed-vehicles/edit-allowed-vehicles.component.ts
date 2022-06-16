@@ -44,7 +44,7 @@ export class EditAllowedVehiclesComponent implements OnInit {
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected(): boolean {
     const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
+    const numRows = this.dataSource?.data?.length;
     return numSelected === numRows;
   }
 

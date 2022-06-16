@@ -13,7 +13,7 @@
     </div>
   </div>
 
-  <div class="mat-elevation-z8" *ngIf="dataSource.data.length !== 0; else noData">
+  <div class="mat-elevation-z8" *ngIf="dataSource?.data?.length !== 0; else noData">
     <!-- Spinner -->
     <div class="example-loading-shade" *ngIf="isLoadingResults">
       <mat-spinner></mat-spinner>
