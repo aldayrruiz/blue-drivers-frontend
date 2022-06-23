@@ -12,4 +12,5 @@ export enum API {
   users = '/api/users',
   lastPositions = '/api/positions',
   reservationReports = '/api/reservations/reports',
+  monthlyReports = '/api/reports',
 }

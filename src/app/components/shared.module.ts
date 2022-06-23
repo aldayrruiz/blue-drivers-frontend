@@ -8,6 +8,7 @@ import { IncidentsComponentsModule } from './incidents/incidents-components.modu
 import { InsuranceCompaniesComponentsModule } from './insurance-companies/insurance-companies.module';
 // My components & modules
 import { LoginFormComponent } from './login-form/login-form.component';
+import { ReportsComponentsModule } from './reports/reports-components.module';
 import { ReservationTemplatesComponentsModule } from './reservation-templates/reservation-templates.module';
 import { ReservationsComponentsModule } from './reservations/reservations.table.module';
 import { TicketsComponentsModule } from './tickets/tickets.table.module';
@@ -39,6 +40,7 @@ import { VehiclesComponentsModule } from './vehicles/vehicles-components.module'
     InsuranceCompaniesComponentsModule,
     GNSSComponentsModule,
     ReservationTemplatesComponentsModule,
+    ReportsComponentsModule,
   ],
 })
 export class SharedModule {}

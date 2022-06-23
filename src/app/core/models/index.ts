@@ -5,6 +5,8 @@ export * from './incidents/type.model';
 // Insurance Companies
 export * from './insurance-companies/create.model';
 export * from './insurance-companies/insurance-company.model';
+// Monthly reports
+export * from './monthly-report/monthly-report';
 //Positions
 export * from './positions/position.model';
 //Reports

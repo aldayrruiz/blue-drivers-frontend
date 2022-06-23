@@ -1,0 +1,63 @@
+<div class="table-container">
+  <div id="wrapper">
+    <div class="filters" id="first">
+      <!-- Filter -->
+      <mat-form-field appearance="fill">
+        <mat-label>Buscar por palabra clave</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="mat-elevation-z8" *ngIf="dataSource?.data?.length !== 0; else noData">
+    <!-- Spinner -->
+    <div class="example-loading-shade" *ngIf="isLoadingResults">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <!-- Table  -->
+    <table mat-table [dataSource]="dataSource">
+      <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+      <!-- Mes Column -->
+      <ng-container matColumnDef="month">
+        <th mat-header-cell *matHeaderCellDef>Mes</th>
+        <td mat-cell *matCellDef="let report">{{ report.month }}</td>
+      </ng-container>
+
+      <!-- Año Column -->
+      <ng-container matColumnDef="year">
+        <th mat-header-cell *matHeaderCellDef>Año</th>
+        <td mat-cell *matCellDef="let report">{{ report.year }}</td>
+      </ng-container>
+
+      <!-- Descargar Column -->
+      <ng-container matColumnDef="download">
+        <th mat-header-cell *matHeaderCellDef>Descargar</th>
+        <td mat-cell *matCellDef="let report">
+          <button
+            mat-icon-button
+            color="dark"
+            aria-label="Download report"
+            (click)="downloadPdf(report)"
+          >
+            <mat-icon aria-hidden="false" aria-label="delete icon">download</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns"></tr>
+    </table>
+
+    <!-- Paginator -->
+    <mat-paginator
+      [pageSizeOptions]="[10, 25, 50, 100]"
+      aria-label="Select page of reports"
+    ></mat-paginator>
+  </div>
+
+  <ng-template #noData> No hay reportes </ng-template>
+</div>

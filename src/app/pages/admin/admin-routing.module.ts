@@ -54,6 +54,10 @@ const routes: Routes = [
             (m) => m.ReservationTemplatesPageModule
           ),
       },
+      {
+        path: 'reports',
+        loadChildren: () => import('../reports/reports.module').then((m) => m.ReportsPageModule),
+      },
     ],
   },
 ];

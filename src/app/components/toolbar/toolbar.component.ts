@@ -46,6 +46,10 @@ export class ToolbarComponent implements OnInit {
       label: 'Plantillas de reservas',
       link: 'reservation-templates',
     },
+    {
+      label: 'Informes mensuales',
+      link: 'reports',
+    },
   ];
 
   constructor(
