@@ -10,4 +10,6 @@ export interface ReportSummary {
   startTime: string;
   endTime: string;
   engineHours: number;
+  realStartTime: string;
+  realEndTime: string;
 }

@@ -104,7 +104,7 @@ export class ReservationsTableComponent extends BaseTableComponent<Reservation, 
       return;
     }
 
-    this.ghost.goToReservationStatistics(reservationRow.id);
+    window.open(`admin/reservations/statistics/${reservationRow.id}`, `_blank`);
   }
 
   exportPdf() {

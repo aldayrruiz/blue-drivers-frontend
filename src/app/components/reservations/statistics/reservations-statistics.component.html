@@ -30,6 +30,14 @@
         <b>{{ summary?.engineHours | duration }}</b>
       </mat-list-item>
 
+      <mat-list-item role="listitem">
+        Hora de inicio del desplazamiento:&nbsp; <b>{{ summary?.realStartTime | essential }}</b>
+      </mat-list-item>
+
+      <mat-list-item role="listitem">
+        Hora de fin del desplazamiento:&nbsp; <b>{{ summary?.realEndTime | essential }}</b>
+      </mat-list-item>
+
       <!-- Datos de la reserva -->
       <h2 class="title">RESERVA</h2>
       <mat-list-item role="listitem">
@@ -50,6 +58,10 @@
 
       <mat-list-item role="listitem">
         Fecha de recogida:&nbsp; <b>{{ reservation?.start | essential }}</b>
+      </mat-list-item>
+
+      <mat-list-item role="listitem">
+        Fecha de entrega:&nbsp; <b>{{ reservation?.end | essential }}</b>
       </mat-list-item>
 
       <mat-list-item role="listitem">

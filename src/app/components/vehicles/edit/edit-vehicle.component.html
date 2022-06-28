@@ -50,7 +50,7 @@
                     numberPlate.hasError('minlength')
                   "
                 >
-                  El nº de matricula debe tener <strong>7 caracteres</strong>
+                  El nº de matricula debe tener <strong>7 u 8 caracteres</strong>
                 </mat-error>
               </mat-form-field>
             </td>
@@ -136,7 +136,12 @@
                     <div class="wrapper">
                       <div class="text">{{ icon.label }}</div>
                       <div class="icon">
-                        <img style="padding-top: 6px" width="30px" [src]="icon.src" alt="vehicle icon" />
+                        <img
+                          style="padding-top: 6px"
+                          width="30px"
+                          [src]="icon.src"
+                          alt="vehicle icon"
+                        />
                       </div>
                     </div>
                   </mat-option>
@@ -147,7 +152,7 @@
 
           <tr>
             <td>
-              <img width="50px" [src]="iconSelected?.src">
+              <img width="50px" [src]="iconSelected?.src" />
             </td>
           </tr>
 

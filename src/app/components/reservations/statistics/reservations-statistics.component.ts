@@ -6,6 +6,7 @@ import {
   ReportService,
   ReportSummarySerializer,
   ReservationService,
+  SnackerService,
   TimeReservedService,
 } from 'src/app/core/services';
 import { AntMapComponent } from '../../ant-map/ant-map.component';
@@ -31,6 +32,7 @@ export class ReservationsStatisticsComponent implements OnInit {
     private readonly timeReservedSrv: TimeReservedService,
     private readonly reservationSrv: ReservationService,
     private readonly reportSrv: ReportService,
+    private readonly snacker: SnackerService,
     private readonly route: ActivatedRoute
   ) {}
 
@@ -94,6 +96,16 @@ export class ReservationsStatisticsComponent implements OnInit {
   }
 
   private loadAntMap() {
+    const positions = this.removeInvalidPositions(this.positions);
+
+    if (positions.length === 0) {
+      this.snacker.showError('No hubo desplazamiento del vehículo en el tiempo de reserva');
+      return;
+    }
     this.antMap.addAntPath(this.positions);
+  }
+
+  private removeInvalidPositions(positions: Position[]) {
+    return positions.filter((position) => position.valid);
   }
 }

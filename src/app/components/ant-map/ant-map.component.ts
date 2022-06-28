@@ -13,17 +13,14 @@ import { MapCreator } from 'src/app/core/utils/leaflet/map-creator';
 export class AntMapComponent implements OnInit {
   private map: L.Map;
 
-  constructor(private readonly snacker: SnackerService) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.initMap();
   }
 
   addAntPath(positions: Position[]) {
-    positions = this.removeInvalidPositions(positions);
-
     if (positions.length === 0) {
-      this.snacker.showError('Se recibieron 0 posiciones');
       return;
     }
 
@@ -42,9 +39,5 @@ export class AntMapComponent implements OnInit {
     const latLongs = positions.map((position) => [position.latitude, position.longitude]);
 
     return latLongs;
-  }
-
-  private removeInvalidPositions(positions: Position[]) {
-    return positions.filter((position) => position.valid);
   }
 }
