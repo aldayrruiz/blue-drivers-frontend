@@ -31,11 +31,11 @@
       </mat-list-item>
 
       <mat-list-item role="listitem">
-        Hora de inicio del desplazamiento:&nbsp; <b>{{ summary?.realStartTime | essential }}</b>
+        Hora de inicio del desplazamiento:&nbsp; <b>{{ summary?.realStartTime | date : 'shortTime' }}</b>
       </mat-list-item>
 
       <mat-list-item role="listitem">
-        Hora de fin del desplazamiento:&nbsp; <b>{{ summary?.realEndTime | essential }}</b>
+        Hora de fin del desplazamiento:&nbsp; <b>{{ summary?.realEndTime | date : 'shortTime' }}</b>
       </mat-list-item>
 
       <!-- Datos de la reserva -->
@@ -67,6 +67,14 @@
       <mat-list-item role="listitem">
         Duración:&nbsp; <b>{{ timeReserved }}</b>
       </mat-list-item>
+
+      <!-- Ocupantes -->
+      <h2 class="title">OCUPANTES</h2>
+      <span *ngFor="let driver of drivers">
+        <mat-list-item role="listitem">
+          Ocupante:&nbsp; <b>{{ driver.fullname }}</b>
+        </mat-list-item>
+      </span>
     </mat-list>
   </cdk-virtual-scroll-viewport>
 </div>

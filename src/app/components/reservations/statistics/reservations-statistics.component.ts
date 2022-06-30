@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { fuelLabel, Position, ReportSummary, Reservation, Vehicle } from 'src/app/core/models';
+import { fuelLabel, Position, ReportSummary, Reservation, User, Vehicle } from 'src/app/core/models';
 import {
   FuelPriceCalculatorFactory,
   ReportService,
@@ -19,6 +19,8 @@ import { AntMapComponent } from '../../ant-map/ant-map.component';
 export class ReservationsStatisticsComponent implements OnInit {
   @ViewChild(AntMapComponent) antMap: AntMapComponent;
   vehicle: Vehicle;
+  users: User[];
+  drivers: User[];
   summary: ReportSummary;
   positions: Position[] = [];
   reservation: Reservation;
@@ -37,6 +39,7 @@ export class ReservationsStatisticsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.resolve();
     this.fetchData();
   }
 
@@ -49,6 +52,7 @@ export class ReservationsStatisticsComponent implements OnInit {
       this.positions = positions;
       this.reservation = reservation;
       this.loadAntMap();
+      this.loadDrivers();
       this.loadDataForUI();
     });
   }
@@ -95,10 +99,15 @@ export class ReservationsStatisticsComponent implements OnInit {
     this.timeReserved = this.timeReservedSrv.getFromReservation(this.reservation);
   }
 
-  private loadAntMap() {
-    const positions = this.removeInvalidPositions(this.positions);
+  private loadDrivers() {
+    const bleIds = new Set(this.positions.map(position => position.attributes?.beacon1Instance?.toUpperCase()));
+    this.drivers = this.users.filter(user => bleIds.has(user.ble_user_id));
+  }
 
-    if (positions.length === 0) {
+  private loadAntMap() {
+    this.positions = this.removeInvalidPositions(this.positions);
+
+    if (this.positions.length === 0) {
       this.snacker.showError('No hubo desplazamiento del vehículo en el tiempo de reserva');
       return;
     }
@@ -107,5 +116,11 @@ export class ReservationsStatisticsComponent implements OnInit {
 
   private removeInvalidPositions(positions: Position[]) {
     return positions.filter((position) => position.valid);
+  }
+
+  private resolve(): void {
+    this.route.data.subscribe((response) => {
+      this.users = response.users;
+    });
   }
 }

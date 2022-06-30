@@ -1,9 +1,7 @@
 <div class="main-div">
   <mat-card class="example-card">
     <mat-card-header>
-      <mat-card-title>
-        Nuevo usuario
-      </mat-card-title>
+      <mat-card-title> Nuevo usuario </mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <form [formGroup]="credentials">
@@ -14,8 +12,13 @@
               <mat-form-field class="full-width" appearance="fill">
                 <mat-label>Email</mat-label>
                 <div>
-                  <input type="email" matInput [formControl]="email" [errorStateMatcher]="matcher"
-                    placeholder="antonio.ruiz@example.com">
+                  <input
+                    type="email"
+                    matInput
+                    [formControl]="email"
+                    [errorStateMatcher]="matcher"
+                    placeholder="antonio.ruiz@example.com"
+                  />
                 </div>
                 <mat-error *ngIf="email.hasError('email') && !email.hasError('required')">
                   Por favor, introduzca un email correcto
@@ -31,23 +34,59 @@
             <td>
               <mat-form-field class="full-width" appearance="fill">
                 <mat-label>Nombre y apellidos</mat-label>
-                <input type="text" matInput [formControl]="fullname" placeholder="Antonio Ruiz"
-                  [errorStateMatcher]="matcher">
+                <input
+                  type="text"
+                  matInput
+                  [formControl]="fullname"
+                  placeholder="Antonio Ruiz"
+                  [errorStateMatcher]="matcher"
+                />
                 <mat-error *ngIf="fullname.hasError('required')">
                   Nombre y apellidos es <strong>obligatorio</strong>
                 </mat-error>
               </mat-form-field>
             </td>
           </tr>
+          <!-- BLE User Id -->
+          <tr>
+            <td>
+              <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Identificador BLE de usuario</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  [formControl]="bleUserId"
+                  [errorStateMatcher]="matcher"
+                />
+              </mat-form-field>
+            </td>
+          </tr>
+
           <!-- Button - Create User -->
           <tr>
             <td>
               <div>
-                <button class="cancel" mat-raised-button color="warn" routerLink=".." [disabled]="sending">Cancelar</button>
-                <button class="create" (click)="createUser()" mat-raised-button color="primary" type="submit" expand="block"
-                [disabled]="!credentials.valid || sending">Crear</button>
+                <button
+                  class="cancel"
+                  mat-raised-button
+                  color="warn"
+                  routerLink=".."
+                  [disabled]="sending"
+                >
+                  Cancelar
+                </button>
+                <button
+                  class="create"
+                  (click)="createUser()"
+                  mat-raised-button
+                  color="primary"
+                  type="submit"
+                  expand="block"
+                  [disabled]="!credentials.valid || sending"
+                >
+                  Crear
+                </button>
               </div>
-              
             </td>
           </tr>
         </table>

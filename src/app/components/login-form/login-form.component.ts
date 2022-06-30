@@ -56,10 +56,6 @@ export class LoginFormComponent implements OnInit {
     });
   }
 
-  onEnter() {
-    console.log('falksdflk');
-  }
-
   async login() {
     this.sending = true;
     const credentials = this.getFormData();

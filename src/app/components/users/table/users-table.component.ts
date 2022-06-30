@@ -29,7 +29,7 @@ interface UserRow {
   styleUrls: ['./users-table.component.css'],
 })
 export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
-  columns = ['fullname', 'email', 'dateJoined', 'allowedTypes', 'isDisabled', 'delete'];
+  columns = ['fullname', 'email', 'dateJoined', 'allowedTypes', 'edit', 'isDisabled', 'delete'];
 
   private myId: string;
 

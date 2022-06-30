@@ -48,24 +48,43 @@
       <ng-container matColumnDef="allowedTypes">
         <th class="button-table" mat-header-cell *matHeaderCellDef></th>
         <td class="button-table" mat-cell *matCellDef="let user">
-          <button
-            *ngIf="!isMe(user)"
-            mat-icon-button
-            color="dark"
-            aria-label="Edit allowed vehicle types"
-            routerLink="../edit/{{ user.id }}/allowed-vehicle-types"
-          >
-            <mat-icon
-              matBadgePosition="after | below"
-              matBadge="{{ user.allowedVehicleTypes.length }}"
-              matBadgeSize="small"
-              matBadgeColor="{{ getBadgeColor(user.allowedVehicleTypes.length) }}"
-              aria-hidden="false"
-              aria-label="edit allowed vehicle types icon"
+          <span *ngIf="user.role === 'USER'">
+            <button
+              *ngIf="!isMe(user)"
+              mat-icon-button
+              color="dark"
+              aria-label="Edit allowed vehicle types"
+              routerLink="../edit/{{ user.id }}/allowed-vehicle-types"
             >
-              drive_eta</mat-icon
+              <mat-icon
+                matBadgePosition="after | below"
+                matBadge="{{ user.allowedVehicleTypes.length }}"
+                matBadgeSize="small"
+                matBadgeColor="{{ getBadgeColor(user.allowedVehicleTypes.length) }}"
+                aria-hidden="false"
+                aria-label="edit allowed vehicle types icon"
+              >
+                drive_eta</mat-icon
+              >
+            </button>
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Edit Column -->
+      <ng-container matColumnDef="edit">
+        <th class="button-table" mat-header-cell *matHeaderCellDef></th>
+        <td class="button-table" mat-cell *matCellDef="let user">
+          <span *ngIf="user.role === 'USER'">
+            <button
+              mat-icon-button
+              color="dark"
+              aria-label="Edit user icon"
+              routerLink="../edit/{{ user.id }}"
             >
-          </button>
+              <mat-icon aria-hidden="false" aria-label="edit icon">edit</mat-icon>
+            </button>
+          </span>
         </td>
       </ng-container>
 

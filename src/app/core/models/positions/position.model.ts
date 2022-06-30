@@ -6,6 +6,7 @@ export interface Position {
   deviceId?: number;
   protocol?: string;
   deviceTime?: string;
+  attributes?: any;
   fixTime?: string;
   serverTime?: string;
   outdated?: boolean;

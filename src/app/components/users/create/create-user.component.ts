@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
@@ -9,7 +10,7 @@ import {
   UserService,
 } from 'src/app/core/services';
 import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
-import { emailValidators, fullnameValidators } from 'src/app/core/validators/user';
+import { bleUserValidators, emailValidators, fullnameValidators } from 'src/app/core/validators/user';
 
 @Component({
   selector: 'app-create-user',
@@ -29,19 +30,24 @@ export class CreateUserComponent implements OnInit {
     private readonly router: FleetRouter
   ) {}
 
+  get fullname(): AbstractControl {
+    return this.credentials.get('fullname');
+  }
+
+  get email(): AbstractControl {
+    return this.credentials.get('email');
+  }
+
+  get bleUserId(): AbstractControl {
+    return this.credentials.get('bleUserId');
+  }
+
   ngOnInit(): void {
     this.credentials = this.formBuilder.group({
       email: ['', emailValidators],
       fullname: ['', fullnameValidators],
+      bleUserId: ['', bleUserValidators],
     });
-  }
-
-  private getFormData(): CreateUser {
-    const newUser: CreateUser = {
-      email: this.email.value,
-      fullname: this.fullname.value,
-    };
-    return newUser;
   }
 
   createUser(): void {
@@ -64,11 +70,12 @@ export class CreateUserComponent implements OnInit {
       );
   }
 
-  get fullname(): AbstractControl {
-    return this.credentials.get('fullname');
-  }
-
-  get email(): AbstractControl {
-    return this.credentials.get('email');
+  private getFormData(): CreateUser {
+    const newUser: CreateUser = {
+      email: this.email.value,
+      fullname: this.fullname.value,
+      ble_user_id: this.bleUserId.value,
+    };
+    return newUser;
   }
 }

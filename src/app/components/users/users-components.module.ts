@@ -6,10 +6,16 @@ import { UsersRoutingModule } from 'src/app/pages/users/users-routing.module';
 import { MyAngularMaterialModule } from '../../core/modules/angular-material.module';
 import { CreateUserComponent } from './create/create-user.component';
 import { EditAllowedVehiclesComponent } from './edit-allowed-vehicles/edit-allowed-vehicles.component';
+import { EditUserComponent } from './edit/edit-user.component';
 import { UsersTableComponent } from './table/users-table.component';
 
 @NgModule({
-  declarations: [UsersTableComponent, CreateUserComponent, EditAllowedVehiclesComponent],
+  declarations: [
+    UsersTableComponent,
+    CreateUserComponent,
+    EditAllowedVehiclesComponent,
+    EditUserComponent,
+  ],
   imports: [
     CommonModule,
     UsersRoutingModule /* This component is using users routing /admin/users */,
@@ -17,6 +23,11 @@ import { UsersTableComponent } from './table/users-table.component';
     ReactiveFormsModule,
     CustomPipesModule,
   ],
-  exports: [UsersTableComponent, CreateUserComponent, EditAllowedVehiclesComponent],
+  exports: [
+    UsersTableComponent,
+    CreateUserComponent,
+    EditAllowedVehiclesComponent,
+    EditUserComponent,
+  ],
 })
 export class UsersComponentsModule {}
