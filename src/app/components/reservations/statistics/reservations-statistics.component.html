@@ -3,6 +3,36 @@
 </div>
 <div class="statistics">
   <cdk-virtual-scroll-viewport [itemSize]="50" class="scroll-bar">
+    <!-- Datos de la reserva -->
+    <h2 class="title">RESERVA</h2>
+    <mat-list-item role="listitem">
+      Propietario:&nbsp; <b>{{ reservation?.owner.fullname }}</b>
+    </mat-list-item>
+
+    <mat-list-item role="listitem">
+      Vehículo:&nbsp; <b>{{ vehicle?.brand }} {{ vehicle?.model }}</b>
+    </mat-list-item>
+
+    <mat-list-item role="listitem">
+      Nº Matricula:&nbsp; <b>{{ vehicle?.number_plate }}</b>
+    </mat-list-item>
+
+    <mat-list-item role="listitem">
+      Combustible:&nbsp; <b>{{ fuel }}</b>
+    </mat-list-item>
+
+    <mat-list-item role="listitem">
+      Fecha de recogida:&nbsp; <b>{{ reservation?.start | essential }}</b>
+    </mat-list-item>
+
+    <mat-list-item role="listitem">
+      Fecha de entrega:&nbsp; <b>{{ reservation?.end | essential }}</b>
+    </mat-list-item>
+
+    <mat-list-item role="listitem">
+      Duración:&nbsp; <b>{{ timeReserved }}</b>
+    </mat-list-item>
+    
     <!-- Estadísticas -->
     <mat-list role="list">
       <h2 class="title">DESPLAZAMIENTO</h2>
@@ -36,36 +66,6 @@
 
       <mat-list-item role="listitem">
         Hora de fin del desplazamiento:&nbsp; <b>{{ summary?.realEndTime | date : 'shortTime' }}</b>
-      </mat-list-item>
-
-      <!-- Datos de la reserva -->
-      <h2 class="title">RESERVA</h2>
-      <mat-list-item role="listitem">
-        Propietario:&nbsp; <b>{{ reservation?.owner.fullname }}</b>
-      </mat-list-item>
-
-      <mat-list-item role="listitem">
-        Vehículo:&nbsp; <b>{{ vehicle?.brand }} {{ vehicle?.model }}</b>
-      </mat-list-item>
-
-      <mat-list-item role="listitem">
-        Nº Matricula:&nbsp; <b>{{ vehicle?.number_plate }}</b>
-      </mat-list-item>
-
-      <mat-list-item role="listitem">
-        Combustible:&nbsp; <b>{{ fuel }}</b>
-      </mat-list-item>
-
-      <mat-list-item role="listitem">
-        Fecha de recogida:&nbsp; <b>{{ reservation?.start | essential }}</b>
-      </mat-list-item>
-
-      <mat-list-item role="listitem">
-        Fecha de entrega:&nbsp; <b>{{ reservation?.end | essential }}</b>
-      </mat-list-item>
-
-      <mat-list-item role="listitem">
-        Duración:&nbsp; <b>{{ timeReserved }}</b>
       </mat-list-item>
 
       <!-- Ocupantes -->
