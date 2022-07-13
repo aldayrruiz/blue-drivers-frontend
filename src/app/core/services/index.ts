@@ -1,3 +1,4 @@
+export * from './api/auth.service';
 export * from './api/incident.service';
 export * from './api/insurance-companies.service';
 export * from './api/position.service';

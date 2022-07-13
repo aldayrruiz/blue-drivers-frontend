@@ -6,12 +6,14 @@ import { finalize } from 'rxjs/operators';
 import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
 import { EditPatchUser, Role, User, Vehicle } from 'src/app/core/models';
 import {
+  AuthService,
   ErrorMessageService,
   LocalStorage,
   SnackerService,
   UserService,
 } from 'src/app/core/services';
 import { DeleteUserComponent } from '../../dialogs/delete-user/delete-user.component';
+import { ResendRegistrationEmailComponent } from '../../dialogs/resend-email-registration/resend-registration-email.component';
 
 interface UserRow {
   id: string;
@@ -29,14 +31,24 @@ interface UserRow {
   styleUrls: ['./users-table.component.css'],
 })
 export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
-  columns = ['fullname', 'email', 'dateJoined', 'allowedTypes', 'edit', 'isDisabled', 'delete'];
+  columns = [
+    'fullname',
+    'email',
+    'dateJoined',
+    'allowedTypes',
+    'edit',
+    'isDisabled',
+    'resendRegistrationEmail',
+    'delete',
+  ];
 
   private myId: string;
 
   constructor(
     private errorMessage: ErrorMessageService,
-    private storage: LocalStorage,
+    private authService: AuthService,
     private snacker: SnackerService,
+    private storage: LocalStorage,
     private userSrv: UserService,
     private dialog: MatDialog
   ) {
@@ -55,6 +67,16 @@ export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
     deleteUserDialog.afterClosed().subscribe((result) => {
       if (result) {
         this.deleteUser(user);
+      }
+    });
+  }
+
+  openResendRegistrationEmailDialog(user: UserRow) {
+    const resendRegistrationEmailDialog = this.dialog.open(ResendRegistrationEmailComponent);
+
+    resendRegistrationEmailDialog.afterClosed().subscribe((result) => {
+      if (result) {
+        this.resendRegistrationEmail(user.id);
       }
     });
   }
@@ -94,22 +116,33 @@ export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
     );
   }
 
+  resendRegistrationEmail(userId: string) {
+    this.authService.resendRegistrationEmail(userId).subscribe({
+      next: () => {
+        console.log('Successful resending');
+      },
+      error: () => {
+        console.log('Error resending');
+      },
+    });
+  }
+
   isMe = (u: UserRow) => this.myId === u.id;
 
   getBadgeColor = (n: number) => (n === 0 ? 'warn' : 'primary');
 
   private deleteUser(user: UserRow) {
-    this.userSrv.delete(user.id).subscribe(
-      async () => {
+    this.userSrv.delete(user.id).subscribe({
+      next: async () => {
         const newUsers = this.models.filter((u) => u.id !== user.id);
         this.initTable(newUsers);
         this.snacker.showSuccessful(`El usuario ${user.fullname} ha sido eliminado.`);
       },
-      async (error) => {
+      error: async (error) => {
         const message = this.errorMessage.get(error);
         this.snacker.showError(message);
-      }
-    );
+      },
+    });
   }
 
   private removeSuperAdmin(users: User[]) {

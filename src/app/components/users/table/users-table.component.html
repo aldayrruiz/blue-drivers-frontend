@@ -117,6 +117,23 @@
         </td>
       </ng-container>
 
+      <!-- Change credentials -->
+      <ng-container matColumnDef="resendRegistrationEmail">
+        <th class="button-table" mat-header-cell *matHeaderCellDef></th>
+        <td class="button-table" mat-cell *matCellDef="let user">
+          <span *ngIf="user.role === 'USER'">
+            <button
+              mat-icon-button
+              color="dark"
+              aria-label="Edit user icon"
+              (click)="openResendRegistrationEmailDialog(user)"
+            >
+              <mat-icon aria-hidden="false" aria-label="send email">email</mat-icon>
+            </button>
+          </span>
+        </td>
+      </ng-container>
+
       <!-- Delete Column -->
       <ng-container matColumnDef="delete">
         <th class="button-table" mat-header-cell *matHeaderCellDef></th>

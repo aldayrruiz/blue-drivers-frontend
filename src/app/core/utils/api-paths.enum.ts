@@ -10,6 +10,7 @@ export enum API {
   login = '/api/login',
   register = '/api/register',
   users = '/api/users',
+  auth = '/api/auth',
   lastPositions = '/api/positions',
   reservationReports = '/api/reservations/reports',
   monthlyReports = '/api/reports',

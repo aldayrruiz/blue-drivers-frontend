@@ -24,7 +24,7 @@
       <!-- Mes Column -->
       <ng-container matColumnDef="month">
         <th mat-header-cell *matHeaderCellDef>Mes</th>
-        <td mat-cell *matCellDef="let report">{{ report.month }}</td>
+        <td mat-cell *matCellDef="let report">{{ report.month | monthLabel }}</td>
       </ng-container>
 
       <!-- Año Column -->
