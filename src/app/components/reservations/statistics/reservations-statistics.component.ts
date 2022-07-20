@@ -1,6 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { fuelLabel, Position, ReportSummary, Reservation, User, Vehicle } from 'src/app/core/models';
+import {
+  fuelLabel,
+  Position,
+  ReportSummary,
+  Reservation,
+  User,
+  Vehicle,
+} from 'src/app/core/models';
 import {
   FuelPriceCalculatorFactory,
   ReportService,
@@ -100,8 +107,9 @@ export class ReservationsStatisticsComponent implements OnInit {
   }
 
   private loadDrivers() {
-    const bleIds = new Set(this.positions.map(position => position.attributes?.beacon1Instance?.toUpperCase()));
-    this.drivers = this.users.filter(user => bleIds.has(user.ble_user_id));
+    const positions = this.positions.filter((p) => p.speed > 0 && p.attributes.beacon1Rssi > -66);
+    const bleIds = new Set(positions.map((p) => p.attributes?.beacon1Instance?.toUpperCase()));
+    this.drivers = this.users.filter((user) => bleIds.has(user.ble_user_id));
   }
 
   private loadAntMap() {
