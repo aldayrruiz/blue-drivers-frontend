@@ -53,34 +53,38 @@ export class ReservationsStatisticsComponent implements OnInit {
   fetchData() {
     this.route.params.subscribe(async (params) => {
       const reservationId = params.reservationId;
-      const response = await this.promisesToFetch(reservationId);
-      const [reservation, summary, positions] = response;
-      this.serializeSummary(summary);
-      this.positions = positions;
-      this.reservation = reservation;
-      this.loadAntMap();
-      this.loadDrivers();
-      this.loadDataForUI();
+      this.fetchReservation(reservationId);
+      this.fetchReportSummary(reservationId);
+      this.fetchPositions(reservationId);
     });
   }
 
-  private async promisesToFetch(reservationId: string) {
-    const reservation = this.fetchReservation(reservationId);
-    const reportSummary = this.fetchReportSummary(reservationId);
-    const positions = this.fetchPositions(reservationId);
-    return Promise.all([reservation, reportSummary, positions]);
-  }
-
   private fetchReservation(reservationId: string) {
-    return this.reservationSrv.get(reservationId).toPromise();
+    return this.reservationSrv.get(reservationId).subscribe({
+      next: (reservation) => {
+        this.reservation = reservation;
+        this.loadDataForUI();
+      },
+    });
   }
 
   private fetchReportSummary(reservationId: string) {
-    return this.reportSrv.getReservationSummary(reservationId).toPromise();
+    return this.reportSrv.getReservationSummary(reservationId).subscribe({
+      next: (summary) => {
+        this.summary = summary;
+        this.serializeSummary(this.summary);
+      },
+    });
   }
 
   private fetchPositions(reservationId: string) {
-    return this.reportSrv.getReservationPositions(reservationId).toPromise();
+    return this.reportSrv.getReservationPositions(reservationId).subscribe({
+      next: (positions) => {
+        this.positions = positions;
+        this.loadAntMap();
+        this.loadDrivers();
+      },
+    });
   }
 
   private loadDataForUI() {
