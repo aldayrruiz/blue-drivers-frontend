@@ -1,6 +1,7 @@
 export * from './incidents/incident.resolver';
 export * from './incidents/incidents.resolver';
 export * from './positions/positions.resolver';
+export * from './reservations/reservation.resolver';
 export * from './reservations/reservations.resolver';
 export * from './tickets/ticket.resolver';
 export * from './tickets/tickets.resolver';

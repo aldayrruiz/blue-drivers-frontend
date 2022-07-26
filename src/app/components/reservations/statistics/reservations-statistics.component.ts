@@ -10,9 +10,9 @@ import {
 } from 'src/app/core/models';
 import {
   FuelPriceCalculatorFactory,
+  PositionService,
   ReportService,
   ReportSummarySerializer,
-  ReservationService,
   SnackerService,
   TimeReservedService,
 } from 'src/app/core/services';
@@ -39,7 +39,7 @@ export class ReservationsStatisticsComponent implements OnInit {
     private readonly priceFuelCalculatorFactory: FuelPriceCalculatorFactory,
     private readonly reportSerializer: ReportSummarySerializer,
     private readonly timeReservedSrv: TimeReservedService,
-    private readonly reservationSrv: ReservationService,
+    private readonly positionsSrv: PositionService,
     private readonly reportSrv: ReportService,
     private readonly snacker: SnackerService,
     private readonly route: ActivatedRoute
@@ -51,34 +51,21 @@ export class ReservationsStatisticsComponent implements OnInit {
   }
 
   fetchData() {
-    this.route.params.subscribe(async (params) => {
-      const reservationId = params.reservationId;
-      this.fetchReservation(reservationId);
-      this.fetchReportSummary(reservationId);
-      this.fetchPositions(reservationId);
-    });
-  }
-
-  private fetchReservation(reservationId: string) {
-    return this.reservationSrv.get(reservationId).subscribe({
-      next: (reservation) => {
-        this.reservation = reservation;
-        this.loadDataForUI();
-      },
-    });
+    this.route.params.subscribe(() => this.fetchReportSummary(this.reservation.id));
   }
 
   private fetchReportSummary(reservationId: string) {
     return this.reportSrv.getReservationSummary(reservationId).subscribe({
       next: (summary) => {
-        this.summary = summary;
-        this.serializeSummary(this.summary);
+        this.serializeSummary(summary);
+        this.loadDataForUI();
+        this.fetchPositions(summary.realStartTime, summary.realEndTime);
       },
     });
   }
 
-  private fetchPositions(reservationId: string) {
-    return this.reportSrv.getReservationPositions(reservationId).subscribe({
+  private fetchPositions(start: string, end: string) {
+    return this.positionsSrv.getFromVehicle(this.vehicle.id, start, end).subscribe({
       next: (positions) => {
         this.positions = positions;
         this.loadAntMap();
@@ -88,9 +75,6 @@ export class ReservationsStatisticsComponent implements OnInit {
   }
 
   private loadDataForUI() {
-    this.vehicle = this.reservation.vehicle;
-    this.fuel = fuelLabel(this.vehicle.fuel);
-    this.setTimeReserved();
     this.calculatePriceFuelConsumed();
   }
 
@@ -132,7 +116,12 @@ export class ReservationsStatisticsComponent implements OnInit {
 
   private resolve(): void {
     this.route.data.subscribe((response) => {
+      // Save and load UI reservation data
       this.users = response.users;
+      this.reservation = response.reservation;
+      this.vehicle = this.reservation.vehicle;
+      this.fuel = fuelLabel(this.vehicle.fuel);
+      this.setTimeReserved();
     });
   }
 }
