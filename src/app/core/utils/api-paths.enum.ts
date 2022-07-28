@@ -11,7 +11,7 @@ export enum API {
   register = '/api/register',
   users = '/api/users',
   auth = '/api/auth',
-  lastPositions = '/api/positions',
+  positions = '/api/positions',
   reservationReports = '/api/reservations/reports',
   monthlyReports = '/api/reports',
 }

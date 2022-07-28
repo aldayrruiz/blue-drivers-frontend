@@ -11,6 +11,6 @@ export class PositionsResolver implements Resolve<Position[]> {
   constructor(private positionSrv: PositionService) {}
 
   resolve(): Observable<Position[]> {
-    return this.positionSrv.getAll();
+    return this.positionSrv.lastKnown();
   }
 }

@@ -9,7 +9,7 @@ import { Position } from '../../models/positions/position.model';
   providedIn: 'root',
 })
 export class PositionService {
-  private positionUrl = `${environment.fleetBaseUrl}${API.lastPositions}`;
+  private positionUrl = `${environment.fleetBaseUrl}${API.positions}`;
 
   constructor(private http: HttpClient) {}
 
@@ -17,20 +17,21 @@ export class PositionService {
    *
    * @returns
    */
-  getAll(): Observable<Position[]> {
+  lastKnown(start?: string, end?: string): Observable<Position[]> {
     const path = `${this.positionUrl}/`;
-    return this.http.get<Position[]>(path);
+    const options = { params: new HttpParams().set('start', start).set('end', end) };
+    return this.http.get<Position[]>(path, options);
   }
 
   /**
    *
    * @returns
    */
-  getFromVehicle(vehicleId: string, start: string, end: string): Observable<Position[]> {
-    const path = `${this.positionUrl}/vehicle/`;
-    const options = {
-      params: new HttpParams().set('vehicleId', vehicleId).set('start', start).set('end', end),
-    };
+  route(vehicleIds: string[], start: string, end: string): Observable<Position[]> {
+    const path = `${this.positionUrl}/route/`;
+    let params = new HttpParams();
+    vehicleIds.forEach((vehicleId) => (params = params.append('vehicleId', vehicleId)));
+    const options = { params: params.set('start', start).set('end', end) };
     return this.http.get<Position[]>(path, options);
   }
 }

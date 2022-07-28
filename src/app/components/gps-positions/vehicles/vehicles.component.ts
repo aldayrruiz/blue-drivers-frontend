@@ -1,21 +1,20 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  LOCALE_ID,
-  OnInit,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, IsActiveMatchOptions, Router } from '@angular/router';
-import { formatDistanceToNowStrict } from 'date-fns';
+import { formatDistanceToNowStrict, sub } from 'date-fns';
 import es from 'date-fns/locale/es';
 import * as L from 'leaflet';
 import { Subject } from 'rxjs';
-import { Position, Vehicle } from 'src/app/core/models';
+import { Position, User, Vehicle } from 'src/app/core/models';
 import { fromKnotsToKph, PositionService } from 'src/app/core/services';
 import { VehicleIcon, VehicleIconProvider } from 'src/app/core/services/view/vehicle-icon.service';
 import { MapConfiguration } from 'src/app/core/utils/leaflet/map-configuration';
 import { MapCreator } from 'src/app/core/utils/leaflet/map-creator';
+import {
+  getIntensitiesByPassenger,
+  getPassengersMedianIsGreaterThanLimit,
+  onlyBeaconPositions,
+  speedGreaterThanZero,
+} from 'src/app/core/utils/occupants/main';
 
 interface FeatureValue {
   feature: string;
@@ -41,9 +40,11 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
   positionMarkersSubject = new Subject<MyMarker[]>();
   positionMarkers$ = this.positionMarkersSubject.asObservable();
   displayedColumns = ['feature', 'value'];
+  passengersByVehicle = new Map<Vehicle, User[]>();
 
   private positionMarkers: MyMarker[] = [];
   private positions: Position[];
+  private users: User[];
   private vehicles: Vehicle[];
   private map: L.Map;
   private icons: VehicleIcon[];
@@ -52,7 +53,7 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     private readonly vehicleIconProvider: VehicleIconProvider,
     private readonly positionSrv: PositionService,
     private readonly route: ActivatedRoute,
-    private readonly router: Router,
+    private readonly router: Router
   ) {
     this.icons = this.vehicleIconProvider.getIcons();
   }
@@ -61,6 +62,7 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     this.listenForNewPositions();
     this.resolveData();
     this.initMap();
+    this.keepUpdatingPassengers();
   }
 
   ngAfterViewInit(): void {
@@ -127,6 +129,7 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
 
   private resolveData(): void {
     this.route.data.subscribe((data) => {
+      this.users = data.users;
       this.vehicles = data.vehicles;
       this.positions = data.positions;
       // this.positions = this.getFakePositions();
@@ -138,7 +141,6 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
   }
 
   private keepUpdatingMarkers(timeReset: number): void {
-
     if (!this.isThisPageActive()) {
       // Stop sending request to server to get new positions.
       return;
@@ -147,7 +149,7 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     const positionMarkers: MyMarker[] = [];
 
     setTimeout(() => {
-      this.positionSrv.getAll().subscribe((positions) => {
+      this.positionSrv.lastKnown().subscribe((positions) => {
         this.positions = positions;
         // this.positions = this.getFakePositions();
         this.positionMarkers.forEach((positionMarker) => {
@@ -232,5 +234,41 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     };
     const isActive = this.router.isActive('/admin/positions/vehicles', options);
     return isActive;
+  }
+
+  private keepUpdatingPassengers() {
+    if (!this.isThisPageActive()) {
+      // Stop sending request to server to get new positions.
+      return;
+    }
+
+    this.updatePassengers();
+    setTimeout(() => {
+      this.keepUpdatingPassengers();
+    }, 300000);
+  }
+
+  private updatePassengers() {
+    const vehicleIds = this.vehicles.map((vehicle) => vehicle.id);
+    const now = new Date();
+    const start = sub(now, { minutes: 20 });
+    this.positionSrv.route(vehicleIds, start.toJSON(), now.toJSON()).subscribe((allPositions) => {
+      const passengersByVehicle = new Map<Vehicle, User[]>();
+      this.vehicles.forEach((vehicle) => {
+        const positions = allPositions.filter(
+          (position) =>
+            onlyBeaconPositions &&
+            speedGreaterThanZero &&
+            position.deviceId === vehicle.gps_device.id
+        );
+
+        const intensitiesByPassenger = getIntensitiesByPassenger(positions, this.users);
+        const passengers = getPassengersMedianIsGreaterThanLimit(intensitiesByPassenger, -70);
+        passengersByVehicle.set(vehicle, passengers);
+      });
+
+      this.passengersByVehicle = passengersByVehicle;
+      this.positionMarkersSubject.next(this.positionMarkers);
+    });
   }
 }

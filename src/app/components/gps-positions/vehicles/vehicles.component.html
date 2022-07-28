@@ -36,6 +36,14 @@
               </div>
             </div>
           </div>
+          <mat-chip-list>
+            <mat-chip
+              color="warn"
+              *ngFor="let passenger of passengersByVehicle.get(positionMarker?.vehicle)"
+            >
+              {{ passenger.fullname }}
+            </mat-chip>
+          </mat-chip-list>
         </mat-card-content>
       </mat-card>
     </mat-list>

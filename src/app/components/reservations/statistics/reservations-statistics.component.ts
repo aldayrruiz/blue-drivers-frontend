@@ -16,6 +16,11 @@ import {
   SnackerService,
   TimeReservedService,
 } from 'src/app/core/services';
+import {
+  getIntensitiesByPassenger,
+  getPassengersMedianIsGreaterThanLimit,
+  onlyBeaconPositions,
+} from 'src/app/core/utils/occupants/main';
 import { AntMapComponent } from '../../ant-map/ant-map.component';
 
 @Component({
@@ -27,7 +32,7 @@ export class ReservationsStatisticsComponent implements OnInit {
   @ViewChild(AntMapComponent) antMap: AntMapComponent;
   vehicle: Vehicle;
   users: User[];
-  drivers: User[];
+  passengers: User[];
   summary: ReportSummary;
   positions: Position[] = [];
   reservation: Reservation;
@@ -65,11 +70,11 @@ export class ReservationsStatisticsComponent implements OnInit {
   }
 
   private fetchPositions(start: string, end: string) {
-    return this.positionsSrv.getFromVehicle(this.vehicle.id, start, end).subscribe({
+    return this.positionsSrv.route([this.vehicle.id], start, end).subscribe({
       next: (positions) => {
         this.positions = positions;
         this.loadAntMap();
-        this.loadDrivers();
+        this.loadOccupants();
       },
     });
   }
@@ -94,10 +99,12 @@ export class ReservationsStatisticsComponent implements OnInit {
     this.timeReserved = this.timeReservedSrv.getFromReservation(this.reservation);
   }
 
-  private loadDrivers() {
-    const positions = this.positions.filter((p) => p.speed > 0 && p.attributes.beacon1Rssi > -66);
-    const bleIds = new Set(positions.map((p) => p.attributes?.beacon1Instance?.toUpperCase()));
-    this.drivers = this.users.filter((user) => bleIds.has(user.ble_user_id));
+  private loadOccupants() {
+    // Filtrar las posiciones que tienen información de beacons
+    const positions = this.positions.filter(onlyBeaconPositions);
+    const intensitiesByPassenger = getIntensitiesByPassenger(positions, this.users);
+    const passengers = getPassengersMedianIsGreaterThanLimit(intensitiesByPassenger, -70);
+    this.passengers = passengers;
   }
 
   private loadAntMap() {
