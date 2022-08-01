@@ -53,10 +53,10 @@ export class ToolbarComponent implements OnInit {
   ];
 
   constructor(
-    private readonly assetsService: AssetsService,
-    private readonly loginService: LoginService,
-    private readonly fleetRouter: FleetRouter,
-    private readonly router: Router
+    private assetsService: AssetsService,
+    private loginService: LoginService,
+    private fleetRouter: FleetRouter,
+    private router: Router
   ) {}
 
   ngOnInit(): void {

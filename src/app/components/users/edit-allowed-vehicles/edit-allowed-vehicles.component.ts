@@ -21,10 +21,10 @@ export class EditAllowedVehiclesComponent implements OnInit {
   sending = false;
 
   constructor(
-    private readonly errorMessage: ErrorMessageService,
-    private readonly snacker: SnackerService,
-    private readonly route: ActivatedRoute,
-    private readonly userSrv: UserService
+    private errorMessage: ErrorMessageService,
+    private snacker: SnackerService,
+    private route: ActivatedRoute,
+    private userSrv: UserService
   ) {}
 
   ngOnInit(): void {

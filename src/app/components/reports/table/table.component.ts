@@ -20,7 +20,7 @@ export class ReportsTableComponent
 {
   columns = ['month', 'year', 'download'];
 
-  constructor(private readonly monthlyReportService: MonthlyReportService) {
+  constructor(private monthlyReportService: MonthlyReportService) {
     super();
   }
 

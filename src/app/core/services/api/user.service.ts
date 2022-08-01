@@ -12,7 +12,7 @@ export class UserService {
   private registerUrl = `${environment.fleetBaseUrl}${API.register}`;
   private userUrl = `${environment.fleetBaseUrl}${API.users}`;
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
   /**
    * Get users info

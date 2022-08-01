@@ -14,8 +14,8 @@ export class IncidentDetailsComponent implements OnInit {
   dateTimeFormat = PipeDates.dateTimeFormat;
 
   constructor(
-    private readonly incidentSrv: IncidentService,
-    private readonly route: ActivatedRoute
+    private incidentSrv: IncidentService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {

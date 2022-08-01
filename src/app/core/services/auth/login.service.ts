@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
@@ -18,7 +19,7 @@ export class LoginService {
   token = '';
   userId = '';
 
-  constructor(private readonly storage: LocalStorage, private readonly http: HttpClient) {
+  constructor(private storage: LocalStorage, private http: HttpClient) {
     this.loadToken();
   }
 
@@ -37,9 +38,10 @@ export class LoginService {
       // data: {token: "the token", user_id: "..."}
       map((data: any) => {
         if (data && data?.role !== Role.USER) {
-          const { token, user_id } = data;
+          const { token, user_id, tenant } = data;
           this.storeToken(token);
           this.storeUserId(user_id);
+          this.storeTenantId(tenant);
           this.markAsAuthenticated();
         }
         return data;
@@ -65,6 +67,10 @@ export class LoginService {
   private storeUserId(id: string) {
     this.userId = id;
     this.storage.setUserId(id);
+  }
+
+  private storeTenantId(tenant: string) {
+    this.storage.setTenant(tenant);
   }
 
   private markAsAuthenticated() {

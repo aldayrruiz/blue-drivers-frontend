@@ -41,13 +41,13 @@ export class ReservationsStatisticsComponent implements OnInit {
   timeReserved: string;
 
   constructor(
-    private readonly priceFuelCalculatorFactory: FuelPriceCalculatorFactory,
-    private readonly reportSerializer: ReportSummarySerializer,
-    private readonly timeReservedSrv: TimeReservedService,
-    private readonly positionsSrv: PositionService,
-    private readonly reportSrv: ReportService,
-    private readonly snacker: SnackerService,
-    private readonly route: ActivatedRoute
+    private priceFuelCalculatorFactory: FuelPriceCalculatorFactory,
+    private reportSerializer: ReportSummarySerializer,
+    private timeReservedSrv: TimeReservedService,
+    private positionsSrv: PositionService,
+    private reportSrv: ReportService,
+    private snacker: SnackerService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {

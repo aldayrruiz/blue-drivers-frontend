@@ -22,11 +22,11 @@ export class CreateInsuranceCompanyComponent implements OnInit {
   sending = false;
 
   constructor(
-    private readonly insuranceCompanySrv: InsuranceCompanyService,
-    private readonly errorMessage: ErrorMessageService,
-    private readonly formBuilder: FormBuilder,
-    private readonly snacker: SnackerService,
-    private readonly router: FleetRouter
+    private insuranceCompanySrv: InsuranceCompanyService,
+    private errorMessage: ErrorMessageService,
+    private formBuilder: FormBuilder,
+    private snacker: SnackerService,
+    private router: FleetRouter
   ) {}
 
   ngOnInit(): void {

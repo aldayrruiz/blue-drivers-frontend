@@ -34,13 +34,13 @@ export class CreateVehicleComponent implements OnInit {
   submitted = false;
 
   constructor(
-    private readonly vehicleIconProvider: VehicleIconProvider,
-    private readonly errorMessage: ErrorMessageService,
-    private readonly vehicleSrv: VehicleService,
-    private readonly fleetRouter: FleetRouter,
-    private readonly snacker: SnackerService,
-    private readonly route: ActivatedRoute,
-    private readonly fb: FormBuilder
+    private vehicleIconProvider: VehicleIconProvider,
+    private errorMessage: ErrorMessageService,
+    private vehicleSrv: VehicleService,
+    private fleetRouter: FleetRouter,
+    private snacker: SnackerService,
+    private route: ActivatedRoute,
+    private fb: FormBuilder
   ) {
     this.icons = this.vehicleIconProvider.getIcons();
     this.iconSelected = this.icons[0]; // Pre-select first icon

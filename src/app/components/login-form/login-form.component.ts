@@ -29,13 +29,13 @@ export class LoginFormComponent implements OnInit {
   sending = false;
 
   constructor(
-    private readonly errorMessage: ErrorMessageService,
-    private readonly tenantService: TenantService,
-    private readonly assetsService: AssetsService,
-    private readonly loginService: LoginService,
-    private readonly formBuilder: FormBuilder,
-    private readonly snacker: SnackerService,
-    private readonly fleetRouter: FleetRouter
+    private errorMessage: ErrorMessageService,
+    private tenantService: TenantService,
+    private assetsService: AssetsService,
+    private loginService: LoginService,
+    private formBuilder: FormBuilder,
+    private snacker: SnackerService,
+    private fleetRouter: FleetRouter
   ) {
     this.blueDriversLogo = this.assetsService.getUrl('background/icon.png');
   }

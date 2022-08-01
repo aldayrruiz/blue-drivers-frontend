@@ -25,12 +25,12 @@ export class EditUserComponent implements OnInit {
   sending = false;
 
   constructor(
-    private readonly userSrv: UserService,
-    private readonly errorMessage: ErrorMessageService,
-    private readonly formBuilder: FormBuilder,
-    private readonly snacker: SnackerService,
-    private readonly route: ActivatedRoute,
-    private readonly router: FleetRouter
+    private userSrv: UserService,
+    private errorMessage: ErrorMessageService,
+    private formBuilder: FormBuilder,
+    private snacker: SnackerService,
+    private route: ActivatedRoute,
+    private router: FleetRouter
   ) {}
 
   get bleUserId(): AbstractControl {

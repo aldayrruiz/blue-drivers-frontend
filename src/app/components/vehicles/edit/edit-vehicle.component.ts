@@ -36,13 +36,13 @@ export class EditVehicleComponent implements OnInit {
   sending = false;
 
   constructor(
-    private readonly vehicleIconProvider: VehicleIconProvider,
-    private readonly errorMessage: ErrorMessageService,
-    private readonly vehicleSrv: VehicleService,
-    private readonly formBuilder: FormBuilder,
-    private readonly snacker: SnackerService,
-    private readonly route: ActivatedRoute,
-    private readonly router: FleetRouter
+    private vehicleIconProvider: VehicleIconProvider,
+    private errorMessage: ErrorMessageService,
+    private vehicleSrv: VehicleService,
+    private formBuilder: FormBuilder,
+    private snacker: SnackerService,
+    private route: ActivatedRoute,
+    private router: FleetRouter
   ) {
     this.icons = this.vehicleIconProvider.getIcons();
   }

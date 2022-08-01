@@ -42,10 +42,10 @@ export class ReservationsTableComponent extends BaseTableComponent<Reservation, 
   datePicker = new FormControl();
 
   constructor(
-    private readonly timeReservedSrv: TimeReservedService,
-    private readonly reservationsSrv: ReservationService,
-    private readonly snacker: SnackerService,
-    private readonly ghost: FleetRouter
+    private timeReservedSrv: TimeReservedService,
+    private reservationsSrv: ReservationService,
+    private snacker: SnackerService,
+    private ghost: FleetRouter
   ) {
     super();
   }

@@ -19,7 +19,7 @@ const blue = { label: 'Azul', src: 'blue-vehicle.png' };
 export class VehicleIconProvider {
   private basePath = 'icon/vehicles/';
 
-  constructor(private readonly assetsService: AssetsService) {}
+  constructor(private assetsService: AssetsService) {}
 
   /**
    *

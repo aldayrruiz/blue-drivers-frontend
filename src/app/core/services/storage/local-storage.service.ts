@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 
 export const USER_TOKEN = 'token';
 export const USER_ID = 'user_id';
+export const USER_TENANT = 'tenant';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class LocalStorage {
   constructor() {}
 
@@ -17,6 +16,10 @@ export class LocalStorage {
     this.set(USER_ID, id);
   }
 
+  setTenant(tenant: string) {
+    this.set(USER_TENANT, tenant);
+  }
+
   getUserToken() {
     return this.get(USER_TOKEN);
   }
@@ -25,9 +28,14 @@ export class LocalStorage {
     return this.get(USER_ID);
   }
 
+  getTenant() {
+    return this.get(USER_TENANT);
+  }
+
   removeAll() {
     this.remove(USER_TOKEN);
     this.remove(USER_ID);
+    this.remove(USER_TENANT);
   }
 
   private set(key: string, value: string): void {

@@ -24,12 +24,12 @@ export class EditInsuranceCompanyComponent implements OnInit {
   sending = false;
 
   constructor(
-    private readonly insuranceCompanySrv: InsuranceCompanyService,
-    private readonly errorMessage: ErrorMessageService,
-    private readonly formBuilder: FormBuilder,
-    private readonly snacker: SnackerService,
-    private readonly route: ActivatedRoute,
-    private readonly router: FleetRouter
+    private insuranceCompanySrv: InsuranceCompanyService,
+    private errorMessage: ErrorMessageService,
+    private formBuilder: FormBuilder,
+    private snacker: SnackerService,
+    private route: ActivatedRoute,
+    private router: FleetRouter
   ) {}
 
   ngOnInit(): void {

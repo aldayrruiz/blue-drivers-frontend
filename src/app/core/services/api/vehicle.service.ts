@@ -11,7 +11,7 @@ import { API } from '../../utils/api-paths.enum';
 export class VehicleService {
   private vehicleUrl = `${environment.fleetBaseUrl}${API.vehicles}`;
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
   create(vehicleType: CreateVehicle): Observable<CreateVehicle> {
     const path = `${this.vehicleUrl}/`;

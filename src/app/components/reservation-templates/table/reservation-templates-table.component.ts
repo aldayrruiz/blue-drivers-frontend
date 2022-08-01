@@ -27,10 +27,10 @@ export class ReservationTemplatesTableComponent
   columns = ['title', 'edit', 'delete'];
 
   constructor(
-    private readonly reservationTemplateSrv: ReservationTemplateService,
-    private readonly errorMessage: ErrorMessageService,
-    private readonly snacker: SnackerService,
-    private readonly dialog: MatDialog
+    private reservationTemplateSrv: ReservationTemplateService,
+    private errorMessage: ErrorMessageService,
+    private snacker: SnackerService,
+    private dialog: MatDialog
   ) {
     super();
   }
