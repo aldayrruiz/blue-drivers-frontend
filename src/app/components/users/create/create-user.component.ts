@@ -12,9 +12,9 @@ import {
 } from 'src/app/core/services';
 import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
 import {
-  bleUserValidators,
-  emailValidators,
-  fullnameValidators,
+  userBleValidators,
+  userEmailValidators,
+  userFullnameValidators,
 } from 'src/app/core/validators/user';
 
 @Component({
@@ -50,9 +50,9 @@ export class CreateUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.credentials = this.formBuilder.group({
-      email: ['', emailValidators],
-      fullname: ['', fullnameValidators],
-      bleUserId: ['', bleUserValidators],
+      email: ['', userEmailValidators],
+      fullname: ['', userFullnameValidators],
+      bleUserId: ['', userBleValidators],
     });
   }
 

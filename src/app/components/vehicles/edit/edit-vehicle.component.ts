@@ -13,12 +13,12 @@ import {
 import { VehicleIcon, VehicleIconProvider } from 'src/app/core/services/view/vehicle-icon.service';
 import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
 import {
-  brandValidators,
-  fuelValidators,
-  imeiValidators,
-  modelValidators,
-  numberPlateValidators,
-  policyNumberValidators,
+  vehicleBrandValidators,
+  vehicleFuelValidators,
+  vehicleImeiValidators,
+  vehicleModelValidators,
+  vehicleNumberPlateValidators,
+  vehiclePolicyNumberValidators,
 } from 'src/app/core/validators/vehicle';
 
 @Component({
@@ -117,14 +117,14 @@ export class EditVehicleComponent implements OnInit {
 
   private setFormGroup(vehicle: Vehicle) {
     this.formGroup = this.formBuilder.group({
-      brand: [vehicle.brand, brandValidators],
-      model: [vehicle.model, modelValidators],
-      numberPlate: [vehicle.number_plate, numberPlateValidators],
-      imei: [vehicle.gps_device.imei, imeiValidators],
+      brand: [vehicle.brand, vehicleBrandValidators],
+      model: [vehicle.model, vehicleModelValidators],
+      numberPlate: [vehicle.number_plate, vehicleNumberPlateValidators],
+      imei: [vehicle.gps_device.imei, vehicleImeiValidators],
       isDisabled: [vehicle.is_disabled],
-      fuel: [vehicle.fuel, fuelValidators],
+      fuel: [vehicle.fuel, vehicleFuelValidators],
       insuranceCompany: [vehicle?.insurance_company?.id, []],
-      policyNumber: [vehicle.policy_number, policyNumberValidators],
+      policyNumber: [vehicle.policy_number, vehiclePolicyNumberValidators],
       icon: [this.iconSelected, []],
     });
   }

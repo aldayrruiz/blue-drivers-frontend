@@ -12,12 +12,12 @@ import {
 import { VehicleIcon, VehicleIconProvider } from 'src/app/core/services/view/vehicle-icon.service';
 import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
 import {
-  brandValidators,
-  fuelValidators,
-  imeiValidators,
-  modelValidators,
-  numberPlateValidators,
-  policyNumberValidators,
+  vehicleBrandValidators,
+  vehicleFuelValidators,
+  vehicleImeiValidators,
+  vehicleModelValidators,
+  vehicleNumberPlateValidators,
+  vehiclePolicyNumberValidators,
 } from 'src/app/core/validators/vehicle';
 
 @Component({
@@ -85,13 +85,13 @@ export class CreateVehicleComponent implements OnInit {
 
   createFormGroup(): void {
     this.formGroup = this.fb.group({
-      brand: ['', brandValidators],
-      model: ['', modelValidators],
-      numberPlate: ['', numberPlateValidators],
-      imei: ['', imeiValidators],
-      fuel: [VehicleFuel.DIESEL, fuelValidators],
+      brand: ['', vehicleBrandValidators],
+      model: ['', vehicleModelValidators],
+      numberPlate: ['', vehicleNumberPlateValidators],
+      imei: ['', vehicleImeiValidators],
+      fuel: [VehicleFuel.DIESEL, vehicleFuelValidators],
       insuranceCompany: [],
-      policyNumber: ['', policyNumberValidators],
+      policyNumber: ['', vehiclePolicyNumberValidators],
       icon: [this.iconSelected, []], // Pre-select first icon
     });
   }

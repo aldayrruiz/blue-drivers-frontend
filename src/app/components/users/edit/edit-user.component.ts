@@ -11,7 +11,7 @@ import {
   UserService,
 } from 'src/app/core/services';
 import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
-import { bleUserValidators } from 'src/app/core/validators/user';
+import { userBleValidators } from 'src/app/core/validators/user';
 
 @Component({
   selector: 'app-edit-user',
@@ -69,7 +69,7 @@ export class EditUserComponent implements OnInit {
 
   private setFormGroup(user: User) {
     this.formGroup = this.formBuilder.group({
-      bleUserId: [user.ble_user_id, bleUserValidators],
+      bleUserId: [user.ble_user_id, userBleValidators],
     });
   }
 

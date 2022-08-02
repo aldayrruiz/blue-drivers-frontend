@@ -11,6 +11,7 @@ import { LoginFormComponent } from './login-form/login-form.component';
 import { ReportsComponentsModule } from './reports/reports-components.module';
 import { ReservationTemplatesComponentsModule } from './reservation-templates/reservation-templates.module';
 import { ReservationsComponentsModule } from './reservations/reservations.table.module';
+import { TenantsComponentsModule } from './tenants/tenants-components.module';
 import { TicketsComponentsModule } from './tickets/tickets.table.module';
 import { ToolbarModule } from './toolbar/toolbar.module';
 import { UsersComponentsModule } from './users/users-components.module';
@@ -41,6 +42,7 @@ import { VehiclesComponentsModule } from './vehicles/vehicles-components.module'
     GNSSComponentsModule,
     ReservationTemplatesComponentsModule,
     ReportsComponentsModule,
+    TenantsComponentsModule,
   ],
 })
 export class SharedModule {}

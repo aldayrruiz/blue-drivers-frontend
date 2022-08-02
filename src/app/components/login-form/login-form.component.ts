@@ -11,7 +11,7 @@ import {
   TenantService,
 } from 'src/app/core/services';
 import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
-import { emailValidators, passwordValidators } from 'src/app/core/validators/user';
+import { userEmailValidators, userPasswordValidators } from 'src/app/core/validators/user';
 
 @Component({
   selector: 'app-login-form',
@@ -50,8 +50,8 @@ export class LoginFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.credentials = this.formBuilder.group({
-      email: ['', emailValidators],
-      password: ['', passwordValidators],
+      email: ['', userEmailValidators],
+      password: ['', userPasswordValidators],
       tenant: [],
     });
   }
