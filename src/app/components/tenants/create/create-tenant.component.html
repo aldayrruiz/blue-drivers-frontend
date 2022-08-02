@@ -1,1 +1,88 @@
-<p>create-tenant works!</p>
+<button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
+  {{ !isLinear ? 'Enable linear mode' : 'Disable linear mode' }}
+</button>
+<mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
+  <!-- * TENANT FORM -->
+  <mat-step [stepControl]="tenantForm">
+    <form [formGroup]="tenantForm">
+      <ng-template matStepLabel>Crear site</ng-template>
+
+      <!-- Tenant name -->
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Nombre del site</mat-label>
+        <input type="text" matInput [formControl]="tenantName" [errorStateMatcher]="matcher" />
+        <mat-error *ngIf="tenantName.hasError('required')">
+          El nombre del site es <strong>obligatorio</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Tenant name -->
+      <mat-form-field>
+        <ngx-mat-file-input
+          formControlName="tenantLogo"
+          placeholder="Basic Input"
+        ></ngx-mat-file-input>
+        <mat-icon matSuffix>folder</mat-icon>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext>Siguiente</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <!-- * ADMIN FORM -->
+  <mat-step [stepControl]="dietForm" label="Crear administrador">
+    <form [formGroup]="dietForm">
+      <!-- Admin email -->
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Email</mat-label>
+        <div>
+          <input type="email" matInput [formControl]="adminEmail" [errorStateMatcher]="matcher" />
+        </div>
+        <mat-error *ngIf="adminEmail.hasError('email') && !adminEmail.hasError('required')">
+          Por favor, introduzca un email correcto
+        </mat-error>
+        <mat-error *ngIf="adminEmail.hasError('required')">
+          Email es <strong>obligatorio</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Admin fullname -->
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Nombre y apellidos</mat-label>
+        <input
+          type="text"
+          matInput
+          [formControl]="adminFullname"
+          placeholder="Antonio Ruiz"
+          [errorStateMatcher]="matcher"
+        />
+        <mat-error *ngIf="adminFullname.hasError('required')">
+          Nombre y apellidos es <strong>obligatorio</strong>
+        </mat-error>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Atrás</button>
+        <button mat-button matStepperNext>Siguiente</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <!-- * DIET FORM -->
+  <mat-step [stepControl]="dietForm" label="Configurar dietas">
+    <form [formGroup]="dietForm">
+      <div>
+        <button mat-button matStepperPrevious>Atrás</button>
+        <button mat-button matStepperNext>Siguiente</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <p>You are now done.</p>
+    <div>
+      <button mat-button matStepperPrevious>Atrás</button>
+      <button mat-button (click)="stepper.reset()">Reiniciar</button>
+    </div>
+  </mat-step>
+</mat-stepper>

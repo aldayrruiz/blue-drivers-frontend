@@ -50,6 +50,10 @@ export class ToolbarComponent implements OnInit {
       label: 'Informes mensuales',
       link: 'reports',
     },
+    {
+      label: 'Crear sites',
+      link: 'tenants',
+    },
   ];
 
   constructor(

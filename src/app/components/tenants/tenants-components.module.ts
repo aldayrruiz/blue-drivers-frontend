@@ -5,10 +5,13 @@ import { CustomPipesModule } from 'src/app/core/pipes/custom-pipes.module';
 import { TenantsRoutingModule } from 'src/app/pages/tenants/tenants-routing.module';
 import { MyAngularMaterialModule } from '../../core/modules/angular-material.module';
 import { CreateTenantComponent } from './create/create-tenant.component';
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
+
 
 @NgModule({
   declarations: [CreateTenantComponent],
   imports: [
+    NgxMatFileInputModule,
     CommonModule,
     TenantsRoutingModule /* This component is using users routing /admin/tenants */,
     MyAngularMaterialModule,
