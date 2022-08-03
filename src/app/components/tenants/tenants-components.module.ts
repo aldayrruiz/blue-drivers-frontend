@@ -11,7 +11,6 @@ import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 @NgModule({
   declarations: [CreateTenantComponent],
   imports: [
-    NgxMatFileInputModule,
     CommonModule,
     TenantsRoutingModule /* This component is using users routing /admin/tenants */,
     MyAngularMaterialModule,

@@ -11,6 +11,7 @@ import {
 import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
 import { tenantNameValidators } from 'src/app/core/validators/tenant';
 import { userEmailValidators, userFullnameValidators } from 'src/app/core/validators/user';
+import { isEmail, required } from 'src/app/core/validators/validators';
 
 @Component({
   selector: 'app-create-tenant',
@@ -54,8 +55,8 @@ export class CreateTenantComponent implements OnInit {
   }
 
   // Diet
-  get diet(): AbstractControl {
-    return this.dietForm.get('diet');
+  get state(): AbstractControl {
+    return this.dietForm.get('state');
   }
 
   get interventorEmail(): AbstractControl {
@@ -75,23 +76,29 @@ export class CreateTenantComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.tenantForm = this.formBuilder.group({
-      tenantName: ['', tenantNameValidators],
-      tenantLogo: ['', []],
-    });
-
     this.adminForm = this.formBuilder.group({
       adminEmail: ['', userEmailValidators],
       adminFullname: ['', userFullnameValidators],
     });
 
     this.dietForm = this.formBuilder.group({
-      diet: ['', []],
-      interventorEmail: ['', userEmailValidators],
-      interventorFullname: ['', userFullnameValidators],
-      supervisorEmail: ['', userEmailValidators],
-      supervisorFullname: ['', userFullnameValidators],
+      state: [false],
+      interventorEmail: ['', isEmail],
+      interventorFullname: [''],
+      supervisorEmail: ['', isEmail],
+      supervisorFullname: [''],
     });
+
+    this.tenantForm = this.formBuilder.group({
+      tenantName: ['', tenantNameValidators],
+      tenantLogo: ['', required],
+    });
+  }
+
+  create() {
+    console.log(this.tenantForm.value);
+    console.log(this.adminForm.value);
+    console.log(this.dietForm.value);
   }
 
   async createTenant() {
