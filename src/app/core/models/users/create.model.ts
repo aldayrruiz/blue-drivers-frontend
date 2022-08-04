@@ -7,5 +7,7 @@ export interface CreateUser {
   fullname: string;
   tenant: string;
   role: Role;
-  ble_user_id: string;
+  ble_user_id?: string;
+  is_interventor?: boolean;
+  is_supervisor?: boolean;
 }

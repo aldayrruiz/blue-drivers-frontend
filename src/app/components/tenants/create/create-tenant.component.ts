@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { CreateUser, Role, Tenant } from 'src/app/core/models';
 import {
+  BlueDriversRouter,
   ErrorMessageService,
-  FleetRouter,
   LocalStorage,
   SnackerService,
   TenantService,
@@ -33,7 +35,7 @@ export class CreateTenantComponent implements OnInit {
     private snacker: SnackerService,
     private storage: LocalStorage,
     private userSrv: UserService,
-    private router: FleetRouter
+    private router: BlueDriversRouter
   ) {}
 
   // Tenant form
@@ -55,8 +57,8 @@ export class CreateTenantComponent implements OnInit {
   }
 
   // Diet
-  get state(): AbstractControl {
-    return this.dietForm.get('state');
+  get dietState(): AbstractControl {
+    return this.dietForm.get('dietState');
   }
 
   get interventorEmail(): AbstractControl {
@@ -82,7 +84,7 @@ export class CreateTenantComponent implements OnInit {
     });
 
     this.dietForm = this.formBuilder.group({
-      state: [false],
+      dietState: [false],
       interventorEmail: ['', isEmail],
       interventorFullname: [''],
       supervisorEmail: ['', isEmail],
@@ -95,26 +97,85 @@ export class CreateTenantComponent implements OnInit {
     });
   }
 
-  create() {
-    console.log(this.tenantForm.value);
-    console.log(this.adminForm.value);
-    console.log(this.dietForm.value);
-  }
-
   async createTenant() {
-    const { tenantName, tenantLogo } = this.tenantForm.value;
-    const tenant = {
-      name: tenantName,
-      logo: await this.toBase64(tenantLogo),
-    };
+    const tenant = await this.getTenantData();
     this.tenantSrv.create(tenant).subscribe({
-      next: (res) => {
-        console.log(res);
+      next: (tenantCreated) => {
+        this.snacker.showSuccessful('Tenant created');
+        this.createAdmin(tenantCreated.id);
+        this.createSupervisorAndInterventor(tenantCreated.id);
       },
     });
   }
 
-  toBase64 = (file) =>
+  private createAdmin(tenantId: string) {
+    const admin = this.getAdminData(tenantId);
+    this.userSrv.create(admin).subscribe({
+      next: () => {
+        this.snacker.showSuccessful('Se creado y enviado un email al administrador');
+      },
+    });
+  }
+
+  private createSupervisorAndInterventor(tenantId: string) {
+    if (!this.dietState) {
+      return;
+    }
+
+    const interventor = this.getInterventorData(tenantId);
+    const supervisor = this.getSupervisorData(tenantId);
+    this.userSrv.create(interventor).subscribe({
+      next: () => {
+        this.snacker.showSuccessful('Interventor created');
+      },
+    });
+    this.userSrv.create(supervisor).subscribe({
+      next: () => {
+        this.snacker.showSuccessful('Supervisor created');
+      },
+    });
+  }
+
+  private async getTenantData(): Promise<Tenant> {
+    const { tenantName, tenantLogo } = this.tenantForm.value;
+    const { dietState } = this.dietForm.value;
+    const logo = await this.toBase64(tenantLogo);
+    const name = tenantName;
+    const diet = dietState;
+    const tenant = { name, logo, diet };
+    return tenant;
+  }
+
+  private getAdminData(tenant: string): CreateUser {
+    const { adminEmail, adminFullname } = this.adminForm.value;
+    const email = adminEmail;
+    const fullname = adminFullname;
+    const role = Role.ADMIN;
+    const ble_user_id = '';
+    return { email, fullname, role, tenant, ble_user_id };
+  }
+
+  private getSupervisorData(tenant: string): CreateUser {
+    const { supervisorEmail, supervisorFullname } = this.dietForm.value;
+    const email = supervisorEmail;
+    const fullname = supervisorFullname;
+    const role = Role.USER;
+    const ble_user_id = '';
+    const is_supervisor = true;
+    return { email, fullname, role, tenant, ble_user_id, is_supervisor };
+  }
+
+  private getInterventorData(tenant: string): CreateUser {
+    const { interventorEmail, interventorFullname } = this.dietForm.value;
+    const email = interventorEmail;
+    const fullname = interventorFullname;
+    const role = Role.USER;
+    const ble_user_id = '';
+    const is_interventor = true;
+    return { email, fullname, role, tenant, ble_user_id, is_interventor };
+  }
+
+  private toBase64 = (file) =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);

@@ -4,7 +4,7 @@ import { finalize } from 'rxjs/operators';
 import { Reservation, Ticket, TicketStatus, Vehicle } from 'src/app/core/models';
 import {
   ErrorMessageService,
-  FleetRouter,
+  BlueDriversRouter,
   SnackerService,
   TicketService,
 } from 'src/app/core/services';
@@ -24,7 +24,7 @@ export class SolveTicketComponent implements OnInit {
 
   constructor(
     private errorMessage: ErrorMessageService,
-    private fleetRouter: FleetRouter,
+    private fleetRouter: BlueDriversRouter,
     private ticketSrv: TicketService,
     private snacker: SnackerService,
     private route: ActivatedRoute

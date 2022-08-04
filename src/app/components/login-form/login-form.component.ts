@@ -5,7 +5,7 @@ import { Role, Tenant } from 'src/app/core/models';
 import {
   AssetsService,
   ErrorMessageService,
-  FleetRouter,
+  BlueDriversRouter,
   LoginService,
   SnackerService,
   TenantService,
@@ -35,7 +35,7 @@ export class LoginFormComponent implements OnInit {
     private loginService: LoginService,
     private formBuilder: FormBuilder,
     private snacker: SnackerService,
-    private fleetRouter: FleetRouter
+    private fleetRouter: BlueDriversRouter
   ) {
     this.blueDriversLogo = this.assetsService.getUrl('background/icon.png');
   }
@@ -63,8 +63,8 @@ export class LoginFormComponent implements OnInit {
     this.loginService
       .login(credentials)
       .pipe(finalize(() => (this.sending = false)))
-      .subscribe(
-        async (response) => {
+      .subscribe({
+        next: async (response) => {
           if (response.role === Role.SUPER_ADMIN) {
             this.isSuperAdmin = true;
             this.tenantToChange = response.tenant;
@@ -75,11 +75,11 @@ export class LoginFormComponent implements OnInit {
             this.snacker.showError('No eres administrador');
           }
         },
-        async (error) => {
+        error: async (error) => {
           const message = this.errorMessage.get(error);
           this.snacker.showError(message);
-        }
-      );
+        },
+      });
   }
 
   getTenants() {

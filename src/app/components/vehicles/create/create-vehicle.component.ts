@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CreateVehicle, InsuranceCompany, VehicleFuel } from 'src/app/core/models';
 import {
   ErrorMessageService,
-  FleetRouter,
+  BlueDriversRouter,
   SnackerService,
   VehicleService,
 } from 'src/app/core/services';
@@ -37,7 +37,7 @@ export class CreateVehicleComponent implements OnInit {
     private vehicleIconProvider: VehicleIconProvider,
     private errorMessage: ErrorMessageService,
     private vehicleSrv: VehicleService,
-    private fleetRouter: FleetRouter,
+    private fleetRouter: BlueDriversRouter,
     private snacker: SnackerService,
     private route: ActivatedRoute,
     private fb: FormBuilder

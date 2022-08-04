@@ -4,7 +4,7 @@ import { finalize } from 'rxjs/operators';
 import { CreateReservationTemplate } from 'src/app/core/models';
 import {
   ErrorMessageService,
-  FleetRouter,
+  BlueDriversRouter,
   ReservationTemplateService,
   SnackerService,
 } from 'src/app/core/services';
@@ -26,7 +26,7 @@ export class CreateReservationTemplateComponent implements OnInit {
     private errorMessage: ErrorMessageService,
     private formBuilder: FormBuilder,
     private snacker: SnackerService,
-    private router: FleetRouter
+    private router: BlueDriversRouter
   ) {}
 
   ngOnInit(): void {

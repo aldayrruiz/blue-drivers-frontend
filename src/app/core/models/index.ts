@@ -17,6 +17,9 @@ export * from './reservation-templates/reservation-template.model';
 // Reservations
 export * from './reservations/create.model';
 export * from './reservations/reservation.model';
+// Storage
+export * from './storage/tenant.storage';
+export * from './storage/user.storage';
 //Tenants
 export * from './tenants/tenant.model';
 // Tickets

@@ -5,7 +5,7 @@ import { finalize } from 'rxjs/operators';
 import { CreateUser, Role } from 'src/app/core/models';
 import {
   ErrorMessageService,
-  FleetRouter,
+  BlueDriversRouter,
   LocalStorage,
   SnackerService,
   UserService,
@@ -33,7 +33,7 @@ export class CreateUserComponent implements OnInit {
     private snacker: SnackerService,
     private storage: LocalStorage,
     private userSrv: UserService,
-    private router: FleetRouter
+    private router: BlueDriversRouter
   ) {}
 
   get fullname(): AbstractControl {

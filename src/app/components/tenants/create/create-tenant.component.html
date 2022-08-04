@@ -63,10 +63,14 @@
   <!-- * DIET FORM -->
   <mat-step [stepControl]="dietForm" label="Configurar dietas">
     <form [formGroup]="dietForm">
+      <p>
+        Si <strong>deshabilita</strong> esta opción, no se creará ni el interventor ni el
+        supervisor.
+      </p>
       <!-- Estado de dietas -->
       <mat-form-field class="full-width" appearance="fill">
         <mat-label>Dietas</mat-label>
-        <mat-select formControlName="state">
+        <mat-select formControlName="dietState">
           <mat-option [value]="true">Habilitado</mat-option>
           <mat-option [value]="false">Deshabilitado</mat-option>
         </mat-select>
@@ -80,7 +84,7 @@
           matInput
           formControlName="interventorEmail"
           [errorStateMatcher]="matcher"
-          [required]="dietForm.value.state"
+          [required]="dietForm.value.dietState"
         />
         <mat-error
           *ngIf="interventorEmail.hasError('email') && !interventorEmail.hasError('required')"
@@ -100,7 +104,7 @@
           matInput
           formControlName="interventorFullname"
           [errorStateMatcher]="matcher"
-          [required]="dietForm.value.state"
+          [required]="dietForm.value.dietState"
         />
         <mat-error *ngIf="interventorFullname.hasError('required')">
           Nombre y apellidos es <strong>obligatorio</strong>
@@ -115,7 +119,7 @@
           matInput
           formControlName="supervisorEmail"
           [errorStateMatcher]="matcher"
-          [required]="dietForm.value.state"
+          [required]="dietForm.value.dietState"
         />
         <mat-error
           *ngIf="supervisorEmail.hasError('email') && !supervisorEmail.hasError('required')"
@@ -135,7 +139,7 @@
           matInput
           [formControl]="supervisorFullname"
           [errorStateMatcher]="matcher"
-          [required]="dietForm.value.state"
+          [required]="dietForm.value.dietState"
         />
         <mat-error *ngIf="supervisorFullname.hasError('required')">
           Nombre y apellidos es <strong>obligatorio</strong>
@@ -152,7 +156,7 @@
     <p>You are now done.</p>
     <div>
       <button mat-button matStepperPrevious>Atrás</button>
-      <button mat-button (click)="create()">Crear</button>
+      <button mat-button (click)="createTenant()">Crear</button>
     </div>
   </mat-step>
 </mat-stepper>

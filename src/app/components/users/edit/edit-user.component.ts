@@ -6,7 +6,7 @@ import { finalize } from 'rxjs';
 import { EditPatchUser, User } from 'src/app/core/models';
 import {
   ErrorMessageService,
-  FleetRouter,
+  BlueDriversRouter,
   SnackerService,
   UserService,
 } from 'src/app/core/services';
@@ -30,7 +30,7 @@ export class EditUserComponent implements OnInit {
     private formBuilder: FormBuilder,
     private snacker: SnackerService,
     private route: ActivatedRoute,
-    private router: FleetRouter
+    private router: BlueDriversRouter
   ) {}
 
   get bleUserId(): AbstractControl {

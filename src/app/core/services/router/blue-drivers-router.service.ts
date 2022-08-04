@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Injectable({
   providedIn: 'root',
 })
-export class FleetRouter {
+export class BlueDriversRouter {
   extras = { replaceUrl: true };
 
   constructor(private router: Router, private route: ActivatedRoute) {}

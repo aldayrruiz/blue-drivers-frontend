@@ -6,7 +6,7 @@ import { finalize } from 'rxjs/operators';
 import { EditVehicle, InsuranceCompany, Vehicle } from 'src/app/core/models';
 import {
   ErrorMessageService,
-  FleetRouter,
+  BlueDriversRouter,
   SnackerService,
   VehicleService,
 } from 'src/app/core/services';
@@ -42,7 +42,7 @@ export class EditVehicleComponent implements OnInit {
     private formBuilder: FormBuilder,
     private snacker: SnackerService,
     private route: ActivatedRoute,
-    private router: FleetRouter
+    private router: BlueDriversRouter
   ) {
     this.icons = this.vehicleIconProvider.getIcons();
   }

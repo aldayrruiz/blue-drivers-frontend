@@ -5,7 +5,7 @@ import { finalize } from 'rxjs/operators';
 import { CreateReservationTemplate, ReservationTemplate } from 'src/app/core/models';
 import {
   ErrorMessageService,
-  FleetRouter,
+  BlueDriversRouter,
   ReservationTemplateService,
   SnackerService,
 } from 'src/app/core/services';
@@ -29,7 +29,7 @@ export class EditReservationTemplateComponent implements OnInit {
     private formBuilder: FormBuilder,
     private snacker: SnackerService,
     private route: ActivatedRoute,
-    private router: FleetRouter
+    private router: BlueDriversRouter
   ) {}
 
   ngOnInit(): void {

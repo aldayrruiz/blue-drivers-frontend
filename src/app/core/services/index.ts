@@ -13,7 +13,7 @@ export * from './assets.service';
 export * from './auth/login.service';
 export * from './error/error-message.service';
 export * from './measure';
-export * from './router/fleet-router.service';
+export * from './router/blue-drivers-router.service';
 export * from './storage/local-storage.service';
 export * from './view/snacker.service';
 export * from './view/vehicle-icon.service';
