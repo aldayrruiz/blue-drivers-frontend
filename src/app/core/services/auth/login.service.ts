@@ -17,14 +17,13 @@ export class LoginService {
 
   login(credentials: Credentials) {
     return this.http.post<void>(path, credentials).pipe(
-      // data: {token: "the token", user_id: "..."}
       map((data: any) => {
         if (data && data?.role !== Role.USER) {
-          const { token, user_id, tenant } = data;
+          const { token, user_id } = data;
           this.storeUser(data);
           this.storeToken(token);
           this.storeUserId(user_id);
-          this.storeTenantId(tenant);
+          this.storeTenant(data);
         }
         return data;
       })
@@ -48,8 +47,8 @@ export class LoginService {
     this.storage.setUserId(id);
   }
 
-  private storeTenantId(tenant: string) {
-    this.storage.setTenant(tenant);
+  private storeTenant(data: any) {
+    this.storage.setTenant(data.tenant);
   }
 }
 

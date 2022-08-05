@@ -83,7 +83,7 @@ export class CreateUserComponent implements OnInit {
       fullname: this.fullname.value,
       ble_user_id: this.bleUserId.value,
       role: Role.USER,
-      tenant,
+      tenant: tenant.id,
     };
     return newUser;
   }

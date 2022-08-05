@@ -67,7 +67,7 @@ export class LoginFormComponent implements OnInit {
         next: async (response) => {
           if (response.role === Role.SUPER_ADMIN) {
             this.isSuperAdmin = true;
-            this.tenantToChange = response.tenant;
+            this.tenantToChange = response.tenant.id;
             this.getTenants();
           } else if (response.role === Role.ADMIN) {
             this.fleetRouter.goToHome();
