@@ -33,25 +33,40 @@
   <!-- * ADMIN FORM -->
   <mat-step [stepControl]="adminForm" label="Crear administrador">
     <form [formGroup]="adminForm">
-      <!-- Admin email -->
+      <!-- Admin 1 email -->
       <mat-form-field class="full-width" appearance="fill">
         <mat-label>Email</mat-label>
-        <input type="email" matInput [formControl]="adminEmail" [errorStateMatcher]="matcher" />
-        <mat-error *ngIf="adminEmail.hasError('email') && !adminEmail.hasError('required')">
+        <input type="email" matInput [formControl]="adminEmail1" [errorStateMatcher]="matcher" />
+        <mat-error *ngIf="adminEmail1.hasError('email') && !adminEmail1.hasError('required')">
           Por favor, introduzca un email correcto
         </mat-error>
-        <mat-error *ngIf="adminEmail.hasError('required')">
+        <mat-error *ngIf="adminEmail1.hasError('required')">
           Email es <strong>obligatorio</strong>
         </mat-error>
       </mat-form-field>
 
-      <!-- Admin fullname -->
+      <!-- Admin 1 fullname -->
       <mat-form-field class="full-width" appearance="fill">
         <mat-label>Nombre y apellidos</mat-label>
-        <input type="text" matInput [formControl]="adminFullname" [errorStateMatcher]="matcher" />
-        <mat-error *ngIf="adminFullname.hasError('required')">
+        <input type="text" matInput [formControl]="adminFullname1" [errorStateMatcher]="matcher" />
+        <mat-error *ngIf="adminFullname1.hasError('required')">
           Nombre y apellidos es <strong>obligatorio</strong>
         </mat-error>
+      </mat-form-field>
+
+      <!-- Admin 2 email -->
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Email</mat-label>
+        <input type="email" matInput [formControl]="adminEmail2" [errorStateMatcher]="matcher" />
+        <mat-error *ngIf="adminEmail2.hasError('email') && !adminEmail2.hasError('required')">
+          Por favor, introduzca un email correcto
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Admin 2 fullname -->
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Nombre y apellidos</mat-label>
+        <input type="text" matInput [formControl]="adminFullname2" [errorStateMatcher]="matcher" />
       </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Atrás</button>

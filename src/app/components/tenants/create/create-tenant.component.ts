@@ -47,13 +47,22 @@ export class CreateTenantComponent implements OnInit {
     return this.tenantForm.get('tenantLogo');
   }
 
-  // Admin form
-  get adminEmail(): AbstractControl {
-    return this.adminForm.get('adminEmail');
+  // Admin form 1
+  get adminEmail1(): AbstractControl {
+    return this.adminForm.get('adminEmail1');
   }
 
-  get adminFullname(): AbstractControl {
-    return this.adminForm.get('adminFullname');
+  get adminFullname1(): AbstractControl {
+    return this.adminForm.get('adminFullname1');
+  }
+
+  // Admin form 2
+  get adminEmail2(): AbstractControl {
+    return this.adminForm.get('adminEmail2');
+  }
+
+  get adminFullname2(): AbstractControl {
+    return this.adminForm.get('adminFullname2');
   }
 
   // Diet
@@ -79,8 +88,10 @@ export class CreateTenantComponent implements OnInit {
 
   ngOnInit(): void {
     this.adminForm = this.formBuilder.group({
-      adminEmail: ['', userEmailValidators],
-      adminFullname: ['', userFullnameValidators],
+      adminEmail1: ['', userEmailValidators],
+      adminFullname1: ['', userFullnameValidators],
+      adminEmail2: ['', [isEmail]],
+      adminFullname2: ['', []],
     });
 
     this.dietForm = this.formBuilder.group({
@@ -109,8 +120,19 @@ export class CreateTenantComponent implements OnInit {
   }
 
   private createAdmin(tenantId: string) {
-    const admin = this.getAdminData(tenantId);
-    this.userSrv.create(admin).subscribe({
+    const admin1 = this.getAdminData1(tenantId);
+    const admin2 = this.getAdminData2(tenantId);
+    this.userSrv.create(admin1).subscribe({
+      next: () => {
+        this.snacker.showSuccessful('Se creado y enviado un email al administrador');
+      },
+    });
+
+    if (!admin2.email || !admin2.fullname) {
+      return;
+    }
+
+    this.userSrv.create(admin2).subscribe({
       next: () => {
         this.snacker.showSuccessful('Se creado y enviado un email al administrador');
       },
@@ -146,10 +168,19 @@ export class CreateTenantComponent implements OnInit {
     return tenant;
   }
 
-  private getAdminData(tenant: string): CreateUser {
-    const { adminEmail, adminFullname } = this.adminForm.value;
-    const email = adminEmail;
-    const fullname = adminFullname;
+  private getAdminData1(tenant: string): CreateUser {
+    const { adminEmail1, adminFullname1 } = this.adminForm.value;
+    const email = adminEmail1;
+    const fullname = adminFullname1;
+    const role = Role.ADMIN;
+    const ble_user_id = '';
+    return { email, fullname, role, tenant, ble_user_id };
+  }
+
+  private getAdminData2(tenant: string): CreateUser {
+    const { adminEmail2, adminFullname2 } = this.adminForm.value;
+    const email = adminEmail2;
+    const fullname = adminFullname2;
     const role = Role.ADMIN;
     const ble_user_id = '';
     return { email, fullname, role, tenant, ble_user_id };
