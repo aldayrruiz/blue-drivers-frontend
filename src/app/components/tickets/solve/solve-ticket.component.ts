@@ -4,7 +4,7 @@ import { finalize } from 'rxjs/operators';
 import { Reservation, Ticket, TicketStatus, Vehicle } from 'src/app/core/models';
 import {
   ErrorMessageService,
-  FleetRouter,
+  BlueDriversRouter,
   SnackerService,
   TicketService,
 } from 'src/app/core/services';
@@ -23,11 +23,11 @@ export class SolveTicketComponent implements OnInit {
   sending = false;
 
   constructor(
-    private readonly errorMessage: ErrorMessageService,
-    private readonly fleetRouter: FleetRouter,
-    private readonly ticketSrv: TicketService,
-    private readonly snacker: SnackerService,
-    private readonly route: ActivatedRoute
+    private errorMessage: ErrorMessageService,
+    private fleetRouter: BlueDriversRouter,
+    private ticketSrv: TicketService,
+    private snacker: SnackerService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {

@@ -5,12 +5,12 @@ import { finalize } from 'rxjs/operators';
 import { CreateInsuranceCompany, InsuranceCompany } from 'src/app/core/models';
 import {
   ErrorMessageService,
-  FleetRouter,
+  BlueDriversRouter,
   InsuranceCompanyService,
   SnackerService,
 } from 'src/app/core/services';
 import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
-import { nameValidators, phoneValidators } from 'src/app/core/validators/insurance-company';
+import { insuranceCompanyNameValidators, insuranceCompanyPhoneValidators } from 'src/app/core/validators/insurance-company';
 
 @Component({
   selector: 'app-edit-insurance-company',
@@ -24,12 +24,12 @@ export class EditInsuranceCompanyComponent implements OnInit {
   sending = false;
 
   constructor(
-    private readonly insuranceCompanySrv: InsuranceCompanyService,
-    private readonly errorMessage: ErrorMessageService,
-    private readonly formBuilder: FormBuilder,
-    private readonly snacker: SnackerService,
-    private readonly route: ActivatedRoute,
-    private readonly router: FleetRouter
+    private insuranceCompanySrv: InsuranceCompanyService,
+    private errorMessage: ErrorMessageService,
+    private formBuilder: FormBuilder,
+    private snacker: SnackerService,
+    private route: ActivatedRoute,
+    private router: BlueDriversRouter
   ) {}
 
   ngOnInit(): void {
@@ -39,8 +39,8 @@ export class EditInsuranceCompanyComponent implements OnInit {
 
   private setFormGroup(company: InsuranceCompany) {
     this.company = this.formBuilder.group({
-      name: [company.name, nameValidators],
-      phone: [company.phone, phoneValidators],
+      name: [company.name, insuranceCompanyNameValidators],
+      phone: [company.phone, insuranceCompanyPhoneValidators],
     });
   }
 

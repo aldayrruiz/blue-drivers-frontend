@@ -1,0 +1,162 @@
+<mat-stepper orientation="vertical" [linear]="true" #stepper>
+  <!-- * TENANT FORM -->
+  <mat-step [stepControl]="tenantForm" label="Crear site">
+    <form [formGroup]="tenantForm">
+      <!-- Tenant name -->
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Nombre del site</mat-label>
+        <input type="text" matInput formControlName="tenantName" [errorStateMatcher]="matcher" />
+        <mat-error *ngIf="tenantName.hasError('required')">
+          El nombre del site es <strong>obligatorio</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Tenant logo -->
+      <mat-form-field class="full-width" appearance="fill">
+        <ngx-mat-file-input
+          formControlName="tenantLogo"
+          placeholder="Logo del site"
+          accept="image/*"
+        >
+        </ngx-mat-file-input>
+        <mat-error *ngIf="tenantLogo.hasError('required')">
+          El logo del site es <strong>obligatorio</strong>
+        </mat-error>
+        <mat-icon matSuffix>image</mat-icon>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext>Siguiente</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <!-- * ADMIN FORM -->
+  <mat-step [stepControl]="adminForm" label="Crear administrador">
+    <form [formGroup]="adminForm">
+      <!-- Admin email -->
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Email</mat-label>
+        <input type="email" matInput [formControl]="adminEmail" [errorStateMatcher]="matcher" />
+        <mat-error *ngIf="adminEmail.hasError('email') && !adminEmail.hasError('required')">
+          Por favor, introduzca un email correcto
+        </mat-error>
+        <mat-error *ngIf="adminEmail.hasError('required')">
+          Email es <strong>obligatorio</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Admin fullname -->
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Nombre y apellidos</mat-label>
+        <input type="text" matInput [formControl]="adminFullname" [errorStateMatcher]="matcher" />
+        <mat-error *ngIf="adminFullname.hasError('required')">
+          Nombre y apellidos es <strong>obligatorio</strong>
+        </mat-error>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Atrás</button>
+        <button mat-button matStepperNext>Siguiente</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <!-- * DIET FORM -->
+  <mat-step [stepControl]="dietForm" label="Configurar dietas">
+    <form [formGroup]="dietForm">
+      <p>
+        Si <strong>deshabilita</strong> esta opción, no se creará ni el interventor ni el
+        supervisor.
+      </p>
+      <!-- Estado de dietas -->
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Dietas</mat-label>
+        <mat-select formControlName="dietState">
+          <mat-option [value]="true">Habilitado</mat-option>
+          <mat-option [value]="false">Deshabilitado</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Interventor email -->
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Email del interventor</mat-label>
+        <input
+          type="email"
+          matInput
+          formControlName="interventorEmail"
+          [errorStateMatcher]="matcher"
+          [required]="dietForm.value.dietState"
+        />
+        <mat-error
+          *ngIf="interventorEmail.hasError('email') && !interventorEmail.hasError('required')"
+        >
+          Por favor, introduzca un email correcto
+        </mat-error>
+        <mat-error *ngIf="interventorEmail.hasError('required')">
+          Email es <strong>obligatorio</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Interventor fullname -->
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Nombre y apellidos del interventor</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="interventorFullname"
+          [errorStateMatcher]="matcher"
+          [required]="dietForm.value.dietState"
+        />
+        <mat-error *ngIf="interventorFullname.hasError('required')">
+          Nombre y apellidos es <strong>obligatorio</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Supervisor email -->
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Email del supervisor</mat-label>
+        <input
+          type="email"
+          matInput
+          formControlName="supervisorEmail"
+          [errorStateMatcher]="matcher"
+          [required]="dietForm.value.dietState"
+        />
+        <mat-error
+          *ngIf="supervisorEmail.hasError('email') && !supervisorEmail.hasError('required')"
+        >
+          Por favor, introduzca un email correcto
+        </mat-error>
+        <mat-error *ngIf="supervisorEmail.hasError('required')">
+          Email es <strong>obligatorio</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Supervisor fullname -->
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Nombre y apellidos del supervisor</mat-label>
+        <input
+          type="text"
+          matInput
+          [formControl]="supervisorFullname"
+          [errorStateMatcher]="matcher"
+          [required]="dietForm.value.dietState"
+        />
+        <mat-error *ngIf="supervisorFullname.hasError('required')">
+          Nombre y apellidos es <strong>obligatorio</strong>
+        </mat-error>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Atrás</button>
+        <button mat-button matStepperNext>Siguiente</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <p>You are now done.</p>
+    <div>
+      <button mat-button matStepperPrevious>Atrás</button>
+      <button mat-button (click)="createTenant()">Crear</button>
+    </div>
+  </mat-step>
+</mat-stepper>

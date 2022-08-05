@@ -20,7 +20,7 @@ export class ReportsTableComponent
 {
   columns = ['month', 'year', 'download'];
 
-  constructor(private readonly monthlyReportService: MonthlyReportService) {
+  constructor(private monthlyReportService: MonthlyReportService) {
     super();
   }
 
@@ -41,7 +41,8 @@ export class ReportsTableComponent
       .getAll()
       .pipe(finalize(() => this.hideLoadingSpinner()))
       .subscribe((reports) => {
-        this.initTable(reports);
+        const reportsOrderedByMonth = this.orderReportsByMonth(reports);
+        this.initTable(reportsOrderedByMonth);
       });
   }
 
@@ -53,5 +54,14 @@ export class ReportsTableComponent
       link.download = `BLUEDrivers_Reporte_${report.month}_${report.year}.pdf`;
       link.click();
     });
+  }
+
+  private orderReportsByMonth(reports: MonthlyReport[]) {
+    const reportsOrderedByMonth = reports.sort((a, b) => {
+      const monthYear1 = a.year + a.month;
+      const monthYear2 = b.year + b.month;
+      return monthYear1 - monthYear2;
+    });
+    return reportsOrderedByMonth;
   }
 }

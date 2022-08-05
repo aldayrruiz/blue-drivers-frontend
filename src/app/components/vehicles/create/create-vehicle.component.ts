@@ -5,19 +5,19 @@ import { ActivatedRoute } from '@angular/router';
 import { CreateVehicle, InsuranceCompany, VehicleFuel } from 'src/app/core/models';
 import {
   ErrorMessageService,
-  FleetRouter,
+  BlueDriversRouter,
   SnackerService,
   VehicleService,
 } from 'src/app/core/services';
 import { VehicleIcon, VehicleIconProvider } from 'src/app/core/services/view/vehicle-icon.service';
 import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
 import {
-  brandValidators,
-  fuelValidators,
-  imeiValidators,
-  modelValidators,
-  numberPlateValidators,
-  policyNumberValidators,
+  vehicleBrandValidators,
+  vehicleFuelValidators,
+  vehicleImeiValidators,
+  vehicleModelValidators,
+  vehicleNumberPlateValidators,
+  vehiclePolicyNumberValidators,
 } from 'src/app/core/validators/vehicle';
 
 @Component({
@@ -34,13 +34,13 @@ export class CreateVehicleComponent implements OnInit {
   submitted = false;
 
   constructor(
-    private readonly vehicleIconProvider: VehicleIconProvider,
-    private readonly errorMessage: ErrorMessageService,
-    private readonly vehicleSrv: VehicleService,
-    private readonly fleetRouter: FleetRouter,
-    private readonly snacker: SnackerService,
-    private readonly route: ActivatedRoute,
-    private readonly fb: FormBuilder
+    private vehicleIconProvider: VehicleIconProvider,
+    private errorMessage: ErrorMessageService,
+    private vehicleSrv: VehicleService,
+    private fleetRouter: BlueDriversRouter,
+    private snacker: SnackerService,
+    private route: ActivatedRoute,
+    private fb: FormBuilder
   ) {
     this.icons = this.vehicleIconProvider.getIcons();
     this.iconSelected = this.icons[0]; // Pre-select first icon
@@ -85,13 +85,13 @@ export class CreateVehicleComponent implements OnInit {
 
   createFormGroup(): void {
     this.formGroup = this.fb.group({
-      brand: ['', brandValidators],
-      model: ['', modelValidators],
-      numberPlate: ['', numberPlateValidators],
-      imei: ['', imeiValidators],
-      fuel: [VehicleFuel.DIESEL, fuelValidators],
+      brand: ['', vehicleBrandValidators],
+      model: ['', vehicleModelValidators],
+      numberPlate: ['', vehicleNumberPlateValidators],
+      imei: ['', vehicleImeiValidators],
+      fuel: [VehicleFuel.DIESEL, vehicleFuelValidators],
       insuranceCompany: [],
-      policyNumber: ['', policyNumberValidators],
+      policyNumber: ['', vehiclePolicyNumberValidators],
       icon: [this.iconSelected, []], // Pre-select first icon
     });
   }

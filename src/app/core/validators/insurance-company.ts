@@ -1,4 +1,4 @@
 import { exactLength, required } from './validators';
 
-export const nameValidators = [required];
-export const phoneValidators = [required, ...exactLength(9)];
+export const insuranceCompanyNameValidators = [required];
+export const insuranceCompanyPhoneValidators = [required, ...exactLength(9)];

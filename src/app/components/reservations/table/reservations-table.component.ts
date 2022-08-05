@@ -5,7 +5,7 @@ import { isAfter, isBefore, isFuture, isPast, set } from 'date-fns';
 import { finalize } from 'rxjs/operators';
 import { Reservation } from 'src/app/core/models';
 import {
-  FleetRouter,
+  BlueDriversRouter,
   ReservationService,
   SnackerService,
   TimeReservedService,
@@ -42,10 +42,10 @@ export class ReservationsTableComponent extends BaseTableComponent<Reservation, 
   datePicker = new FormControl();
 
   constructor(
-    private readonly timeReservedSrv: TimeReservedService,
-    private readonly reservationsSrv: ReservationService,
-    private readonly snacker: SnackerService,
-    private readonly ghost: FleetRouter
+    private timeReservedSrv: TimeReservedService,
+    private reservationsSrv: ReservationService,
+    private snacker: SnackerService,
+    private ghost: BlueDriversRouter
   ) {
     super();
   }

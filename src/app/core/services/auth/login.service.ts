@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { API } from 'src/app/core/utils/api-paths.enum';
 import { environment } from 'src/environments/environment';
@@ -13,34 +13,17 @@ const path = `${environment.fleetBaseUrl}${API.login}/`;
   providedIn: 'root',
 })
 export class LoginService {
-  isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
-
-  token = '';
-  userId = '';
-
-  constructor(private readonly storage: LocalStorage, private readonly http: HttpClient) {
-    this.loadToken();
-  }
-
-  loadToken() {
-    const token = this.storage.getUserToken();
-    if (token) {
-      this.token = token;
-      this.markAsAuthenticated();
-    } else {
-      this.markAsUnAuthenticated();
-    }
-  }
+  constructor(private storage: LocalStorage, private http: HttpClient) {}
 
   login(credentials: Credentials) {
     return this.http.post<void>(path, credentials).pipe(
-      // data: {token: "the token", user_id: "..."}
       map((data: any) => {
         if (data && data?.role !== Role.USER) {
           const { token, user_id } = data;
+          this.storeUser(data);
           this.storeToken(token);
           this.storeUserId(user_id);
-          this.markAsAuthenticated();
+          this.storeTenant(data);
         }
         return data;
       })
@@ -48,31 +31,24 @@ export class LoginService {
   }
 
   logout(): void {
-    // this.token = '';
-    this.markAsUnAuthenticated();
     this.storage.removeAll();
   }
 
-  getToken(): string {
-    return this.token;
+  private storeUser(data: any) {
+    const { user_id, email, fullname, role } = data;
+    this.storage.setUser({ id: user_id, email, fullname, role });
   }
 
   private storeToken(token: string) {
-    this.token = token;
     this.storage.setUserToken(token);
   }
 
   private storeUserId(id: string) {
-    this.userId = id;
     this.storage.setUserId(id);
   }
 
-  private markAsAuthenticated() {
-    this.isAuthenticated.next(true);
-  }
-
-  private markAsUnAuthenticated() {
-    this.isAuthenticated.next(false);
+  private storeTenant(data: any) {
+    this.storage.setTenant(data.tenant);
   }
 }
 

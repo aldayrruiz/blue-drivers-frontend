@@ -42,11 +42,11 @@ export class VehiclesTableComponent extends BaseTableComponent<Vehicle, VehicleR
   ];
 
   constructor(
-    private readonly vehicleIconProvider: VehicleIconProvider,
-    private readonly errorMessage: ErrorMessageService,
-    private readonly vehicleSrv: VehicleService,
-    private readonly snacker: SnackerService,
-    private readonly dialog: MatDialog
+    private vehicleIconProvider: VehicleIconProvider,
+    private errorMessage: ErrorMessageService,
+    private vehicleSrv: VehicleService,
+    private snacker: SnackerService,
+    private dialog: MatDialog
   ) {
     super();
     this.icons = this.vehicleIconProvider.getIcons();

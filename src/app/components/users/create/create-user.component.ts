@@ -2,15 +2,20 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
-import { CreateUser } from 'src/app/core/models';
+import { CreateUser, Role } from 'src/app/core/models';
 import {
   ErrorMessageService,
-  FleetRouter,
+  BlueDriversRouter,
+  LocalStorage,
   SnackerService,
   UserService,
 } from 'src/app/core/services';
 import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
-import { bleUserValidators, emailValidators, fullnameValidators } from 'src/app/core/validators/user';
+import {
+  userBleValidators,
+  userEmailValidators,
+  userFullnameValidators,
+} from 'src/app/core/validators/user';
 
 @Component({
   selector: 'app-create-user',
@@ -23,11 +28,12 @@ export class CreateUserComponent implements OnInit {
   sending = false;
 
   constructor(
-    private readonly errorMessage: ErrorMessageService,
-    private readonly formBuilder: FormBuilder,
-    private readonly snacker: SnackerService,
-    private readonly userSrv: UserService,
-    private readonly router: FleetRouter
+    private errorMessage: ErrorMessageService,
+    private formBuilder: FormBuilder,
+    private snacker: SnackerService,
+    private storage: LocalStorage,
+    private userSrv: UserService,
+    private router: BlueDriversRouter
   ) {}
 
   get fullname(): AbstractControl {
@@ -44,9 +50,9 @@ export class CreateUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.credentials = this.formBuilder.group({
-      email: ['', emailValidators],
-      fullname: ['', fullnameValidators],
-      bleUserId: ['', bleUserValidators],
+      email: ['', userEmailValidators],
+      fullname: ['', userFullnameValidators],
+      bleUserId: ['', userBleValidators],
     });
   }
 
@@ -58,23 +64,26 @@ export class CreateUserComponent implements OnInit {
     this.userSrv
       .create(newUser)
       .pipe(finalize(() => (this.sending = false)))
-      .subscribe(
-        async () => {
+      .subscribe({
+        next: async () => {
           this.router.goToUsers();
           this.snacker.showSuccessful(msg);
         },
-        async (error) => {
+        error: async (error) => {
           const message = this.errorMessage.get(error);
           this.snacker.showError(message);
-        }
-      );
+        },
+      });
   }
 
   private getFormData(): CreateUser {
+    const tenant = this.storage.getTenant();
     const newUser: CreateUser = {
       email: this.email.value,
       fullname: this.fullname.value,
       ble_user_id: this.bleUserId.value,
+      role: Role.USER,
+      tenant: tenant.id,
     };
     return newUser;
   }

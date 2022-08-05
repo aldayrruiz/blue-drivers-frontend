@@ -12,9 +12,9 @@ import { GasolinePriceFuelCalculator } from './gasoline.calculator.service';
 @Injectable({ providedIn: 'root' })
 export class FuelPriceCalculatorFactory {
   constructor(
-    private readonly dieselPriceFuelCalculator: DieselPriceFuelCalculator,
-    private readonly gasolinePriceFuelCalculator: GasolinePriceFuelCalculator,
-    private readonly electricPriceFuelCalculator: ElectricPriceFuelCalculator
+    private dieselPriceFuelCalculator: DieselPriceFuelCalculator,
+    private gasolinePriceFuelCalculator: GasolinePriceFuelCalculator,
+    private electricPriceFuelCalculator: ElectricPriceFuelCalculator
   ) {}
 
   getCalculator(fuel: VehicleFuel): PriceFuelCalculator {

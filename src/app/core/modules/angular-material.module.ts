@@ -1,4 +1,5 @@
 // Angular Material Modules
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { A11yModule } from '@angular/cdk/a11y';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -98,6 +99,7 @@ import { MatTreeModule } from '@angular/material/tree';
     PortalModule,
     ScrollingModule,
     CommonModule,
+    NgxMatFileInputModule,
   ],
 })
 export class MyAngularMaterialModule {}

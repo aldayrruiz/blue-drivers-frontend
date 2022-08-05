@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IsActiveMatchOptions, Router } from '@angular/router';
-import { AssetsService, FleetRouter, LoginService } from 'src/app/core/services';
+import { Role } from 'src/app/core/models';
+import { AssetsService, BlueDriversRouter, LocalStorage, LoginService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-toolbar',
@@ -52,14 +53,26 @@ export class ToolbarComponent implements OnInit {
     },
   ];
 
+  superAdminMenuLinks = [
+    {
+      label: 'Crear sites',
+      link: 'tenants',
+    },
+  ];
+
   constructor(
-    private readonly assetsService: AssetsService,
-    private readonly loginService: LoginService,
-    private readonly fleetRouter: FleetRouter,
-    private readonly router: Router
+    private assetsService: AssetsService,
+    private loginService: LoginService,
+    private fleetRouter: BlueDriversRouter,
+    private storage: LocalStorage,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
+    const user = this.storage.getUser();
+    if (user.role === Role.SUPER_ADMIN) {
+      this.menuLinks = [...this.menuLinks, ...this.superAdminMenuLinks];
+    }
     this.logoUrl = this.assetsService.getUrl('background/icon.png');
     this.changeColorTo(this.getCurrentLinkActive());
   }

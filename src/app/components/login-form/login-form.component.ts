@@ -5,13 +5,13 @@ import { Role, Tenant } from 'src/app/core/models';
 import {
   AssetsService,
   ErrorMessageService,
-  FleetRouter,
+  BlueDriversRouter,
   LoginService,
   SnackerService,
   TenantService,
 } from 'src/app/core/services';
 import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
-import { emailValidators, passwordValidators } from 'src/app/core/validators/user';
+import { userEmailValidators, userPasswordValidators } from 'src/app/core/validators/user';
 
 @Component({
   selector: 'app-login-form',
@@ -29,13 +29,13 @@ export class LoginFormComponent implements OnInit {
   sending = false;
 
   constructor(
-    private readonly errorMessage: ErrorMessageService,
-    private readonly tenantService: TenantService,
-    private readonly assetsService: AssetsService,
-    private readonly loginService: LoginService,
-    private readonly formBuilder: FormBuilder,
-    private readonly snacker: SnackerService,
-    private readonly fleetRouter: FleetRouter
+    private errorMessage: ErrorMessageService,
+    private tenantService: TenantService,
+    private assetsService: AssetsService,
+    private loginService: LoginService,
+    private formBuilder: FormBuilder,
+    private snacker: SnackerService,
+    private fleetRouter: BlueDriversRouter
   ) {
     this.blueDriversLogo = this.assetsService.getUrl('background/icon.png');
   }
@@ -50,8 +50,8 @@ export class LoginFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.credentials = this.formBuilder.group({
-      email: ['', emailValidators],
-      password: ['', passwordValidators],
+      email: ['', userEmailValidators],
+      password: ['', userPasswordValidators],
       tenant: [],
     });
   }
@@ -63,11 +63,11 @@ export class LoginFormComponent implements OnInit {
     this.loginService
       .login(credentials)
       .pipe(finalize(() => (this.sending = false)))
-      .subscribe(
-        async (response) => {
+      .subscribe({
+        next: async (response) => {
           if (response.role === Role.SUPER_ADMIN) {
             this.isSuperAdmin = true;
-            this.tenantToChange = response.tenant;
+            this.tenantToChange = response.tenant.id;
             this.getTenants();
           } else if (response.role === Role.ADMIN) {
             this.fleetRouter.goToHome();
@@ -75,11 +75,11 @@ export class LoginFormComponent implements OnInit {
             this.snacker.showError('No eres administrador');
           }
         },
-        async (error) => {
+        error: async (error) => {
           const message = this.errorMessage.get(error);
           this.snacker.showError(message);
-        }
-      );
+        },
+      });
   }
 
   getTenants() {

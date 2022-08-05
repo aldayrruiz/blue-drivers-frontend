@@ -4,12 +4,12 @@ import { finalize } from 'rxjs/operators';
 import { CreateInsuranceCompany } from 'src/app/core/models';
 import {
   ErrorMessageService,
-  FleetRouter,
+  BlueDriversRouter,
   InsuranceCompanyService,
   SnackerService,
 } from 'src/app/core/services';
 import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
-import { nameValidators, phoneValidators } from 'src/app/core/validators/insurance-company';
+import { insuranceCompanyNameValidators, insuranceCompanyPhoneValidators } from 'src/app/core/validators/insurance-company';
 
 @Component({
   selector: 'app-create-insurance-company',
@@ -22,17 +22,17 @@ export class CreateInsuranceCompanyComponent implements OnInit {
   sending = false;
 
   constructor(
-    private readonly insuranceCompanySrv: InsuranceCompanyService,
-    private readonly errorMessage: ErrorMessageService,
-    private readonly formBuilder: FormBuilder,
-    private readonly snacker: SnackerService,
-    private readonly router: FleetRouter
+    private insuranceCompanySrv: InsuranceCompanyService,
+    private errorMessage: ErrorMessageService,
+    private formBuilder: FormBuilder,
+    private snacker: SnackerService,
+    private router: BlueDriversRouter
   ) {}
 
   ngOnInit(): void {
     this.company = this.formBuilder.group({
-      name: ['', nameValidators],
-      phone: ['', phoneValidators],
+      name: ['', insuranceCompanyNameValidators],
+      phone: ['', insuranceCompanyPhoneValidators],
     });
   }
 

@@ -1,3 +1,3 @@
 import { required } from './validators';
 
-export const titleValidators = [required];
+export const reservationTitleValidators = [required];

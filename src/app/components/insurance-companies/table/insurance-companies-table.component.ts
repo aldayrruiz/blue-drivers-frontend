@@ -28,10 +28,10 @@ export class InsuranceCompaniesTableComponent
   columns = ['name', 'phone', 'edit', 'delete'];
 
   constructor(
-    private readonly insuranceCompanyService: InsuranceCompanyService,
-    private readonly errorMessage: ErrorMessageService,
-    private readonly snacker: SnackerService,
-    private readonly dialog: MatDialog
+    private insuranceCompanyService: InsuranceCompanyService,
+    private errorMessage: ErrorMessageService,
+    private snacker: SnackerService,
+    private dialog: MatDialog
   ) {
     super();
   }

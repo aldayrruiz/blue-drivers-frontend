@@ -23,6 +23,11 @@ export class TenantService {
     return this.http.get<Tenant>(path);
   }
 
+  create(tenant: Tenant): Observable<Tenant> {
+    const path = `${this.baseUrl}/`;
+    return this.http.post<Tenant>(path, tenant);
+  }
+
   /**
    * Change user tenant.
    *

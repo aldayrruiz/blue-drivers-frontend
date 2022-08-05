@@ -6,12 +6,12 @@ import { finalize } from 'rxjs';
 import { EditPatchUser, User } from 'src/app/core/models';
 import {
   ErrorMessageService,
-  FleetRouter,
+  BlueDriversRouter,
   SnackerService,
   UserService,
 } from 'src/app/core/services';
 import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
-import { bleUserValidators } from 'src/app/core/validators/user';
+import { userBleValidators } from 'src/app/core/validators/user';
 
 @Component({
   selector: 'app-edit-user',
@@ -25,12 +25,12 @@ export class EditUserComponent implements OnInit {
   sending = false;
 
   constructor(
-    private readonly userSrv: UserService,
-    private readonly errorMessage: ErrorMessageService,
-    private readonly formBuilder: FormBuilder,
-    private readonly snacker: SnackerService,
-    private readonly route: ActivatedRoute,
-    private readonly router: FleetRouter
+    private userSrv: UserService,
+    private errorMessage: ErrorMessageService,
+    private formBuilder: FormBuilder,
+    private snacker: SnackerService,
+    private route: ActivatedRoute,
+    private router: BlueDriversRouter
   ) {}
 
   get bleUserId(): AbstractControl {
@@ -69,7 +69,7 @@ export class EditUserComponent implements OnInit {
 
   private setFormGroup(user: User) {
     this.formGroup = this.formBuilder.group({
-      bleUserId: [user.ble_user_id, bleUserValidators],
+      bleUserId: [user.ble_user_id, userBleValidators],
     });
   }
 

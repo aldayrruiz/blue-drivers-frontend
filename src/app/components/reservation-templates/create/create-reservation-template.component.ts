@@ -4,12 +4,12 @@ import { finalize } from 'rxjs/operators';
 import { CreateReservationTemplate } from 'src/app/core/models';
 import {
   ErrorMessageService,
-  FleetRouter,
+  BlueDriversRouter,
   ReservationTemplateService,
   SnackerService,
 } from 'src/app/core/services';
 import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
-import { titleValidators } from 'src/app/core/validators/reservation-template';
+import { reservationTitleValidators } from 'src/app/core/validators/reservation-template';
 
 @Component({
   selector: 'app-create-reservation-template',
@@ -22,16 +22,16 @@ export class CreateReservationTemplateComponent implements OnInit {
   sending = false;
 
   constructor(
-    private readonly reservationTemplateSrv: ReservationTemplateService,
-    private readonly errorMessage: ErrorMessageService,
-    private readonly formBuilder: FormBuilder,
-    private readonly snacker: SnackerService,
-    private readonly router: FleetRouter
+    private reservationTemplateSrv: ReservationTemplateService,
+    private errorMessage: ErrorMessageService,
+    private formBuilder: FormBuilder,
+    private snacker: SnackerService,
+    private router: BlueDriversRouter
   ) {}
 
   ngOnInit(): void {
     this.template = this.formBuilder.group({
-      title: ['', titleValidators],
+      title: ['', reservationTitleValidators],
     });
   }
 

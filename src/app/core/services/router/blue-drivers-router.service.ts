@@ -4,10 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Injectable({
   providedIn: 'root',
 })
-export class FleetRouter {
+export class BlueDriversRouter {
   extras = { replaceUrl: true };
 
-  constructor(private readonly router: Router, private readonly route: ActivatedRoute) {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   async goToHome() {
     const to = `admin`;

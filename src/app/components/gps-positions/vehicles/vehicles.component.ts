@@ -50,10 +50,10 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
   private icons: VehicleIcon[];
 
   constructor(
-    private readonly vehicleIconProvider: VehicleIconProvider,
-    private readonly positionSrv: PositionService,
-    private readonly route: ActivatedRoute,
-    private readonly router: Router
+    private vehicleIconProvider: VehicleIconProvider,
+    private positionSrv: PositionService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.icons = this.vehicleIconProvider.getIcons();
   }
