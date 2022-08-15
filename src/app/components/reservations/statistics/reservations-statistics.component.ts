@@ -109,16 +109,33 @@ export class ReservationsStatisticsComponent implements OnInit {
 
   private loadAntMap() {
     this.positions = this.removeInvalidPositions(this.positions);
-
-    if (this.positions.length === 0) {
-      this.snacker.showError('No hubo desplazamiento del vehículo en el tiempo de reserva');
+    if (this.positions.length < 0) {
+      this.showThereWasNoMovement();
       return;
     }
+
+    const areAllPositionsTheSame = this.areAllPositionsTheSame(this.positions);
+    if (areAllPositionsTheSame) {
+      this.showThereWasNoMovement();
+      return;
+    }
+
     this.antMap.addAntPath(this.positions);
   }
 
   private removeInvalidPositions(positions: Position[]) {
     return positions.filter((position) => position.valid);
+  }
+
+  private areAllPositionsTheSame(positions: Position[]): boolean {
+    return positions.every(
+      (position) =>
+        position.latitude === positions[0].latitude && position.longitude === positions[0].longitude
+    );
+  }
+
+  private showThereWasNoMovement() {
+    this.snacker.showError('No hubo desplazamiento del vehículo en el tiempo de reserva');
   }
 
   private resolve(): void {

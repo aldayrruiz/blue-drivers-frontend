@@ -37,6 +37,7 @@
     <mat-icon>person</mat-icon>
   </button>
   <mat-menu #account="matMenu">
+    <button mat-menu-item disabled>{{ user.email }}</button>
     <button mat-menu-item (click)="logOut()">Cerrar sesión</button>
   </mat-menu>
 </mat-toolbar>

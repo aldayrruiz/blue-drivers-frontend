@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IsActiveMatchOptions, Router } from '@angular/router';
-import { Role } from 'src/app/core/models';
+import { Role, User, UserStorage } from 'src/app/core/models';
 import { AssetsService, BlueDriversRouter, LocalStorage, LoginService } from 'src/app/core/services';
 
 @Component({
@@ -10,6 +10,7 @@ import { AssetsService, BlueDriversRouter, LocalStorage, LoginService } from 'sr
 })
 export class ToolbarComponent implements OnInit {
   title = 'angular-material-tab-router';
+  user: UserStorage;
   logoUrl: string;
   currentLink: any;
   navLinks = [
@@ -70,6 +71,7 @@ export class ToolbarComponent implements OnInit {
 
   ngOnInit(): void {
     const user = this.storage.getUser();
+    this.user = user;
     if (user.role === Role.SUPER_ADMIN) {
       this.menuLinks = [...this.menuLinks, ...this.superAdminMenuLinks];
     }
