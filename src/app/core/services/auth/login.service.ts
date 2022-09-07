@@ -36,19 +36,19 @@ export class LoginService {
 
   private storeUser(data: any) {
     const { user_id, email, fullname, role } = data;
-    this.storage.setUser({ id: user_id, email, fullname, role });
+    this.storage.storeUser({ id: user_id, email, fullname, role });
   }
 
   private storeToken(token: string) {
-    this.storage.setUserToken(token);
+    this.storage.storeUserToken(token);
   }
 
   private storeUserId(id: string) {
-    this.storage.setUserId(id);
+    this.storage.storeUserId(id);
   }
 
   private storeTenant(data: any) {
-    this.storage.setTenant(data.tenant);
+    this.storage.storeTenant(data.tenant);
   }
 }
 

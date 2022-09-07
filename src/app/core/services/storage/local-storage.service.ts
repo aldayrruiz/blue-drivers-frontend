@@ -8,7 +8,7 @@ export const USER_ID = 'user_id';
 export class LocalStorage {
   constructor() {}
 
-  setUser(user: UserStorage) {
+  storeUser(user: UserStorage) {
     this.set('user', JSON.stringify(user));
   }
 
@@ -16,7 +16,7 @@ export class LocalStorage {
     return this.get('user') ? JSON.parse(this.get('user')) : null;
   }
 
-  setTenant(tenant: TenantStorage) {
+  storeTenant(tenant: TenantStorage) {
     this.set('tenant', JSON.stringify(tenant));
   }
 
@@ -24,7 +24,7 @@ export class LocalStorage {
     return this.get('tenant') ? JSON.parse(this.get('tenant')) : null;
   }
 
-  setUserToken(token: string) {
+  storeUserToken(token: string) {
     this.set(USER_TOKEN, token);
   }
 
@@ -32,7 +32,7 @@ export class LocalStorage {
     return this.get(USER_TOKEN);
   }
 
-  setUserId(id: string) {
+  storeUserId(id: string) {
     this.set(USER_ID, id);
   }
 

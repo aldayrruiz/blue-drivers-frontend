@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Incident, incidentTypeLabel } from 'src/app/core/models';
 import { IncidentService } from 'src/app/core/services';
 import { PipeDates } from 'src/app/core/utils/dates/pipe-dates';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-incident-details',
@@ -10,13 +11,12 @@ import { PipeDates } from 'src/app/core/utils/dates/pipe-dates';
   styleUrls: ['./incident-details.component.css'],
 })
 export class IncidentDetailsComponent implements OnInit {
+  translateType = incidentTypeLabel;
+  driversBaseUrl = environment.fleetBaseUrl;
   incident: Incident;
   dateTimeFormat = PipeDates.dateTimeFormat;
 
-  constructor(
-    private incidentSrv: IncidentService,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private incidentSrv: IncidentService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.resolveData();
@@ -34,6 +34,4 @@ export class IncidentDetailsComponent implements OnInit {
       () => console.log('Not Solved')
     );
   }
-
-  translateType = incidentTypeLabel;
 }
