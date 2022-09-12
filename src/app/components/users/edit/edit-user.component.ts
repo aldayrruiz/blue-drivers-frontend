@@ -84,7 +84,7 @@ export class EditUserComponent implements OnInit {
   }
 
   private getUpdatedData(): EditPatchUser {
-    const ble_user_id = this.bleUserId.value || null;
+    const ble_user_id = this.bleUserId.value || '';
     const is_supervisor = this.supervisor.value;
     const is_interventor = this.interventor.value;
     return { ble_user_id, is_supervisor, is_interventor };
