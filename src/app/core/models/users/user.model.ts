@@ -11,4 +11,6 @@ export interface User {
   is_disabled: boolean;
   role: Role;
   ble_user_id: string;
+  is_supervisor: boolean;
+  is_interventor: boolean;
 }

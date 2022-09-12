@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
-import { finalize } from 'rxjs/operators';
+import { finalize } from 'rxjs';
 import { CreateUser, Role } from 'src/app/core/models';
 import {
-  ErrorMessageService,
   BlueDriversRouter,
+  ErrorMessageService,
   LocalStorage,
   SnackerService,
   UserService,
@@ -48,21 +48,32 @@ export class CreateUserComponent implements OnInit {
     return this.credentials.get('bleUserId');
   }
 
+  get supervisor(): AbstractControl {
+    return this.credentials.get('supervisor');
+  }
+
+  get interventor(): AbstractControl {
+    return this.credentials.get('interventor');
+  }
+
   ngOnInit(): void {
     this.credentials = this.formBuilder.group({
       email: ['', userEmailValidators],
       fullname: ['', userFullnameValidators],
       bleUserId: ['', userBleValidators],
+      supervisor: [false, []],
+      interventor: [false, []],
     });
   }
 
   createUser(): void {
-    const newUser = this.getFormData();
+    const user = this.getFormData();
+    // console.log(user);
     this.sending = true;
     const msg =
       'Se ha enviado un email al nuevo usuario con sus credenciales para entrar en la app móvil.';
     this.userSrv
-      .create(newUser)
+      .create(user)
       .pipe(finalize(() => (this.sending = false)))
       .subscribe({
         next: async () => {
@@ -77,14 +88,14 @@ export class CreateUserComponent implements OnInit {
   }
 
   private getFormData(): CreateUser {
-    const tenant = this.storage.getTenant();
-    const newUser: CreateUser = {
-      email: this.email.value,
-      fullname: this.fullname.value,
-      ble_user_id: this.bleUserId.value,
-      role: Role.USER,
-      tenant: tenant.id,
-    };
-    return newUser;
+    const tenant = this.storage.getTenant().id;
+    const email = this.email.value;
+    const fullname = this.fullname.value;
+    const ble_user_id = this.bleUserId.value;
+    const role = Role.USER;
+    const is_supervisor = this.supervisor.value;
+    const is_interventor = this.interventor.value;
+
+    return { email, fullname, ble_user_id, role, tenant, is_supervisor, is_interventor };
   }
 }

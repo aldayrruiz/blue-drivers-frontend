@@ -5,8 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs';
 import { EditPatchUser, User } from 'src/app/core/models';
 import {
-  ErrorMessageService,
   BlueDriversRouter,
+  ErrorMessageService,
   SnackerService,
   UserService,
 } from 'src/app/core/services';
@@ -35,6 +35,14 @@ export class EditUserComponent implements OnInit {
 
   get bleUserId(): AbstractControl {
     return this.formGroup.get('bleUserId');
+  }
+
+  get supervisor(): AbstractControl {
+    return this.formGroup.get('supervisor');
+  }
+
+  get interventor(): AbstractControl {
+    return this.formGroup.get('interventor');
   }
 
   ngOnInit(): void {
@@ -70,13 +78,15 @@ export class EditUserComponent implements OnInit {
   private setFormGroup(user: User) {
     this.formGroup = this.formBuilder.group({
       bleUserId: [user.ble_user_id, userBleValidators],
+      supervisor: [user.is_supervisor, []],
+      interventor: [user.is_interventor, []],
     });
   }
 
   private getUpdatedData(): EditPatchUser {
-    const bleUserId = this.bleUserId.value || null;
-    return {
-      ble_user_id: bleUserId,
-    };
+    const ble_user_id = this.bleUserId.value || null;
+    const is_supervisor = this.supervisor.value;
+    const is_interventor = this.interventor.value;
+    return { ble_user_id, is_supervisor, is_interventor };
   }
 }
