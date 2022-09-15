@@ -10,6 +10,6 @@ export const formatDateTime = (date: StringOrDate) => {
 };
 
 export const formatDuration = (duration: Duration) => {
-  const displayableUnits = ['days', 'hours', 'minutes'];
+  const displayableUnits = ['days', 'hours', 'minutes', 'seconds'];
   return formatDurationFns(duration, { format: displayableUnits, locale: es });
 };
