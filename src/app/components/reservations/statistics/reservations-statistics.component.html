@@ -53,7 +53,8 @@
 
       <mat-list-item role="listitem">
         Distancia recorrida:&nbsp;
-        <b>{{ summary?.distance | number: '1.0-0' }} km</b>
+        <b *ngIf="summary?.distance < 1">{{ summary?.distance | number: '1.0-1' }} km</b>
+        <b *ngIf="summary?.distance >= 1">{{ summary?.distance | number: '1.0-0' }} km</b>
       </mat-list-item>
 
       <mat-list-item role="listitem">

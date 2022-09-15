@@ -85,6 +85,7 @@ export class ReservationsStatisticsComponent implements OnInit {
 
   private serializeSummary(summary: ReportSummary) {
     this.summary = this.reportSerializer.convert(summary);
+    console.log(this.summary);
   }
 
   private calculatePriceFuelConsumed() {

@@ -19,7 +19,9 @@ export class DurationPipe implements PipeTransform {
       return '0 minutos';
     }
     const interval = intervalToDuration({ start: 0, end: milliseconds });
+    console.log(interval);
     const result = formatDuration(interval);
+    console.log(result);
     return result;
   }
 }

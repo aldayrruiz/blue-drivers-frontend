@@ -23,6 +23,8 @@ interface UserRow {
   role: string;
   allowedVehicleTypes?: Vehicle[];
   isDisabled?: boolean;
+  is_supervisor: boolean;
+  is_interventor: boolean;
 }
 
 @Component({
@@ -34,6 +36,7 @@ export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
   columns = [
     'fullname',
     'email',
+    'roles',
     'dateJoined',
     'allowedTypes',
     'edit',
@@ -90,6 +93,8 @@ export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
       dateJoined: user.date_joined,
       isDisabled: user.is_disabled,
       allowedVehicleTypes: user.allowed_vehicles,
+      is_supervisor: user.is_supervisor,
+      is_interventor: user.is_interventor,
     }));
   }
 
@@ -130,6 +135,26 @@ export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
   isMe = (u: UserRow) => this.myId === u.id;
 
   getBadgeColor = (n: number) => (n === 0 ? 'warn' : 'primary');
+
+  getUserRolesLabel(user: UserRow) {
+    const roles = [];
+    switch (user.role) {
+      case Role.ADMIN:
+        roles.push('Super Administrador');
+        break;
+      case Role.ADMIN:
+        roles.push('Administrador');
+        break;
+    }
+
+    if (user.is_supervisor) {
+      roles.push('Supervisor');
+    }
+    if (user.is_interventor) {
+      roles.push('Interventor');
+    }
+    return roles.join(' / ');
+  }
 
   private deleteUser(user: UserRow) {
     this.userSrv.delete(user.id).subscribe({
