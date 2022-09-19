@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { finalize } from 'rxjs/operators';
 import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
-import { EditPatchVehicle, fuelLabel, Vehicle } from 'src/app/core/models';
+import { EditPatchVehicle, fuelLabel, Vehicle, vehicleTypeLabel } from 'src/app/core/models';
 import {
   ErrorMessageService,
   SnackerService,
@@ -34,6 +34,7 @@ export class VehiclesTableComponent extends BaseTableComponent<Vehicle, VehicleR
     'brand',
     'model',
     'fuel',
+    'type',
     'numberPlate',
     'insuranceCompany',
     'edit',
@@ -58,6 +59,7 @@ export class VehiclesTableComponent extends BaseTableComponent<Vehicle, VehicleR
       model: vehicle.model,
       brand: vehicle.brand,
       fuel: fuelLabel(vehicle.fuel),
+      type: vehicleTypeLabel(vehicle.type),
       insuranceCompany: vehicle?.insurance_company?.name,
       numberPlate: vehicle.number_plate,
       isDisabled: vehicle.is_disabled,

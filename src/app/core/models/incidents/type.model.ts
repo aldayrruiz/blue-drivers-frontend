@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 export enum IncidentType {
   TIRE_PUNCTURE = 'TIRE_PUNCTURE',
   BANG = 'BANG',
@@ -5,7 +6,7 @@ export enum IncidentType {
   OTHERS = 'OTHERS',
 }
 
-export function incidentTypeLabel(type: IncidentType): string {
+export const incidentTypeLabel = (type: IncidentType) => {
   switch (type) {
     case IncidentType.BANG:
       return 'Choque';
@@ -16,4 +17,4 @@ export function incidentTypeLabel(type: IncidentType): string {
     case IncidentType.OTHERS:
       return 'Otros';
   }
-}
+};
