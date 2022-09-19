@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention */
+
 import { VehicleFuel, VehicleType } from '..';
 
 export interface EditVehicle {

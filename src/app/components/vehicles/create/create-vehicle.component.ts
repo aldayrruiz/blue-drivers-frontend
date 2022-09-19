@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CreateVehicle, InsuranceCompany, VehicleFuel, VehicleType } from 'src/app/core/models';
 import {
-  ErrorMessageService,
   BlueDriversRouter,
+  ErrorMessageService,
   SnackerService,
   VehicleService,
 } from 'src/app/core/services';
@@ -94,8 +93,8 @@ export class CreateVehicleComponent implements OnInit {
       model: ['', vehicleModelValidators],
       numberPlate: ['', vehicleNumberPlateValidators],
       imei: ['', vehicleImeiValidators],
-      fuel: [VehicleFuel.DIESEL, vehicleTypeValidators],
-      type: [VehicleType.TOURISM, []],
+      fuel: [VehicleFuel.DIESEL, vehicleFuelValidators],
+      type: [VehicleType.TOURISM, vehicleTypeValidators],
       insuranceCompany: [],
       policyNumber: ['', vehiclePolicyNumberValidators],
       icon: [this.iconSelected, []], // Pre-select first icon

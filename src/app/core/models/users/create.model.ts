@@ -1,6 +1,6 @@
 import { Role } from './role.model';
 
-/* eslint-disable @typescript-eslint/naming-convention */
+
 export interface CreateUser {
   id?: string;
   email: string;

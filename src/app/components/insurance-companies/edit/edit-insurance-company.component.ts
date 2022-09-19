@@ -4,13 +4,16 @@ import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { CreateInsuranceCompany, InsuranceCompany } from 'src/app/core/models';
 import {
-  ErrorMessageService,
   BlueDriversRouter,
+  ErrorMessageService,
   InsuranceCompanyService,
   SnackerService,
 } from 'src/app/core/services';
 import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
-import { insuranceCompanyNameValidators, insuranceCompanyPhoneValidators } from 'src/app/core/validators/insurance-company';
+import {
+  insuranceCompanyNameValidators,
+  insuranceCompanyPhoneValidators,
+} from 'src/app/core/validators/insurance-company';
 
 @Component({
   selector: 'app-edit-insurance-company',
@@ -32,24 +35,17 @@ export class EditInsuranceCompanyComponent implements OnInit {
     private router: BlueDriversRouter
   ) {}
 
+  get name(): AbstractControl {
+    return this.company.get('name');
+  }
+
+  get phone(): AbstractControl {
+    return this.company.get('phone');
+  }
+
   ngOnInit(): void {
     this.resolve();
     this.setFormGroup(this.oldCompany);
-  }
-
-  private setFormGroup(company: InsuranceCompany) {
-    this.company = this.formBuilder.group({
-      name: [company.name, insuranceCompanyNameValidators],
-      phone: [company.phone, insuranceCompanyPhoneValidators],
-    });
-  }
-
-  private getUpdatedData(): CreateInsuranceCompany {
-    const updatedData = {
-      name: this.name.value,
-      phone: this.phone.value,
-    };
-    return updatedData;
   }
 
   async edit() {
@@ -72,17 +68,24 @@ export class EditInsuranceCompanyComponent implements OnInit {
       );
   }
 
-  resolve(): void {
-    this.route.data.subscribe((response) => {
-      this.oldCompany = response.vehicle;
+  private setFormGroup(company: InsuranceCompany) {
+    this.company = this.formBuilder.group({
+      name: [company.name, insuranceCompanyNameValidators],
+      phone: [company.phone, insuranceCompanyPhoneValidators],
     });
   }
 
-  get name(): AbstractControl {
-    return this.company.get('name');
+  private getUpdatedData(): CreateInsuranceCompany {
+    const updatedData = {
+      name: this.name.value,
+      phone: this.phone.value,
+    };
+    return updatedData;
   }
 
-  get phone(): AbstractControl {
-    return this.company.get('phone');
+  private resolve(): void {
+    this.route.data.subscribe((response) => {
+      this.oldCompany = response.vehicle;
+    });
   }
 }

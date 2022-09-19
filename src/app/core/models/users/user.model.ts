@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention */
+
 import { Vehicle } from '..';
 import { Role } from './role.model';
 

@@ -4,7 +4,7 @@ export enum VehicleFuel {
   ELECTRIC = 'ELECTRIC',
 }
 
-export function fuelLabel(fuel: VehicleFuel): string {
+export const fuelLabel = (fuel: VehicleFuel) => {
   switch (fuel) {
     case VehicleFuel.DIESEL:
       return 'Diesel';
@@ -13,4 +13,4 @@ export function fuelLabel(fuel: VehicleFuel): string {
     case VehicleFuel.ELECTRIC:
       return 'Eléctrico';
   }
-}
+};

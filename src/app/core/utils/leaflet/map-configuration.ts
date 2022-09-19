@@ -1,4 +1,4 @@
-export const GPS_Madrid: [number, number] = [40.423516, -4.202832];
+export const MADRID_GPS_LOCATION: [number, number] = [40.423516, -4.202832];
 
 export class MapConfiguration {
   id: string;
@@ -9,7 +9,7 @@ export class MapConfiguration {
 
   constructor(
     id: string = 'map',
-    position: [number, number] = GPS_Madrid,
+    position: [number, number] = MADRID_GPS_LOCATION,
     initialZoom: number = 6,
     maxZoom: number = 18,
     minZoom: number = 3

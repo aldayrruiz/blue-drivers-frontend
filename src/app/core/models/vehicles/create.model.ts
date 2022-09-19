@@ -1,6 +1,6 @@
 import { VehicleFuel, VehicleType } from '..';
 
-/* eslint-disable @typescript-eslint/naming-convention */
+
 export interface CreateVehicle {
   model: string;
   brand: string;

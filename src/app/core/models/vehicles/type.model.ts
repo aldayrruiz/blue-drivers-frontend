@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention */
+
 export enum VehicleType {
   TOURISM = 'TOURISM',
   ALL_TERRAIN = 'ALL_TERRAIN',
