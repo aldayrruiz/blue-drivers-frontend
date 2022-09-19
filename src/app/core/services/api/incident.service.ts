@@ -29,8 +29,8 @@ export class IncidentService {
     return this.http.get<Incident>(path);
   }
 
-  solve(id: string) {
+  solve(id: string, data: { solver_message: string }) {
     const path = `${this.incidentURL}/${id}/solve/`;
-    return this.http.post(path, null);
+    return this.http.post(path, data);
   }
 }

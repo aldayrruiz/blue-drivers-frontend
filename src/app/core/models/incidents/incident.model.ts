@@ -9,4 +9,5 @@ export interface Incident {
   type: IncidentType;
   photo: string;
   solved: boolean;
+  solver_message: string;
 }
