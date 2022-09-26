@@ -3,13 +3,16 @@ import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 import { CreateInsuranceCompany } from 'src/app/core/models';
 import {
-  ErrorMessageService,
   BlueDriversRouter,
+  ErrorMessageService,
   InsuranceCompanyService,
   SnackerService,
 } from 'src/app/core/services';
 import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
-import { insuranceCompanyNameValidators, insuranceCompanyPhoneValidators } from 'src/app/core/validators/insurance-company';
+import {
+  insuranceCompanyNameValidators,
+  insuranceCompanyPhoneValidators,
+} from 'src/app/core/validators/insurance-company';
 
 @Component({
   selector: 'app-create-insurance-company',
@@ -29,19 +32,19 @@ export class CreateInsuranceCompanyComponent implements OnInit {
     private router: BlueDriversRouter
   ) {}
 
+  get name(): AbstractControl {
+    return this.company.get('name');
+  }
+
+  get phone(): AbstractControl {
+    return this.company.get('phone');
+  }
+
   ngOnInit(): void {
     this.company = this.formBuilder.group({
       name: ['', insuranceCompanyNameValidators],
       phone: ['', insuranceCompanyPhoneValidators],
     });
-  }
-
-  private getFormData(): CreateInsuranceCompany {
-    const company = {
-      name: this.name.value,
-      phone: this.phone.value,
-    };
-    return company;
   }
 
   create(): void {
@@ -51,23 +54,23 @@ export class CreateInsuranceCompanyComponent implements OnInit {
     this.insuranceCompanySrv
       .create(company)
       .pipe(finalize(() => (this.sending = false)))
-      .subscribe(
-        async () => {
+      .subscribe({
+        next: async () => {
           this.router.goToInsuranceCompanies();
           this.snacker.showSuccessful('Compañía aseguradora creada con éxito');
         },
-        async (error) => {
+        error: async (error) => {
           const message = this.errorMessage.get(error);
           this.snacker.showError(message);
-        }
-      );
+        },
+      });
   }
 
-  get name(): AbstractControl {
-    return this.company.get('name');
-  }
-
-  get phone(): AbstractControl {
-    return this.company.get('phone');
+  private getFormData(): CreateInsuranceCompany {
+    const company = {
+      name: this.name.value,
+      phone: this.phone.value,
+    };
+    return company;
   }
 }

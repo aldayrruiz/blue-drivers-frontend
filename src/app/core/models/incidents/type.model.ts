@@ -5,7 +5,7 @@ export enum IncidentType {
   OTHERS = 'OTHERS',
 }
 
-export function incidentTypeLabel(type: IncidentType): string {
+export const incidentTypeLabel = (type: IncidentType) => {
   switch (type) {
     case IncidentType.BANG:
       return 'Choque';
@@ -16,4 +16,4 @@ export function incidentTypeLabel(type: IncidentType): string {
     case IncidentType.OTHERS:
       return 'Otros';
   }
-}
+};

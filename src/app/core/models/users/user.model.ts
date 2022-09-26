@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/naming-convention */
+
 import { Vehicle } from '..';
-import { Role } from './role.model';
+import { UserRole } from './role.model';
 
 export interface User {
   id: string;
@@ -9,7 +9,7 @@ export interface User {
   date_joined: string;
   allowed_vehicles: Vehicle[];
   is_disabled: boolean;
-  role: Role;
+  role: UserRole;
   ble_user_id: string;
   is_supervisor: boolean;
   is_interventor: boolean;

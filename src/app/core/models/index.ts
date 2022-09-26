@@ -38,4 +38,5 @@ export * from './vehicles/device.model';
 export * from './vehicles/fuel.model';
 export * from './vehicles/patch.model';
 export * from './vehicles/put.model';
+export * from './vehicles/type.model';
 export * from './vehicles/vehicle.model';

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Incident, incidentTypeLabel } from 'src/app/core/models';
 import { IncidentService } from 'src/app/core/services';
@@ -15,11 +16,21 @@ export class IncidentDetailsComponent implements OnInit {
   driversBaseUrl = environment.fleetBaseUrl;
   incident: Incident;
   dateTimeFormat = PipeDates.dateTimeFormat;
+  formGroup: FormGroup;
 
-  constructor(private incidentSrv: IncidentService, private route: ActivatedRoute) {}
+  constructor(
+    private incidentSrv: IncidentService,
+    private route: ActivatedRoute,
+    private fb: FormBuilder
+  ) {}
+
+  get solverMessage(): AbstractControl {
+    return this.formGroup.get('solverMessage');
+  }
 
   ngOnInit(): void {
     this.resolveData();
+    this.createFormGroup();
   }
 
   resolveData(): void {
@@ -29,9 +40,17 @@ export class IncidentDetailsComponent implements OnInit {
   }
 
   solve() {
-    this.incidentSrv.solve(this.incident.id).subscribe(
-      () => console.log('Solved'),
-      () => console.log('Not Solved')
-    );
+    this.incidentSrv
+      .solve(this.incident.id, { solver_message: this.solverMessage.value })
+      .subscribe();
+  }
+
+  private createFormGroup(): void {
+    this.formGroup = this.fb.group({
+      solverMessage: new FormControl({
+        value: this.incident.solver_message,
+        disabled: this.incident.solved,
+      }),
+    });
   }
 }

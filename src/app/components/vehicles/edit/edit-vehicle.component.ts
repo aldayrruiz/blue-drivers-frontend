@@ -1,12 +1,12 @@
-/* eslint-disable @typescript-eslint/naming-convention */
+
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { EditVehicle, InsuranceCompany, Vehicle } from 'src/app/core/models';
 import {
-  ErrorMessageService,
   BlueDriversRouter,
+  ErrorMessageService,
   SnackerService,
   VehicleService,
 } from 'src/app/core/services';
@@ -19,6 +19,7 @@ import {
   vehicleModelValidators,
   vehicleNumberPlateValidators,
   vehiclePolicyNumberValidators,
+  vehicleTypeValidators,
 } from 'src/app/core/validators/vehicle';
 
 @Component({
@@ -71,6 +72,10 @@ export class EditVehicleComponent implements OnInit {
     return this.formGroup.get('fuel');
   }
 
+  get type(): AbstractControl {
+    return this.formGroup.get('type');
+  }
+
   get insuranceCompany(): AbstractControl {
     return this.formGroup.get('insuranceCompany');
   }
@@ -95,17 +100,17 @@ export class EditVehicleComponent implements OnInit {
     this.vehicleSrv
       .update(this.vehicle.id, vehicle)
       .pipe(finalize(() => (this.sending = false)))
-      .subscribe(
-        async () => {
+      .subscribe({
+        next: async () => {
           this.router.goToVehicles();
           const message = 'Vehículo editado con éxito!';
           this.snacker.showSuccessful(message);
         },
-        async (error) => {
+        error: async (error) => {
           const message = this.errorMessage.get(error);
           this.snacker.showError(message);
-        }
-      );
+        },
+      });
   }
 
   resolve(): void {
@@ -123,6 +128,7 @@ export class EditVehicleComponent implements OnInit {
       imei: [vehicle.gps_device.imei, vehicleImeiValidators],
       isDisabled: [vehicle.is_disabled],
       fuel: [vehicle.fuel, vehicleFuelValidators],
+      type: [vehicle.type, vehicleTypeValidators],
       insuranceCompany: [vehicle?.insurance_company?.id, []],
       policyNumber: [vehicle.policy_number, vehiclePolicyNumberValidators],
       icon: [this.iconSelected, []],
@@ -143,6 +149,7 @@ export class EditVehicleComponent implements OnInit {
       gps_device: this.imei.value,
       is_disabled: this.isDisabled.value,
       fuel: this.fuel.value,
+      type: this.type.value,
       insurance_company: insuranceCompany,
       policy_number: this.policyNumber.value,
       icon: this.icon.value.value,

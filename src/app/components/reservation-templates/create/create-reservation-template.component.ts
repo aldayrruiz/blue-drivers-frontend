@@ -3,8 +3,8 @@ import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 import { CreateReservationTemplate } from 'src/app/core/models';
 import {
-  ErrorMessageService,
   BlueDriversRouter,
+  ErrorMessageService,
   ReservationTemplateService,
   SnackerService,
 } from 'src/app/core/services';
@@ -29,15 +29,14 @@ export class CreateReservationTemplateComponent implements OnInit {
     private router: BlueDriversRouter
   ) {}
 
+  get title(): AbstractControl {
+    return this.template.get('title');
+  }
+
   ngOnInit(): void {
     this.template = this.formBuilder.group({
       title: ['', reservationTitleValidators],
     });
-  }
-
-  private getFormData(): CreateReservationTemplate {
-    const template = { title: this.title.value };
-    return template;
   }
 
   create(): void {
@@ -47,19 +46,20 @@ export class CreateReservationTemplateComponent implements OnInit {
     this.reservationTemplateSrv
       .create(template)
       .pipe(finalize(() => (this.sending = false)))
-      .subscribe(
-        async () => {
+      .subscribe({
+        next: async () => {
           this.router.goToReservationTemplates();
           this.snacker.showSuccessful('Plantilla de reserva creada con éxito');
         },
-        async (error) => {
+        error: async (error) => {
           const message = this.errorMessage.get(error);
           this.snacker.showError(message);
-        }
-      );
+        },
+      });
   }
 
-  get title(): AbstractControl {
-    return this.template.get('title');
+  private getFormData(): CreateReservationTemplate {
+    const template = { title: this.title.value };
+    return template;
   }
 }

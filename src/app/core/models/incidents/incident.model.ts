@@ -8,5 +8,7 @@ export interface Incident {
   reservation: Reservation;
   type: IncidentType;
   photo: string;
+  self_responsible: boolean;
   solved: boolean;
+  solver_message: string;
 }

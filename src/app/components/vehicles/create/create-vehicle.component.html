@@ -1,9 +1,7 @@
 <div class="main-div">
   <mat-card class="example-card">
     <mat-card-header>
-      <mat-card-title>
-        Nuevo vehículo
-      </mat-card-title>
+      <mat-card-title> Nuevo vehículo </mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <form [formGroup]="formGroup">
@@ -13,7 +11,7 @@
             <td>
               <mat-form-field class="full-width" appearance="fill">
                 <mat-label>Marca</mat-label>
-                <input type="text" matInput [formControl]="brand" [errorStateMatcher]="matcher">
+                <input type="text" matInput [formControl]="brand" [errorStateMatcher]="matcher" />
                 <mat-error *ngIf="brand.hasError('required')">
                   La marca es <strong>obligatorio</strong>
                 </mat-error>
@@ -26,7 +24,7 @@
             <td>
               <mat-form-field class="full-width" appearance="fill">
                 <mat-label>Modelo</mat-label>
-                <input type="text" matInput [formControl]="model" [errorStateMatcher]="matcher">
+                <input type="text" matInput [formControl]="model" [errorStateMatcher]="matcher" />
                 <mat-error *ngIf="model.hasError('required')">
                   El modelo es <strong>obligatorio</strong>
                 </mat-error>
@@ -39,11 +37,19 @@
             <td>
               <mat-form-field class="full-width" appearance="fill">
                 <mat-label>Nº Matricula</mat-label>
-                <input type="text" matInput [formControl]="numberPlate" [errorStateMatcher]="matcher">
-                <mat-error *ngIf="
-                numberPlate.hasError('required') ||
-                numberPlate.hasError('maxlength') ||
-                numberPlate.hasError('minlength')">
+                <input
+                  type="text"
+                  matInput
+                  [formControl]="numberPlate"
+                  [errorStateMatcher]="matcher"
+                />
+                <mat-error
+                  *ngIf="
+                    numberPlate.hasError('required') ||
+                    numberPlate.hasError('maxlength') ||
+                    numberPlate.hasError('minlength')
+                  "
+                >
                   El nº de matricula debe tener <strong>7 u 8 caracteres</strong>
                 </mat-error>
               </mat-form-field>
@@ -55,7 +61,7 @@
             <td>
               <mat-form-field class="full-width" appearance="fill">
                 <mat-label>IMEI</mat-label>
-                <input type="text" matInput [formControl]="imei" [errorStateMatcher]="matcher">
+                <input type="text" matInput [formControl]="imei" [errorStateMatcher]="matcher" />
                 <mat-error *ngIf="imei.hasError('required')">
                   El IMEI del gps es <strong>obligatorio</strong>
                 </mat-error>
@@ -72,6 +78,22 @@
                   <mat-option value="DIESEL">Diesel</mat-option>
                   <mat-option value="GASOLINE">Gasolina</mat-option>
                   <mat-option value="ELECTRIC">Eléctrico</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+          </tr>
+
+          <!-- Type -->
+          <tr>
+            <td>
+              <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Tipo</mat-label>
+                <mat-select [formControl]="type">
+                  <mat-option value="TOURISM">Turismo</mat-option>
+                  <mat-option value="ALL_TERRAIN">Todoterreno</mat-option>
+                  <mat-option value="MOTORCYCLE">Motocicleta</mat-option>
+                  <mat-option value="VAN">Furgoneta</mat-option>
+                  <mat-option value="TRUCK">Camión</mat-option>
                 </mat-select>
               </mat-form-field>
             </td>
@@ -97,7 +119,12 @@
             <td>
               <mat-form-field class="full-width" appearance="fill">
                 <mat-label>Número de póliza</mat-label>
-                <input type="text" matInput [formControl]="policyNumber" [errorStateMatcher]="matcher">
+                <input
+                  type="text"
+                  matInput
+                  [formControl]="policyNumber"
+                  [errorStateMatcher]="matcher"
+                />
               </mat-form-field>
             </td>
           </tr>
@@ -112,7 +139,12 @@
                     <div class="wrapper">
                       <div class="text">{{ icon.label }}</div>
                       <div class="icon">
-                        <img style="padding-top: 6px" width="30px" [src]="icon.src" alt="vehicle icon" />
+                        <img
+                          style="padding-top: 6px"
+                          width="30px"
+                          [src]="icon.src"
+                          alt="vehicle icon"
+                        />
                       </div>
                     </div>
                   </mat-option>
@@ -123,7 +155,7 @@
 
           <tr>
             <td>
-              <img width="50px" [src]="iconSelected?.src">
+              <img width="50px" [src]="iconSelected?.src" />
             </td>
           </tr>
 
@@ -131,9 +163,20 @@
           <tr>
             <td>
               <div>
-                <button class="cancel" mat-raised-button color="warn" routerLink="..">Cancelar</button>
-                <button class="create" (click)="createVehicle()" mat-raised-button color="primary" type="submit" expand="block"
-                [disabled]="!formGroup.valid">Crear</button>
+                <button class="cancel" mat-raised-button color="warn" routerLink="..">
+                  Cancelar
+                </button>
+                <button
+                  class="create"
+                  (click)="createVehicle()"
+                  mat-raised-button
+                  color="primary"
+                  type="submit"
+                  expand="block"
+                  [disabled]="!formGroup.valid"
+                >
+                  Crear
+                </button>
               </div>
             </td>
           </tr>

@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { CreateVehicle, InsuranceCompany, VehicleFuel } from 'src/app/core/models';
+import { CreateVehicle, InsuranceCompany, VehicleFuel, VehicleType } from 'src/app/core/models';
 import {
-  ErrorMessageService,
   BlueDriversRouter,
+  ErrorMessageService,
   SnackerService,
   VehicleService,
 } from 'src/app/core/services';
@@ -18,6 +17,7 @@ import {
   vehicleModelValidators,
   vehicleNumberPlateValidators,
   vehiclePolicyNumberValidators,
+  vehicleTypeValidators,
 } from 'src/app/core/validators/vehicle';
 
 @Component({
@@ -66,6 +66,10 @@ export class CreateVehicleComponent implements OnInit {
     return this.formGroup.get('fuel');
   }
 
+  get type(): AbstractControl {
+    return this.formGroup.get('type');
+  }
+
   get insuranceCompany(): AbstractControl {
     return this.formGroup.get('insuranceCompany');
   }
@@ -90,6 +94,7 @@ export class CreateVehicleComponent implements OnInit {
       numberPlate: ['', vehicleNumberPlateValidators],
       imei: ['', vehicleImeiValidators],
       fuel: [VehicleFuel.DIESEL, vehicleFuelValidators],
+      type: [VehicleType.TOURISM, vehicleTypeValidators],
       insuranceCompany: [],
       policyNumber: ['', vehiclePolicyNumberValidators],
       icon: [this.iconSelected, []], // Pre-select first icon
@@ -119,6 +124,7 @@ export class CreateVehicleComponent implements OnInit {
       number_plate: this.numberPlate.value,
       gps_device: this.imei.value,
       fuel: this.fuel.value,
+      type: this.type.value,
       insurance_company: this.insuranceCompany.value,
       policy_number: this.policyNumber.value,
       icon: this.icon.value.value,

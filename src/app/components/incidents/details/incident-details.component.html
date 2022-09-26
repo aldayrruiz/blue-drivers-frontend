@@ -26,18 +26,36 @@
       </mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item role="listitem">
+        <b>Responsabilidad:&nbsp;</b>{{ incident.self_responsible ? 'Causada por el usuario' : 'Encontrada por el usuario' }}
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item role="listitem">
         <b>Descripción: &nbsp;</b>{{ incident.description }}
       </mat-list-item>
     </mat-list>
   </div>
-  <div *ngIf="incident.photo !== '/media/incidents/none.png'; else NoPhoto">
-    <img class="photo-size" [src]="driversBaseUrl + incident.photo" alt="Foto del incidente" />
-  </div>
-  <ng-template #NoPhoto>
-    <div>
-      <p>No se ha adjuntado una imagen</p>
+
+  <div id="wrapper">
+    <div id="first">
+      <div *ngIf="incident.photo !== '/media/incidents/none.png'; else NoPhoto">
+        <img class="photo-size" [src]="driversBaseUrl + incident.photo" alt="Foto del incidente" />
+      </div>
+      <ng-template #NoPhoto>
+        <div>
+          <p>No se ha adjuntado una imagen</p>
+        </div>
+      </ng-template>
     </div>
-  </ng-template>
+    <div style="width: 50%; padding-left: 30%;" id="second">
+      <form [formGroup]="formGroup">
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Comentario</mat-label>
+          <textarea matInput [formControl]="solverMessage"></textarea>
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+
   <div class="center-items">
     <button
       (click)="solve()"

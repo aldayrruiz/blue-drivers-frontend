@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-import { VehicleFuel } from './fuel.model';
+
+import { VehicleFuel, VehicleType } from '..';
 
 export interface EditVehicle {
   model: string;
@@ -8,6 +8,7 @@ export interface EditVehicle {
   gps_device: string;
   is_disabled: boolean;
   fuel: VehicleFuel;
+  type: VehicleType;
   insurance_company: string;
   policy_number: string;
   icon: number;

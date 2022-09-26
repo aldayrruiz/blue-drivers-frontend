@@ -4,8 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { CreateReservationTemplate, ReservationTemplate } from 'src/app/core/models';
 import {
-  ErrorMessageService,
   BlueDriversRouter,
+  ErrorMessageService,
   ReservationTemplateService,
   SnackerService,
 } from 'src/app/core/services';
@@ -32,9 +32,33 @@ export class EditReservationTemplateComponent implements OnInit {
     private router: BlueDriversRouter
   ) {}
 
+  get title(): AbstractControl {
+    return this.template.get('title');
+  }
+
   ngOnInit(): void {
     this.resolve();
     this.setFormGroup(this.oldTemplateReservation);
+  }
+
+  async edit() {
+    this.sending = true;
+    const updatedData = this.getUpdatedData();
+
+    this.reservationTemplateSrv
+      .update(this.oldTemplateReservation.id, updatedData)
+      .pipe(finalize(() => (this.sending = false)))
+      .subscribe({
+        next: async () => {
+          this.router.goToReservationTemplates();
+          const message = 'Plantilla de reserva editada con éxito';
+          this.snacker.showSuccessful(message);
+        },
+        error: async (error) => {
+          const message = this.errorMessage.get(error);
+          this.snacker.showError(message);
+        },
+      });
   }
 
   private setFormGroup(template: ReservationTemplate) {
@@ -50,33 +74,9 @@ export class EditReservationTemplateComponent implements OnInit {
     return updatedData;
   }
 
-  async edit() {
-    this.sending = true;
-    const updatedData = this.getUpdatedData();
-
-    this.reservationTemplateSrv
-      .update(this.oldTemplateReservation.id, updatedData)
-      .pipe(finalize(() => (this.sending = false)))
-      .subscribe(
-        async () => {
-          this.router.goToReservationTemplates();
-          const message = 'Plantilla de reserva editada con éxito';
-          this.snacker.showSuccessful(message);
-        },
-        async (error) => {
-          const message = this.errorMessage.get(error);
-          this.snacker.showError(message);
-        }
-      );
-  }
-
-  resolve(): void {
+  private resolve(): void {
     this.route.data.subscribe((response) => {
       this.oldTemplateReservation = response.reservationTemplate;
     });
-  }
-
-  get title(): AbstractControl {
-    return this.template.get('title');
   }
 }

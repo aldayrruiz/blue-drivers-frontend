@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IsActiveMatchOptions, Router } from '@angular/router';
-import { Role, User, UserStorage } from 'src/app/core/models';
+import { UserRole, User, UserStorage } from 'src/app/core/models';
 import { AssetsService, BlueDriversRouter, LocalStorage, LoginService } from 'src/app/core/services';
 
 @Component({
@@ -72,7 +72,7 @@ export class ToolbarComponent implements OnInit {
   ngOnInit(): void {
     const user = this.storage.getUser();
     this.user = user;
-    if (user.role === Role.SUPER_ADMIN) {
+    if (user.role === UserRole.SUPER_ADMIN) {
       this.menuLinks = [...this.menuLinks, ...this.superAdminMenuLinks];
     }
     this.logoUrl = this.assetsService.getUrl('background/icon.png');

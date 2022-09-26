@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { API } from 'src/app/core/utils/api-paths.enum';
 import { environment } from 'src/environments/environment';
-import { Role } from '../../models';
+import { UserRole } from '../../models';
 import { LocalStorage } from '../storage/local-storage.service';
 
 const path = `${environment.fleetBaseUrl}${API.login}/`;
@@ -18,7 +17,7 @@ export class LoginService {
   login(credentials: Credentials) {
     return this.http.post<void>(path, credentials).pipe(
       map((data: any) => {
-        if (data && data?.role !== Role.USER) {
+        if (data && data?.role !== UserRole.USER) {
           const { token, user_id } = data;
           this.storeUser(data);
           this.storeToken(token);

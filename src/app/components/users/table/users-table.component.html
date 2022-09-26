@@ -81,7 +81,7 @@
       <ng-container matColumnDef="edit">
         <th class="button-table" mat-header-cell *matHeaderCellDef></th>
         <td class="button-table" mat-cell *matCellDef="let user">
-          <span *ngIf="user.role === 'USER'">
+          <span *ngIf="user.role === 'USER' || user.role === 'ADMIN'">
             <button
               mat-icon-button
               color="dark"
@@ -98,7 +98,7 @@
       <ng-container matColumnDef="isDisabled">
         <th class="button-table" mat-header-cell *matHeaderCellDef></th>
         <td class="button-table" mat-cell *matCellDef="let user">
-          <span *ngIf="user.role === 'USER'">
+          <span *ngIf="user.role === 'USER' || user.role === 'ADMIN'">
             <span *ngIf="!user.isDisabled; else disabledIcon">
               <button
                 mat-icon-button
@@ -127,7 +127,7 @@
       <ng-container matColumnDef="resendRegistrationEmail">
         <th class="button-table" mat-header-cell *matHeaderCellDef></th>
         <td class="button-table" mat-cell *matCellDef="let user">
-          <span *ngIf="user.role === 'USER'">
+          <span *ngIf="user.role === 'USER' || user.role === 'ADMIN'">
             <button
               mat-icon-button
               color="dark"

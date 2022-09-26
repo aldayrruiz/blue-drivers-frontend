@@ -26,13 +26,26 @@
             </td>
           </tr>
 
+          <!-- Role -->
           <tr>
+            <td>
+              <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Rol</mat-label>
+                <mat-select [formControl]="role">
+                  <mat-option value="USER">Usuario</mat-option>
+                  <mat-option value="ADMIN">Administrador</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+          </tr>
+
+          <tr *ngIf="tenant.diet">
             <td>
               <mat-slide-toggle formControlName="supervisor">Supervisor</mat-slide-toggle>
             </td>
           </tr>
 
-          <tr>
+          <tr *ngIf="tenant.diet">
             <td>
               <mat-slide-toggle formControlName="interventor">Interventor</mat-slide-toggle>
             </td>
