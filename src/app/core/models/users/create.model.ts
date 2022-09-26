@@ -1,4 +1,4 @@
-import { Role } from './role.model';
+import { UserRole } from './role.model';
 
 
 export interface CreateUser {
@@ -6,7 +6,7 @@ export interface CreateUser {
   email: string;
   fullname: string;
   tenant: string;
-  role: Role;
+  role: UserRole;
   ble_user_id?: string;
   is_interventor?: boolean;
   is_supervisor?: boolean;

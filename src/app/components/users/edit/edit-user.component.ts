@@ -1,17 +1,17 @@
-
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs';
-import { EditPatchUser, User } from 'src/app/core/models';
+import { EditPatchUser, UserRole, TenantStorage, User } from 'src/app/core/models';
 import {
   BlueDriversRouter,
   ErrorMessageService,
+  LocalStorage,
   SnackerService,
   UserService,
 } from 'src/app/core/services';
 import { MyErrorStateMatcher } from 'src/app/core/utils/my-error-state-matcher';
-import { userBleValidators } from 'src/app/core/validators/user';
+import { userBleValidators, userRoleValidators } from 'src/app/core/validators/user';
 
 @Component({
   selector: 'app-edit-user',
@@ -23,15 +23,23 @@ export class EditUserComponent implements OnInit {
   user: User;
   formGroup: FormGroup;
   sending = false;
+  tenant: TenantStorage;
 
   constructor(
-    private userSrv: UserService,
     private errorMessage: ErrorMessageService,
+    private router: BlueDriversRouter,
     private formBuilder: FormBuilder,
     private snacker: SnackerService,
     private route: ActivatedRoute,
-    private router: BlueDriversRouter
-  ) {}
+    private storage: LocalStorage,
+    private userSrv: UserService
+  ) {
+    this.tenant = this.storage.getTenant();
+  }
+
+  get role(): AbstractControl {
+    return this.formGroup.get('role');
+  }
 
   get bleUserId(): AbstractControl {
     return this.formGroup.get('bleUserId');
@@ -77,6 +85,7 @@ export class EditUserComponent implements OnInit {
 
   private setFormGroup(user: User) {
     this.formGroup = this.formBuilder.group({
+      role: [user.role, userRoleValidators],
       bleUserId: [user.ble_user_id, userBleValidators],
       supervisor: [user.is_supervisor, []],
       interventor: [user.is_interventor, []],
@@ -85,8 +94,9 @@ export class EditUserComponent implements OnInit {
 
   private getUpdatedData(): EditPatchUser {
     const ble_user_id = this.bleUserId.value || '';
+    const role = this.role.value;
     const is_supervisor = this.supervisor.value;
     const is_interventor = this.interventor.value;
-    return { ble_user_id, is_supervisor, is_interventor };
+    return { role, ble_user_id, is_supervisor, is_interventor };
   }
 }

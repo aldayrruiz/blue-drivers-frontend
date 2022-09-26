@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
-import { CreateUser, Role, Tenant } from 'src/app/core/models';
+import { CreateUser, UserRole, Tenant } from 'src/app/core/models';
 import {
   BlueDriversRouter,
   ErrorMessageService,
@@ -29,12 +29,9 @@ export class CreateTenantComponent implements OnInit {
 
   constructor(
     private tenantSrv: TenantService,
-    private errorMessage: ErrorMessageService,
     private formBuilder: FormBuilder,
     private snacker: SnackerService,
-    private storage: LocalStorage,
     private userSrv: UserService,
-    private router: BlueDriversRouter
   ) {}
 
   // Tenant form
@@ -171,7 +168,7 @@ export class CreateTenantComponent implements OnInit {
     const { adminEmail1, adminFullname1 } = this.adminForm.value;
     const email = adminEmail1;
     const fullname = adminFullname1;
-    const role = Role.ADMIN;
+    const role = UserRole.ADMIN;
     const ble_user_id = '';
     return { email, fullname, role, tenant, ble_user_id };
   }
@@ -180,7 +177,7 @@ export class CreateTenantComponent implements OnInit {
     const { adminEmail2, adminFullname2 } = this.adminForm.value;
     const email = adminEmail2;
     const fullname = adminFullname2;
-    const role = Role.ADMIN;
+    const role = UserRole.ADMIN;
     const ble_user_id = '';
     return { email, fullname, role, tenant, ble_user_id };
   }
@@ -189,7 +186,7 @@ export class CreateTenantComponent implements OnInit {
     const { supervisorEmail, supervisorFullname } = this.dietForm.value;
     const email = supervisorEmail;
     const fullname = supervisorFullname;
-    const role = Role.USER;
+    const role = UserRole.USER;
     const ble_user_id = '';
     const is_supervisor = true;
     return { email, fullname, role, tenant, ble_user_id, is_supervisor };
@@ -199,7 +196,7 @@ export class CreateTenantComponent implements OnInit {
     const { interventorEmail, interventorFullname } = this.dietForm.value;
     const email = interventorEmail;
     const fullname = interventorFullname;
-    const role = Role.USER;
+    const role = UserRole.USER;
     const ble_user_id = '';
     const is_interventor = true;
     return { email, fullname, role, tenant, ble_user_id, is_interventor };

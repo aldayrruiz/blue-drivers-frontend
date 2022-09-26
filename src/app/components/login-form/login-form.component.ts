@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
-import { Role, Tenant } from 'src/app/core/models';
+import { UserRole, Tenant } from 'src/app/core/models';
 import {
   AssetsService,
   ErrorMessageService,
@@ -65,11 +65,11 @@ export class LoginFormComponent implements OnInit {
       .pipe(finalize(() => (this.sending = false)))
       .subscribe({
         next: async (response) => {
-          if (response.role === Role.SUPER_ADMIN) {
+          if (response.role === UserRole.SUPER_ADMIN) {
             this.isSuperAdmin = true;
             this.tenantToChange = response.tenant.id;
             this.getTenants();
-          } else if (response.role === Role.ADMIN) {
+          } else if (response.role === UserRole.ADMIN) {
             this.fleetRouter.goToHome();
           } else {
             this.snacker.showError('No eres administrador');

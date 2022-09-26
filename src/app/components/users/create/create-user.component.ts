@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { finalize } from 'rxjs';
-import { CreateUser, Role } from 'src/app/core/models';
+import { CreateUser, UserRole, TenantStorage } from 'src/app/core/models';
 import {
   BlueDriversRouter,
   ErrorMessageService,
@@ -14,6 +14,7 @@ import {
   userBleValidators,
   userEmailValidators,
   userFullnameValidators,
+  userRoleValidators,
 } from 'src/app/core/validators/user';
 
 @Component({
@@ -23,8 +24,9 @@ import {
 })
 export class CreateUserComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
-  credentials: FormGroup;
+  formGroup: FormGroup;
   sending = false;
+  tenant: TenantStorage;
 
   constructor(
     private errorMessage: ErrorMessageService,
@@ -33,32 +35,39 @@ export class CreateUserComponent implements OnInit {
     private storage: LocalStorage,
     private userSrv: UserService,
     private router: BlueDriversRouter
-  ) {}
-
-  get fullname(): AbstractControl {
-    return this.credentials.get('fullname');
+  ) {
+    this.tenant = this.storage.getTenant();
   }
 
   get email(): AbstractControl {
-    return this.credentials.get('email');
+    return this.formGroup.get('email');
+  }
+
+  get fullname(): AbstractControl {
+    return this.formGroup.get('fullname');
+  }
+
+  get role(): AbstractControl {
+    return this.formGroup.get('role');
   }
 
   get bleUserId(): AbstractControl {
-    return this.credentials.get('bleUserId');
+    return this.formGroup.get('bleUserId');
   }
 
   get supervisor(): AbstractControl {
-    return this.credentials.get('supervisor');
+    return this.formGroup.get('supervisor');
   }
 
   get interventor(): AbstractControl {
-    return this.credentials.get('interventor');
+    return this.formGroup.get('interventor');
   }
 
   ngOnInit(): void {
-    this.credentials = this.formBuilder.group({
+    this.formGroup = this.formBuilder.group({
       email: ['', userEmailValidators],
       fullname: ['', userFullnameValidators],
+      role: [UserRole.USER, userRoleValidators],
       bleUserId: ['', userBleValidators],
       supervisor: [false, []],
       interventor: [false, []],
@@ -91,7 +100,7 @@ export class CreateUserComponent implements OnInit {
     const email = this.email.value;
     const fullname = this.fullname.value;
     const ble_user_id = this.bleUserId.value;
-    const role = Role.USER;
+    const role = this.role.value;
     const is_supervisor = this.supervisor.value;
     const is_interventor = this.interventor.value;
 

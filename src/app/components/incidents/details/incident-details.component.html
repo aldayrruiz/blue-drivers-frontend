@@ -26,6 +26,10 @@
       </mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item role="listitem">
+        <b>Responsabilidad:&nbsp;</b>{{ incident.self_responsible ? 'Causada por el usuario' : 'Encontrada por el usuario' }}
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item role="listitem">
         <b>Descripción: &nbsp;</b>{{ incident.description }}
       </mat-list-item>
     </mat-list>

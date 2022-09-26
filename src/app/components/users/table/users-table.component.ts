@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { finalize } from 'rxjs/operators';
 import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
-import { EditPatchUser, Role, User, Vehicle } from 'src/app/core/models';
+import { EditPatchUser, UserRole, User, Vehicle } from 'src/app/core/models';
 import {
   AuthService,
   ErrorMessageService,
@@ -139,10 +139,10 @@ export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
   getUserRolesLabel(user: UserRow) {
     const roles = [];
     switch (user.role) {
-      case Role.ADMIN:
+      case UserRole.SUPER_ADMIN:
         roles.push('Super Administrador');
         break;
-      case Role.ADMIN:
+      case UserRole.ADMIN:
         roles.push('Administrador');
         break;
     }
@@ -171,7 +171,7 @@ export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
   }
 
   private removeSuperAdmin(users: User[]) {
-    return users.filter((user) => user.role !== Role.SUPER_ADMIN);
+    return users.filter((user) => user.role !== UserRole.SUPER_ADMIN);
   }
 
   private orderRowsAlphabetically(users: User[]) {
@@ -187,10 +187,10 @@ export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
     const usersOrderedAlphabetically = users.sort((a, b) => {
       // Admin must appear first
       // console.log(`Comparing: ${a.fullname} - ${b.fullname}`);
-      if (b.role === Role.ADMIN) {
+      if (b.role === UserRole.ADMIN) {
         return 1;
       }
-      if (a.role === Role.ADMIN) {
+      if (a.role === UserRole.ADMIN) {
         return -1;
       }
       return 0;

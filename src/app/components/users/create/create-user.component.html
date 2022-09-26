@@ -4,7 +4,7 @@
       <mat-card-title> Nuevo usuario </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <form [formGroup]="credentials">
+      <form [formGroup]="formGroup">
         <table cellspacing="0">
           <!-- Email -->
           <tr>
@@ -49,6 +49,19 @@
             </td>
           </tr>
 
+          <!-- Role -->
+          <tr>
+            <td>
+              <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Rol</mat-label>
+                <mat-select [formControl]="role">
+                  <mat-option value="USER">Usuario</mat-option>
+                  <mat-option value="ADMIN">Administrador</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+          </tr>
+
           <!-- BLE User Id -->
           <tr>
             <td>
@@ -64,13 +77,13 @@
             </td>
           </tr>
 
-          <tr>
+          <tr *ngIf="tenant.diet">
             <td>
               <mat-slide-toggle formControlName="supervisor">Supervisor</mat-slide-toggle>
             </td>
           </tr>
 
-          <tr>
+          <tr *ngIf="tenant.diet">
             <td>
               <mat-slide-toggle formControlName="interventor">Interventor</mat-slide-toggle>
             </td>
@@ -96,7 +109,7 @@
                   color="primary"
                   type="submit"
                   expand="block"
-                  [disabled]="!credentials.valid || sending"
+                  [disabled]="!formGroup.valid || sending"
                 >
                   Crear
                 </button>
