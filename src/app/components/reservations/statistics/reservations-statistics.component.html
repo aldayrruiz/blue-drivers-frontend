@@ -37,39 +37,46 @@
       <!-- Estadísticas -->
 
       <h2 class="title">DESPLAZAMIENTO</h2>
-      <mat-list-item role="listitem">
-        Velocidad máxima:&nbsp;
-        <b>{{ summary?.maxSpeed | number: '1.0-0' }} km/h</b>
-      </mat-list-item>
 
-      <mat-list-item role="listitem">
-        Velocidad media:&nbsp; <b>{{ summary?.averageSpeed | number: '1.0-0' }} km/h</b>
-      </mat-list-item>
+      <p *ngIf="summary?.distance === 0; else noData">
+        No hay datos de desplazamiento para esta reserva.
+      </p>
+      <ng-template #noData>
+        <mat-list-item role="listitem">
+          Velocidad máxima:&nbsp;
+          <b>{{ summary?.maxSpeed | number: '1.0-0' }} km/h</b>
+        </mat-list-item>
 
-      <mat-list-item role="listitem">
-        Coste de combustible consumido:&nbsp;
-        <b>{{ priceFuelConsumed | number: '1.0-0' | currency: 'EUR':'€' }}</b>
-      </mat-list-item>
+        <mat-list-item role="listitem">
+          Velocidad media:&nbsp; <b>{{ summary?.averageSpeed | number: '1.0-0' }} km/h</b>
+        </mat-list-item>
 
-      <mat-list-item role="listitem">
-        Distancia recorrida:&nbsp;
-        <b *ngIf="summary?.distance < 1">{{ summary?.distance | number: '1.0-1' }} km</b>
-        <b *ngIf="summary?.distance >= 1">{{ summary?.distance | number: '1.0-0' }} km</b>
-      </mat-list-item>
+        <mat-list-item role="listitem">
+          Coste de combustible consumido:&nbsp;
+          <b>{{ priceFuelConsumed | currency: 'EUR':'€' }}</b>
+        </mat-list-item>
 
-      <mat-list-item role="listitem">
-        Motor encendido:&nbsp;
-        <b>{{ summary?.engineHours | duration }}</b>
-      </mat-list-item>
+        <mat-list-item role="listitem">
+          Distancia recorrida:&nbsp;
+          <b *ngIf="summary?.distance < 1">{{ summary?.distance | number: '1.0-1' }} km</b>
+          <b *ngIf="summary?.distance >= 1">{{ summary?.distance | number: '1.0-0' }} km</b>
+        </mat-list-item>
 
-      <mat-list-item role="listitem">
-        Hora de inicio del desplazamiento:&nbsp;
-        <b>{{ summary?.realStartTime | date: 'shortTime' }}</b>
-      </mat-list-item>
+        <mat-list-item role="listitem">
+          Motor encendido:&nbsp;
+          <b>{{ summary?.engineHours | duration }}</b>
+        </mat-list-item>
 
-      <mat-list-item role="listitem">
-        Hora de fin del desplazamiento:&nbsp; <b>{{ summary?.realEndTime | date: 'shortTime' }}</b>
-      </mat-list-item>
+        <mat-list-item role="listitem">
+          Hora de inicio del desplazamiento:&nbsp;
+          <b>{{ summary?.realStartTime | date: 'shortTime' }}</b>
+        </mat-list-item>
+
+        <mat-list-item role="listitem">
+          Hora de fin del desplazamiento:&nbsp;
+          <b>{{ summary?.realEndTime | date: 'shortTime' }}</b>
+        </mat-list-item>
+      </ng-template>
 
       <!-- Ocupantes -->
       <h2 class="title">OCUPANTES</h2>
