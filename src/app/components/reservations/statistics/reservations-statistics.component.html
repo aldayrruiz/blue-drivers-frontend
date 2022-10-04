@@ -38,10 +38,10 @@
 
       <h2 class="title">DESPLAZAMIENTO</h2>
 
-      <p *ngIf="summary?.distance === 0; else noData">
+      <p *ngIf="!validData; else showData">
         No hay datos de desplazamiento para esta reserva.
       </p>
-      <ng-template #noData>
+      <ng-template #showData>
         <mat-list-item role="listitem">
           Velocidad máxima:&nbsp;
           <b>{{ summary?.maxSpeed | number: '1.0-0' }} km/h</b>

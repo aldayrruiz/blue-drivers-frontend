@@ -39,6 +39,7 @@ export class ReservationsStatisticsComponent implements OnInit {
   priceFuelConsumed = 0;
   fuel: string;
   timeReserved: string;
+  validData = false;
 
   constructor(
     private priceFuelCalculatorFactory: FuelPriceCalculatorFactory,
@@ -111,16 +112,19 @@ export class ReservationsStatisticsComponent implements OnInit {
   private loadAntMap() {
     this.positions = this.removeInvalidPositions(this.positions);
     if (this.positions.length < 0) {
+      this.validData = false;
       this.showThereWasNoMovement();
       return;
     }
 
     const areAllPositionsTheSame = this.areAllPositionsTheSame(this.positions);
     if (areAllPositionsTheSame) {
+      this.validData = false;
       this.showThereWasNoMovement();
       return;
     }
 
+    this.validData = true;
     this.antMap.addAntPath(this.positions);
   }
 
