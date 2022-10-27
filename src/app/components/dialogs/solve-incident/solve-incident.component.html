@@ -1,0 +1,12 @@
+<div mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>Introduzca un mensaje (opcional)</mat-label>
+    <input matInput [(ngModel)]="solverMessage" />
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button color="warn" mat-raised-button (click)="onNoClick()">Cancelar</button>
+  <button color="primary" mat-raised-button [mat-dialog-close]="solverMessage" cdkFocusInitial>
+    Solucionar
+  </button>
+</div>

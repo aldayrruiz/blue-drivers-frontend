@@ -38,9 +38,10 @@
 
       <h2 class="title">DESPLAZAMIENTO</h2>
 
-      <p *ngIf="!validData; else showData">
+      <mat-list-item role="listitem" *ngIf="!validData; else showData">
         No hay datos de desplazamiento para esta reserva.
-      </p>
+      </mat-list-item>
+
       <ng-template #showData>
         <mat-list-item role="listitem">
           Velocidad máxima:&nbsp;
