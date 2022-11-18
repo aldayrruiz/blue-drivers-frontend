@@ -8,20 +8,32 @@
         </mat-card-header>
         <mat-card-content>
           <mat-list role="list">
-            <mat-list-item role="listitem"><b>Título:&nbsp; </b> {{ reservation.title }}</mat-list-item>
+            <mat-list-item role="listitem">
+              <b>Motivo:&nbsp; </b> {{ ticket?.reservation_title }}
+            </mat-list-item>
             <mat-divider></mat-divider>
-            <mat-list-item role="listitem"><b>Fecha de recogida:&nbsp; </b> {{ reservation.start | date: dateTimeFormat}}</mat-list-item>
+            <mat-list-item role="listitem">
+              <b>Fecha de recogida:&nbsp; </b>
+              {{ ticket?.reservation_start | date: dateTimeFormat }}
+            </mat-list-item>
             <mat-divider></mat-divider>
-            <mat-list-item role="listitem"><b>Fecha de entrega:&nbsp; </b> {{ reservation.end | date: dateTimeFormat }}</mat-list-item>
+            <mat-list-item role="listitem">
+              <b>Fecha de entrega:&nbsp; </b>
+              {{ ticket?.reservation_end | date: dateTimeFormat }}
+            </mat-list-item>
             <mat-divider></mat-divider>
-            <mat-list-item role="listitem"><b>Usuario:</b>&nbsp; {{ reservation.owner.fullname }}</mat-list-item>
+            <mat-list-item role="listitem">
+              <b>Usuario:</b>&nbsp; {{ ticket?.reservation_owner?.fullname }}
+            </mat-list-item>
             <mat-divider></mat-divider>
-            <mat-list-item role="listitem"><b>Vehículo:&nbsp; </b></mat-list-item>
-            <mat-list-item role="listitem"><b>Marca:&nbsp; </b> {{ vehicle.brand }}</mat-list-item>
-            <mat-list-item role="listitem"><b>Modelo:&nbsp; </b> {{ vehicle.model }}</mat-list-item>
-            <mat-list-item role="listitem"><b>Nº de Matricula:&nbsp; </b> {{ vehicle.number_plate }}</mat-list-item>
+            <mat-list-item role="listitem">
+              <b>Vehículo:&nbsp; </b>{{ vehicle?.brand }} {{ vehicle?.model }} -
+              {{ vehicle?.number_plate }}
+            </mat-list-item>
             <mat-divider></mat-divider>
-            <mat-list-item role="listitem"><b>Motivo:&nbsp; </b> {{ reservation.description }}</mat-list-item>
+            <mat-list-item role="listitem">
+              <b>Descripción:&nbsp; </b> {{ ticket?.reservation_description }}
+            </mat-list-item>
             <mat-divider></mat-divider>
           </mat-list>
         </mat-card-content>
@@ -36,13 +48,20 @@
         </mat-card-header>
         <mat-card-content>
           <mat-list role="list">
-            <mat-list-item role="listitem"><b>Título:&nbsp;</b> {{ ticket.title }}</mat-list-item>
+            <mat-list-item role="listitem"><b>Motivo:&nbsp;</b> {{ ticket.title }}</mat-list-item>
             <mat-divider></mat-divider>
-            <mat-list-item role="listitem"><b>Usuario:</b>&nbsp; {{ ticket.owner.fullname }}</mat-list-item>
+            <mat-list-item role="listitem"
+              ><b>Usuario:</b>&nbsp; {{ ticket.owner.fullname }}</mat-list-item
+            >
             <mat-divider></mat-divider>
-            <mat-list-item role="listitem"><b>Fecha de creación:</b>&nbsp; {{ ticket.date_stored | date: dateTimeFormat }}</mat-list-item>
+            <mat-list-item role="listitem"
+              ><b>Fecha de creación:</b>&nbsp;
+              {{ ticket.date_stored | date: dateTimeFormat }}</mat-list-item
+            >
             <mat-divider></mat-divider>
-            <mat-list-item role="listitem"><b>Motivo:</b>&nbsp; {{ ticket.description }}</mat-list-item>
+            <mat-list-item role="listitem"
+              ><b>Descripción:</b>&nbsp; {{ ticket.description }}</mat-list-item
+            >
             <mat-divider></mat-divider>
             <mat-list-item role="listitem"></mat-list-item>
           </mat-list>
@@ -52,13 +71,22 @@
 
     <!-- Choice Buttons -->
     <mat-grid-tile [colspan]="2">
-      <div>
-        <button [disabled]="sending" mat-raised-button color="primary" (click)="acceptTicket()">Aceptar Ticket</button>
+      <div *ngIf="ticket.status !== 'UNSOLVED'; else notSolved">
+        <div *ngIf="ticket.status === 'ACCEPTED'">
+          Se solucionó a favor del solicitante del ticket ({{ ticket.owner?.fullname }})
+        </div>
+        <div *ngIf="ticket.status === 'DENIED'">
+          Se solucionó a favor de la reserva ({{ ticket.reservation_owner?.fullname }})
+        </div>
       </div>
-      <div>
-        <button [disabled]="sending" mat-raised-button color="warn" (click)="denyTicket()">Denegar Ticket</button>
-      </div>
+      <ng-template #notSolved>
+        <div>
+          <button mat-raised-button color="primary" (click)="acceptTicket()">Aceptar Ticket</button>
+        </div>
+        <div>
+          <button mat-raised-button color="warn" (click)="denyTicket()">Denegar Ticket</button>
+        </div>
+      </ng-template>
     </mat-grid-tile>
   </mat-grid-list>
-
 </div>

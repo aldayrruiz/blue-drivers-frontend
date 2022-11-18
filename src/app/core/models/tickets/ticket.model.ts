@@ -1,4 +1,4 @@
-import { Reservation, TicketStatus, User } from '..';
+import { Reservation, TicketStatus, User, Vehicle } from '..';
 
 export interface Ticket {
   id: string;
@@ -8,4 +8,10 @@ export interface Ticket {
   reservation: Reservation;
   owner: User;
   status: TicketStatus;
+  reservation_title: string;
+  reservation_description: string;
+  reservation_owner: User;
+  reservation_vehicle: Vehicle;
+  reservation_start: string;
+  reservation_end: string;
 }

@@ -20,7 +20,7 @@
 
       <!-- Title Column -->
       <ng-container matColumnDef="title">
-        <th mat-header-cell *matHeaderCellDef>Título</th>
+        <th mat-header-cell *matHeaderCellDef>Motivo</th>
         <td mat-cell *matCellDef="let ticket">{{ ticket.title }}</td>
       </ng-container>
 
@@ -39,7 +39,7 @@
       <!-- Status Column -->
       <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef>Estado</th>
-        <td mat-cell *matCellDef="let ticket">{{ ticket.status }}</td>
+        <td mat-cell *matCellDef="let ticket">{{ ticketStatusLabel(ticket.status) }}</td>
       </ng-container>
 
       <!-- Decide Column -->

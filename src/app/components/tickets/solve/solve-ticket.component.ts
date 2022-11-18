@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
-import { Reservation, Ticket, TicketStatus, Vehicle } from 'src/app/core/models';
+import { Ticket, TicketStatus, Vehicle } from 'src/app/core/models';
 import {
-  ErrorMessageService,
   BlueDriversRouter,
+  ErrorMessageService,
   SnackerService,
   TicketService,
 } from 'src/app/core/services';
@@ -17,7 +17,6 @@ import { PipeDates } from 'src/app/core/utils/dates/pipe-dates';
 })
 export class SolveTicketComponent implements OnInit {
   ticket: Ticket;
-  reservation: Reservation;
   vehicle: Vehicle;
   dateTimeFormat = PipeDates.dateTimeFormat;
   sending = false;
@@ -32,13 +31,12 @@ export class SolveTicketComponent implements OnInit {
 
   ngOnInit(): void {
     this.resolveTicket();
-    this.reservation = this.ticket.reservation;
-    this.vehicle = this.reservation.vehicle;
   }
 
   resolveTicket(): void {
     this.route.data.subscribe((response) => {
       this.ticket = response.ticket;
+      this.vehicle = response.ticket.reservation_vehicle;
     });
   }
 
@@ -55,16 +53,16 @@ export class SolveTicketComponent implements OnInit {
     this.ticketSrv
       .solve(this.ticket.id, newStatus)
       .pipe(finalize(() => (this.sending = false)))
-      .subscribe(
-        async () => {
+      .subscribe({
+        next: async () => {
           const message = 'Conflicto solucionado';
           this.snacker.showSuccessful(message);
           this.fleetRouter.goToTickets();
         },
-        async (error) => {
+        error: async (error) => {
           const message = this.errorMessage.get(error);
           this.snacker.showError(message);
-        }
-      );
+        },
+      });
   }
 }
