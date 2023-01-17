@@ -116,9 +116,9 @@ export class ReportsTableComponent
 
   private orderReportsByMonth(reports: MonthlyReport[]) {
     const reportsOrderedByMonth = reports.sort((a, b) => {
-      const obj1: any = new Date(a.year, a.month);
-      const obj2: any = new Date(b.year, b.month);
-      return obj1 + obj2;
+      const obj1: any = new Date(a.year, a.month-1);
+      const obj2: any = new Date(b.year, b.month-1);
+      return obj2 - obj1;
     });
     return reportsOrderedByMonth;
   }
