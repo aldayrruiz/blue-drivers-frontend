@@ -1,0 +1,10 @@
+<h1 style="margin: 20px 0px 0px 20px">
+  {{ vehicle?.brand }} {{ vehicle?.model }} - {{ vehicle?.number_plate }}
+</h1>
+<mat-tab-group mat-stretch-tabs color="warn">
+  <mat-tab label="Limpieza"> <app-cleanings-table></app-cleanings-table> </mat-tab>
+  <mat-tab label="ITV"> <app-itvs-table></app-itvs-table> </mat-tab>
+  <mat-tab label="Revisión"> <app-revisions-table></app-revisions-table> </mat-tab>
+  <mat-tab label="Kilometraje"> <app-odometers-table></app-odometers-table> </mat-tab>
+  <mat-tab label="Neumáticos"> <app-wheels-table></app-wheels-table> </mat-tab>
+</mat-tab-group>

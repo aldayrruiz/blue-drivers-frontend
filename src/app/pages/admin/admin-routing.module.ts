@@ -41,6 +41,11 @@ const routes: Routes = [
         loadChildren: () => import('../vehicles/vehicles.module').then((m) => m.VehiclesPageModule),
       },
       {
+        path: 'maintenance',
+        loadChildren: () =>
+          import('../maintenance/maintenance.module').then((m) => m.MaintenancePageModule),
+      },
+      {
         path: 'insurance-companies',
         loadChildren: () =>
           import('../insurance-companies/insurance-companies.module').then(

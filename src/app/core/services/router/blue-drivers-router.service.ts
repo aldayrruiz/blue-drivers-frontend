@@ -59,6 +59,16 @@ export class BlueDriversRouter {
     return this.router.navigateByUrl(to, this.extras);
   }
 
+  async goToMaintenanceByVehicle(id: string) {
+    const to = `admin/maintenance/vehicles/tables/${id}`;
+    return this.router.navigateByUrl(to, this.extras);
+  }
+
+  async goToEditCleaningCard(id: string) {
+    const to = `admin/maintenance/vehicles/edit/${id}/cleaning`;
+    return this.router.navigateByUrl(to, this.extras);
+  }
+
   async goBack() {
     return this.router.navigate(['..'], { relativeTo: this.route });
   }

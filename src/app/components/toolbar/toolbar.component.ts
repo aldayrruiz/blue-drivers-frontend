@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { IsActiveMatchOptions, Router } from '@angular/router';
-import { UserRole, User, UserStorage } from 'src/app/core/models';
-import { AssetsService, BlueDriversRouter, LocalStorage, LoginService } from 'src/app/core/services';
+import { IsActiveMatchOptions, NavigationEnd, Router } from '@angular/router';
+import { UserRole, UserStorage } from 'src/app/core/models';
+import {
+  AssetsService,
+  BlueDriversRouter,
+  LocalStorage,
+  LoginService,
+} from 'src/app/core/services';
 
 @Component({
   selector: 'app-toolbar',
@@ -38,6 +43,10 @@ export class ToolbarComponent implements OnInit {
       label: 'VEHÍCULOS',
       link: 'vehicles',
     },
+    {
+      label: 'MANTENIMIENTO',
+      link: 'maintenance',
+    },
   ];
   menuLinks = [
     {
@@ -67,7 +76,9 @@ export class ToolbarComponent implements OnInit {
     private fleetRouter: BlueDriversRouter,
     private storage: LocalStorage,
     private router: Router
-  ) {}
+  ) {
+    this.changeColorIfRouteChange();
+  }
 
   ngOnInit(): void {
     const user = this.storage.getUser();
@@ -76,11 +87,6 @@ export class ToolbarComponent implements OnInit {
       this.menuLinks = [...this.menuLinks, ...this.superAdminMenuLinks];
     }
     this.logoUrl = this.assetsService.getUrl('background/icon.png');
-    this.changeColorTo(this.getCurrentLinkActive());
-  }
-
-  changeColorTo(link: any) {
-    this.currentLink = link;
   }
 
   isOnConfigPage() {
@@ -90,6 +96,18 @@ export class ToolbarComponent implements OnInit {
   async logOut() {
     this.loginService.logout();
     await this.fleetRouter.goToLogin();
+  }
+
+  private changeColorIfRouteChange() {
+    this.router.events.subscribe((val) => {
+      if (val instanceof NavigationEnd) {
+        this.changeColorTo(this.getCurrentLinkActive());
+      }
+    });
+  }
+
+  private changeColorTo(link: any) {
+    this.currentLink = link;
   }
 
   private getCurrentLinkActive() {

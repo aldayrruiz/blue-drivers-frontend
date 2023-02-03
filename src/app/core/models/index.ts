@@ -5,6 +5,26 @@ export * from './incidents/type.model';
 // Insurance Companies
 export * from './insurance-companies/create.model';
 export * from './insurance-companies/insurance-company.model';
+// Maintenance
+export * from './maintenance/cleaning/card.model';
+export * from './maintenance/cleaning/cleaning.model';
+export * from './maintenance/cleaning/create.model';
+export * from './maintenance/cleaning/photo.model';
+export * from './maintenance/cleaning/type.model';
+export * from './maintenance/itv/create.model';
+export * from './maintenance/itv/itv.model';
+export * from './maintenance/itv/photo.model';
+export * from './maintenance/odometer/create.model';
+export * from './maintenance/odometer/odometer.model';
+export * from './maintenance/operation.model';
+export * from './maintenance/revision/create.model';
+export * from './maintenance/revision/photo.model';
+export * from './maintenance/revision/revision.model';
+export * from './maintenance/status.model';
+export * from './maintenance/wheels/location.model';
+export * from './maintenance/wheels/operation.model';
+export * from './maintenance/wheels/photo.model';
+export * from './maintenance/wheels/wheels.model';
 // Monthly reports
 export * from './monthly-report/monthly-report';
 //Positions

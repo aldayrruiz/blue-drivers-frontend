@@ -100,6 +100,29 @@
         </td>
       </ng-container>
 
+      <!-- Maintenance Column -->
+      <ng-container matColumnDef="maintenance">
+        <th class="button-table" mat-header-cell *matHeaderCellDef></th>
+        <td class="button-table" mat-cell *matCellDef="let vehicle">
+          <button
+            mat-icon-button
+            color="dark"
+            aria-label="Maintenance vehicle icon"
+            (click)="goToMaintenanceByVehicle(vehicle)"
+          >
+            <mat-icon
+              aria-hidden="false"
+              aria-label="maintenance icon"
+              [matBadgePosition]="getBadgeProperties(vehicle).position"
+              [matBadge]="getBadgeProperties(vehicle).text"
+              [matBadgeSize]="getBadgeProperties(vehicle).size"
+              [matBadgeColor]="getBadgeProperties(vehicle).color"
+              >build</mat-icon
+            >
+          </button>
+        </td>
+      </ng-container>
+
       <!-- Edit Column -->
       <ng-container matColumnDef="edit">
         <th class="button-table" mat-header-cell *matHeaderCellDef></th>

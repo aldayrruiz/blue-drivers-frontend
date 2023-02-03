@@ -1,0 +1,66 @@
+<div class="main-div">
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>
+        Ficha de limpieza - {{ vehicle.brand }} {{ vehicle.model }} -
+        {{ vehicle.number_plate }}</mat-card-title
+      >
+    </mat-card-header>
+    <mat-card-content>
+      <table cellspacing="0" style="align-items: center; text-align: center">
+        <!-- Periodicidad de tiempo -->
+        <tr>
+          <td style="text-align: left; padding-left: 12px">
+            <label>Periodicidad de tiempo</label>
+          </td>
+          <td>
+            <ngx-duration-picker
+              [(value)]="datePeriod"
+              (valueChange)="valueChange()"
+              [options]="{
+                showYears: false,
+                showWeeks: false,
+                showHours: false,
+                showMinutes: false,
+                showSeconds: false,
+                labels: {
+                  months: 'Meses',
+                  days: 'Días'
+                },
+                showPreview: false
+              }"
+            >
+            </ngx-duration-picker>
+          </td>
+        </tr>
+
+        <!-- Button - Edit Vehicle -->
+        <tr>
+          <td>
+            <div>
+              <button
+                class="cancel"
+                mat-raised-button
+                color="warn"
+                (click)="goToMaintenanceByVehicle()"
+              >
+                Cancelar
+              </button>
+              <button
+                class="edit"
+                mat-raised-button
+                color="primary"
+                type="submit"
+                expand="block"
+                (click)="createOrEdit()"
+                [disabled]="cleaningCardInvalid"
+              >
+                Editar
+              </button>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -3,6 +3,7 @@ export * from './api/billing.service';
 export * from './api/diet-report.service';
 export * from './api/incident.service';
 export * from './api/insurance-companies.service';
+export * from './api/maintenance.service';
 export * from './api/monthly-report.service';
 export * from './api/position.service';
 export * from './api/report.service';

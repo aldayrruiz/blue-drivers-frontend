@@ -1,5 +1,5 @@
 <mat-toolbar>
-  <div class="container">
+  <div class="tool-container">
     <img class="logo" [src]="logoUrl" />
     <button
       class="toolbar-button"
@@ -8,7 +8,6 @@
       routerLinkActive
       [color]="currentLink === link ? 'warn' : ''"
       *ngFor="let link of navLinks"
-      (click)="changeColorTo(link)"
     >
       {{ link.label }}
     </button>
@@ -26,7 +25,6 @@
         [routerLink]="link.link"
         routerLinkActive
         *ngFor="let link of menuLinks"
-        (click)="changeColorTo(link)"
       >
         {{ link.label }}
       </button>

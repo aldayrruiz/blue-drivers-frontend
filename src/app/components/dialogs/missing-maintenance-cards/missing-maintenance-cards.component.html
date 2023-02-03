@@ -1,0 +1,13 @@
+<h2 mat-dialog-title>Alerta</h2>
+<mat-dialog-content class="mat-typography">
+  <h3>
+    El vehículo {{ data.vehicle.brand }} {{ data.vehicle.model }} - {{ data.vehicle.numberPlate }}
+    no tiene rellenadas las fichas de mantenimiento:
+  </h3>
+  <ul>
+    <li *ngIf="!data.vehicle?.cleaningCard">Ficha de limpieza</li>
+  </ul>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Ok</button>
+</mat-dialog-actions>

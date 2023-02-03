@@ -1,10 +1,16 @@
-
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { finalize } from 'rxjs/operators';
 import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
-import { EditPatchVehicle, fuelLabel, Vehicle, vehicleTypeLabel } from 'src/app/core/models';
 import {
+  CleaningCard,
+  EditPatchVehicle,
+  fuelLabel,
+  Vehicle,
+  vehicleTypeLabel,
+} from 'src/app/core/models';
+import {
+  BlueDriversRouter,
   ErrorMessageService,
   SnackerService,
   VehicleIcon,
@@ -12,6 +18,7 @@ import {
   VehicleService,
 } from 'src/app/core/services';
 import { DeleteVehicleComponent } from '../../dialogs/delete-vehicle/delete-vehicle.component';
+import { DialogMissingMaintenanceCardsComponent } from '../../dialogs/missing-maintenance-cards/missing-maintenance-cards.component';
 
 interface VehicleRow {
   id: string;
@@ -20,6 +27,8 @@ interface VehicleRow {
   numberPlate: string;
   isDisabled: boolean;
   insuranceCompany: string;
+  icon: VehicleIcon;
+  cleaningCard: CleaningCard;
 }
 
 @Component({
@@ -37,6 +46,7 @@ export class VehiclesTableComponent extends BaseTableComponent<Vehicle, VehicleR
     'type',
     'numberPlate',
     'insuranceCompany',
+    'maintenance',
     'edit',
     'isDisabled',
     'delete',
@@ -45,6 +55,7 @@ export class VehiclesTableComponent extends BaseTableComponent<Vehicle, VehicleR
   constructor(
     private vehicleIconProvider: VehicleIconProvider,
     private errorMessage: ErrorMessageService,
+    private appRouter: BlueDriversRouter,
     private vehicleSrv: VehicleService,
     private snacker: SnackerService,
     private dialog: MatDialog
@@ -64,6 +75,7 @@ export class VehiclesTableComponent extends BaseTableComponent<Vehicle, VehicleR
       numberPlate: vehicle.number_plate,
       isDisabled: vehicle.is_disabled,
       icon: this.getIconFromVehicle(vehicle),
+      cleaningCard: vehicle.cleaning_card,
     }));
   }
 
@@ -96,6 +108,26 @@ export class VehiclesTableComponent extends BaseTableComponent<Vehicle, VehicleR
       .getAll()
       .pipe(finalize(() => this.hideLoadingSpinner()))
       .subscribe((vehicles) => this.initTable(vehicles));
+  }
+
+  goToMaintenanceByVehicle(vehicle: VehicleRow) {
+    if (!this.areCardsCompleted(vehicle)) {
+      this.dialog.open(DialogMissingMaintenanceCardsComponent, { data: { vehicle } });
+    }
+
+    this.appRouter.goToMaintenanceByVehicle(vehicle.id);
+  }
+
+  getBadgeProperties(vehicle: VehicleRow) {
+    const badge = { position: 'below', text: '!', size: 'small', color: 'warn' };
+    const noBadge = { position: '', text: '', size: '', color: '' };
+    const cardsCompleted = this.areCardsCompleted(vehicle);
+    return cardsCompleted ? noBadge : badge;
+  }
+
+  areCardsCompleted(vehicle: VehicleRow) {
+    const cardsCompleted = vehicle.cleaningCard;
+    return cardsCompleted;
   }
 
   private deleteVehicle(vehicle: VehicleRow) {

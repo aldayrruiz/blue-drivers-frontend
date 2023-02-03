@@ -1,6 +1,4 @@
-
-
-import { Device, InsuranceCompany, VehicleFuel, VehicleType } from '..';
+import { CleaningCard, Device, InsuranceCompany, VehicleFuel, VehicleType } from '..';
 
 /**
  * This interface is used to charge a list of vehicles.
@@ -19,4 +17,5 @@ export interface Vehicle {
   insurance_company: InsuranceCompany;
   policy_number: string;
   icon: number;
+  cleaning_card: CleaningCard;
 }

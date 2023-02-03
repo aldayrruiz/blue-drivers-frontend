@@ -9,7 +9,6 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./base-table.component.css'],
 })
 export abstract class BaseTableComponent<M, T> implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   // models: are initial values for table. This would never be updated.
@@ -27,10 +26,6 @@ export abstract class BaseTableComponent<M, T> implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
   }
 
   ngOnInit(): void {
@@ -85,7 +80,6 @@ export abstract class BaseTableComponent<M, T> implements OnInit {
 
   private initDataSource() {
     this.dataSource = new MatTableDataSource([]);
-    this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 

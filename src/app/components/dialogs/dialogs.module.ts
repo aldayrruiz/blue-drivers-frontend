@@ -7,6 +7,7 @@ import { DeleteReservationTemplateComponent } from './delete-reservation-templat
 import { DeleteUserComponent } from './delete-user/delete-user.component';
 // My components & modules
 import { DeleteVehicleComponent } from './delete-vehicle/delete-vehicle.component';
+import { DialogMissingMaintenanceCardsComponent } from './missing-maintenance-cards/missing-maintenance-cards.component';
 import { ResendRegistrationEmailComponent } from './resend-email-registration/resend-registration-email.component';
 
 @NgModule({
@@ -16,6 +17,7 @@ import { ResendRegistrationEmailComponent } from './resend-email-registration/re
     DeleteInsuranceCompanyComponent,
     DeleteReservationTemplateComponent,
     ResendRegistrationEmailComponent,
+    DialogMissingMaintenanceCardsComponent,
   ],
   imports: [
     FormsModule,
@@ -29,6 +31,7 @@ import { ResendRegistrationEmailComponent } from './resend-email-registration/re
     DeleteInsuranceCompanyComponent,
     DeleteReservationTemplateComponent,
     ResendRegistrationEmailComponent,
+    DialogMissingMaintenanceCardsComponent,
   ],
 })
 export class DialogModule {}

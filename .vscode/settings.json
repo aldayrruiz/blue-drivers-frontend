@@ -6,6 +6,11 @@
         "Fullname",
         "gnss",
         "imei",
-        "IMEI"
-    ]
+        "IMEI",
+        "itvs",
+        "Itvs",
+        "Kilometraje"
+    ],
+    "javascript.preferences.quoteStyle": "single",
+    "typescript.preferences.quoteStyle": "single"
 }

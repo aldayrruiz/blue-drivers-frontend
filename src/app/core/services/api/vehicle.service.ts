@@ -9,34 +9,34 @@ import { API } from '../../utils/api-paths.enum';
   providedIn: 'root',
 })
 export class VehicleService {
-  private vehicleUrl = `${environment.fleetBaseUrl}${API.vehicles}`;
+  private baseUrl = `${environment.fleetBaseUrl}${API.vehicles}`;
 
   constructor(private http: HttpClient) {}
 
   create(vehicleType: CreateVehicle): Observable<CreateVehicle> {
-    const path = `${this.vehicleUrl}/`;
+    const path = `${this.baseUrl}/`;
     return this.http.post<CreateVehicle>(path, vehicleType);
   }
 
   get(id: string): Observable<Vehicle> {
     const options = { params: new HttpParams().set('evenDisabled', true) };
-    const path = `${this.vehicleUrl}/${id}/`;
+    const path = `${this.baseUrl}/${id}/`;
     return this.http.get<Vehicle>(path, options);
   }
 
   getAll(): Observable<Vehicle[]> {
     const options = { params: new HttpParams().set('evenDisabled', true) };
-    const path = `${this.vehicleUrl}/`;
+    const path = `${this.baseUrl}/`;
     return this.http.get<Vehicle[]>(path, options);
   }
 
   update(id: string, vehicleEdit: EditVehicle): Observable<Vehicle> {
-    const path = `${this.vehicleUrl}/${id}/`;
+    const path = `${this.baseUrl}/${id}/`;
     return this.http.put<Vehicle>(path, vehicleEdit);
   }
 
   delete(id: string): Observable<void> {
-    const path = `${this.vehicleUrl}/${id}/`;
+    const path = `${this.baseUrl}/${id}/`;
     return this.http.delete<void>(path);
   }
 
@@ -48,7 +48,12 @@ export class VehicleService {
    * @returns Observable
    */
   patch(id: string, data: EditPatchVehicle): Observable<EditPatchVehicle> {
-    const path = `${this.vehicleUrl}/${id}/`;
+    const path = `${this.baseUrl}/${id}/`;
     return this.http.patch<EditPatchVehicle>(path, data);
+  }
+
+  getCurrentKilometers(vehicleId: string): Observable<number> {
+    const path = `${this.baseUrl}/${vehicleId}/current_kilometers/`;
+    return this.http.get<number>(path);
   }
 }
