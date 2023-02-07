@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
 import { finalize } from 'rxjs';
 import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
 import { Cleaning, CleaningPhoto, getCleaningTypeLabel, Vehicle } from 'src/app/core/models';
@@ -26,6 +27,8 @@ interface CleaningRow {
 export class CleaningsTableComponent extends BaseTableComponent<Cleaning, CleaningRow> {
   columns = ['date', 'owner', 'type', 'photos'];
   vehicle: Vehicle;
+  lastCleaning: Cleaning;
+  nextCleaningDate: Date;
 
   constructor(
     private maintenanceService: MaintenanceService,
@@ -55,7 +58,12 @@ export class CleaningsTableComponent extends BaseTableComponent<Cleaning, Cleani
       .getCleanings(this.vehicle.id)
       .pipe(finalize(() => this.hideLoadingSpinner()))
       .subscribe({
-        next: (cleanings) => this.initTable(sortByDate(cleanings)),
+        next: (cleanings) => {
+          const cleaningsOrdered = sortByDate(cleanings);
+          this.lastCleaning = cleaningsOrdered[0];
+          this.nextCleaningDate = this.getNextCleaningDate();
+          this.initTable(cleaningsOrdered);
+        },
         error: () => {},
       });
   }
@@ -76,5 +84,13 @@ export class CleaningsTableComponent extends BaseTableComponent<Cleaning, Cleani
 
   private serializePhotos(photos: CleaningPhoto[]) {
     return photos.map((photo) => `${environment.fleetBaseUrl}${photo.photo}`);
+  }
+  private getNextCleaningDate() {
+    if (!this.vehicle.cleaning_card) {
+      return undefined;
+    }
+    const duration = moment.duration(this.vehicle.cleaning_card.date_period);
+    const nextCleaning = moment(this.lastCleaning.date).add(duration).toDate();
+    return nextCleaning;
   }
 }

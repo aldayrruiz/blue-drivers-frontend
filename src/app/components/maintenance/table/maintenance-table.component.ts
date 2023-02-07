@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { addDays, addMonths, addYears, formatDuration, intervalToDuration } from 'date-fns';
 import { es } from 'date-fns/locale';
 import * as moment from 'moment';
@@ -10,12 +11,15 @@ import {
   MaintenanceOperationType,
   User,
   Vehicle,
+  Wheels,
+  WheelsOperation,
 } from 'src/app/core/models';
 import {
   getMaintenanceOperationStatusLabel,
   OperationMaintenanceStatus,
 } from 'src/app/core/models/maintenance/status.model';
 import { ErrorMessageService, MaintenanceService, SnackerService } from 'src/app/core/services';
+import { DialogMissingMaintenanceCardsComponent } from '../../dialogs/missing-maintenance-cards/missing-maintenance-cards.component';
 
 interface GenericMaintenanceOperation {
   id: string;
@@ -46,12 +50,13 @@ export class MaintenanceTableComponent extends BaseTableComponent<
   MaintenanceOperationRow
 > {
   getStatusLabel = getMaintenanceOperationStatusLabel;
-  columns = ['vehicle', 'operation', 'nextRevision', 'edit'];
+  columns = ['vehicle', 'operation', 'nextRevision'];
 
   constructor(
     private errorMessage: ErrorMessageService,
     private maintenanceService: MaintenanceService,
-    private snacker: SnackerService
+    private snacker: SnackerService,
+    private dialog: MatDialog
   ) {
     super();
   }
@@ -84,7 +89,7 @@ export class MaintenanceTableComponent extends BaseTableComponent<
         const itvs = this.serialize(data[1], MaintenanceOperationType.Itv);
         const odometers = this.serialize(data[2], MaintenanceOperationType.Odometer);
         const revisions = this.serialize(data[3], MaintenanceOperationType.Revision);
-        const wheels = this.serialize(data[4], MaintenanceOperationType.Wheels);
+        const wheels = this.serializeWheels(data[4]);
         const operations = [...cleanings, ...itvs, ...odometers, ...revisions, ...wheels];
         const sortedOperations = this.sortOperations(operations);
         sortedOperations.forEach((o) => console.log(new Date(o.next_revision)));
@@ -102,6 +107,11 @@ export class MaintenanceTableComponent extends BaseTableComponent<
           cleaning.status === OperationMaintenanceStatus.EXPIRED
       )
       .map((cleaning) => {
+        if (!cleaning.vehicle?.cleaning_card) {
+          this.dialog.open(DialogMissingMaintenanceCardsComponent, {
+            data: { vehicle: cleaning.vehicle },
+          });
+        }
         const cleaningCard = cleaning.vehicle.cleaning_card;
         const date_period = moment.duration(cleaningCard.date_period);
         const days = date_period.days();
@@ -115,6 +125,15 @@ export class MaintenanceTableComponent extends BaseTableComponent<
         const duration = this.readableDuration(nextRevision);
         return { ...cleaning, type, next_revision, duration };
       });
+  }
+
+  private serializeWheels(data: any[]) {
+    const serialized = this.serialize(data, MaintenanceOperationType.Wheels);
+    return serialized.filter(
+      (wheels: Wheels) =>
+        wheels.operation === WheelsOperation.Substitution ||
+        (wheels.operation === WheelsOperation.Inspection && wheels.passed === false)
+    );
   }
 
   private serialize(arr: any[], type: MaintenanceOperationType) {
@@ -138,6 +157,9 @@ export class MaintenanceTableComponent extends BaseTableComponent<
         ? intervalToDuration({ start: now, end: nextRevision })
         : intervalToDuration({ start: nextRevision, end: now });
     const result = formatDuration(duration, { format: ['years', 'months', 'days'], locale: es });
+    if (!result) {
+      return '0 días';
+    }
     return result;
   }
 

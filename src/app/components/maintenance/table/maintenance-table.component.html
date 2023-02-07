@@ -53,62 +53,6 @@
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="isDisabled">
-        <th class="button-table" mat-header-cell *matHeaderCellDef></th>
-        <td class="button-table" mat-cell *matCellDef="let vehicle">
-          <span *ngIf="!vehicle.isDisabled; else disabledIcon">
-            <button
-              mat-icon-button
-              color="primary"
-              aria-label="Is vehicle disabled"
-              (click)="changeDisabled(vehicle)"
-            >
-              <mat-icon aria-hidden="false" aria-label="Is vehicle disabled">lock_open</mat-icon>
-            </button>
-          </span>
-          <ng-template #disabledIcon>
-            <button
-              mat-icon-button
-              color="error"
-              aria-label="Vehicle not allowed"
-              (click)="changeDisabled(vehicle)"
-            >
-              <mat-icon aria-hidden="false" aria-label="">lock</mat-icon>
-            </button>
-          </ng-template>
-        </td>
-      </ng-container>
-
-      <!-- Edit Column -->
-      <ng-container matColumnDef="edit">
-        <th class="button-table" mat-header-cell *matHeaderCellDef></th>
-        <td class="button-table" mat-cell *matCellDef="let vehicle">
-          <button
-            mat-icon-button
-            color="dark"
-            aria-label="Edit vehicle icon"
-            routerLink="../edit/{{ vehicle.id }}"
-          >
-            <mat-icon aria-hidden="false" aria-label="edit icon">edit</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-
-      <!-- Delete Column -->
-      <ng-container matColumnDef="delete">
-        <th class="button-table" mat-header-cell *matHeaderCellDef></th>
-        <td class="button-table" mat-cell *matCellDef="let vehicle">
-          <button
-            mat-icon-button
-            color="error"
-            aria-label="Delete vehicle icon"
-            (click)="openDeleteDialog(vehicle)"
-          >
-            <mat-icon aria-hidden="false" aria-label="delete icon">delete</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-
       <tr mat-header-row *matHeaderRowDef="columns"></tr>
       <tr mat-row *matRowDef="let row; columns: columns"></tr>
     </table>
