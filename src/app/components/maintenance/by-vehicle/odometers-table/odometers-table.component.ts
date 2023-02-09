@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs';
 import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
+import { DeleteMaintenanceOperationComponent } from 'src/app/components/dialogs/delete-maintenance-operation/dialog.component';
 import { Odometer, Vehicle } from 'src/app/core/models';
 import {
   ErrorMessageService,
@@ -29,7 +31,7 @@ interface OdometerRow {
 })
 export class OdometersTableComponent extends BaseTableComponent<Odometer, OdometerRow> {
   currentKilometers: number;
-  columns = ['date', 'owner', 'kilometers'];
+  columns = ['date', 'owner', 'kilometers', 'delete'];
   vehicle: Vehicle;
   now = new Date();
 
@@ -38,7 +40,8 @@ export class OdometersTableComponent extends BaseTableComponent<Odometer, Odomet
     private errorMessage: ErrorMessageService,
     private vehicleService: VehicleService,
     private snacker: SnackerService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialog: MatDialog,
   ) {
     super();
     this.resolve();
@@ -74,6 +77,29 @@ export class OdometersTableComponent extends BaseTableComponent<Odometer, Odomet
       .pipe(finalize(() => this.hideLoadingSpinner()))
       .subscribe({
         next: (kilometers) => (this.currentKilometers = kilometers),
+        error: () => {},
+      });
+  }
+
+  openDeleteDialog(odometerRow: OdometerRow) {
+    const dialog = this.dialog.open(DeleteMaintenanceOperationComponent);
+
+    dialog.afterClosed().subscribe((result) => {
+      if (result) {
+        this.deleteMaintenanceOperation(odometerRow);
+      }
+    });
+  }
+
+  private deleteMaintenanceOperation(odometerRow: OdometerRow) {
+    this.showLoadingSpinner();
+    this.maintenanceService
+      .deleteOdometer(odometerRow.id)
+      .pipe(finalize(() => this.hideLoadingSpinner()))
+      .subscribe({
+        next: () => {
+          this.fetchDataAndUpdate();
+        },
         error: () => {},
       });
   }

@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs';
 import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
+import { DeleteMaintenanceOperationComponent } from 'src/app/components/dialogs/delete-maintenance-operation/dialog.component';
 import {
   getWheelsLocationLabel,
   getWheelsOperationLabel,
@@ -39,14 +41,15 @@ interface WheelsRow {
 })
 export class WheelsTableComponent extends BaseTableComponent<Wheels, WheelsRow> {
   vehicle: Vehicle;
-  columns = ['date', 'location', 'kilometers', 'owner', 'operation', 'passed', 'photos'];
+  columns = ['date', 'location', 'kilometers', 'owner', 'operation', 'passed', 'photos', 'delete'];
 
   constructor(
-    private errorMessage: ErrorMessageService,
     private maintenanceService: MaintenanceService,
-    private snacker: SnackerService,
+    private errorMessage: ErrorMessageService,
     private appRouter: BlueDriversRouter,
-    private route: ActivatedRoute
+    private snacker: SnackerService,
+    private route: ActivatedRoute,
+    private dialog: MatDialog
   ) {
     super();
     this.resolve();
@@ -80,6 +83,29 @@ export class WheelsTableComponent extends BaseTableComponent<Wheels, WheelsRow> 
 
   openImage(url: string) {
     window.open(url, '_blank');
+  }
+
+  openDeleteDialog(wheelsRow: WheelsRow) {
+    const dialog = this.dialog.open(DeleteMaintenanceOperationComponent);
+
+    dialog.afterClosed().subscribe((result) => {
+      if (result) {
+        this.deleteMaintenanceOperation(wheelsRow);
+      }
+    });
+  }
+
+  private deleteMaintenanceOperation(wheelsRow: WheelsRow) {
+    this.showLoadingSpinner();
+    this.maintenanceService
+      .deleteWheels(wheelsRow.id)
+      .pipe(finalize(() => this.hideLoadingSpinner()))
+      .subscribe({
+        next: () => {
+          this.fetchDataAndUpdate();
+        },
+        error: () => {},
+      });
   }
 
   private serializePhotos(photos: WheelsPhoto[]) {

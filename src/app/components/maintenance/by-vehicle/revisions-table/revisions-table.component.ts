@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs';
 import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
+import { DeleteMaintenanceOperationComponent } from 'src/app/components/dialogs/delete-maintenance-operation/dialog.component';
 import { Revision, RevisionPhoto, Vehicle } from 'src/app/core/models';
 import {
   BlueDriversRouter,
@@ -42,6 +44,7 @@ export class RevisionsTableComponent extends BaseTableComponent<Revision, Revisi
     'nextRevision',
     'nextKilometers',
     'photos',
+    'delete'
   ];
 
   constructor(
@@ -49,7 +52,8 @@ export class RevisionsTableComponent extends BaseTableComponent<Revision, Revisi
     private errorMessage: ErrorMessageService,
     private appRouter: BlueDriversRouter,
     private snacker: SnackerService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialog: MatDialog
   ) {
     super();
     this.resolve();
@@ -89,6 +93,29 @@ export class RevisionsTableComponent extends BaseTableComponent<Revision, Revisi
 
   openImage(url: string) {
     window.open(url, '_blank');
+  }
+
+  openDeleteDialog(revisionRow: RevisionRow) {
+    const dialog = this.dialog.open(DeleteMaintenanceOperationComponent);
+
+    dialog.afterClosed().subscribe((result) => {
+      if (result) {
+        this.deleteMaintenanceOperation(revisionRow);
+      }
+    });
+  }
+
+  private deleteMaintenanceOperation(revisionRow: RevisionRow) {
+    this.showLoadingSpinner();
+    this.maintenanceService
+      .deleteRevision(revisionRow.id)
+      .pipe(finalize(() => this.hideLoadingSpinner()))
+      .subscribe({
+        next: () => {
+          this.fetchDataAndUpdate();
+        },
+        error: () => {},
+      });
   }
 
   private serializePhotos(photos: RevisionPhoto[]) {

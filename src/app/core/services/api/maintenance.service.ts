@@ -2,14 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import {
-  Cleaning,
-  CleaningCard,
-  Itv,
-  Odometer,
-  Revision,
-  Wheels,
-} from '../../models';
+import { Cleaning, CleaningCard, Itv, Odometer, Revision, Wheels } from '../../models';
 import { API } from '../../utils/api-paths.enum';
 
 @Injectable({ providedIn: 'root' })
@@ -55,5 +48,30 @@ export class MaintenanceService {
     const options = { params: new HttpParams().set('vehicleId', vehicleId) };
     const path = `${this.baseUrl}/wheels/`;
     return this.http.get<Wheels[]>(path, options);
+  }
+
+  deleteCleaning(id: string) {
+    const path = `${this.baseUrl}/cleanings/${id}/`;
+    return this.http.delete(path);
+  }
+
+  deleteItv(id: string) {
+    const path = `${this.baseUrl}/itvs/${id}/`;
+    return this.http.delete(path);
+  }
+
+  deleteOdometer(id: string) {
+    const path = `${this.baseUrl}/odometers/${id}/`;
+    return this.http.delete(path);
+  }
+
+  deleteRevision(id: string) {
+    const path = `${this.baseUrl}/revisions/${id}/`;
+    return this.http.delete(path);
+  }
+
+  deleteWheels(id: string) {
+    const path = `${this.baseUrl}/wheels/${id}/`;
+    return this.http.delete(path);
   }
 }

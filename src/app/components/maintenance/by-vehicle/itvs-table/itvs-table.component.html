@@ -80,6 +80,21 @@
         </td>
       </ng-container>
 
+      <!-- Delete -->
+      <ng-container matColumnDef="delete">
+        <th class="button-table" mat-header-cell *matHeaderCellDef></th>
+        <td class="button-table" mat-cell *matCellDef="let itv">
+          <button
+            mat-icon-button
+            color="error"
+            aria-label="Delete operation icon"
+            (click)="openDeleteDialog(itv)"
+          >
+            <mat-icon aria-hidden="false" aria-label="delete icon">delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
       <tr mat-header-row *matHeaderRowDef="columns"></tr>
       <tr mat-row *matRowDef="let row; columns: columns"></tr>
     </table>

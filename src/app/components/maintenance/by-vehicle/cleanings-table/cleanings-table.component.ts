@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import { finalize } from 'rxjs';
 import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
+import { DeleteMaintenanceOperationComponent } from 'src/app/components/dialogs/delete-maintenance-operation/dialog.component';
 import { Cleaning, CleaningPhoto, getCleaningTypeLabel, Vehicle } from 'src/app/core/models';
 import { BlueDriversRouter, MaintenanceService } from 'src/app/core/services';
 import { sortByDate } from 'src/app/core/utils/maintenance-table';
@@ -25,7 +27,7 @@ interface CleaningRow {
   styleUrls: ['./cleanings-table.component.css'],
 })
 export class CleaningsTableComponent extends BaseTableComponent<Cleaning, CleaningRow> {
-  columns = ['date', 'owner', 'type', 'photos'];
+  columns = ['date', 'owner', 'type', 'photos', 'delete'];
   vehicle: Vehicle;
   lastCleaning: Cleaning;
   nextCleaningDate: Date;
@@ -33,7 +35,8 @@ export class CleaningsTableComponent extends BaseTableComponent<Cleaning, Cleani
   constructor(
     private maintenanceService: MaintenanceService,
     private appRouter: BlueDriversRouter,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialog: MatDialog
   ) {
     super();
     this.resolve();
@@ -76,6 +79,29 @@ export class CleaningsTableComponent extends BaseTableComponent<Cleaning, Cleani
     this.appRouter.goToEditCleaningCard(this.vehicle.id);
   }
 
+  openDeleteDialog(cleaningRow: CleaningRow) {
+    const dialog = this.dialog.open(DeleteMaintenanceOperationComponent);
+
+    dialog.afterClosed().subscribe((result) => {
+      if (result) {
+        this.deleteMaintenanceOperation(cleaningRow);
+      }
+    });
+  }
+
+  private deleteMaintenanceOperation(cleaningRow: CleaningRow) {
+    this.showLoadingSpinner();
+    this.maintenanceService
+      .deleteCleaning(cleaningRow.id)
+      .pipe(finalize(() => this.hideLoadingSpinner()))
+      .subscribe({
+        next: () => {
+          this.fetchDataAndUpdate();
+        },
+        error: () => {},
+      });
+  }
+
   private resolve() {
     this.route.data.subscribe((data) => {
       this.vehicle = data.vehicle;
@@ -86,7 +112,7 @@ export class CleaningsTableComponent extends BaseTableComponent<Cleaning, Cleani
     return photos.map((photo) => `${environment.fleetBaseUrl}${photo.photo}`);
   }
   private getNextCleaningDate() {
-    if (!this.vehicle.cleaning_card) {
+    if (!this.vehicle.cleaning_card || !this.lastCleaning) {
       return undefined;
     }
     const duration = moment.duration(this.vehicle.cleaning_card.date_period);

@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs';
 import { BaseTableComponent } from 'src/app/components/base-table/base-table.component';
+import { DeleteMaintenanceOperationComponent } from 'src/app/components/dialogs/delete-maintenance-operation/dialog.component';
 import { Itv, ItvPhoto, Vehicle } from 'src/app/core/models';
 import {
   BlueDriversRouter,
@@ -33,14 +35,15 @@ interface ItvRow {
 export class ItvsTableComponent extends BaseTableComponent<Itv, ItvRow> {
   vehicle: Vehicle;
   lastItv: Itv;
-  columns = ['date', 'owner', 'place', 'passed', 'next_revision', 'photos'];
+  columns = ['date', 'owner', 'place', 'passed', 'next_revision', 'photos', 'delete'];
 
   constructor(
-    private errorMessage: ErrorMessageService,
     private maintenanceService: MaintenanceService,
+    private errorMessage: ErrorMessageService,
+    private appRouter: BlueDriversRouter,
     private snacker: SnackerService,
     private route: ActivatedRoute,
-    private appRouter: BlueDriversRouter
+    private dialog: MatDialog
   ) {
     super();
     this.resolve();
@@ -78,6 +81,29 @@ export class ItvsTableComponent extends BaseTableComponent<Itv, ItvRow> {
 
   openImage(url: string) {
     window.open(url, '_blank');
+  }
+
+  openDeleteDialog(itvRow: ItvRow) {
+    const dialog = this.dialog.open(DeleteMaintenanceOperationComponent);
+
+    dialog.afterClosed().subscribe((result) => {
+      if (result) {
+        this.deleteMaintenanceOperation(itvRow);
+      }
+    });
+  }
+
+  private deleteMaintenanceOperation(itvRow: ItvRow) {
+    this.showLoadingSpinner();
+    this.maintenanceService
+      .deleteItv(itvRow.id)
+      .pipe(finalize(() => this.hideLoadingSpinner()))
+      .subscribe({
+        next: () => {
+          this.fetchDataAndUpdate();
+        },
+        error: () => {},
+      });
   }
 
   private serializePhotos(photos: ItvPhoto[]) {

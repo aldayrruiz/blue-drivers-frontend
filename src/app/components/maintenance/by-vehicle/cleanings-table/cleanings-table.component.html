@@ -67,6 +67,21 @@
         </td>
       </ng-container>
 
+      <!-- Delete -->
+      <ng-container matColumnDef="delete">
+        <th class="button-table" mat-header-cell *matHeaderCellDef></th>
+        <td class="button-table" mat-cell *matCellDef="let cleaning">
+          <button
+            mat-icon-button
+            color="error"
+            aria-label="Delete operation icon"
+            (click)="openDeleteDialog(cleaning)"
+          >
+            <mat-icon aria-hidden="false" aria-label="delete icon">delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
       <tr mat-header-row *matHeaderRowDef="columns"></tr>
       <tr mat-row *matRowDef="let row; columns: columns"></tr>
     </table>
@@ -81,7 +96,7 @@
   <ng-template #noData> No hay operaciones </ng-template>
 </div>
 
-<div class="d-flex justify-content-center" *ngIf="vehicle.cleaning_card">
+<div class="d-flex justify-content-center" *ngIf="vehicle.cleaning_card && lastCleaning">
   <table class="table" style="margin: 0% 1%">
     <thead>
       <tr class="table-dark">

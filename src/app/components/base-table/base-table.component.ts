@@ -1,5 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -30,6 +29,10 @@ export abstract class BaseTableComponent<M, T> implements OnInit {
 
   ngOnInit(): void {
     this.fetchDataAndUpdate();
+  }
+
+  showLoadingSpinner(): void {
+    this.isLoadingResults = true;
   }
 
   hideLoadingSpinner(): void {

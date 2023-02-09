@@ -9,6 +9,7 @@ import { DeleteUserComponent } from './delete-user/delete-user.component';
 import { DeleteVehicleComponent } from './delete-vehicle/delete-vehicle.component';
 import { DialogMissingMaintenanceCardsComponent } from './missing-maintenance-cards/missing-maintenance-cards.component';
 import { ResendRegistrationEmailComponent } from './resend-email-registration/resend-registration-email.component';
+import { DeleteMaintenanceOperationComponent } from './delete-maintenance-operation/dialog.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { ResendRegistrationEmailComponent } from './resend-email-registration/re
     DeleteReservationTemplateComponent,
     ResendRegistrationEmailComponent,
     DialogMissingMaintenanceCardsComponent,
+    DeleteMaintenanceOperationComponent
   ],
   imports: [
     FormsModule,
@@ -32,6 +34,7 @@ import { ResendRegistrationEmailComponent } from './resend-email-registration/re
     DeleteReservationTemplateComponent,
     ResendRegistrationEmailComponent,
     DialogMissingMaintenanceCardsComponent,
+    DeleteMaintenanceOperationComponent
   ],
 })
 export class DialogModule {}
