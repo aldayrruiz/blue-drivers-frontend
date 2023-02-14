@@ -3,23 +3,21 @@
     <div class="example-label">
       <h1>Panel de Plantilla de Reservas</h1>
     </div>
-    <div class="example-button-row">
-      <button mat-raised-button routerLink="../create" color="warn">
-        Añadir
-      </button>
-    </div>
   </section>
 
-  <!-- Filter -->
-  <mat-form-field appearance="standard">
-    <mat-label>Filter</mat-label>
-    <input
-      matInput
-      (keyup)="applyFilter($event)"
-      placeholder="Ex. Mia"
-      #input
-    />
-  </mat-form-field>
+  <div id="wrapper">
+    <div class="filters" id="first">
+      <!-- Filter -->
+      <mat-form-field appearance="fill">
+        <mat-label>Buscar por palabra clave</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+    <div id="second">
+      <button mat-raised-button routerLink="../create" color="warn">Añadir</button>
+    </div>
+  </div>
 
   <div class="mat-elevation-z8">
     <!-- Spinner -->
@@ -63,9 +61,7 @@
             aria-label="Delete template icon"
             (click)="openDeleteDialog(template)"
           >
-            <mat-icon aria-hidden="false" aria-label="delete icon"
-              >delete</mat-icon
-            >
+            <mat-icon aria-hidden="false" aria-label="delete icon">delete</mat-icon>
           </button>
         </td>
       </ng-container>

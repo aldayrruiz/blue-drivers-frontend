@@ -49,6 +49,11 @@ export class MaintenanceTableComponent extends BaseTableComponent<
   GenericMaintenanceOperation,
   MaintenanceOperationRow
 > {
+  optionSelected = 'PYC';
+  options = [
+    { display: 'Pendientes y caducados', value: 'PYC' },
+    { display: 'Completados', value: 'C' },
+  ];
   getStatusLabel = getMaintenanceOperationStatusLabel;
   columns = ['vehicle', 'operation', 'nextRevision'];
 
@@ -76,6 +81,22 @@ export class MaintenanceTableComponent extends BaseTableComponent<
     }));
   }
 
+  onSelectionChanged() {
+    if (this.optionSelected === 'PYC') {
+      const data = this.models.filter(
+        (model) =>
+          model.status === OperationMaintenanceStatus.PENDING ||
+          model.status === OperationMaintenanceStatus.EXPIRED
+      );
+      this.updateTable(data);
+    } else {
+      const data = this.models.filter(
+        (model) => model.status === OperationMaintenanceStatus.COMPLETED
+      );
+      this.updateTable(data);
+    }
+  }
+
   fetchDataAndUpdate() {
     const cleaningsObs = this.maintenanceService.getCleanings();
     const itvsObs = this.maintenanceService.getItvs();
@@ -85,69 +106,74 @@ export class MaintenanceTableComponent extends BaseTableComponent<
     const obs = forkJoin([cleaningsObs, itvsObs, odometersObs, revisionsObs, wheelsObs]);
     obs.pipe(finalize(() => this.hideLoadingSpinner())).subscribe({
       next: (data) => {
-        const cleanings = this.serializeCleaning(data[0], MaintenanceOperationType.Cleaning);
-        const itvs = this.serialize(data[1], MaintenanceOperationType.Itv);
-        const odometers = this.serialize(data[2], MaintenanceOperationType.Odometer);
-        const revisions = this.serialize(data[3], MaintenanceOperationType.Revision);
-        const wheels = this.serializeWheels(data[4]);
+        const cleanings = this.excludeAndSerializeCleanings(data[0]);
+        const itvs = this.excludeAndSerialize(data[1], MaintenanceOperationType.Itv);
+        const odometers = this.excludeAndSerialize(data[2], MaintenanceOperationType.Odometer);
+        const revisions = this.excludeAndSerialize(data[3], MaintenanceOperationType.Revision);
+        const wheels = this.excludeAndSerializeWheels(data[4]);
         const operations = [...cleanings, ...itvs, ...odometers, ...revisions, ...wheels];
         const sortedOperations = this.sortOperations(operations);
-        sortedOperations.forEach((o) => console.log(new Date(o.next_revision)));
         this.initTable(sortedOperations);
+        this.onSelectionChanged();
       },
       error: () => {},
     });
   }
 
-  private serializeCleaning(cleanings: Cleaning[], type: MaintenanceOperationType) {
-    return cleanings
-      .filter(
-        (cleaning) =>
-          cleaning.status === OperationMaintenanceStatus.PENDING ||
-          cleaning.status === OperationMaintenanceStatus.EXPIRED
-      )
-      .map((cleaning) => {
-        if (!cleaning.vehicle?.cleaning_card) {
-          this.dialog.open(DialogMissingMaintenanceCardsComponent, {
-            data: { vehicle: cleaning.vehicle },
-          });
-        }
-        const cleaningCard = cleaning.vehicle.cleaning_card;
-        const date_period = moment.duration(cleaningCard.date_period);
-        const days = date_period.days();
-        const months = date_period.months();
-        const years = date_period.years();
-        const dateStored = cleaning.date_stored;
-        let nextRevision = addDays(new Date(dateStored), days);
-        nextRevision = addMonths(nextRevision, months);
-        nextRevision = addYears(nextRevision, years);
-        const next_revision = nextRevision.toJSON();
-        const duration = this.readableDuration(nextRevision);
-        return { ...cleaning, type, next_revision, duration };
-      });
+  private excludeAndSerialize(operations: any[], type: MaintenanceOperationType) {
+    return this.excludeNewOperations(operations).map((operation) =>
+      this.addDuration(operation, type)
+    );
   }
 
-  private serializeWheels(data: any[]) {
-    const serialized = this.serialize(data, MaintenanceOperationType.Wheels);
-    return serialized.filter(
+  private excludeAndSerializeCleanings(cleanings: Cleaning[]) {
+    return this.excludeNewOperations(cleanings).map((cleaning) => {
+      if (!cleaning.vehicle?.cleaning_card) {
+        this.dialog.open(DialogMissingMaintenanceCardsComponent, {
+          data: { vehicle: cleaning.vehicle },
+        });
+      }
+      const cleaningCard = cleaning.vehicle.cleaning_card;
+      const date_period = moment.duration(cleaningCard.date_period);
+      const days = date_period.days();
+      const months = date_period.months();
+      const years = date_period.years();
+      const dateStored = cleaning.date_stored;
+      let nextRevision = addDays(new Date(dateStored), days);
+      nextRevision = addMonths(nextRevision, months);
+      nextRevision = addYears(nextRevision, years);
+      const next_revision = nextRevision.toJSON();
+      const duration = this.readableDuration(nextRevision);
+      const type = MaintenanceOperationType.Cleaning;
+      console.log({ ...cleaning, type, next_revision, duration });
+      return { ...cleaning, type, next_revision, duration };
+    });
+  }
+
+  private excludeAndSerializeWheels(data: any[]) {
+    const type = MaintenanceOperationType.Wheels;
+    const operations = this.excludeNewOperations(data);
+    const operationsSerialized = operations.map((operation) => this.addDuration(operation, type));
+    return operationsSerialized.filter(
       (wheels: Wheels) =>
         wheels.operation === WheelsOperation.Substitution ||
         (wheels.operation === WheelsOperation.Inspection && wheels.passed === false)
     );
   }
 
-  private serialize(arr: any[], type: MaintenanceOperationType) {
-    return arr
-      .filter(
-        (operation) =>
-          operation.status === OperationMaintenanceStatus.PENDING ||
-          operation.status === OperationMaintenanceStatus.EXPIRED
-      )
-      .map((operation) => {
-        const newRevision = new Date(operation.next_revision);
-        const duration = this.readableDuration(newRevision);
-        return { ...operation, type, duration };
-      });
+  private excludeNewOperations(operations: any[]) {
+    return operations.filter(
+      (operation) =>
+        operation.status === OperationMaintenanceStatus.PENDING ||
+        operation.status === OperationMaintenanceStatus.EXPIRED ||
+        operation.status === OperationMaintenanceStatus.COMPLETED
+    );
+  }
+
+  private addDuration(operation: any, type: MaintenanceOperationType) {
+    const newRevision = new Date(operation.next_revision);
+    const duration = this.readableDuration(newRevision);
+    return { ...operation, type, duration };
   }
 
   private readableDuration(nextRevision: Date) {

@@ -1,12 +1,16 @@
 <div class="table-container">
-  <mat-form-field appearance="fill">
-    <mat-label>Filtrar por tipo</mat-label>
-    <mat-select (selectionChange)="onShowSelectionChanged()" [(value)]="showOptionSelected">
-      <mat-option *ngFor="let option of showOptions" [value]="option.value">
-        {{ option.display }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+  <div id="wrapper">
+    <div class="filters" id="first">
+      <mat-form-field appearance="fill">
+        <mat-label>Filtrar por tipo</mat-label>
+        <mat-select (selectionChange)="onShowSelectionChanged()" [(value)]="showOptionSelected">
+          <mat-option *ngFor="let option of showOptions" [value]="option.value">
+            {{ option.display }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
 
   <div class="mat-elevation-z8" *ngIf="dataSource?.data?.length !== 0; else noData">
     <!-- Spinner -->
