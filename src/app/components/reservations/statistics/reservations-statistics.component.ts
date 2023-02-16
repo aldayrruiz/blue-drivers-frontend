@@ -21,7 +21,7 @@ import {
   getPassengersMedianIsGreaterThanLimit,
   onlyBeaconPositions,
 } from 'src/app/core/utils/occupants/main';
-import { AntMapComponent } from '../../ant-map/ant-map.component';
+import { AntMapComponent } from '../ant-map/ant-map.component';
 
 @Component({
   selector: 'app-reservations-statistics',

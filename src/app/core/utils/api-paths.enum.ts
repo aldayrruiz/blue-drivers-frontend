@@ -2,7 +2,7 @@ export enum API {
   tenants = '/api/tenants',
   vehicles = '/api/vehicles',
   reservations = '/api/reservations',
-  newReservations = '/api/new_reservations',
+  paginatedReservations = '/api/paginated-reservations',
   tickets = '/api/tickets',
   solveTicket = '/api/tickets/solve',
   incidents = '/api/incidents',

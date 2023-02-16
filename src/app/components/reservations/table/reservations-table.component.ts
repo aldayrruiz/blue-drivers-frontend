@@ -1,17 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { isAfter, isBefore, isFuture, isPast, set } from 'date-fns';
+import { isFuture, isPast } from 'date-fns';
 import { finalize } from 'rxjs/operators';
-import { Reservation } from 'src/app/core/models';
-import {
-  BlueDriversRouter,
-  ReservationService,
-  SnackerService,
-  TimeReservedService,
-} from 'src/app/core/services';
+import { CleaningType, Reservation } from 'src/app/core/models';
+import { ReservationService, SnackerService, TimeReservedService } from 'src/app/core/services';
 import { formatDateTime } from 'src/app/core/utils/dates/custom-fns';
 import { BaseTableComponent } from '../../base-table/base-table.component';
+import { ReservationsFilterComponent } from '../filter/reservations-filter.component';
 import { ReservationTablePdfExporter } from './pdf/exporter';
 
 export interface ReservationRow {
@@ -32,38 +27,28 @@ export interface ReservationRow {
   styleUrls: ['./reservations-table.component.css'],
 })
 export class ReservationsTableComponent extends BaseTableComponent<Reservation, ReservationRow> {
-  columns = ['title', 'owner', 'vehicle', 'numberPlate','start', 'hourMin', 'statistics'];
+  @ViewChild('reservationsFilter') reservationsFilter: ReservationsFilterComponent;
+
+  columns = ['title', 'owner', 'vehicle', 'numberPlate', 'start', 'hourMin', 'statistics'];
 
   range = new FormGroup({
     start: new FormControl(),
     end: new FormControl(),
   });
 
-  datePicker = new FormControl();
+  // Pagination
+  length = 0;
+  page = 1;
+  page_size = 10;
+  previous: string;
+  next: string;
 
   constructor(
     private timeReservedSrv: TimeReservedService,
     private reservationsSrv: ReservationService,
-    private snacker: SnackerService,
-    private ghost: BlueDriversRouter
+    private snacker: SnackerService
   ) {
     super();
-  }
-
-  get start(): Date {
-    const start = this.datePicker.value;
-    // const { start } = this.range.value;
-    return start;
-  }
-
-  get end(): Date {
-    const end = this.datePicker.value;
-    if (!end) {
-      return null;
-    }
-    // const { end }: { end: Date } = this.range.value;
-    const endOfTheDay = this.getEndOfTheDay(end);
-    return endOfTheDay;
   }
 
   preprocessData(reservations: Reservation[]): ReservationRow[] {
@@ -83,16 +68,47 @@ export class ReservationsTableComponent extends BaseTableComponent<Reservation, 
 
   fetchDataAndUpdate() {
     this.reservationsSrv
-      .getAll()
+      .getAll(this.page, this.page_size)
       .pipe(finalize(() => this.hideLoadingSpinner()))
-      .subscribe((reservations) => {
-        this.initTable(reservations);
+      .subscribe((response) => {
+        const { count, next, previous, results } = response;
+        this.next = next;
+        this.previous = previous;
+        this.length = count;
+        this.initTable(results);
       });
   }
 
-  onDateFilterChange(type: string, event: MatDatepickerInputEvent<Date>) {
-    this.resetTable();
-    this.updateTableByDateRangeFilter();
+  handlePageEvent(event) {
+    const { pageIndex, pageSize } = event;
+    const { userId, vehicleId } = this.reservationsFilter.getData();
+    console.log(event);
+    this.page = pageIndex + 1;
+    this.page_size = pageSize;
+    this.reservationsSrv
+      .getAll(this.page, this.page_size, userId, vehicleId)
+      .pipe(finalize(() => this.hideLoadingSpinner()))
+      .subscribe((response) => {
+        const { count, next, previous, results } = response;
+        this.next = next;
+        this.previous = previous;
+        this.length = count;
+        this.initTable(results);
+      });
+  }
+
+  filterAndUpdateTable(event) {
+    const { userId, vehicleId, from, to } = event;
+    this.reservationsSrv
+      .getAll(this.page, this.page_size, userId, vehicleId, from, to)
+      .pipe(finalize(() => this.hideLoadingSpinner()))
+      .subscribe((response) => {
+        const { count, next, previous, results } = response;
+        this.next = next;
+        this.previous = previous;
+        this.length = count;
+        this.updateTable(results);
+      });
   }
 
   goToStatistics(reservationRow: ReservationRow) {
@@ -109,52 +125,10 @@ export class ReservationsTableComponent extends BaseTableComponent<Reservation, 
 
   exportPdf() {
     const pdfExporter = new ReservationTablePdfExporter(this.dataSource.data);
-    pdfExporter.export(this.start);
+    pdfExporter.export(this.reservationsFilter.datePicker.value);
   }
 
   hasFinished(reservation: ReservationRow) {
     return isPast(new Date(reservation.end));
-  }
-
-  private updateTableByDateRangeFilter() {
-    const rows = this.dataSource.filteredData; // filtered rows by search bar filter
-    let newRows = rows;
-    if (!this.start && !this.end) {
-      return;
-    } else if (this.start && this.end) {
-      newRows = this.getReservationsStartedBetween(rows);
-    } else if (!this.end) {
-      newRows = this.getReservationsStartedAfter(rows);
-    } else {
-      newRows = this.getReservationsStartedBefore(rows);
-    }
-    this.updateTableWithRows(newRows);
-  }
-
-  private getReservationsStartedBetween(rows: ReservationRow[]) {
-    return rows.filter((reservation) => {
-      const reservationStart = new Date(reservation.start);
-      return isAfter(reservationStart, this.start) && isBefore(reservationStart, this.end);
-    });
-  }
-
-  private getReservationsStartedAfter(rows: ReservationRow[]) {
-    return rows.filter((reservation) => {
-      const reservationStart = new Date(reservation.start);
-      return isAfter(reservationStart, this.start);
-    });
-  }
-
-  private getReservationsStartedBefore(rows: ReservationRow[]) {
-    return rows.filter((reservation) => {
-      const reservationStart = new Date(reservation.start);
-      return isBefore(reservationStart, this.end);
-    });
-  }
-
-  private getEndOfTheDay(day: Date) {
-    const options = { hours: 23, minutes: 59, seconds: 59, milliseconds: 59 };
-    const endOfTheDay = set(day, options);
-    return endOfTheDay;
   }
 }

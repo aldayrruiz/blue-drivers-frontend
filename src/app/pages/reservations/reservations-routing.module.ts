@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ReservationsStatisticsComponent } from 'src/app/components/reservations/statistics/reservations-statistics.component';
 import { ReservationsTableComponent } from 'src/app/components/reservations/table/reservations-table.component';
-import { ReservationResolver, UsersResolver } from 'src/app/core/resolvers';
+import { ReservationResolver, UsersResolver, VehiclesResolver } from 'src/app/core/resolvers';
 import { ReservationsComponent } from './reservations.component';
 
 const routes: Routes = [
@@ -18,6 +18,10 @@ const routes: Routes = [
       {
         path: 'table',
         component: ReservationsTableComponent,
+        resolve: {
+          users: UsersResolver,
+          vehicles: VehiclesResolver,
+        },
       },
       {
         path: 'statistics/:reservationId',

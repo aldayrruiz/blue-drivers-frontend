@@ -1,25 +1,10 @@
 <div class="table-container">
-  <div id="wrapper">
+  <div id="wrapper" style="padding: 10px 0px 20px 0px">
     <div class="filters" id="first">
-      <!-- Filter -->
-      <mat-form-field appearance="fill">
-        <mat-label>Buscar por palabra clave</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
-        <mat-icon matSuffix>search</mat-icon>
-      </mat-form-field>
-
-      <!-- Date filter -->
-      <mat-form-field appearance="fill">
-        <mat-label>Buscar por fecha</mat-label>
-        <input
-          (dateChange)="onDateFilterChange('change', $event)"
-          [formControl]="datePicker"
-          matInput
-          [matDatepicker]="picker"
-        />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
+      <app-reservations-filter
+        (searchEvent)="filterAndUpdateTable($event)"
+        #reservationsFilter
+      ></app-reservations-filter>
     </div>
 
     <div id="second">
@@ -109,7 +94,10 @@
 
     <!-- Paginator -->
     <mat-paginator
+      [length]="length"
+      [pageSize]="page_size"
       [pageSizeOptions]="[10, 25, 50, 100]"
+      (page)="handlePageEvent($event)"
       aria-label="Select page of reservations"
     ></mat-paginator>
   </div>

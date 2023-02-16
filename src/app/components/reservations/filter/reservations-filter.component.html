@@ -1,0 +1,22 @@
+<mat-expansion-panel hideToggle>
+  <mat-expansion-panel-header>
+    <mat-panel-title> Filtro avanzado </mat-panel-title>
+    <mat-icon>search</mat-icon>
+  </mat-expansion-panel-header>
+
+  <app-field label="Empleados" [objectFields]="userObjectFields" #userField></app-field>
+  <app-field label="Vehículos" [objectFields]="vehicleObjectFields" #vehicleField></app-field>
+
+  <!-- Date filter -->
+  <mat-form-field appearance="fill">
+    <mat-label>Buscar por fecha</mat-label>
+    <input [formControl]="datePicker" matInput [matDatepicker]="picker" />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <button mat-raised-button (click)="search()" color="warn">
+    <mat-icon>search</mat-icon>
+    Buscar
+  </button>
+</mat-expansion-panel>
