@@ -11,6 +11,7 @@ import {
   MaintenanceService,
   SnackerService,
 } from 'src/app/core/services';
+import { sortByDate } from 'src/app/core/utils/maintenance-table';
 import { environment } from 'src/environments/environment';
 
 interface RevisionRow {
@@ -83,7 +84,7 @@ export class RevisionsTableComponent extends BaseTableComponent<Revision, Revisi
       .pipe(finalize(() => this.hideLoadingSpinner()))
       .subscribe({
         next: (revisions) => {
-          const revisionsOrdered = this.sortByNextRevision(revisions);
+          const revisionsOrdered = sortByDate(revisions);
           this.initTable(revisionsOrdered);
           this.lastRevision = revisionsOrdered[0];
         },
