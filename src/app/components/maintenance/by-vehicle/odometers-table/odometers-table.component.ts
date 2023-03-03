@@ -6,6 +6,7 @@ import { BaseTableComponent } from 'src/app/components/base-table/base-table.com
 import { DeleteMaintenanceOperationComponent } from 'src/app/components/dialogs/delete-maintenance-operation/dialog.component';
 import { Odometer, Vehicle } from 'src/app/core/models';
 import {
+  BlueDriversRouter,
   ErrorMessageService,
   MaintenanceService,
   SnackerService,
@@ -39,6 +40,7 @@ export class OdometersTableComponent extends BaseTableComponent<Odometer, Odomet
     private maintenanceService: MaintenanceService,
     private errorMessage: ErrorMessageService,
     private vehicleService: VehicleService,
+    private appRouter: BlueDriversRouter,
     private snacker: SnackerService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
@@ -89,6 +91,10 @@ export class OdometersTableComponent extends BaseTableComponent<Odometer, Odomet
         this.deleteMaintenanceOperation(odometerRow);
       }
     });
+  }
+
+  goToEditMaintenanceCard() {
+    this.appRouter.goToEditOdometerCard(this.vehicle.id);
   }
 
   private deleteMaintenanceOperation(odometerRow: OdometerRow) {

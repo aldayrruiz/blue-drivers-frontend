@@ -1,0 +1,53 @@
+<div class="main-div">
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title> Ficha de kilometraje</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="formGroup">
+        <table cellspacing="0" style="align-items: center; text-align: center">
+          <!-- Periodicidad de kilometraje -->
+          <tr>
+            <td>
+              <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Periodicidad de kilometraje</mat-label>
+                <input
+                  type="number"
+                  matInput
+                  [formControl]="km_period"
+                  [errorStateMatcher]="matcher"
+                />
+              </mat-form-field>
+            </td>
+          </tr>
+
+          <!-- Button - Edit Vehicle -->
+          <tr>
+            <td>
+              <div>
+                <button
+                  class="cancel"
+                  mat-raised-button
+                  color="warn"
+                  (click)="goToMaintenanceByVehicle()"
+                >
+                  Cancelar
+                </button>
+                <button
+                  class="edit"
+                  mat-raised-button
+                  color="primary"
+                  type="submit"
+                  expand="block"
+                  (click)="createOrEdit()"
+                >
+                  Editar
+                </button>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

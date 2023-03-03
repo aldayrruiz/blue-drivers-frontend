@@ -9,7 +9,10 @@
         "IMEI",
         "itvs",
         "Itvs",
-        "Kilometraje"
+        "kilometraje",
+        "Kilometraje",
+        "repairment",
+        "repairments"
     ],
     "javascript.preferences.quoteStyle": "single",
     "typescript.preferences.quoteStyle": "single"

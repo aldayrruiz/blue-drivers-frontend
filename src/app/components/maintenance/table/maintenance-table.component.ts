@@ -145,7 +145,6 @@ export class MaintenanceTableComponent extends BaseTableComponent<
       const next_revision = nextRevision.toJSON();
       const duration = this.readableDuration(nextRevision);
       const type = MaintenanceOperationType.Cleaning;
-      console.log({ ...cleaning, type, next_revision, duration });
       return { ...cleaning, type, next_revision, duration };
     });
   }

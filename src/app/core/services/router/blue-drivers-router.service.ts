@@ -69,6 +69,11 @@ export class BlueDriversRouter {
     return this.router.navigateByUrl(to, this.extras);
   }
 
+  async goToEditOdometerCard(id: string) {
+    const to = `admin/maintenance/vehicles/edit/${id}/odometer`;
+    return this.router.navigateByUrl(to, this.extras);
+  }
+
   async goBack() {
     return this.router.navigate(['..'], { relativeTo: this.route });
   }

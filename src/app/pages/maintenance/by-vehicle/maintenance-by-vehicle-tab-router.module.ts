@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MaintenanceByVehicleTablesComponent } from 'src/app/components/maintenance/by-vehicle/container/by-vehicle-tables.component';
-import { VehicleResolver } from 'src/app/core/resolvers';
+import { EditOdometerCardComponent } from 'src/app/components/maintenance/edit-card/odometer/edit-card.component';
+import { OdometerCardResolver, VehicleResolver } from 'src/app/core/resolvers';
 import { EditCleaningCardComponent } from '../../../components/maintenance/edit-card/cleaning/edit-card.component';
 import { MaintenanceByVehicleTabComponent } from './maintenance-by-vehicle-tab.component';
 
@@ -25,6 +26,13 @@ const routes: Routes = [
       {
         path: 'edit/:vehicleId/cleaning',
         component: EditCleaningCardComponent,
+        resolve: {
+          vehicle: VehicleResolver,
+        },
+      },
+      {
+        path: 'edit/:vehicleId/odometer',
+        component: EditOdometerCardComponent,
         resolve: {
           vehicle: VehicleResolver,
         },

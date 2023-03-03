@@ -9,9 +9,11 @@ import { CleaningsTableComponent } from './by-vehicle/cleanings-table/cleanings-
 import { MaintenanceByVehicleTablesComponent } from './by-vehicle/container/by-vehicle-tables.component';
 import { ItvsTableComponent } from './by-vehicle/itvs-table/itvs-table.component';
 import { OdometersTableComponent } from './by-vehicle/odometers-table/odometers-table.component';
+import { RepairmentsTableComponent } from './by-vehicle/repairments-table/repairments-table.component';
 import { RevisionsTableComponent } from './by-vehicle/revisions-table/revisions-table.component';
 import { WheelsTableComponent } from './by-vehicle/wheels-table/wheels-table.component';
 import { EditCleaningCardComponent } from './edit-card/cleaning/edit-card.component';
+import { EditOdometerCardComponent } from './edit-card/odometer/edit-card.component';
 import { MaintenanceTableComponent } from './table/maintenance-table.component';
 
 @NgModule({
@@ -24,6 +26,8 @@ import { MaintenanceTableComponent } from './table/maintenance-table.component';
     WheelsTableComponent,
     MaintenanceByVehicleTablesComponent,
     EditCleaningCardComponent,
+    EditOdometerCardComponent,
+    RepairmentsTableComponent,
   ],
   imports: [
     CommonModule,
@@ -42,6 +46,8 @@ import { MaintenanceTableComponent } from './table/maintenance-table.component';
     WheelsTableComponent,
     MaintenanceByVehicleTablesComponent,
     EditCleaningCardComponent,
+    EditOdometerCardComponent,
+    RepairmentsTableComponent,
   ],
 })
 export class MaintenanceComponentsModule {}

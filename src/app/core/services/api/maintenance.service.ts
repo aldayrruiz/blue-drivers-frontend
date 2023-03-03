@@ -2,7 +2,16 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Cleaning, CleaningCard, Itv, Odometer, Revision, Wheels } from '../../models';
+import {
+  Cleaning,
+  CleaningCard,
+  Itv,
+  Odometer,
+  OdometerCard,
+  Repairment,
+  Revision,
+  Wheels,
+} from '../../models';
 import { API } from '../../utils/api-paths.enum';
 
 @Injectable({ providedIn: 'root' })
@@ -20,6 +29,21 @@ export class MaintenanceService {
     return this.http.put<CleaningCard>(path, card);
   }
 
+  getOdometerCard() {
+    const path = `${this.baseUrl}/odometer-cards/get/`;
+    return this.http.get<OdometerCard>(path);
+  }
+
+  createOdometerCard(card: OdometerCard): Observable<OdometerCard> {
+    const path = `${this.baseUrl}/odometer-cards/`;
+    return this.http.post<OdometerCard>(path, card);
+  }
+
+  updateOdometerCard(card: OdometerCard): Observable<OdometerCard> {
+    const path = `${this.baseUrl}/odometer-cards/`;
+    return this.http.put<OdometerCard>(path, card);
+  }
+
   getCleanings(vehicleId?: string): Observable<Cleaning[]> {
     const options = { params: new HttpParams().set('vehicleId', vehicleId) };
     const path = `${this.baseUrl}/cleanings/`;
@@ -30,6 +54,12 @@ export class MaintenanceService {
     const options = { params: new HttpParams().set('vehicleId', vehicleId) };
     const path = `${this.baseUrl}/itvs/`;
     return this.http.get<Itv[]>(path, options);
+  }
+
+  getRepairments(vehicleId?: string): Observable<Repairment[]> {
+    const options = { params: new HttpParams().set('vehicleId', vehicleId) };
+    const path = `${this.baseUrl}/repairments/`;
+    return this.http.get<Repairment[]>(path, options);
   }
 
   getRevisions(vehicleId?: string): Observable<Revision[]> {
@@ -62,6 +92,10 @@ export class MaintenanceService {
 
   deleteOdometer(id: string) {
     const path = `${this.baseUrl}/odometers/${id}/`;
+    return this.http.delete(path);
+  }
+  deleteRepairment(id: string) {
+    const path = `${this.baseUrl}/repairments/${id}/`;
     return this.http.delete(path);
   }
 

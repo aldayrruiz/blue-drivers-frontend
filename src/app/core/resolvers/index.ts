@@ -1,5 +1,6 @@
 export * from './incidents/incident.resolver';
 export * from './incidents/incidents.resolver';
+export * from './maintenance/odometer-card.resolver';
 export * from './positions/positions.resolver';
 export * from './reservations/reservation.resolver';
 export * from './reservations/reservations.resolver';
