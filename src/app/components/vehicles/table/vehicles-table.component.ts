@@ -6,12 +6,14 @@ import {
   CleaningCard,
   EditPatchVehicle,
   fuelLabel,
+  OdometerCard,
   Vehicle,
   vehicleTypeLabel,
 } from 'src/app/core/models';
 import {
   BlueDriversRouter,
   ErrorMessageService,
+  MaintenanceService,
   SnackerService,
   VehicleIcon,
   VehicleIconProvider,
@@ -29,6 +31,7 @@ interface VehicleRow {
   insuranceCompany: string;
   icon: VehicleIcon;
   cleaningCard: CleaningCard;
+  odometerCard: OdometerCard;
 }
 
 @Component({
@@ -37,6 +40,7 @@ interface VehicleRow {
   styleUrls: ['./vehicles-table.component.css'],
 })
 export class VehiclesTableComponent extends BaseTableComponent<Vehicle, VehicleRow> {
+  odometerCard: OdometerCard;
   icons: VehicleIcon[];
   columns = [
     'icon',
@@ -54,6 +58,7 @@ export class VehiclesTableComponent extends BaseTableComponent<Vehicle, VehicleR
 
   constructor(
     private vehicleIconProvider: VehicleIconProvider,
+    private maintenanceService: MaintenanceService,
     private errorMessage: ErrorMessageService,
     private appRouter: BlueDriversRouter,
     private vehicleSrv: VehicleService,
@@ -62,6 +67,7 @@ export class VehiclesTableComponent extends BaseTableComponent<Vehicle, VehicleR
   ) {
     super();
     this.icons = this.vehicleIconProvider.getIcons();
+    this.resolve();
   }
 
   preprocessData(data: Vehicle[]): VehicleRow[] {
@@ -76,6 +82,7 @@ export class VehiclesTableComponent extends BaseTableComponent<Vehicle, VehicleR
       isDisabled: vehicle.is_disabled,
       icon: this.getIconFromVehicle(vehicle),
       cleaningCard: vehicle.cleaning_card,
+      odometerCard: this.odometerCard, // Odometer card is shared by all vehicles.
     }));
   }
 
@@ -126,7 +133,7 @@ export class VehiclesTableComponent extends BaseTableComponent<Vehicle, VehicleR
   }
 
   areCardsCompleted(vehicle: VehicleRow) {
-    const cardsCompleted = vehicle.cleaningCard;
+    const cardsCompleted = vehicle.cleaningCard && vehicle.odometerCard;
     return cardsCompleted;
   }
 
@@ -149,5 +156,9 @@ export class VehiclesTableComponent extends BaseTableComponent<Vehicle, VehicleR
   private getIconFromVehicle(vehicle: Vehicle) {
     const icon = this.icons.filter((i) => i.value === vehicle.icon)[0];
     return icon;
+  }
+
+  private resolve() {
+    this.maintenanceService.getOdometerCard().subscribe((card) => (this.odometerCard = card));
   }
 }

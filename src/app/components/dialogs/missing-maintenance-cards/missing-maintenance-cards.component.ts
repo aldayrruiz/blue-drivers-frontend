@@ -10,7 +10,5 @@ export class DialogMissingMaintenanceCardsComponent {
   constructor(
     public dialogRef: MatDialogRef<DialogMissingMaintenanceCardsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
-    console.log(this.data);
-  }
+  ) {}
 }
