@@ -1,3 +1,4 @@
+import { DecimalPipe } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, IsActiveMatchOptions, Router } from '@angular/router';
 import { formatDistanceToNowStrict, sub } from 'date-fns';
@@ -5,6 +6,8 @@ import es from 'date-fns/locale/es';
 import * as L from 'leaflet';
 import { Subject } from 'rxjs';
 import { Position, User, Vehicle } from 'src/app/core/models';
+import { DistanceFromNow } from 'src/app/core/pipes/distance-from-now.pipe';
+import { FromKnotsToKph } from 'src/app/core/pipes/from-knots-to-kph.pipe';
 import { fromKnotsToKph, PositionService } from 'src/app/core/services';
 import { VehicleIcon, VehicleIconProvider } from 'src/app/core/services/view/vehicle-icon.service';
 import { MapConfiguration } from 'src/app/core/utils/leaflet/map-configuration';
@@ -109,7 +112,7 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
       const position = this.findPosition(positions, vehicle);
       const vehicleIcon = this.getIconFromVehicle(vehicle);
       const icon = this.createLeafIcon(vehicleIcon.src);
-      const marker = this.addMarkerToMap(position, icon);
+      const marker = this.addMarkerToMap(vehicle, position, icon);
       const myMarker = { vehicle, position, marker };
       positionsMarkers.push(myMarker);
     });
@@ -117,13 +120,23 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     this.updateMarkers(positionsMarkers);
   }
 
-  private addMarkerToMap(position: Position, icon?: L.Icon<L.IconOptions>) {
+  private addMarkerToMap(vehicle: Vehicle, position: Position, icon?: L.Icon<L.IconOptions>) {
     if (!position) {
       return undefined;
     }
 
     const latLng = this.latLng(position);
-    const marker = L.marker(latLng, { icon }).addTo(this.map);
+    const distance = new DistanceFromNow().transform(position.deviceTime);
+    let kms: any = new FromKnotsToKph().transform(position.speed);
+    kms = new DecimalPipe('es-ES').transform(kms, '1.0-0');
+    const vehicleLabel = `
+    ${vehicle.brand} ${vehicle.model} ${vehicle.number_plate}
+    <br/>
+    ${kms} km/h
+    <br/>
+    ${distance}
+    `;
+    const marker = L.marker(latLng, { icon }).addTo(this.map).bindPopup(vehicleLabel);
     return marker;
   }
 
@@ -160,7 +173,7 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
           const icon = visibleMarker?.getIcon() as L.Icon<L.IconOptions>;
           // * Set a new marker on map with previous icon or a new one.
           const position = this.findPosition(this.positions, vehicle);
-          const marker = this.addMarkerToMap(position, icon);
+          const marker = this.addMarkerToMap(vehicle, position, icon);
           positionMarkers.push({ vehicle, position, marker });
         });
         this.updateMarkers(positionMarkers);
@@ -173,7 +186,7 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     return L.icon({
       iconUrl: iconSrc,
       iconSize: [22, 22], // size of the icon
-      iconAnchor: [0, 0], // point of the icon which will correspond to marker's location
+      iconAnchor: [10, 10], // point of the icon which will correspond to marker's location
       popupAnchor: [0, 0], // point from which the popup should open relative to the iconAnchor
     });
   }

@@ -10,7 +10,7 @@ export class FromKnotsToKph implements PipeTransform {
    * @param args
    * @returns
    */
-  transform(value: string, ...args: unknown[]): number {
+  transform(value: string | number, ...args: unknown[]): number {
     const knots = Number(value);
     const kph = fromKnotsToKph(knots);
     return kph;

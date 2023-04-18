@@ -17,20 +17,20 @@ export class FieldComponent implements OnInit {
   @Input() placeholder: string;
   @Input() label: string;
 
-  control = new FormControl('');
+  control = new FormControl(undefined);
   filteredOptions: Observable<ObjectField[]>;
 
   ngOnInit() {
     this.filteredOptions = this.control.valueChanges.pipe(
       startWith(''),
-      map((value) => {
+      map((value: any) => {
         const name = typeof value === 'string' ? value : value?.name;
         return name ? this.filter(name as string) : this.objectFields.slice();
       })
     );
   }
 
-  getValue() {
+  getValue(): ObjectField {
     return this.control.value;
   }
 
