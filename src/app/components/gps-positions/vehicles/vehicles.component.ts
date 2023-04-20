@@ -130,13 +130,13 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     let kms: any = new FromKnotsToKph().transform(position.speed);
     kms = new DecimalPipe('es-ES').transform(kms, '1.0-0');
     const vehicleLabel = `
-    ${vehicle.brand} ${vehicle.model} ${vehicle.number_plate}
-    <br/>
-    ${kms} km/h
-    <br/>
-    ${distance}
+    <h4 style="margin: 0px">${vehicle.brand} ${vehicle.model}</h4>
+    <h5 style="margin: 0px"><b>${vehicle.number_plate}</b></h5>
+    <p style="margin: 0px">${kms} km/h</p>
+    <p style="margin: 0px">${distance}</p>
     `;
-    const marker = L.marker(latLng, { icon }).addTo(this.map).bindPopup(vehicleLabel);
+    const popup = L.popup({ minWidth: 150 }).setContent(vehicleLabel);
+    const marker = L.marker(latLng, { icon }).addTo(this.map).bindPopup(popup);
     return marker;
   }
 

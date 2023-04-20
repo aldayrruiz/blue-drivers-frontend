@@ -17,7 +17,7 @@ export class FieldComponent implements OnInit {
   @Input() placeholder: string;
   @Input() label: string;
 
-  control = new FormControl(undefined);
+  control = new FormControl('');
   filteredOptions: Observable<ObjectField[]>;
 
   ngOnInit() {
