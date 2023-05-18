@@ -1,5 +1,4 @@
-import { WheelsLocation } from './location.model';
-import { WheelsOperation } from './operation.model';
+import { WheelsLocation, WheelsOperation } from '@core/models';
 
 export interface CreateWheels {
   id?: string;

@@ -1,8 +1,4 @@
-import { User } from '../../users/user.model';
-import { Vehicle } from '../../vehicles/vehicle.model';
-import { WheelsLocation } from './location.model';
-import { WheelsOperation } from './operation.model';
-import { WheelsPhoto } from './photo.model';
+import { User, Vehicle, WheelsLocation, WheelsOperation, WheelsPhoto } from '@core/models';
 
 export interface Wheels {
   id: string;

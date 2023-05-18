@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { LocalStorage } from '@core/services';
 import { map } from 'rxjs/operators';
 import { API } from 'src/app/core/utils/api-paths.enum';
 import { environment } from 'src/environments/environment';
 import { UserRole } from '../../models';
-import { LocalStorage } from '../storage/local-storage.service';
 
 const path = `${environment.fleetBaseUrl}${API.login}/`;
 

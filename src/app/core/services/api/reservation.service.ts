@@ -16,14 +16,7 @@ export class ReservationService {
   /**
    * Sends a GET HTTP request to the server to get a list of reservations.
    */
-  getAll(
-    page?: number,
-    page_size?: number,
-    userId?: string,
-    vehicleId?: string,
-    from?: string,
-    to?: string
-  ): Observable<any> {
+  getAll(page?: number, page_size?: number, userId?: string, vehicleId?: string, from?: string, to?: string): Observable<any> {
     const params = new HttpParams()
       .set('page', page)
       .set('page_size', page_size)

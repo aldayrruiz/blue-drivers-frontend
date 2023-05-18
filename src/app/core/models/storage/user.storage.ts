@@ -1,6 +1,4 @@
-
-
-import { UserRole } from '../users/role.model';
+import { UserRole } from '@core/models';
 
 export interface UserStorage {
   id: string;

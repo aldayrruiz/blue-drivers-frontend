@@ -88,7 +88,7 @@ table th {
 
 .mat-button.mat-warn,
 .mat-stroked-button.mat-warn {
-  color: rgb(235,68,90	);
+  color: rgb(235, 68, 90);
 }
 .mat-button.mat-warn:hover,
 .mat-stroked-button.mat-warn:hover {
@@ -100,9 +100,9 @@ table th {
 .mat-fab.mat-warn,
 .mat-mini-fab.mat-warn {
   color: #f0fff3;
-  background-color: rgb(235,68,90	);
+  background-color: rgb(235, 68, 90);
 }
 
 .mat-icon-button.mat-warn {
-  color: rgb(235,68,90	);
+  color: rgb(235, 68, 90);
 }

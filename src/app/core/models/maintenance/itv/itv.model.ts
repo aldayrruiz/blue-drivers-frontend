@@ -1,6 +1,4 @@
-import { User } from '../../users/user.model';
-import { Vehicle } from '../../vehicles/vehicle.model';
-import { ItvPhoto } from './photo.model';
+import { ItvPhoto, User, Vehicle } from '@core/models';
 
 export interface Itv {
   id: string;

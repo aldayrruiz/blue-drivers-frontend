@@ -1,7 +1,4 @@
-import { User } from '../../users/user.model';
-import { Vehicle } from '../../vehicles/vehicle.model';
-import { OperationMaintenanceStatus } from '../status.model';
-import { CleaningPhoto } from './photo.model';
+import { CleaningPhoto, OperationMaintenanceStatus, User, Vehicle } from '@core/models';
 import { CleaningType } from './type.model';
 
 export interface Cleaning {

@@ -1,6 +1,4 @@
-import { User } from '../../users/user.model';
-import { Vehicle } from '../../vehicles/vehicle.model';
-import { RevisionPhoto } from './photo.model';
+import { RevisionPhoto, User, Vehicle } from '@core/models';
 
 export interface Revision {
   id: string;

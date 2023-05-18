@@ -1,4 +1,3 @@
-
 import { Vehicle } from '..';
 import { UserRole } from './role.model';
 

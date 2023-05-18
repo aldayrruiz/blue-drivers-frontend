@@ -1,4 +1,3 @@
-
 export enum VehicleType {
   TOURISM = 'TOURISM',
   ALL_TERRAIN = 'ALL_TERRAIN',

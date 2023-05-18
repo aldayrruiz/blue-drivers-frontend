@@ -6,11 +6,7 @@ import { BlueDriversRouter, LocalStorage, LoginService } from '../services';
   providedIn: 'root',
 })
 export class AuthGuard implements CanLoad {
-  constructor(
-    private blueDriversRouter: BlueDriversRouter,
-    private loginService: LoginService,
-    private storage: LocalStorage
-  ) {}
+  constructor(private blueDriversRouter: BlueDriversRouter, private loginService: LoginService, private storage: LocalStorage) {}
 
   async canLoad() {
     const user = this.storage.getUser();

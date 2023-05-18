@@ -1,0 +1,51 @@
+<div id="vehiclesMap" class="map"></div>
+<div class="vehicles-container">
+  <cdk-virtual-scroll-viewport [itemSize]="50" class="scroll-bar">
+    <mat-list role="list">
+      <mat-card
+        *ngFor="let positionMarker of positionMarkers$ | async"
+        (click)="positionMarker.marker ? focusMapOnPosition(positionMarker) : null"
+        [ngClass]="positionMarker.marker ? 'none' : 'disabled'"
+      >
+        <mat-card-content>
+          <div id="wrapper">
+            <div id="first">
+              <mat-card-header style="padding-top: 13px">
+                <img mat-card-avatar [src]="getIconFromVehicle(positionMarker?.vehicle).src" />
+                <mat-card-title class="no-margin">
+                  {{ positionMarker?.vehicle?.number_plate }}
+                </mat-card-title>
+                <mat-card-subtitle class="no-margin">
+                  {{ positionMarker?.vehicle?.brand }}
+                  {{ positionMarker?.vehicle?.model }}
+                </mat-card-subtitle>
+              </mat-card-header>
+            </div>
+            <div id="second">
+              <div>
+                <mat-icon style="margin-top: 5px">access_time</mat-icon>
+                <span class="aligned-with-icon">
+                  {{ positionMarker?.position?.deviceTime | distance: false }}
+                </span>
+              </div>
+              <div>
+                <mat-icon style="margin-top: 5px">speed</mat-icon>
+                <span class="aligned-with-icon">
+                  {{ positionMarker?.position?.speed | fromKnotsToKph | number: '1.0-0' }} km/h
+                </span>
+              </div>
+            </div>
+          </div>
+          <mat-chip-list>
+            <mat-chip
+              color="warn"
+              *ngFor="let passenger of passengersByVehicle.get(positionMarker?.vehicle)"
+            >
+              {{ passenger.fullname }}
+            </mat-chip>
+          </mat-chip-list>
+        </mat-card-content>
+      </mat-card>
+    </mat-list>
+  </cdk-virtual-scroll-viewport>
+</div>

@@ -1,4 +1,3 @@
-
 import { VehicleFuel, VehicleType } from '..';
 
 export interface EditVehicle {

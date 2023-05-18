@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AssetsService } from '../assets.service';
+import { AssetsService } from '@core/services';
 
 export interface VehicleIcon {
   label: string;

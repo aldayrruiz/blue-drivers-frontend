@@ -1,6 +1,5 @@
 import { UserRole } from './role.model';
 
-
 export interface CreateUser {
   id?: string;
   email: string;

@@ -13,15 +13,12 @@ export class DurationPipe implements PipeTransform {
    * @param args
    * @returns
    */
-  transform(value: number, ...args: unknown[]): string {
+  transform(value: number): string {
     const milliseconds = Number(value);
     if (milliseconds === 0) {
       return '0 minutos';
     }
     const interval = intervalToDuration({ start: 0, end: milliseconds });
-    console.log(interval);
-    const result = formatDuration(interval);
-    console.log(result);
-    return result;
+    return formatDuration(interval);
   }
 }

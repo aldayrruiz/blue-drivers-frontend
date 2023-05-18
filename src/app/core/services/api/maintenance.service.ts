@@ -2,16 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import {
-  Cleaning,
-  CleaningCard,
-  Itv,
-  Odometer,
-  OdometerCard,
-  Repairment,
-  Revision,
-  Wheels,
-} from '../../models';
+import { Cleaning, CleaningCard, Itv, Odometer, OdometerCard, Repairment, Revision, Wheels } from '../../models';
 import { API } from '../../utils/api-paths.enum';
 
 @Injectable({ providedIn: 'root' })

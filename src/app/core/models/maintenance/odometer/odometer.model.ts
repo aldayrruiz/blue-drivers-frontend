@@ -1,5 +1,4 @@
-import { User } from '../../users/user.model';
-import { Vehicle } from '../../vehicles/vehicle.model';
+import { User, Vehicle } from '@core/models';
 
 export interface Odometer {
   id: string;

@@ -1,0 +1,176 @@
+<div class="table-container">
+  <div id="wrapper">
+    <div class="filters" id="first">
+      <!-- Filter -->
+      <mat-form-field appearance="fill">
+        <mat-label>Buscar por palabra clave</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+    <div id="second">
+      <button mat-raised-button routerLink="../create" color="warn">Añadir</button>
+    </div>
+  </div>
+
+  <div class="mat-elevation-z8" *ngIf="dataSource?.data?.length !== 0; else noData">
+    <!-- Spinner -->
+    <div class="example-loading-shade" *ngIf="isLoadingResults">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <!-- Table  -->
+    <table mat-table [dataSource]="dataSource">
+      <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+      <!-- FullName Column -->
+      <ng-container matColumnDef="fullname">
+        <th mat-header-cell *matHeaderCellDef>Nombre y apellidos</th>
+        <td mat-cell *matCellDef="let user">{{ user.fullname }}</td>
+      </ng-container>
+
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+      </ng-container>
+
+      <!-- Role Column -->
+      <ng-container matColumnDef="roles">
+        <th mat-header-cell *matHeaderCellDef>Roles</th>
+        <td mat-cell *matCellDef="let user">{{ getUserRolesLabel(user) }}</td>
+      </ng-container>
+
+      <!-- Fecha de entrada Column -->
+      <ng-container matColumnDef="dateJoined">
+        <th mat-header-cell *matHeaderCellDef>Fecha de entrada</th>
+        <td mat-cell *matCellDef="let user">
+          {{ user.dateJoined | shortDateTime }}
+        </td>
+      </ng-container>
+
+      <!-- Edit Allowed Vehicle Types Column -->
+      <ng-container matColumnDef="allowedTypes">
+        <th class="button-table" mat-header-cell *matHeaderCellDef></th>
+        <td class="button-table" mat-cell *matCellDef="let user">
+          <span *ngIf="user.role === 'USER'">
+            <button
+              *ngIf="!isMe(user)"
+              mat-icon-button
+              color="dark"
+              aria-label="Edit allowed vehicle types"
+              routerLink="../edit/{{ user.id }}/allowed-vehicle-types"
+            >
+              <mat-icon
+                matBadgePosition="after | below"
+                matBadge="{{ user?.allowedVehicleTypes?.length }}"
+                matBadgeSize="small"
+                [matBadgeColor]="getBadgeColor(user?.allowedVehicleTypes?.length)"
+                aria-hidden="false"
+                aria-label="edit allowed vehicle types icon"
+              >
+                drive_eta</mat-icon
+              >
+            </button>
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Edit Column -->
+      <ng-container matColumnDef="edit">
+        <th class="button-table" mat-header-cell *matHeaderCellDef></th>
+        <td class="button-table" mat-cell *matCellDef="let user">
+          <span *ngIf="user.role === 'USER' || user.role === 'ADMIN'">
+            <button
+              mat-icon-button
+              color="dark"
+              aria-label="Edit user icon"
+              routerLink="../edit/{{ user.id }}"
+            >
+              <mat-icon aria-hidden="false" aria-label="edit icon">edit</mat-icon>
+            </button>
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Allow/Disallow Column -->
+      <ng-container matColumnDef="isDisabled">
+        <th class="button-table" mat-header-cell *matHeaderCellDef></th>
+        <td class="button-table" mat-cell *matCellDef="let user">
+          <span *ngIf="user.role === 'USER' || user.role === 'ADMIN'">
+            <span *ngIf="!user.isDisabled; else disabledIcon">
+              <button
+                mat-icon-button
+                color="primary"
+                aria-label="Is user disabled"
+                (click)="changeDisabled(user)"
+              >
+                <mat-icon aria-hidden="false" aria-label="Is user disabled">lock_open</mat-icon>
+              </button>
+            </span>
+          </span>
+          <ng-template #disabledIcon>
+            <button
+              mat-icon-button
+              color="error"
+              aria-label="Mobile use not allowed"
+              (click)="changeDisabled(user)"
+            >
+              <mat-icon aria-hidden="false" aria-label="">lock</mat-icon>
+            </button>
+          </ng-template>
+        </td>
+      </ng-container>
+
+      <!-- Change credentials -->
+      <ng-container matColumnDef="resendRegistrationEmail">
+        <th class="button-table" mat-header-cell *matHeaderCellDef></th>
+        <td class="button-table" mat-cell *matCellDef="let user">
+          <span *ngIf="user.role === 'USER' || user.role === 'ADMIN'">
+            <button
+              mat-icon-button
+              color="dark"
+              aria-label="Edit user icon"
+              (click)="openResendRegistrationEmailDialog(user)"
+            >
+              <mat-icon aria-hidden="false" aria-label="send email">email</mat-icon>
+            </button>
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Delete Column -->
+      <ng-container matColumnDef="delete">
+        <th class="button-table" mat-header-cell *matHeaderCellDef></th>
+        <td class="button-table" mat-cell *matCellDef="let user">
+          <button
+            *ngIf="!isMe(user); else meIcon"
+            mat-icon-button
+            color="error"
+            aria-label="Delete user icon"
+            (click)="openDeleteDialog(user)"
+          >
+            <mat-icon aria-hidden="false" aria-label="delete icon">delete</mat-icon>
+          </button>
+          <ng-template #meIcon>
+            <button mat-icon-button color="primary" aria-label="Me icon">
+              <mat-icon aria-hidden="false" aria-label="me icon">person</mat-icon>
+            </button>
+          </ng-template>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns"></tr>
+    </table>
+
+    <!-- Paginator -->
+    <mat-paginator
+      [pageSizeOptions]="[10, 25, 50, 100]"
+      aria-label="Select page of users"
+    ></mat-paginator>
+  </div>
+
+  <ng-template #noData> No hay usuarios </ng-template>
+</div>

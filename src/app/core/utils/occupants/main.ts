@@ -35,10 +35,7 @@ export const getIntensitiesByPassenger = (positions: Position[], users: User[]) 
   return intensitiesByPassenger;
 };
 
-export const getPassengersMedianIsGreaterThanLimit = (
-  intensitiesByUser: Map<User, number[]>,
-  limit: number = -70
-) => {
+export const getPassengersMedianIsGreaterThanLimit = (intensitiesByUser: Map<User, number[]>, limit: number = -70) => {
   // Para cada usuario obtener la mediana correspondiente a sus intensidades.
   // Si la mediana supera el limite (-70), entonces considerar que el usuario estaba dentro del vehículo.
   const passengers: User[] = [];

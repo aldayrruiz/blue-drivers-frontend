@@ -1,0 +1,72 @@
+<div class="table-container">
+  <!-- Filter -->
+  <div class="filters">
+    <mat-form-field appearance="fill">
+      <mat-label>Buscar por palabra clave</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </div>
+
+  <div class="mat-elevation-z8" *ngIf="dataSource?.data?.length !== 0; else noData">
+    <!-- Spinner -->
+    <div class="example-loading-shade" *ngIf="isLoadingResults">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <table mat-table [dataSource]="dataSource">
+      <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+      <!-- Title Column -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef>Motivo</th>
+        <td mat-cell *matCellDef="let ticket">{{ ticket.title }}</td>
+      </ng-container>
+
+      <!-- Owner Column -->
+      <ng-container matColumnDef="owner">
+        <th mat-header-cell *matHeaderCellDef>Creador</th>
+        <td mat-cell *matCellDef="let ticket">{{ ticket.owner }}</td>
+      </ng-container>
+
+      <!-- Date Stored Column -->
+      <ng-container matColumnDef="dateStored">
+        <th mat-header-cell *matHeaderCellDef>Fecha de creación</th>
+        <td mat-cell *matCellDef="let ticket">{{ ticket.dateStored | shortDateTime }}</td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Estado</th>
+        <td mat-cell *matCellDef="let ticket">{{ ticketStatusLabel(ticket.status) }}</td>
+      </ng-container>
+
+      <!-- Decide Column -->
+      <ng-container matColumnDef="decide">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let ticket">
+          <button
+            mat-icon-button
+            color="error"
+            aria-label="Decide ticket icon"
+            routerLink="../solve/{{ ticket.id }}"
+          >
+            <mat-icon aria-hidden="false" aria-label="gavel icon">gavel</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns"></tr>
+    </table>
+
+    <!-- Paginator -->
+    <mat-paginator
+      [pageSizeOptions]="[10, 25, 50, 100]"
+      aria-label="Select page of tickets"
+    ></mat-paginator>
+  </div>
+
+  <ng-template #noData> No hay conflictos </ng-template>
+</div>

@@ -1,6 +1,5 @@
 import { VehicleFuel, VehicleType } from '..';
 
-
 export interface CreateVehicle {
   model: string;
   brand: string;

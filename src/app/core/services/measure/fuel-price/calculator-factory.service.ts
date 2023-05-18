@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { VehicleFuel } from '../../../models/vehicles/fuel.model';
+import { VehicleFuel } from '@core/models';
 import { PriceFuelCalculator } from './calculator.interface';
 import { DieselPriceFuelCalculator } from './diesel.calculator.service';
 import { ElectricPriceFuelCalculator } from './electric.calculator.service';

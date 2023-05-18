@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Reservation } from '@core/models';
+import { formatDuration } from '@core/utils/dates/custom-fns';
 import { intervalToDuration } from 'date-fns';
-import { Reservation } from '../../../models';
-import { formatDuration } from '../../../utils/dates/custom-fns';
 
 @Injectable({ providedIn: 'root' })
 export class TimeReservedService {
