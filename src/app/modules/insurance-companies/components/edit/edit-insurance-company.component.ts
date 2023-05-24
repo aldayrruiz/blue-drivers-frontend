@@ -22,7 +22,7 @@ export class EditInsuranceCompanyComponent implements OnInit {
     private insuranceCompanySrv: InsuranceCompanyService,
     private errorMessage: ErrorMessageService,
     private formBuilder: FormBuilder,
-    private snacker: SnackerService,
+    private snackerService: SnackerService,
     private route: ActivatedRoute,
     private router: BlueDriversRouter
   ) {}
@@ -51,11 +51,11 @@ export class EditInsuranceCompanyComponent implements OnInit {
         async () => {
           this.router.goToInsuranceCompanies();
           const message = 'Compañía aseguradora editada con éxito';
-          this.snacker.showSuccessful(message);
+          this.snackerService.showSuccessful(message);
         },
         async (error) => {
           const message = this.errorMessage.get(error);
-          this.snacker.showError(message);
+          this.snackerService.showError(message);
         }
       );
   }

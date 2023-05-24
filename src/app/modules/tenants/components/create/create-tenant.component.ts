@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CreateUser, Tenant, UserRole } from '@core/models';
 import { SnackerService, TenantService, UserService } from '@core/services';
+import { ImageService } from '@core/services/image/image.service';
 import { MyErrorStateMatcher } from '@core/utils/my-error-state-matcher';
 import { tenantNameValidators } from '@core/validators/tenant';
 import { userEmailValidators, userFullnameValidators } from '@core/validators/user';
@@ -13,66 +14,66 @@ import { isEmail, required } from '@core/validators/validators';
   styleUrls: ['./create-tenant.component.css'],
 })
 export class CreateTenantComponent implements OnInit {
-  matcher = new MyErrorStateMatcher();
-  isLinear = false;
+  matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
   adminForm: FormGroup;
   tenantForm: FormGroup;
   dietForm: FormGroup;
-  sending = false;
+  sending: boolean = false;
 
   constructor(
     private tenantSrv: TenantService,
     private formBuilder: FormBuilder,
-    private snacker: SnackerService,
-    private userSrv: UserService
+    private snackerService: SnackerService,
+    private userSrv: UserService,
+    private imageUploader: ImageService
   ) {}
 
   // Tenant form
-  get tenantName(): AbstractControl {
-    return this.tenantForm.get('tenantName');
+  get tenantName(): FormControl {
+    return this.tenantForm.get('tenantName') as FormControl;
   }
 
-  get tenantLogo(): AbstractControl {
-    return this.tenantForm.get('tenantLogo');
+  get tenantLogo(): FormControl {
+    return this.tenantForm.get('tenantLogo') as FormControl;
   }
 
   // Admin form 1
-  get adminEmail1(): AbstractControl {
-    return this.adminForm.get('adminEmail1');
+  get adminEmail1(): FormControl {
+    return this.adminForm.get('adminEmail1') as FormControl;
   }
 
-  get adminFullname1(): AbstractControl {
-    return this.adminForm.get('adminFullname1');
+  get adminFullname1(): FormControl {
+    return this.adminForm.get('adminFullname1') as FormControl;
   }
 
   // Admin form 2
-  get adminEmail2(): AbstractControl {
-    return this.adminForm.get('adminEmail2');
+  get adminEmail2(): FormControl {
+    return this.adminForm.get('adminEmail2') as FormControl;
   }
 
-  get adminFullname2(): AbstractControl {
-    return this.adminForm.get('adminFullname2');
+  get adminFullname2(): FormControl {
+    return this.adminForm.get('adminFullname2') as FormControl;
   }
 
   // Diet
-  get dietState(): AbstractControl {
-    return this.dietForm.get('dietState');
+  get dietState(): FormControl {
+    return this.dietForm.get('dietState') as FormControl;
   }
 
-  get interventorEmail(): AbstractControl {
-    return this.dietForm.get('interventorEmail');
+  get interventorEmail(): FormControl {
+    return this.dietForm.get('interventorEmail') as FormControl;
   }
 
-  get interventorFullname(): AbstractControl {
-    return this.dietForm.get('interventorFullname');
+  get interventorFullname(): FormControl {
+    return this.dietForm.get('interventorFullname') as FormControl;
   }
 
-  get supervisorEmail(): AbstractControl {
-    return this.dietForm.get('supervisorEmail');
+  get supervisorEmail(): FormControl {
+    return this.dietForm.get('supervisorEmail') as FormControl;
   }
 
-  get supervisorFullname(): AbstractControl {
-    return this.dietForm.get('supervisorFullname');
+  get supervisorFullname(): FormControl {
+    return this.dietForm.get('supervisorFullname') as FormControl;
   }
 
   ngOnInit(): void {
@@ -98,10 +99,10 @@ export class CreateTenantComponent implements OnInit {
   }
 
   async createTenant() {
-    const tenant = await this.getTenantData();
+    const tenant: Tenant = await this.getTenantData();
     this.tenantSrv.create(tenant).subscribe({
       next: (tenantCreated) => {
-        this.snacker.showSuccessful('Tenant created');
+        this.snackerService.showSuccessful('Tenant created');
         this.createAdmin(tenantCreated.id);
         this.createSupervisorAndInterventor(tenantCreated.id);
       },
@@ -109,11 +110,11 @@ export class CreateTenantComponent implements OnInit {
   }
 
   private createAdmin(tenantId: string) {
-    const admin1 = this.getAdminData1(tenantId);
-    const admin2 = this.getAdminData2(tenantId);
+    const admin1: CreateUser = this.getAdminData1(tenantId);
+    const admin2: CreateUser = this.getAdminData2(tenantId);
     this.userSrv.create(admin1).subscribe({
       next: () => {
-        this.snacker.showSuccessful('Se creado y enviado un email al administrador');
+        this.snackerService.showSuccessful('Se ha creado y enviado un email al administrador');
       },
     });
 
@@ -123,7 +124,7 @@ export class CreateTenantComponent implements OnInit {
 
     this.userSrv.create(admin2).subscribe({
       next: () => {
-        this.snacker.showSuccessful('Se creado y enviado un email al administrador');
+        this.snackerService.showSuccessful('Se ha creado y enviado un email al administrador');
       },
     });
   }
@@ -137,12 +138,12 @@ export class CreateTenantComponent implements OnInit {
     const supervisor = this.getSupervisorData(tenantId);
     this.userSrv.create(interventor).subscribe({
       next: () => {
-        this.snacker.showSuccessful('Interventor created');
+        this.snackerService.showSuccessful('Interventor created');
       },
     });
     this.userSrv.create(supervisor).subscribe({
       next: () => {
-        this.snacker.showSuccessful('Supervisor created');
+        this.snackerService.showSuccessful('Supervisor created');
       },
     });
   }
@@ -150,11 +151,10 @@ export class CreateTenantComponent implements OnInit {
   private async getTenantData(): Promise<Tenant> {
     const { tenantName, tenantLogo } = this.tenantForm.value;
     const { dietState } = this.dietForm.value;
-    const logo = await this.toBase64(tenantLogo);
+    const logo = await this.imageUploader.toBase64(tenantLogo);
     const name = tenantName;
     const diet = dietState;
-    const tenant = { name, logo, diet };
-    return tenant;
+    return { name, logo, diet };
   }
 
   private getAdminData1(tenant: string): CreateUser {
@@ -194,12 +194,4 @@ export class CreateTenantComponent implements OnInit {
     const is_interventor = true;
     return { email, fullname, role, tenant, ble_user_id, is_interventor };
   }
-
-  private toBase64 = (file) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
 }

@@ -22,7 +22,7 @@ export class EditCleaningCardComponent implements OnInit {
     private errorMessage: ErrorMessageService,
     private appRouter: BlueDriversRouter,
     private formBuilder: FormBuilder,
-    private snacker: SnackerService,
+    private snackerService: SnackerService,
     private route: ActivatedRoute
   ) {}
 
@@ -44,20 +44,20 @@ export class EditCleaningCardComponent implements OnInit {
 
   editCard(cleaningCardId: string, newData: CleaningCard) {
     this.maintenanceService.updateCleaningCard(cleaningCardId, newData).subscribe({
-      next: () => this.snacker.showSuccessful('Ficha de limpieza actualizada'),
+      next: () => this.snackerService.showSuccessful('Ficha de limpieza actualizada'),
       error: (error) => {
         const msg = this.errorMessage.get(error);
-        this.snacker.showError(msg);
+        this.snackerService.showError(msg);
       },
     });
   }
 
   createCard(cleaningCard: CleaningCard) {
     this.maintenanceService.createCleaningCard(cleaningCard).subscribe({
-      next: () => this.snacker.showSuccessful('Ficha de limpieza creada'),
+      next: () => this.snackerService.showSuccessful('Ficha de limpieza creada'),
       error: (error) => {
         const msg = this.errorMessage.get(error);
-        this.snacker.showError(msg);
+        this.snackerService.showError(msg);
       },
     });
   }

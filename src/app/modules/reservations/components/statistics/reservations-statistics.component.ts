@@ -37,7 +37,7 @@ export class ReservationsStatisticsComponent implements OnInit {
     private timeReservedSrv: TimeReservedService,
     private positionsSrv: PositionService,
     private reportSrv: ReportService,
-    private snacker: SnackerService,
+    private snackerService: SnackerService,
     private route: ActivatedRoute
   ) {}
 
@@ -130,7 +130,7 @@ export class ReservationsStatisticsComponent implements OnInit {
   }
 
   private showThereWasNoMovement() {
-    this.snacker.showError('No hubo desplazamiento del vehículo en el tiempo de reserva');
+    this.snackerService.showError('No hubo desplazamiento del vehículo en el tiempo de reserva');
   }
 
   private resolve(): void {

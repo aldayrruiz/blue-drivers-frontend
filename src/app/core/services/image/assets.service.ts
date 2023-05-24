@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class AssetsService {
-  private assetsUrl: string;
+  private readonly assetsUrl: string;
 
   constructor() {
     this.assetsUrl = environment.assetsDir;

@@ -43,7 +43,7 @@ export class ReservationsTableComponent extends BaseTableComponent<Reservation, 
   previous: string;
   next: string;
 
-  constructor(private timeReservedSrv: TimeReservedService, private reservationsSrv: ReservationService, private snacker: SnackerService) {
+  constructor(private timeReservedSrv: TimeReservedService, private reservationsSrv: ReservationService, private snackerService: SnackerService) {
     super();
   }
 
@@ -112,7 +112,7 @@ export class ReservationsTableComponent extends BaseTableComponent<Reservation, 
     const reservationNotCompleted = isFuture(end);
     if (reservationNotCompleted) {
       const msg = 'La reserva debe haber ocurrido para ver las estadísticas';
-      this.snacker.showError(msg);
+      this.snackerService.showError(msg);
       return;
     }
 

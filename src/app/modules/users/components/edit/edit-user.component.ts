@@ -23,7 +23,7 @@ export class EditUserComponent implements OnInit {
     private errorMessage: ErrorMessageService,
     private router: BlueDriversRouter,
     private formBuilder: FormBuilder,
-    private snacker: SnackerService,
+    private snackerService: SnackerService,
     private route: ActivatedRoute,
     private storage: LocalStorage,
     private userSrv: UserService
@@ -62,11 +62,11 @@ export class EditUserComponent implements OnInit {
         next: async () => {
           this.router.goToUsers();
           const message = 'Usuario editado con éxito!';
-          this.snacker.showSuccessful(message);
+          this.snackerService.showSuccessful(message);
         },
         error: async (error) => {
           const message = this.errorMessage.get(error);
-          this.snacker.showError(message);
+          this.snackerService.showError(message);
         },
       });
   }

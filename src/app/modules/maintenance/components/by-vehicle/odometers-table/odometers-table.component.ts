@@ -35,7 +35,7 @@ export class OdometersTableComponent extends BaseTableComponent<Odometer, Odomet
     private errorMessage: ErrorMessageService,
     private vehicleService: VehicleService,
     private appRouter: BlueDriversRouter,
-    private snacker: SnackerService,
+    private snackerService: SnackerService,
     private route: ActivatedRoute,
     private dialog: MatDialog
   ) {

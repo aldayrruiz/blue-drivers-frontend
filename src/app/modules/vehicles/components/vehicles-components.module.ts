@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { VehiclesPageRoutingModule } from '@modules/vehicles/pages/vehicles/vehicles-routing.module';
 import { MyAngularMaterialModule } from '@shared/modules/angular-material.module';
+import { ImageCropperModule } from 'ngx-image-cropper';
 import { CreateVehicleComponent } from './create/create-vehicle.component';
 import { EditVehicleComponent } from './edit/edit-vehicle.component';
 import { VehiclesTableComponent } from './table/vehicles-table.component';
@@ -14,6 +15,7 @@ import { VehiclesTableComponent } from './table/vehicles-table.component';
     VehiclesPageRoutingModule /* This component is using vehicles routing /admin/vehicles */,
     MyAngularMaterialModule,
     ReactiveFormsModule,
+    ImageCropperModule,
   ],
   exports: [VehiclesTableComponent, EditVehicleComponent, CreateVehicleComponent],
 })

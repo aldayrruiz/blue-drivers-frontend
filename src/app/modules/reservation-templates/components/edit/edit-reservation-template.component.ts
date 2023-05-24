@@ -22,7 +22,7 @@ export class EditReservationTemplateComponent implements OnInit {
     private reservationTemplateSrv: ReservationTemplateService,
     private errorMessage: ErrorMessageService,
     private formBuilder: FormBuilder,
-    private snacker: SnackerService,
+    private snackerService: SnackerService,
     private route: ActivatedRoute,
     private router: BlueDriversRouter
   ) {}
@@ -47,11 +47,11 @@ export class EditReservationTemplateComponent implements OnInit {
         next: async () => {
           this.router.goToReservationTemplates();
           const message = 'Plantilla de reserva editada con éxito';
-          this.snacker.showSuccessful(message);
+          this.snackerService.showSuccessful(message);
         },
         error: async (error) => {
           const message = this.errorMessage.get(error);
-          this.snacker.showError(message);
+          this.snackerService.showError(message);
         },
       });
   }

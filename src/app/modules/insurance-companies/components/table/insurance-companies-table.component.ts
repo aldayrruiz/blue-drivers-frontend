@@ -23,7 +23,7 @@ export class InsuranceCompaniesTableComponent extends BaseTableComponent<Insuran
   constructor(
     private insuranceCompanyService: InsuranceCompanyService,
     private errorMessage: ErrorMessageService,
-    private snacker: SnackerService,
+    private snackerService: SnackerService,
     private dialog: MatDialog
   ) {
     super();
@@ -60,11 +60,11 @@ export class InsuranceCompaniesTableComponent extends BaseTableComponent<Insuran
         const newCompanies = this.models.filter((v) => v.id !== company.id);
         this.initTable(newCompanies);
         const msg = `La compañía aseguradora ${company.name} ha sido eliminada.`;
-        this.snacker.showSuccessful(msg);
+        this.snackerService.showSuccessful(msg);
       },
       async (error) => {
         const message = this.errorMessage.get(error);
-        this.snacker.showError(message);
+        this.snackerService.showError(message);
       }
     );
   }

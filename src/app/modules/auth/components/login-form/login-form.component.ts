@@ -27,7 +27,7 @@ export class LoginFormComponent implements OnInit {
     private assetsService: AssetsService,
     private loginService: LoginService,
     private formBuilder: FormBuilder,
-    private snacker: SnackerService,
+    private snackerService: SnackerService,
     private fleetRouter: BlueDriversRouter
   ) {
     this.blueDriversLogo = this.assetsService.getUrl('background/icon.png');
@@ -65,12 +65,12 @@ export class LoginFormComponent implements OnInit {
           } else if (response.role === UserRole.ADMIN) {
             this.fleetRouter.goToHome();
           } else {
-            this.snacker.showError('No eres administrador');
+            this.snackerService.showError('No eres administrador');
           }
         },
         error: async (error) => {
           const message = this.errorMessage.get(error);
-          this.snacker.showError(message);
+          this.snackerService.showError(message);
         },
       });
   }

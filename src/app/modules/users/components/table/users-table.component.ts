@@ -34,7 +34,7 @@ export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
   constructor(
     private errorMessage: ErrorMessageService,
     private authService: AuthService,
-    private snacker: SnackerService,
+    private snackerService: SnackerService,
     private storage: LocalStorage,
     private userSrv: UserService,
     private dialog: MatDialog
@@ -144,11 +144,11 @@ export class UsersTableComponent extends BaseTableComponent<User, UserRow> {
       next: async () => {
         const newUsers = this.models.filter((u) => u.id !== user.id);
         this.initTable(newUsers);
-        this.snacker.showSuccessful(`El usuario ${user.fullname} ha sido eliminado.`);
+        this.snackerService.showSuccessful(`El usuario ${user.fullname} ha sido eliminado.`);
       },
       error: async (error) => {
         const message = this.errorMessage.get(error);
-        this.snacker.showError(message);
+        this.snackerService.showError(message);
       },
     });
   }

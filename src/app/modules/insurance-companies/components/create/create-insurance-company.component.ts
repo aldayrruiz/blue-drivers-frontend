@@ -20,7 +20,7 @@ export class CreateInsuranceCompanyComponent implements OnInit {
     private insuranceCompanySrv: InsuranceCompanyService,
     private errorMessage: ErrorMessageService,
     private formBuilder: FormBuilder,
-    private snacker: SnackerService,
+    private snackerService: SnackerService,
     private router: BlueDriversRouter
   ) {}
 
@@ -49,11 +49,11 @@ export class CreateInsuranceCompanyComponent implements OnInit {
       .subscribe({
         next: async () => {
           this.router.goToInsuranceCompanies();
-          this.snacker.showSuccessful('Compañía aseguradora creada con éxito');
+          this.snackerService.showSuccessful('Compañía aseguradora creada con éxito');
         },
         error: async (error) => {
           const message = this.errorMessage.get(error);
-          this.snacker.showError(message);
+          this.snackerService.showError(message);
         },
       });
   }

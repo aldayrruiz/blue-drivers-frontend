@@ -27,6 +27,7 @@ table {
   padding-bottom: 1%;
 }
 
-.icon-height {
+.vehicle-icon {
   height: 32px;
+  border-radius: 50%;
 }

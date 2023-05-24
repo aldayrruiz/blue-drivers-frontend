@@ -22,7 +22,7 @@ export class EditAllowedVehiclesComponent implements OnInit {
 
   constructor(
     private errorMessage: ErrorMessageService,
-    private snacker: SnackerService,
+    private snackerService: SnackerService,
     private route: ActivatedRoute,
     private userSrv: UserService
   ) {}
@@ -75,11 +75,11 @@ export class EditAllowedVehiclesComponent implements OnInit {
       .subscribe(
         async () => {
           const message = 'Vehículos asignados con éxito';
-          this.snacker.showSuccessful(message);
+          this.snackerService.showSuccessful(message);
         },
         async (error) => {
           const message = this.errorMessage.get(error);
-          this.snacker.showError(message);
+          this.snackerService.showError(message);
         }
       );
   }

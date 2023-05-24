@@ -9,5 +9,5 @@ export interface CreateVehicle {
   type: VehicleType;
   insurance_company: string;
   policy_number: string;
-  icon: number;
+  icon: string;
 }

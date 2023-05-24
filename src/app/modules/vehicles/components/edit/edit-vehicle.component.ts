@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { EditVehicle, InsuranceCompany, Vehicle } from '@core/models';
-import { BlueDriversRouter, ErrorMessageService, SnackerService, VehicleService } from '@core/services';
-import { VehicleIcon, VehicleIconProvider } from '@core/services/view/vehicle-icon.service';
+import { BlueDriversRouter, ErrorMessageService, ImageService, SnackerService, VehicleIconProvider, VehicleService } from '@core/services';
 import { MyErrorStateMatcher } from '@core/utils/my-error-state-matcher';
 import {
   vehicleBrandValidators,
@@ -14,6 +13,7 @@ import {
   vehiclePolicyNumberValidators,
   vehicleTypeValidators,
 } from '@core/validators/vehicle';
+import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 import { finalize } from 'rxjs/operators';
 
 @Component({
@@ -24,67 +24,60 @@ import { finalize } from 'rxjs/operators';
 export class EditVehicleComponent implements OnInit {
   insuranceCompanies: InsuranceCompany[] = [];
   matcher = new MyErrorStateMatcher();
-  icons: VehicleIcon[];
-  iconSelected: VehicleIcon;
   vehicle: Vehicle;
   formGroup: FormGroup;
   sending = false;
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
 
   constructor(
-    private vehicleIconProvider: VehicleIconProvider,
     private errorMessage: ErrorMessageService,
     private vehicleSrv: VehicleService,
     private formBuilder: FormBuilder,
-    private snacker: SnackerService,
+    private snackerService: SnackerService,
+    private imageService: ImageService,
     private route: ActivatedRoute,
     private router: BlueDriversRouter
-  ) {
-    this.icons = this.vehicleIconProvider.getIcons();
+  ) {}
+
+  get brand(): FormControl {
+    return this.formGroup.get('brand') as FormControl;
   }
 
-  get brand() {
-    return this.formGroup.get('brand');
+  get model(): FormControl {
+    return this.formGroup.get('model') as FormControl;
   }
 
-  get model(): AbstractControl {
-    return this.formGroup.get('model');
+  get numberPlate(): FormControl {
+    return this.formGroup.get('numberPlate') as FormControl;
   }
 
-  get numberPlate(): AbstractControl {
-    return this.formGroup.get('numberPlate');
+  get imei(): FormControl {
+    return this.formGroup.get('imei') as FormControl;
   }
 
-  get imei(): AbstractControl {
-    return this.formGroup.get('imei');
+  get isDisabled(): FormControl {
+    return this.formGroup.get('isDisabled') as FormControl;
   }
 
-  get isDisabled(): AbstractControl {
-    return this.formGroup.get('isDisabled');
+  get fuel(): FormControl {
+    return this.formGroup.get('fuel') as FormControl;
   }
 
-  get fuel(): AbstractControl {
-    return this.formGroup.get('fuel');
+  get type(): FormControl {
+    return this.formGroup.get('type') as FormControl;
   }
 
-  get type(): AbstractControl {
-    return this.formGroup.get('type');
+  get insuranceCompany(): FormControl {
+    return this.formGroup.get('insuranceCompany') as FormControl;
   }
 
-  get insuranceCompany(): AbstractControl {
-    return this.formGroup.get('insuranceCompany');
-  }
-
-  get policyNumber(): AbstractControl {
-    return this.formGroup.get('policyNumber');
-  }
-
-  get icon(): AbstractControl {
-    return this.formGroup.get('icon');
+  get policyNumber(): FormControl {
+    return this.formGroup.get('policyNumber') as FormControl;
   }
 
   ngOnInit(): void {
     this.resolve();
-    this.iconSelected = this.getIconFromVehicle(this.vehicle);
     this.setFormGroup(this.vehicle);
   }
 
@@ -96,13 +89,13 @@ export class EditVehicleComponent implements OnInit {
       .pipe(finalize(() => (this.sending = false)))
       .subscribe({
         next: async () => {
-          this.router.goToVehicles();
+          await this.router.goToVehicles();
           const message = 'Vehículo editado con éxito!';
-          this.snacker.showSuccessful(message);
+          this.snackerService.showSuccessful(message);
         },
         error: async (error) => {
           const message = this.errorMessage.get(error);
-          this.snacker.showError(message);
+          this.snackerService.showError(message);
         },
       });
   }
@@ -112,6 +105,18 @@ export class EditVehicleComponent implements OnInit {
       this.vehicle = response.vehicle;
       this.insuranceCompanies = response.insuranceCompanies;
     });
+  }
+
+  getFullUrlFromVehicle(vehicle: Vehicle): string {
+    return this.imageService.getFullUrl(vehicle.icon) || '';
+  }
+
+  fileChangeEvent(event: any): void {
+    this.imageChangedEvent = event;
+  }
+
+  imageCropped(event: ImageCroppedEvent): void {
+    this.croppedImage = event.base64;
   }
 
   private setFormGroup(vehicle: Vehicle) {
@@ -125,13 +130,7 @@ export class EditVehicleComponent implements OnInit {
       type: [vehicle.type, vehicleTypeValidators],
       insuranceCompany: [vehicle?.insurance_company?.id, []],
       policyNumber: [vehicle.policy_number, vehiclePolicyNumberValidators],
-      icon: [this.iconSelected, []],
     });
-  }
-
-  private getIconFromVehicle(vehicle: Vehicle) {
-    const icon = this.icons.filter((i) => i.value === vehicle.icon)[0];
-    return icon;
   }
 
   private getUpdatedData(): EditVehicle {
@@ -146,7 +145,7 @@ export class EditVehicleComponent implements OnInit {
       type: this.type.value,
       insurance_company: insuranceCompany,
       policy_number: this.policyNumber.value,
-      icon: this.icon.value.value,
+      icon: this.croppedImage,
     };
   }
 }

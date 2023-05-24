@@ -37,7 +37,7 @@ export class RevisionsTableComponent extends BaseTableComponent<Revision, Revisi
     private maintenanceService: MaintenanceService,
     private errorMessage: ErrorMessageService,
     private appRouter: BlueDriversRouter,
-    private snacker: SnackerService,
+    private snackerService: SnackerService,
     private route: ActivatedRoute,
     private dialog: MatDialog
   ) {

@@ -46,7 +46,7 @@ export class MaintenanceTableComponent extends BaseTableComponent<GenericMainten
   constructor(
     private errorMessage: ErrorMessageService,
     private maintenanceService: MaintenanceService,
-    private snacker: SnackerService,
+    private snackerService: SnackerService,
     private dialog: MatDialog
   ) {
     super();

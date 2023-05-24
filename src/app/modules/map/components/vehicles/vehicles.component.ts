@@ -1,11 +1,12 @@
 import { DecimalPipe } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, IsActiveMatchOptions, Router } from '@angular/router';
+import { DEFAULT_VEHICLE_ICON } from '@core/constants/vehicles';
 import { Position, User, Vehicle } from '@core/models';
 import { DistanceFromNow } from '@core/pipes/distance-from-now.pipe';
 import { FromKnotsToKph } from '@core/pipes/from-knots-to-kph.pipe';
-import { fromKnotsToKph, PositionService } from '@core/services';
-import { VehicleIcon, VehicleIconProvider } from '@core/services/view/vehicle-icon.service';
+import { AssetsService, fromKnotsToKph, PositionService } from '@core/services';
+import { ImageService } from '@core/services/image/image.service';
 import { MapConfiguration } from '@core/utils/leaflet/map-configuration';
 import { MapCreator } from '@core/utils/leaflet/map-creator';
 import {
@@ -49,16 +50,14 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
   private users: User[];
   private vehicles: Vehicle[];
   private map: L.Map;
-  private icons: VehicleIcon[];
 
   constructor(
-    private vehicleIconProvider: VehicleIconProvider,
+    private imageService: ImageService,
     private positionSrv: PositionService,
+    private assetsService: AssetsService,
     private route: ActivatedRoute,
     private router: Router
-  ) {
-    this.icons = this.vehicleIconProvider.getIcons();
-  }
+  ) {}
 
   ngOnInit(): void {
     this.listenForNewPositions();
@@ -104,9 +103,8 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     return dataSource;
   }
 
-  getIconFromVehicle(vehicle: Vehicle) {
-    const icon = this.icons.filter((i) => i.value === vehicle.icon)[0];
-    return icon;
+  getFullSrcFromVehicle(vehicle: Vehicle): string {
+    return this.imageService.getFullUrl(vehicle.icon) || this.assetsService.getUrl(DEFAULT_VEHICLE_ICON);
   }
 
   private initMarkers(vehicles: Vehicle[], positions: Position[]) {
@@ -114,8 +112,8 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
 
     vehicles.forEach((vehicle) => {
       const position = this.findPosition(positions, vehicle);
-      const vehicleIcon = this.getIconFromVehicle(vehicle);
-      const icon = this.createLeafIcon(vehicleIcon.src);
+      const iconSrc = this.getFullSrcFromVehicle(vehicle);
+      const icon = this.createLeafIcon(iconSrc);
       const marker = this.addMarkerToMap(vehicle, position, icon);
       const myMarker = { vehicle, position, marker };
       positionsMarkers.push(myMarker);
@@ -134,14 +132,13 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
     let kms: any = new FromKnotsToKph().transform(position.speed);
     kms = new DecimalPipe('es-ES').transform(kms, '1.0-0');
     const vehicleLabel = `
-    <h4 style="margin: 0px">${vehicle.brand} ${vehicle.model}</h4>
-    <h5 style="margin: 0px"><b>${vehicle.number_plate}</b></h5>
-    <p style="margin: 0px">${kms} km/h</p>
-    <p style="margin: 0px">${distance}</p>
+    <h4 style='margin: 0px'>${vehicle.brand} ${vehicle.model}</h4>
+    <h5 style='margin: 0px'><b>${vehicle.number_plate}</b></h5>
+    <p style='margin: 0px'>${kms} km/h</p>
+    <p style='margin: 0px'>${distance}</p>
     `;
     const popup = L.popup({ minWidth: 150 }).setContent(vehicleLabel);
-    const marker = L.marker(latLng, { icon }).addTo(this.map).bindPopup(popup);
-    return marker;
+    return L.marker(latLng, { icon }).addTo(this.map).bindPopup(popup);
   }
 
   private resolveData(): void {
@@ -192,6 +189,7 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
       iconSize: [22, 22], // size of the icon
       iconAnchor: [10, 10], // point of the icon which will correspond to marker's location
       popupAnchor: [0, 0], // point from which the popup should open relative to the iconAnchor
+      className: 'leaflet-vehicle-icon'
     });
   }
 

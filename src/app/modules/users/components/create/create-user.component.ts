@@ -20,7 +20,7 @@ export class CreateUserComponent implements OnInit {
   constructor(
     private errorMessage: ErrorMessageService,
     private formBuilder: FormBuilder,
-    private snacker: SnackerService,
+    private snackerService: SnackerService,
     private storage: LocalStorage,
     private userSrv: UserService,
     private router: BlueDriversRouter
@@ -74,11 +74,11 @@ export class CreateUserComponent implements OnInit {
       .subscribe({
         next: async () => {
           this.router.goToUsers();
-          this.snacker.showSuccessful(msg);
+          this.snackerService.showSuccessful(msg);
         },
         error: async (error) => {
           const message = this.errorMessage.get(error);
-          this.snacker.showError(message);
+          this.snackerService.showError(message);
         },
       });
   }

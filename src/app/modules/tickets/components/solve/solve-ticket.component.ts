@@ -20,7 +20,7 @@ export class SolveTicketComponent implements OnInit {
     private errorMessage: ErrorMessageService,
     private fleetRouter: BlueDriversRouter,
     private ticketSrv: TicketService,
-    private snacker: SnackerService,
+    private snackerService: SnackerService,
     private route: ActivatedRoute
   ) {}
 
@@ -51,12 +51,12 @@ export class SolveTicketComponent implements OnInit {
       .subscribe({
         next: async () => {
           const message = 'Conflicto solucionado';
-          this.snacker.showSuccessful(message);
-          this.fleetRouter.goToTickets();
+          this.snackerService.showSuccessful(message);
+          await this.fleetRouter.goToTickets();
         },
         error: async (error) => {
           const message = this.errorMessage.get(error);
-          this.snacker.showError(message);
+          this.snackerService.showError(message);
         },
       });
   }

@@ -22,7 +22,7 @@ export class ReservationTemplatesTableComponent extends BaseTableComponent<Reser
   constructor(
     private reservationTemplateSrv: ReservationTemplateService,
     private errorMessage: ErrorMessageService,
-    private snacker: SnackerService,
+    private snackerService: SnackerService,
     private dialog: MatDialog
   ) {
     super();
@@ -62,11 +62,11 @@ export class ReservationTemplatesTableComponent extends BaseTableComponent<Reser
         const newRows = this.models.filter((v) => v.id !== row.id);
         this.initTable(newRows);
         const msg = `La plantilla de reserva ${row.title} ha sido eliminada.`;
-        this.snacker.showSuccessful(msg);
+        this.snackerService.showSuccessful(msg);
       },
       async (error) => {
         const message = this.errorMessage.get(error);
-        this.snacker.showError(message);
+        this.snackerService.showError(message);
       }
     );
   }

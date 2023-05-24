@@ -21,7 +21,7 @@ export class EditOdometerCardComponent {
     private errorMessage: ErrorMessageService,
     private appRouter: BlueDriversRouter,
     private formBuilder: FormBuilder,
-    private snacker: SnackerService,
+    private snackerService: SnackerService,
     private route: ActivatedRoute
   ) {
     this.resolve();
@@ -51,20 +51,20 @@ export class EditOdometerCardComponent {
 
   editCard(newData: OdometerCard) {
     this.maintenanceService.updateOdometerCard(newData).subscribe({
-      next: () => this.snacker.showSuccessful('Ficha de kilometraje actualizada'),
+      next: () => this.snackerService.showSuccessful('Ficha de kilometraje actualizada'),
       error: (error) => {
         const msg = this.errorMessage.get(error);
-        this.snacker.showError(msg);
+        this.snackerService.showError(msg);
       },
     });
   }
 
   createCard(odometerCard: OdometerCard) {
     this.maintenanceService.createOdometerCard(odometerCard).subscribe({
-      next: () => this.snacker.showSuccessful('Ficha de kilometraje creada'),
+      next: () => this.snackerService.showSuccessful('Ficha de kilometraje creada'),
       error: (error) => {
         const msg = this.errorMessage.get(error);
-        this.snacker.showError(msg);
+        this.snackerService.showError(msg);
       },
     });
   }

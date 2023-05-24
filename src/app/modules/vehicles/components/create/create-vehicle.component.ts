@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CreateVehicle, InsuranceCompany, VehicleFuel, VehicleType } from '@core/models';
 import { BlueDriversRouter, ErrorMessageService, SnackerService, VehicleService } from '@core/services';
-import { VehicleIcon, VehicleIconProvider } from '@core/services/view/vehicle-icon.service';
 import { MyErrorStateMatcher } from '@core/utils/my-error-state-matcher';
 import {
   vehicleBrandValidators,
@@ -14,6 +13,7 @@ import {
   vehiclePolicyNumberValidators,
   vehicleTypeValidators,
 } from '@core/validators/vehicle';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-create-vehicle',
@@ -23,58 +23,53 @@ import {
 export class CreateVehicleComponent implements OnInit {
   insuranceCompanies: InsuranceCompany[] = [];
   matcher = new MyErrorStateMatcher();
-  icons: VehicleIcon[];
-  iconSelected: VehicleIcon;
   formGroup: FormGroup;
-  submitted = false;
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
 
   constructor(
-    private vehicleIconProvider: VehicleIconProvider,
     private errorMessage: ErrorMessageService,
     private vehicleSrv: VehicleService,
     private fleetRouter: BlueDriversRouter,
-    private snacker: SnackerService,
+    private snackerService: SnackerService,
     private route: ActivatedRoute,
     private fb: FormBuilder
-  ) {
-    this.icons = this.vehicleIconProvider.getIcons();
-    this.iconSelected = this.icons[0]; // Pre-select first icon
+  ) {}
+
+  get brand(): FormControl {
+    return this.formGroup.get('brand') as FormControl;
   }
 
-  get brand(): AbstractControl {
-    return this.formGroup.get('brand');
+  get model(): FormControl {
+    return this.formGroup.get('model') as FormControl;
   }
 
-  get model(): AbstractControl {
-    return this.formGroup.get('model');
+  get numberPlate(): FormControl {
+    return this.formGroup.get('numberPlate') as FormControl;
   }
 
-  get numberPlate(): AbstractControl {
-    return this.formGroup.get('numberPlate');
+  get imei(): FormControl {
+    return this.formGroup.get('imei') as FormControl;
   }
 
-  get imei(): AbstractControl {
-    return this.formGroup.get('imei');
+  get fuel(): FormControl {
+    return this.formGroup.get('fuel') as FormControl;
   }
 
-  get fuel(): AbstractControl {
-    return this.formGroup.get('fuel');
+  get type(): FormControl {
+    return this.formGroup.get('type') as FormControl;
   }
 
-  get type(): AbstractControl {
-    return this.formGroup.get('type');
+  get insuranceCompany(): FormControl {
+    return this.formGroup.get('insuranceCompany') as FormControl;
   }
 
-  get insuranceCompany(): AbstractControl {
-    return this.formGroup.get('insuranceCompany');
+  get policyNumber(): FormControl {
+    return this.formGroup.get('policyNumber') as FormControl;
   }
 
-  get policyNumber(): AbstractControl {
-    return this.formGroup.get('policyNumber');
-  }
-
-  get icon(): AbstractControl {
-    return this.formGroup.get('icon');
+  get icon(): FormControl {
+    return this.formGroup.get('icon') as FormControl;
   }
 
   ngOnInit(): void {
@@ -92,27 +87,35 @@ export class CreateVehicleComponent implements OnInit {
       type: [VehicleType.TOURISM, vehicleTypeValidators],
       insuranceCompany: [],
       policyNumber: ['', vehiclePolicyNumberValidators],
-      icon: [this.iconSelected, []], // Pre-select first icon
+      icon: [null, []],
     });
   }
 
-  createVehicle(): void {
-    const vehicle = this.getFormData();
+  async createVehicle() {
+    const vehicle: CreateVehicle = await this.getFormData();
 
     this.vehicleSrv.create(vehicle).subscribe(
       async () => {
         await this.fleetRouter.goToVehicles();
         const message = 'Vehículo creado con éxito';
-        this.snacker.showSuccessful(message);
+        this.snackerService.showSuccessful(message);
       },
       async (error) => {
         const message = this.errorMessage.get(error);
-        this.snacker.showError(message);
+        this.snackerService.showError(message);
       }
     );
   }
 
-  private getFormData(): CreateVehicle {
+  fileChangeEvent(event: any): void {
+    this.imageChangedEvent = event;
+  }
+
+  imageCropped(event: ImageCroppedEvent): void {
+    this.croppedImage = event.base64;
+  }
+
+  private async getFormData(): Promise<CreateVehicle> {
     return {
       brand: this.brand.value,
       model: this.model.value,
@@ -122,7 +125,7 @@ export class CreateVehicleComponent implements OnInit {
       type: this.type.value,
       insurance_company: this.insuranceCompany.value,
       policy_number: this.policyNumber.value,
-      icon: this.icon.value.value,
+      icon: this.croppedImage,
     };
   }
 

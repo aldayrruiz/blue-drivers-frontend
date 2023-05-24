@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { CleaningCard, EditPatchVehicle, fuelLabel, OdometerCard, Vehicle, vehicleTypeLabel } from '@core/models';
+import { DEFAULT_VEHICLE_ICON } from '@core/constants/vehicles';
+import { CleaningCard,EditPatchVehicle,fuelLabel,OdometerCard,Vehicle,vehicleTypeLabel } from '@core/models';
 import {
-  BlueDriversRouter,
-  ErrorMessageService,
-  MaintenanceService,
-  SnackerService,
-  VehicleIcon,
-  VehicleIconProvider,
-  VehicleService,
+BlueDriversRouter,
+ErrorMessageService,
+MaintenanceService,
+SnackerService,
+VehicleIconProvider,
+VehicleService
 } from '@core/services';
 import { DialogMissingMaintenanceCardsComponent } from '@modules/maintenance/dialogs/missing-maintenance-cards/missing-maintenance-cards.component';
 import { DeleteVehicleComponent } from '@modules/vehicles/dialogs/delete-vehicle/delete-vehicle.component';
@@ -22,7 +22,7 @@ interface VehicleRow {
   numberPlate: string;
   isDisabled: boolean;
   insuranceCompany: string;
-  icon: VehicleIcon;
+  icon: string;
   cleaningCard: CleaningCard;
   odometerCard: OdometerCard;
 }
@@ -34,20 +34,18 @@ interface VehicleRow {
 })
 export class VehiclesTableComponent extends BaseTableComponent<Vehicle, VehicleRow> {
   odometerCard: OdometerCard;
-  icons: VehicleIcon[];
   columns = ['icon', 'brand', 'model', 'fuel', 'type', 'numberPlate', 'insuranceCompany', 'maintenance', 'edit', 'isDisabled', 'delete'];
 
   constructor(
-    private vehicleIconProvider: VehicleIconProvider,
     private maintenanceService: MaintenanceService,
     private errorMessage: ErrorMessageService,
     private appRouter: BlueDriversRouter,
+    private vehicleIconProvider: VehicleIconProvider,
     private vehicleSrv: VehicleService,
-    private snacker: SnackerService,
+    private snackerService: SnackerService,
     private dialog: MatDialog
   ) {
     super();
-    this.icons = this.vehicleIconProvider.getIcons();
     this.resolve();
   }
 
@@ -61,7 +59,7 @@ export class VehiclesTableComponent extends BaseTableComponent<Vehicle, VehicleR
       insuranceCompany: vehicle?.insurance_company?.name,
       numberPlate: vehicle.number_plate,
       isDisabled: vehicle.is_disabled,
-      icon: this.getIconFromVehicle(vehicle),
+      icon: this.vehicleIconProvider.getFullUrlOrDefaultFromVehicle(vehicle.icon),
       cleaningCard: vehicle.cleaning_card,
       odometerCard: this.odometerCard, // Odometer card is shared by all vehicles.
     }));
@@ -86,7 +84,7 @@ export class VehiclesTableComponent extends BaseTableComponent<Vehicle, VehicleR
       },
       async (error) => {
         const message = this.errorMessage.get(error);
-        this.snacker.showError(message);
+        this.snackerService.showError(message);
       }
     );
   }
@@ -123,18 +121,13 @@ export class VehiclesTableComponent extends BaseTableComponent<Vehicle, VehicleR
       async () => {
         const newVehicles = this.models.filter((v) => v.id !== vehicle.id);
         this.initTable(newVehicles);
-        this.snacker.showSuccessful(`El vehículo ${vehicle.brand} ${vehicle.model} ha sido eliminado.`);
+        this.snackerService.showSuccessful(`El vehículo ${vehicle.brand} ${vehicle.model} ha sido eliminado.`);
       },
       async (error) => {
         const message = this.errorMessage.get(error);
-        this.snacker.showError(message);
+        this.snackerService.showError(message);
       }
     );
-  }
-
-  private getIconFromVehicle(vehicle: Vehicle) {
-    const icon = this.icons.filter((i) => i.value === vehicle.icon)[0];
-    return icon;
   }
 
   private resolve() {

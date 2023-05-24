@@ -35,7 +35,7 @@ export class RepairmentsTableComponent extends BaseTableComponent<Repairment, Re
     private maintenanceService: MaintenanceService,
     private errorMessage: ErrorMessageService,
     private appRouter: BlueDriversRouter,
-    private snacker: SnackerService,
+    private snackerService: SnackerService,
     private route: ActivatedRoute,
     private dialog: MatDialog
   ) {

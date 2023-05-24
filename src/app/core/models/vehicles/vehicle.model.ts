@@ -16,6 +16,6 @@ export interface Vehicle {
   is_disabled: boolean;
   insurance_company: InsuranceCompany;
   policy_number: string;
-  icon: number;
+  icon: string;
   cleaning_card: CleaningCard;
 }
