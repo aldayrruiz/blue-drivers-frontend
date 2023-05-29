@@ -13,18 +13,20 @@ h3,
 h2,
 h1,
 p {
-  font-family: 'Barlow';
+  font-family: 'Barlow', serif;
 }
 
 body {
   margin: 0;
 }
 
+/*noinspection ALL*/
 .successful-color-snackbar {
   color: #fcf6f5ff;
   background: #2bae66ff;
 }
 
+/*noinspection ALL*/
 .error-color-snackbar {
   color: #fcf6f5ff;
   background: #f04141;
@@ -53,7 +55,7 @@ table th {
   position: absolute;
   top: 0;
   left: 0;
-  bottom: 0px;
+  bottom: 0;
   right: 0;
   background: rgba(0, 0, 0, 0.15);
   z-index: 1;
@@ -67,7 +69,7 @@ table th {
 }
 
 .no-margin {
-  margin: 0px;
+  margin: 0;
 }
 
 /* Put div next to another div */
@@ -84,29 +86,11 @@ table th {
   overflow: hidden; /* if you don't want #second to wrap below #first */
 }
 
-/* Warn button to BLUE Drivers colors */
-
-.mat-button.mat-warn,
-.mat-stroked-button.mat-warn {
-  color: rgb(235, 68, 90);
-}
-.mat-button.mat-warn:hover,
-.mat-stroked-button.mat-warn:hover {
-  background-color: #f0fff3;
-}
-
-.mat-raised-button.mat-warn,
-.mat-flat-button.mat-warn,
-.mat-fab.mat-warn,
-.mat-mini-fab.mat-warn {
-  color: #f0fff3;
-  background-color: rgb(235, 68, 90);
-}
-
-.mat-icon-button.mat-warn {
-  color: rgb(235, 68, 90);
-}
-
+/*noinspection ALL*/
 .leaflet-vehicle-icon {
   border-radius: 50%;
+}
+
+.form-width {
+  width: 600px;
 }

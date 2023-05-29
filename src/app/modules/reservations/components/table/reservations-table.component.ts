@@ -43,7 +43,11 @@ export class ReservationsTableComponent extends BaseTableComponent<Reservation, 
   previous: string;
   next: string;
 
-  constructor(private timeReservedSrv: TimeReservedService, private reservationsSrv: ReservationService, private snackerService: SnackerService) {
+  constructor(
+    private timeReservedSrv: TimeReservedService,
+    private reservationsSrv: ReservationService,
+    private snackerService: SnackerService
+  ) {
     super();
   }
 

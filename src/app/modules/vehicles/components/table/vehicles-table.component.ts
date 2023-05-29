@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DEFAULT_VEHICLE_ICON } from '@core/constants/vehicles';
-import { CleaningCard,EditPatchVehicle,fuelLabel,OdometerCard,Vehicle,vehicleTypeLabel } from '@core/models';
+import { CleaningCard, EditPatchVehicle, fuelLabel, OdometerCard, Vehicle, vehicleTypeLabel } from '@core/models';
 import {
-BlueDriversRouter,
-ErrorMessageService,
-MaintenanceService,
-SnackerService,
-VehicleIconProvider,
-VehicleService
+  BlueDriversRouter,
+  ErrorMessageService,
+  MaintenanceService,
+  SnackerService,
+  VehicleIconProvider,
+  VehicleService,
 } from '@core/services';
 import { DialogMissingMaintenanceCardsComponent } from '@modules/maintenance/dialogs/missing-maintenance-cards/missing-maintenance-cards.component';
 import { DeleteVehicleComponent } from '@modules/vehicles/dialogs/delete-vehicle/delete-vehicle.component';
@@ -78,15 +77,15 @@ export class VehiclesTableComponent extends BaseTableComponent<Vehicle, VehicleR
   changeDisabled(vehicle: VehicleRow) {
     const newIsDisabledStatus = !vehicle.isDisabled;
     const data: EditPatchVehicle = { is_disabled: newIsDisabledStatus };
-    this.vehicleSrv.patch(vehicle.id, data).subscribe(
-      async (response) => {
+    this.vehicleSrv.patch(vehicle.id, data).subscribe({
+      next: async (response) => {
         vehicle.isDisabled = response.is_disabled;
       },
-      async (error) => {
+      error: async (error) => {
         const message = this.errorMessage.get(error);
         this.snackerService.showError(message);
-      }
-    );
+      },
+    });
   }
 
   fetchDataAndUpdate() {
@@ -96,12 +95,12 @@ export class VehiclesTableComponent extends BaseTableComponent<Vehicle, VehicleR
       .subscribe((vehicles) => this.initTable(vehicles));
   }
 
-  goToMaintenanceByVehicle(vehicle: VehicleRow) {
+  async goToMaintenanceByVehicle(vehicle: VehicleRow) {
     if (!this.areCardsCompleted(vehicle)) {
       this.dialog.open(DialogMissingMaintenanceCardsComponent, { data: { vehicle } });
     }
 
-    this.appRouter.goToMaintenanceByVehicle(vehicle.id);
+    await this.appRouter.goToMaintenanceByVehicle(vehicle.id);
   }
 
   getBadgeProperties(vehicle: VehicleRow) {
@@ -112,8 +111,7 @@ export class VehiclesTableComponent extends BaseTableComponent<Vehicle, VehicleR
   }
 
   areCardsCompleted(vehicle: VehicleRow) {
-    const cardsCompleted = vehicle.cleaningCard && vehicle.odometerCard;
-    return cardsCompleted;
+    return vehicle.cleaningCard && vehicle.odometerCard;
   }
 
   private deleteVehicle(vehicle: VehicleRow) {

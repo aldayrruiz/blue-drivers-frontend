@@ -1,182 +1,151 @@
 <div class='main-div'>
-  <mat-card class='example-card'>
+  <mat-card class='form-width'>
     <mat-card-header>
       <mat-card-title> Editar Vehículo</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <form [formGroup]='formGroup'>
-        <table cellspacing='0'>
-          <!-- Brand -->
-          <tr>
-            <td>
-              <mat-form-field class='full-width' appearance='fill'>
-                <mat-label>Marca</mat-label>
-                <input type='text' matInput [formControl]='brand' [errorStateMatcher]='matcher' />
-                <mat-error *ngIf="brand.hasError('required')">
-                  La marca es <strong>obligatorio</strong>
-                </mat-error>
-              </mat-form-field>
-            </td>
-          </tr>
+        <!-- Brand -->
+        <mat-form-field class='full-width' appearance='fill'>
+          <mat-label>Marca</mat-label>
+          <input type='text' matInput [formControl]='brand' [errorStateMatcher]='matcher' />
+          <mat-error *ngIf="brand.hasError('required')">
+            La marca es <strong>obligatorio</strong>
+          </mat-error>
+        </mat-form-field>
 
-          <!-- Model -->
-          <tr>
-            <td>
-              <mat-form-field class='full-width' appearance='fill'>
-                <mat-label>Modelo</mat-label>
-                <input type='text' matInput [formControl]='model' [errorStateMatcher]='matcher' />
-                <mat-error *ngIf="model.hasError('required')">
-                  El modelo es <strong>obligatorio</strong>
-                </mat-error>
-              </mat-form-field>
-            </td>
-          </tr>
 
-          <!-- Number Plate -->
-          <tr>
-            <td>
-              <mat-form-field class='full-width' appearance='fill'>
-                <mat-label>Nº Matricula</mat-label>
-                <input
-                  type='text'
-                  matInput
-                  [formControl]='numberPlate'
-                  [errorStateMatcher]='matcher'
-                />
-                <mat-error
-                  *ngIf="
+        <!-- Model -->
+        <mat-form-field class='full-width' appearance='fill'>
+          <mat-label>Modelo</mat-label>
+          <input type='text' matInput [formControl]='model' [errorStateMatcher]='matcher' />
+          <mat-error *ngIf="model.hasError('required')">
+            El modelo es <strong>obligatorio</strong>
+          </mat-error>
+        </mat-form-field>
+
+
+        <!-- Number Plate -->
+        <mat-form-field class='full-width' appearance='fill'>
+          <mat-label>Nº Matricula</mat-label>
+          <input
+            type='text'
+            matInput
+            [formControl]='numberPlate'
+            [errorStateMatcher]='matcher'
+          />
+          <mat-error
+            *ngIf="
                     numberPlate.hasError('required') ||
                     numberPlate.hasError('maxlength') ||
                     numberPlate.hasError('minlength')
                   "
-                >
-                  El nº de matricula debe tener <strong>7 u 8 caracteres</strong>
-                </mat-error>
-              </mat-form-field>
-            </td>
-          </tr>
+          >
+            El nº de matricula debe tener <strong>7 u 8 caracteres</strong>
+          </mat-error>
+        </mat-form-field>
 
-          <!-- IMEI -->
-          <tr>
-            <td>
-              <mat-form-field class='full-width' appearance='fill'>
-                <mat-label>IMEI</mat-label>
-                <input type='text' matInput [formControl]='imei' [errorStateMatcher]='matcher' />
-                <mat-error *ngIf="imei.hasError('required')">
-                  El IMEI del gps es <strong>obligatorio</strong>
-                </mat-error>
-              </mat-form-field>
-            </td>
-          </tr>
 
-          <!-- Is disabled -->
-          <tr>
-            <td>
-              <mat-form-field class='full-width' appearance='fill'>
-                <mat-label>Disponibilidad</mat-label>
-                <mat-select [formControl]='isDisabled'>
-                  <mat-option [value]='false'>Habilitado</mat-option>
-                  <mat-option [value]='true'>Deshabilitado</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </td>
-          </tr>
+        <!-- IMEI -->
+        <mat-form-field class='full-width' appearance='fill'>
+          <mat-label>IMEI</mat-label>
+          <input type='text' matInput [formControl]='imei' [errorStateMatcher]='matcher' />
+          <mat-error *ngIf="imei.hasError('required')">
+            El IMEI del gps es <strong>obligatorio</strong>
+          </mat-error>
+        </mat-form-field>
 
-          <!-- Fuel -->
-          <tr>
-            <td>
-              <mat-form-field class='full-width' appearance='fill'>
-                <mat-label>Combustible</mat-label>
-                <mat-select [formControl]='fuel'>
-                  <mat-option value='DIESEL'>Diesel</mat-option>
-                  <mat-option value='GASOLINE'>Gasolina</mat-option>
-                  <mat-option value='ELECTRIC'>Eléctrico</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </td>
-          </tr>
 
-          <!-- Type -->
-          <tr>
-            <td>
-              <mat-form-field class='full-width' appearance='fill'>
-                <mat-label>Tipo</mat-label>
-                <mat-select [formControl]='type'>
-                  <mat-option value='TOURISM'>Turismo</mat-option>
-                  <mat-option value='ALL_TERRAIN'>Todoterreno</mat-option>
-                  <mat-option value='MOTORCYCLE'>Motocicleta</mat-option>
-                  <mat-option value='VAN'>Furgoneta</mat-option>
-                  <mat-option value='TRUCK'>Camión</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </td>
-          </tr>
+        <!-- Is disabled -->
+        <mat-form-field class='full-width' appearance='fill'>
+          <mat-label>Disponibilidad</mat-label>
+          <mat-select [formControl]='isDisabled'>
+            <mat-option [value]='false'>Habilitado</mat-option>
+            <mat-option [value]='true'>Deshabilitado</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-          <!-- Insurance Company -->
-          <tr>
-            <td>
-              <mat-form-field class='full-width' appearance='fill'>
-                <mat-label>Compañía aseguradora</mat-label>
-                <mat-select [formControl]='insuranceCompany'>
-                  <mat-option>Ninguna</mat-option>
-                  <mat-option *ngFor='let company of insuranceCompanies' [value]='company.id'>
-                    {{ company.name }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </td>
-          </tr>
 
-          <!-- Policy Number -->
-          <tr>
-            <td>
-              <mat-form-field class='full-width' appearance='fill'>
-                <mat-label>Número de póliza</mat-label>
-                <input
-                  type='text'
-                  matInput
-                  [formControl]='policyNumber'
-                  [errorStateMatcher]='matcher'
-                />
-              </mat-form-field>
-            </td>
-          </tr>
+        <!-- Fuel -->
+        <mat-form-field class='full-width' appearance='fill'>
+          <mat-label>Combustible</mat-label>
+          <mat-select [formControl]='fuel'>
+            <mat-option value='DIESEL'>Diesel</mat-option>
+            <mat-option value='GASOLINE'>Gasolina</mat-option>
+            <mat-option value='ELECTRIC'>Eléctrico</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-          <!-- Vehicle icon cropped-->
+
+        <!-- Type -->
+        <mat-form-field class='full-width' appearance='fill'>
+          <mat-label>Tipo</mat-label>
+          <mat-select [formControl]='type'>
+            <mat-option value='TOURISM'>Turismo</mat-option>
+            <mat-option value='ALL_TERRAIN'>Todoterreno</mat-option>
+            <mat-option value='MOTORCYCLE'>Motocicleta</mat-option>
+            <mat-option value='VAN'>Furgoneta</mat-option>
+            <mat-option value='TRUCK'>Camión</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+        <!-- Insurance Company -->
+        <mat-form-field class='full-width' appearance='fill'>
+          <mat-label>Compañía aseguradora</mat-label>
+          <mat-select [formControl]='insuranceCompany'>
+            <mat-option>Ninguna</mat-option>
+            <mat-option *ngFor='let company of insuranceCompanies' [value]='company.id'>
+              {{ company.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+        <!-- Policy Number -->
+        <mat-form-field class='full-width' appearance='fill'>
+          <mat-label>Número de póliza</mat-label>
+          <input
+            type='text'
+            matInput
+            [formControl]='policyNumber'
+            [errorStateMatcher]='matcher'
+          />
+        </mat-form-field>
+
+
+        <!-- Vehicle icon cropped-->
+        <div class='d-flex justify-content-evenly'>
           <input type='file' (change)='fileChangeEvent($event)' accept='image/png, image/jpeg, image/jpg' />
+        </div>
 
-          <image-cropper
-            [imageChangedEvent]='imageChangedEvent'
-            [maintainAspectRatio]='true'
-            [aspectRatio]='1'
-            [cropperMinWidth]=568
-            [cropperMinHeight]=568
-            format='png'
-            (imageCropped)='imageCropped($event)'
-            [imageURL]='getFullUrlFromVehicle(vehicle)'
-          ></image-cropper>
+        <image-cropper
+          [imageChangedEvent]='imageChangedEvent'
+          [maintainAspectRatio]='true'
+          [aspectRatio]='1'
+          [cropperMinWidth]=568
+          [cropperMinHeight]=568
+          format='png'
+          (imageCropped)='imageCropped($event)'
+          [imageURL]='getFullUrlFromVehicle(vehicle)'
+        ></image-cropper>
 
-          <!-- Button - Edit Vehicle -->
-          <tr>
-            <td>
-              <div>
-                <button class='cancel' mat-raised-button color='warn' routerLink='../..'>
-                  Cancelar
-                </button>
-                <button
-                  class='edit'
-                  (click)='edit()'
-                  mat-raised-button
-                  color='primary'
-                  type='submit'
-                  [disabled]='!formGroup.valid || sending'
-                >
-                  Editar
-                </button>
-              </div>
-            </td>
-          </tr>
-        </table>
+        <!-- Button - Edit Vehicle -->
+        <div class='d-flex justify-content-evenly'>
+          <button class='cancel' mat-raised-button color='warn' routerLink='../..'>
+            Cancelar
+          </button>
+          <button
+            class='edit'
+            (click)='edit()'
+            mat-raised-button
+            color='primary'
+            type='submit'
+            [disabled]='!formGroup.valid || sending'
+          >
+            Editar
+          </button>
+        </div>
       </form>
     </mat-card-content>
   </mat-card>

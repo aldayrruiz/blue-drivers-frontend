@@ -3,7 +3,7 @@
   <mat-step [stepControl]="tenantForm" label="Crear site">
     <form [formGroup]="tenantForm">
       <!-- Tenant name -->
-      <mat-form-field class="full-width" appearance="fill">
+      <mat-form-field class='w-100' appearance="fill">
         <mat-label>Nombre del site</mat-label>
         <input type="text" matInput formControlName="tenantName" [errorStateMatcher]="matcher" />
         <mat-error *ngIf="tenantName.hasError('required')">
@@ -12,7 +12,7 @@
       </mat-form-field>
 
       <!-- Tenant logo -->
-      <mat-form-field class="full-width" appearance="fill">
+      <mat-form-field class='w-100' appearance="fill">
         <ngx-mat-file-input
           formControlName="tenantLogo"
           placeholder="Logo del site"
@@ -34,7 +34,7 @@
   <mat-step [stepControl]="adminForm" label="Crear administrador">
     <form [formGroup]="adminForm">
       <!-- Admin 1 email -->
-      <mat-form-field class="full-width" appearance="fill">
+      <mat-form-field class='w-100' appearance="fill">
         <mat-label>Email</mat-label>
         <input type="email" matInput [formControl]="adminEmail1" [errorStateMatcher]="matcher" />
         <mat-error *ngIf="adminEmail1.hasError('email') && !adminEmail1.hasError('required')">
@@ -46,7 +46,7 @@
       </mat-form-field>
 
       <!-- Admin 1 fullname -->
-      <mat-form-field class="full-width" appearance="fill">
+      <mat-form-field class='w-100' appearance="fill">
         <mat-label>Nombre y apellidos</mat-label>
         <input type="text" matInput [formControl]="adminFullname1" [errorStateMatcher]="matcher" />
         <mat-error *ngIf="adminFullname1.hasError('required')">
@@ -55,7 +55,7 @@
       </mat-form-field>
 
       <!-- Admin 2 email -->
-      <mat-form-field class="full-width" appearance="fill">
+      <mat-form-field class='w-100' appearance="fill">
         <mat-label>Email</mat-label>
         <input type="email" matInput [formControl]="adminEmail2" [errorStateMatcher]="matcher" />
         <mat-error *ngIf="adminEmail2.hasError('email') && !adminEmail2.hasError('required')">
@@ -64,7 +64,7 @@
       </mat-form-field>
 
       <!-- Admin 2 fullname -->
-      <mat-form-field class="full-width" appearance="fill">
+      <mat-form-field class='w-100' appearance="fill">
         <mat-label>Nombre y apellidos</mat-label>
         <input type="text" matInput [formControl]="adminFullname2" [errorStateMatcher]="matcher" />
       </mat-form-field>
@@ -83,7 +83,7 @@
         supervisor.
       </p>
       <!-- Estado de dietas -->
-      <mat-form-field class="full-width" appearance="fill">
+      <mat-form-field class='w-100' appearance="fill">
         <mat-label>Dietas</mat-label>
         <mat-select formControlName="dietState">
           <mat-option [value]="true">Habilitado</mat-option>
@@ -92,7 +92,7 @@
       </mat-form-field>
 
       <!-- Interventor email -->
-      <mat-form-field class="full-width" appearance="fill">
+      <mat-form-field class='w-100' appearance="fill">
         <mat-label>Email del interventor</mat-label>
         <input
           type="email"
@@ -112,7 +112,7 @@
       </mat-form-field>
 
       <!-- Interventor fullname -->
-      <mat-form-field class="full-width" appearance="fill">
+      <mat-form-field class='w-100' appearance="fill">
         <mat-label>Nombre y apellidos del interventor</mat-label>
         <input
           type="text"
@@ -127,7 +127,7 @@
       </mat-form-field>
 
       <!-- Supervisor email -->
-      <mat-form-field class="full-width" appearance="fill">
+      <mat-form-field class='w-100' appearance="fill">
         <mat-label>Email del supervisor</mat-label>
         <input
           type="email"
@@ -147,7 +147,7 @@
       </mat-form-field>
 
       <!-- Supervisor fullname -->
-      <mat-form-field class="full-width" appearance="fill">
+      <mat-form-field class='w-100' appearance="fill">
         <mat-label>Nombre y apellidos del supervisor</mat-label>
         <input
           type="text"

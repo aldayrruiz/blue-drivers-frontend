@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CreateReservationTemplate, ReservationTemplate } from '@core/models';
 import { BlueDriversRouter, ErrorMessageService, ReservationTemplateService, SnackerService } from '@core/services';
@@ -27,8 +27,8 @@ export class EditReservationTemplateComponent implements OnInit {
     private router: BlueDriversRouter
   ) {}
 
-  get title(): AbstractControl {
-    return this.template.get('title');
+  get title(): FormControl {
+    return this.template.get('title') as FormControl;
   }
 
   ngOnInit(): void {

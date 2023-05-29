@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { EditVehicle, InsuranceCompany, Vehicle } from '@core/models';
-import { BlueDriversRouter, ErrorMessageService, ImageService, SnackerService, VehicleIconProvider, VehicleService } from '@core/services';
+import { BlueDriversRouter, ErrorMessageService, ImageService, SnackerService, VehicleService } from '@core/services';
 import { MyErrorStateMatcher } from '@core/utils/my-error-state-matcher';
 import {
   vehicleBrandValidators,
@@ -13,7 +13,7 @@ import {
   vehiclePolicyNumberValidators,
   vehicleTypeValidators,
 } from '@core/validators/vehicle';
-import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { finalize } from 'rxjs/operators';
 
 @Component({

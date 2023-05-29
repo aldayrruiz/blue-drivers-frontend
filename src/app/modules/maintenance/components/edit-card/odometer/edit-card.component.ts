@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { OdometerCard, Vehicle } from '@core/models';
 import { BlueDriversRouter, ErrorMessageService, MaintenanceService, SnackerService } from '@core/services';
@@ -30,7 +30,7 @@ export class EditOdometerCardComponent {
   }
 
   get km_period() {
-    return this.formGroup.get('km_period');
+    return this.formGroup.get('km_period') as FormControl;
   }
 
   initFormGroup() {
@@ -39,14 +39,14 @@ export class EditOdometerCardComponent {
     });
   }
 
-  createOrEdit() {
+  async createOrEdit() {
     const newOdometerCard = this.getOdometerCard();
     if (this.oldOdometerCard?.id) {
       this.editCard(newOdometerCard);
     } else {
       this.createCard(newOdometerCard);
     }
-    this.appRouter.goToMaintenanceByVehicle(this.vehicle.id);
+    await this.appRouter.goToMaintenanceByVehicle(this.vehicle.id);
   }
 
   editCard(newData: OdometerCard) {

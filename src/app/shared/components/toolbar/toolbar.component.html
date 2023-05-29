@@ -6,14 +6,14 @@
       mat-raised-button
       [routerLink]="link.link"
       routerLinkActive
-      [color]="currentLink === link ? 'warn' : ''"
+      [color]="getButtonColor(link)"
       *ngFor="let link of navLinks"
     >
       {{ link.label }}
     </button>
     <button
       class="toolbar-button"
-      [color]="isOnConfigPage() ? 'warn' : ''"
+      [color]="getButtonColorForConfig()"
       mat-raised-button
       [matMenuTriggerFor]="menu"
     >

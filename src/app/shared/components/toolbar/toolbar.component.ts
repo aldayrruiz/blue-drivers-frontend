@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
 import { IsActiveMatchOptions, NavigationEnd, Router } from '@angular/router';
 import { UserRole, UserStorage } from '@core/models';
 import { AssetsService, BlueDriversRouter, LocalStorage, LoginService } from '@core/services';
+
+interface NavLink {
+  label: string;
+  link: string;
+}
 
 @Component({
   selector: 'app-toolbar',
@@ -13,7 +19,7 @@ export class ToolbarComponent implements OnInit {
   user: UserStorage;
   logoUrl: string;
   currentLink: any;
-  navLinks = [
+  navLinks: NavLink[] = [
     {
       label: 'MAPA',
       link: 'positions',
@@ -43,7 +49,7 @@ export class ToolbarComponent implements OnInit {
       link: 'maintenance',
     },
   ];
-  menuLinks = [
+  menuLinks: NavLink[] = [
     {
       label: 'Compañías aseguradoras',
       link: 'insurance-companies',
@@ -58,7 +64,7 @@ export class ToolbarComponent implements OnInit {
     },
   ];
 
-  superAdminMenuLinks = [
+  superAdminMenuLinks: NavLink[] = [
     {
       label: 'Crear sites',
       link: 'tenants',
@@ -84,13 +90,18 @@ export class ToolbarComponent implements OnInit {
     this.logoUrl = this.assetsService.getUrl('background/icon.png');
   }
 
-  isOnConfigPage() {
-    return this.menuLinks.some((link) => this.currentLink === link);
-  }
-
   async logOut() {
     this.loginService.logout();
     await this.fleetRouter.goToLogin();
+  }
+
+  getButtonColor(link: any): ThemePalette {
+    return this.currentLink === link ? 'warn' : undefined;
+  }
+
+  getButtonColorForConfig(): ThemePalette {
+    const isOnConfigMenu: boolean = this.menuLinks.some((link: NavLink): boolean => this.currentLink === link);
+    return isOnConfigMenu ? 'warn' : undefined;
   }
 
   private changeColorIfRouteChange() {
@@ -114,7 +125,6 @@ export class ToolbarComponent implements OnInit {
     };
 
     const links = [...this.navLinks, ...this.menuLinks];
-    const currentLink = links.find((link) => this.router.isActive(`admin/${link.link}`, options));
-    return currentLink;
+    return links.find((link) => this.router.isActive(`admin/${link.link}`, options));
   }
 }

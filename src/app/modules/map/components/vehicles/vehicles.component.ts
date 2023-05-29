@@ -189,7 +189,7 @@ export class VehiclesComponent implements OnInit, AfterViewInit {
       iconSize: [22, 22], // size of the icon
       iconAnchor: [10, 10], // point of the icon which will correspond to marker's location
       popupAnchor: [0, 0], // point from which the popup should open relative to the iconAnchor
-      className: 'leaflet-vehicle-icon'
+      className: 'leaflet-vehicle-icon',
     });
   }
 

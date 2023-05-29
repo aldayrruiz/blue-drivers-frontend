@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Incident, incidentTypeLabel } from '@core/models';
 import { IncidentService } from '@core/services';
@@ -20,8 +20,8 @@ export class IncidentDetailsComponent implements OnInit {
 
   constructor(private incidentSrv: IncidentService, private route: ActivatedRoute, private fb: FormBuilder) {}
 
-  get solverMessage(): AbstractControl {
-    return this.formGroup.get('solverMessage');
+  get solverMessage(): FormControl {
+    return this.formGroup.get('solverMessage') as FormControl;
   }
 
   ngOnInit(): void {

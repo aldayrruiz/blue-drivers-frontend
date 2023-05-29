@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CreateUser, TenantStorage, UserRole } from '@core/models';
 import { BlueDriversRouter, ErrorMessageService, LocalStorage, SnackerService, UserService } from '@core/services';
 import { MyErrorStateMatcher } from '@core/utils/my-error-state-matcher';
@@ -28,28 +28,28 @@ export class CreateUserComponent implements OnInit {
     this.tenant = this.storage.getTenant();
   }
 
-  get email(): AbstractControl {
-    return this.formGroup.get('email');
+  get email(): FormControl {
+    return this.formGroup.get('email') as FormControl;
   }
 
-  get fullname(): AbstractControl {
-    return this.formGroup.get('fullname');
+  get fullname(): FormControl {
+    return this.formGroup.get('fullname') as FormControl;
   }
 
-  get role(): AbstractControl {
-    return this.formGroup.get('role');
+  get role(): FormControl {
+    return this.formGroup.get('role') as FormControl;
   }
 
-  get bleUserId(): AbstractControl {
-    return this.formGroup.get('bleUserId');
+  get bleUserId(): FormControl {
+    return this.formGroup.get('bleUserId') as FormControl;
   }
 
-  get supervisor(): AbstractControl {
-    return this.formGroup.get('supervisor');
+  get supervisor(): FormControl {
+    return this.formGroup.get('supervisor') as FormControl;
   }
 
-  get interventor(): AbstractControl {
-    return this.formGroup.get('interventor');
+  get interventor(): FormControl {
+    return this.formGroup.get('interventor') as FormControl;
   }
 
   ngOnInit(): void {

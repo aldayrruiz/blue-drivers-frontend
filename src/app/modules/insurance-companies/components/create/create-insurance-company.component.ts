@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CreateInsuranceCompany } from '@core/models';
 import { BlueDriversRouter, ErrorMessageService, InsuranceCompanyService, SnackerService } from '@core/services';
 import { MyErrorStateMatcher } from '@core/utils/my-error-state-matcher';
@@ -24,12 +24,12 @@ export class CreateInsuranceCompanyComponent implements OnInit {
     private router: BlueDriversRouter
   ) {}
 
-  get name(): AbstractControl {
-    return this.company.get('name');
+  get name(): FormControl {
+    return this.company.get('name') as FormControl;
   }
 
-  get phone(): AbstractControl {
-    return this.company.get('phone');
+  get phone(): FormControl {
+    return this.company.get('phone') as FormControl;
   }
 
   ngOnInit(): void {
