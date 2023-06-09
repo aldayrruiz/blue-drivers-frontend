@@ -11,14 +11,17 @@
           <div id='wrapper'>
             <div id='first'>
               <mat-card-header style='padding-top: 13px'>
-                <img mat-card-avatar [src]='getFullSrcFromVehicle(positionMarker?.vehicle)' />
-                <mat-card-title class='no-margin'>
-                  {{ positionMarker?.vehicle?.number_plate }}
-                </mat-card-title>
-                <mat-card-subtitle class='no-margin'>
-                  {{ positionMarker?.vehicle?.brand }}
-                  {{ positionMarker?.vehicle?.model }}
-                </mat-card-subtitle>
+                <img mat-card-avatar [src]='getFullSrcFromVehicle(positionMarker?.vehicle)' alt='vehicle icon'/>
+                <div style='margin-top: 5px'>
+                  <mat-card-title class='no-margin'>
+                    {{ positionMarker?.vehicle?.number_plate }}
+                  </mat-card-title>
+                  <mat-card-subtitle class='no-margin'>
+                    {{ positionMarker?.vehicle?.brand }}
+                    {{ positionMarker?.vehicle?.model }}
+                  </mat-card-subtitle>
+                </div>
+
               </mat-card-header>
             </div>
             <div id='second'>

@@ -25,6 +25,7 @@
 mat-card {
   margin: 0 10px 10px 10px;
   cursor: pointer;
+  min-height: 110px;
 }
 
 .title {
@@ -42,6 +43,7 @@ mat-card {
 #second {
   text-align: right;
   padding-right: 100px;
+  margin-top: 5px;
 }
 
 .aligned-with-icon {
@@ -52,4 +54,9 @@ mat-card {
 
 .disabled {
   opacity: 0.5;
+}
+
+img.mat-card-avatar {
+  width: 60px;
+  height: 60px
 }
