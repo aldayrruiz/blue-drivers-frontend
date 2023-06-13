@@ -90,10 +90,9 @@ export class MaintenanceTableComponent extends BaseTableComponent<GenericMainten
       next: (data) => {
         const cleanings = this.excludeAndSerializeCleanings(data[0]);
         const itvs = this.excludeAndSerialize(data[1], MaintenanceOperationType.Itv);
-        const odometers = this.excludeAndSerialize(data[2], MaintenanceOperationType.Odometer);
         const revisions = this.excludeAndSerialize(data[3], MaintenanceOperationType.Revision);
         const wheels = this.excludeAndSerializeWheels(data[4]);
-        const operations = [...cleanings, ...itvs, ...odometers, ...revisions, ...wheels];
+        const operations = [...cleanings, ...itvs, ...revisions, ...wheels];
         const sortedOperations = this.sortOperations(operations);
         this.initTable(sortedOperations);
         this.onSelectionChanged();
