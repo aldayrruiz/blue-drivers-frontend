@@ -20,6 +20,7 @@ interface GenericMaintenanceOperation {
   next_revision: string;
   duration: string;
   status: string;
+  last_updated: string;
 }
 
 interface MaintenanceOperationRow {
@@ -27,6 +28,7 @@ interface MaintenanceOperationRow {
   date: string;
   date_stored: string;
   type: string;
+  last_updated: string;
 }
 
 @Component({
@@ -41,7 +43,7 @@ export class MaintenanceTableComponent extends BaseTableComponent<GenericMainten
     { display: 'Completados', value: 'C' },
   ];
   getStatusLabel = getMaintenanceOperationStatusLabel;
-  columns = ['vehicle', 'operation', 'nextRevision'];
+  columns = ['owner', 'vehicle', 'operation', 'nextRevision'];
 
   constructor(
     private errorMessage: ErrorMessageService,
@@ -64,6 +66,8 @@ export class MaintenanceTableComponent extends BaseTableComponent<GenericMainten
       next_revision: operation.next_revision,
       duration: operation.duration,
       status: operation.status,
+      owner: operation.owner.fullname,
+      last_updated: operation.last_updated,
     }));
   }
 
