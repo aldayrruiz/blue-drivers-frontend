@@ -10,6 +10,7 @@ import {
   TimeReservedService,
 } from '@core/services';
 import { getIntensitiesByPassenger, getPassengersMedianIsGreaterThanLimit, onlyBeaconPositions } from '@core/utils/occupants/main';
+import { finalize } from 'rxjs/operators';
 import { AntMapComponent } from '../ant-map/ant-map.component';
 
 @Component({
@@ -53,13 +54,23 @@ export class ReservationsStatisticsComponent implements OnInit {
   }
 
   private fetchReportSummary(reservationId: string) {
-    return this.reportSrv.getReservationSummary(reservationId).subscribe({
-      next: (summary) => {
-        this.serializeSummary(summary);
-        this.loadDataForUI();
-        this.fetchPositions(summary.realStartTime, summary.realEndTime);
-      },
-    });
+    return this.reportSrv
+      .getReservationSummary(reservationId)
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        })
+      )
+      .subscribe({
+        next: (summary) => {
+          this.serializeSummary(summary);
+          this.loadDataForUI();
+          this.fetchPositions(summary.realStartTime, summary.realEndTime);
+        },
+        error: () => {
+          this.validData = false;
+        },
+      });
   }
 
   private fetchPositions(start: string, end: string) {
@@ -68,7 +79,9 @@ export class ReservationsStatisticsComponent implements OnInit {
         this.positions = positions;
         this.loadAntMap();
         this.loadOccupants();
-        this.isLoading = false;
+      },
+      error: () => {
+        this.validData = false;
       },
     });
   }
