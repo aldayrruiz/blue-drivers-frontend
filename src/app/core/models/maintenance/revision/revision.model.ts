@@ -1,4 +1,4 @@
-import { RevisionPhoto, User, Vehicle } from '@core/models';
+import { MaintenanceCauseStatus, RevisionPhoto, User, Vehicle } from '@core/models';
 
 export interface Revision {
   id: string;
@@ -14,4 +14,5 @@ export interface Revision {
   last_updated: string;
   date_stored: string;
   photos: RevisionPhoto[];
+  cause_status: MaintenanceCauseStatus;
 }

@@ -5,6 +5,7 @@ export * from './incidents/type.model';
 // Insurance Companies
 export * from './insurance-companies/create.model';
 export * from './insurance-companies/insurance-company.model';
+export * from './maintenance/cause-status.model';
 // Maintenance
 export * from './maintenance/cleaning/card.model';
 export * from './maintenance/cleaning/cleaning.model';

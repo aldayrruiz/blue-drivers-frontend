@@ -1,14 +1,25 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Cleaning, getOperationTypeLabel, MaintenanceOperationType, User, Vehicle, Wheels, WheelsOperation } from '@core/models';
+import { ActivatedRoute } from '@angular/router';
+import {
+  Cleaning,
+  getOperationTypeLabel,
+  MaintenanceCauseStatus,
+  MaintenanceOperationType,
+  Revision,
+  User,
+  Vehicle,
+  Wheels,
+  WheelsOperation,
+} from '@core/models';
 import { getMaintenanceOperationStatusLabel, OperationMaintenanceStatus } from '@core/models/maintenance/status.model';
-import { ErrorMessageService, MaintenanceService, SnackerService } from '@core/services';
+import { ErrorMessageService, MaintenanceService, SnackerService, VehicleService } from '@core/services';
 import { DialogMissingMaintenanceCardsComponent } from '@modules/maintenance/dialogs/missing-maintenance-cards/missing-maintenance-cards.component';
 import { BaseTableComponent } from '@shared/components/base-table/base-table.component';
-import { addDays, addMonths, addYears, formatDuration, intervalToDuration } from 'date-fns';
+import { add, formatDuration, intervalToDuration } from 'date-fns';
 import { es } from 'date-fns/locale';
 import * as moment from 'moment';
-import { finalize, forkJoin } from 'rxjs';
+import { finalize, forkJoin, lastValueFrom } from 'rxjs';
 
 interface GenericMaintenanceOperation {
   id: string;
@@ -44,17 +55,21 @@ export class MaintenanceTableComponent extends BaseTableComponent<GenericMainten
   ];
   getStatusLabel = getMaintenanceOperationStatusLabel;
   columns = ['owner', 'vehicle', 'operation', 'nextRevision'];
+  vehicles!: Vehicle[];
 
   constructor(
     private errorMessage: ErrorMessageService,
     private maintenanceService: MaintenanceService,
     private snackerService: SnackerService,
-    private dialog: MatDialog
+    private vehicleService: VehicleService,
+    private dialog: MatDialog,
+    private activatedRoute: ActivatedRoute
   ) {
     super();
   }
 
   preprocessData(operations: GenericMaintenanceOperation[]): MaintenanceOperationRow[] {
+    console.log(operations);
     return operations.map((operation) => ({
       id: operation.id,
       model: operation.vehicle.model,
@@ -91,10 +106,10 @@ export class MaintenanceTableComponent extends BaseTableComponent<GenericMainten
     const wheelsObs = this.maintenanceService.getWheels();
     const obs = forkJoin([cleaningsObs, itvsObs, odometersObs, revisionsObs, wheelsObs]);
     obs.pipe(finalize(() => this.hideLoadingSpinner())).subscribe({
-      next: (data) => {
+      next: async (data) => {
         const cleanings = this.excludeAndSerializeCleanings(data[0]);
         const itvs = this.excludeAndSerialize(data[1], MaintenanceOperationType.Itv);
-        const revisions = this.excludeAndSerialize(data[3], MaintenanceOperationType.Revision);
+        const revisions = await this.excludeAndSerializeRevision(data[3]);
         const wheels = this.excludeAndSerializeWheels(data[4]);
         const operations = [...cleanings, ...itvs, ...revisions, ...wheels];
         const sortedOperations = this.sortOperations(operations);
@@ -106,7 +121,21 @@ export class MaintenanceTableComponent extends BaseTableComponent<GenericMainten
   }
 
   private excludeAndSerialize(operations: any[], type: MaintenanceOperationType) {
-    return this.excludeNewOperations(operations).map((operation) => this.addDuration(operation, type));
+    return this.excludeNewOperations(operations).map((operation) => this.addDurationByNextRevision(operation, type));
+  }
+
+  private async excludeAndSerializeRevision(revisions: Revision[]): Promise<any[]> {
+    const operations = this.excludeNewOperations(revisions);
+    const newOperations = operations.map(async (operation: Revision) => {
+      if (operation.cause_status === MaintenanceCauseStatus.DATE) {
+        return this.addDurationByNextRevision(operation, MaintenanceOperationType.Revision);
+      }
+      if (operation.cause_status === MaintenanceCauseStatus.KILOMETERS) {
+        const currentKilometers = await this.getCurrentKilometers(operation.vehicle.id);
+        return await this.addDurationByNextKilometers(operation, MaintenanceOperationType.Revision, currentKilometers);
+      }
+    });
+    return Promise.all(newOperations);
   }
 
   private excludeAndSerializeCleanings(cleanings: Cleaning[]) {
@@ -116,15 +145,9 @@ export class MaintenanceTableComponent extends BaseTableComponent<GenericMainten
           data: { vehicle: cleaning.vehicle },
         });
       }
-      const cleaningCard = cleaning.vehicle.cleaning_card;
-      const date_period = moment.duration(cleaningCard.date_period);
-      const days = date_period.days();
-      const months = date_period.months();
-      const years = date_period.years();
-      const dateStored = cleaning.date_stored;
-      let nextRevision = addDays(new Date(dateStored), days);
-      nextRevision = addMonths(nextRevision, months);
-      nextRevision = addYears(nextRevision, years);
+      const date_period = moment.duration(cleaning.vehicle.cleaning_card.date_period);
+      const durationCard = { days: date_period.days(), months: date_period.months(), years: date_period.years() };
+      const nextRevision = add(new Date(cleaning.date_stored), durationCard);
       const next_revision = nextRevision.toJSON();
       const duration = this.readableDuration(nextRevision);
       const type = MaintenanceOperationType.Cleaning;
@@ -135,7 +158,8 @@ export class MaintenanceTableComponent extends BaseTableComponent<GenericMainten
   private excludeAndSerializeWheels(data: any[]) {
     const type = MaintenanceOperationType.Wheels;
     const operations = this.excludeNewOperations(data);
-    const operationsSerialized = operations.map((operation) => this.addDuration(operation, type));
+    const operationsSerialized = operations.map((operation) => this.addDurationByNextRevision(operation, type));
+    // TODO: Revisar si la operación de inspección debe tener duración.
     return operationsSerialized.filter(
       (wheels: Wheels) =>
         wheels.operation === WheelsOperation.Substitution || (wheels.operation === WheelsOperation.Inspection && wheels.passed === false)
@@ -143,18 +167,27 @@ export class MaintenanceTableComponent extends BaseTableComponent<GenericMainten
   }
 
   private excludeNewOperations(operations: any[]) {
-    return operations.filter(
-      (operation) =>
-        operation.status === OperationMaintenanceStatus.PENDING ||
-        operation.status === OperationMaintenanceStatus.EXPIRED ||
-        operation.status === OperationMaintenanceStatus.COMPLETED
-    );
+    return operations.filter((operation) => operation.status !== OperationMaintenanceStatus.NEW);
   }
 
-  private addDuration(operation: any, type: MaintenanceOperationType) {
+  private addDurationByNextRevision(operation: any, type: MaintenanceOperationType) {
     const newRevision = new Date(operation.next_revision);
     const duration = this.readableDuration(newRevision);
     return { ...operation, type, duration };
+  }
+
+  private async addDurationByNextKilometers(operation: any, type: MaintenanceOperationType, currentKilometers: number) {
+    const nextKilometers = operation.next_kilometers;
+    // Si esta pendiente, mostrar los km que faltan.
+    if (operation.status === OperationMaintenanceStatus.PENDING) {
+      const kilometers = Math.round(nextKilometers - currentKilometers);
+      return { ...operation, type, duration: `${kilometers} km` };
+    }
+    // Si esta caducado, mostrar los km que se han pasado.
+    if (operation.status === OperationMaintenanceStatus.EXPIRED) {
+      const kilometers = Math.round(currentKilometers - nextKilometers);
+      return { ...operation, type, duration: `${kilometers} km` };
+    }
   }
 
   private readableDuration(nextRevision: Date) {
@@ -184,5 +217,15 @@ export class MaintenanceTableComponent extends BaseTableComponent<GenericMainten
       }
       return dateB.getTime() - dateA.getTime();
     });
+  }
+
+  private initVehicles() {
+    this.activatedRoute.data.subscribe((data) => {
+      this.vehicles = data.vehicles;
+    });
+  }
+
+  private getCurrentKilometers(vehicleId: string) {
+    return lastValueFrom(this.vehicleService.getCurrentKilometers(vehicleId));
   }
 }

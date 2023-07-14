@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MaintenanceTableComponent } from '@modules/maintenance/components/table/maintenance-table.component';
 import { MaintenanceComponent } from './maintenance.component';
+import { VehiclesResolver } from '@core/resolvers';
 
 const routes: Routes = [
   {
@@ -16,6 +17,9 @@ const routes: Routes = [
       {
         path: 'table',
         component: MaintenanceTableComponent,
+        resolve: {
+          vehicles: VehiclesResolver
+        }
       },
       {
         path: 'vehicles',
