@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { User, UserRole, Vehicle } from '@core/models';
 import { FieldComponent, ObjectField } from '@shared/components/user-filter/field.component';
-import { set } from 'date-fns';
+import { endOfDay, set } from 'date-fns';
 
 export interface ReservationFilterData {
   userId: string;
@@ -19,6 +19,7 @@ export class ReservationsFilterComponent {
   @ViewChild('userField') userField: FieldComponent;
   @ViewChild('vehicleField') vehicleField: FieldComponent;
   @Output() searchEvent = new EventEmitter<ReservationFilterData>();
+  @Input() texto!: string;
 
   users: User[];
   userObjectFields: ObjectField[];
@@ -26,24 +27,13 @@ export class ReservationsFilterComponent {
   vehicles: Vehicle[];
   vehicleObjectFields: ObjectField[];
 
-  datePicker = new FormControl();
+  range = new FormGroup({
+    from: new FormControl(null),
+    to: new FormControl(null),
+  });
 
   constructor(private route: ActivatedRoute) {
     this.resolve();
-  }
-
-  get from(): Date {
-    const start = this.datePicker.value;
-    return start;
-  }
-
-  get to(): Date {
-    const end = this.datePicker.value;
-    if (!end) {
-      return null;
-    }
-    const endOfTheDay = this.getEndOfTheDay(end);
-    return endOfTheDay;
   }
 
   search() {
@@ -51,11 +41,18 @@ export class ReservationsFilterComponent {
   }
 
   getData() {
+    const from = this.range.value.from;
+    let to = endOfDay(this.range.value.to);
+    // @ts-ignore
+    if (isNaN(to)) {
+      to = endOfDay(this.range.value.from);
+    }
+
     return {
       userId: this.userField.getValue().id,
       vehicleId: this.vehicleField.getValue().id,
-      from: this.from?.toJSON(),
-      to: this.to?.toJSON(),
+      from: from.toJSON(),
+      to: to.toJSON(),
     };
   }
 

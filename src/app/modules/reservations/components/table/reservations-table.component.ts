@@ -125,7 +125,7 @@ export class ReservationsTableComponent extends BaseTableComponent<Reservation, 
 
   exportPdf() {
     const pdfExporter = new ReservationTablePdfExporter(this.dataSource.data);
-    pdfExporter.export(this.reservationsFilter.datePicker.value);
+    pdfExporter.export(this.reservationsFilter.range.value.from);
   }
 
   hasFinished(reservation: ReservationRow) {
