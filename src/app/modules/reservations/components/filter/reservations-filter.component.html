@@ -28,8 +28,6 @@
     <mat-error *ngIf="range.controls?.to?.hasError('matEndDateInvalid')">Fecha final incorrecta</mat-error>
   </mat-form-field>
 
-  <p>Selected range: {{range.value | json}}</p>
-
   <button mat-raised-button (click)="search()" color="warn">
     <mat-icon>search</mat-icon>
     Buscar
