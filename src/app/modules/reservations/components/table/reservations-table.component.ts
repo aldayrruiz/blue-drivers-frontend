@@ -1,13 +1,15 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Reservation } from '@core/models';
-import { ReservationService, SnackerService, TimeReservedService } from '@core/services';
+import { ReservationPaginatedService, SnackerService, TimeReservedService } from '@core/services';
 import { formatDateTime } from '@core/utils/dates/custom-fns';
 import { BaseTableComponent } from '@shared/components/base-table/base-table.component';
 import { isFuture, isPast } from 'date-fns';
 import { finalize } from 'rxjs/operators';
 import { ReservationsFilterComponent } from '../filter/reservations-filter.component';
 import { ReservationTablePdfExporter } from './pdf/exporter';
+import {MatTableDataSource} from "@angular/material/table";
+import {ReservationService} from "@core/services/api/reservation.service";
 
 export interface ReservationRow {
   id: string;
@@ -37,6 +39,7 @@ export class ReservationsTableComponent extends BaseTableComponent<Reservation, 
   });
 
   // Pagination
+  pageIndex = 0;
   length = 0;
   page = 1;
   page_size = 10;
@@ -45,7 +48,8 @@ export class ReservationsTableComponent extends BaseTableComponent<Reservation, 
 
   constructor(
     private timeReservedSrv: TimeReservedService,
-    private reservationsSrv: ReservationService,
+    private reservationPaginatedService: ReservationPaginatedService,
+    private reservationService: ReservationService,
     private snackerService: SnackerService
   ) {
     super();
@@ -67,7 +71,7 @@ export class ReservationsTableComponent extends BaseTableComponent<Reservation, 
   }
 
   fetchDataAndUpdate() {
-    this.reservationsSrv
+    this.reservationPaginatedService
       .getAll(this.page, this.page_size)
       .pipe(finalize(() => this.hideLoadingSpinner()))
       .subscribe((response) => {
@@ -79,14 +83,14 @@ export class ReservationsTableComponent extends BaseTableComponent<Reservation, 
       });
   }
 
+  // Executed when click on previous or next button table
   handlePageEvent(event) {
     const { pageIndex, pageSize } = event;
-    const { userId, vehicleId } = this.reservationsFilter.getData();
-    console.log(event);
+    const { userId, vehicleId, from, to } = this.reservationsFilter.getData();
     this.page = pageIndex + 1;
     this.page_size = pageSize;
-    this.reservationsSrv
-      .getAll(this.page, this.page_size, userId, vehicleId)
+    this.reservationPaginatedService
+      .getAll(this.page, this.page_size, userId, vehicleId, from, to)
       .pipe(finalize(() => this.hideLoadingSpinner()))
       .subscribe((response) => {
         const { count, next, previous, results } = response;
@@ -97,18 +101,10 @@ export class ReservationsTableComponent extends BaseTableComponent<Reservation, 
       });
   }
 
-  filterAndUpdateTable(event) {
-    const { userId, vehicleId, from, to } = event;
-    this.reservationsSrv
-      .getAll(this.page, this.page_size, userId, vehicleId, from, to)
-      .pipe(finalize(() => this.hideLoadingSpinner()))
-      .subscribe((response) => {
-        const { count, next, previous, results } = response;
-        this.next = next;
-        this.previous = previous;
-        this.length = count;
-        this.updateTable(results);
-      });
+  // Executed when click on Search
+  filterAndUpdateTable() {
+    this.initTable([]);
+    this.handlePageEvent({ pageIndex: 0, pageSize: this.page_size});
   }
 
   goToStatistics(reservationRow: ReservationRow) {
@@ -124,8 +120,20 @@ export class ReservationsTableComponent extends BaseTableComponent<Reservation, 
   }
 
   exportPdf() {
-    const pdfExporter = new ReservationTablePdfExporter(this.dataSource.data);
-    pdfExporter.export(this.reservationsFilter.range.value.from);
+    const { userId, vehicleId, from, to } =this.reservationsFilter.getData();
+    this.reservationService.getAll(userId, vehicleId, from, to).subscribe(
+      {
+        next: (reservations) => {
+          const reservationRows = this.preprocessData(reservations);
+          const pdfExporter = new ReservationTablePdfExporter(reservationRows);
+          pdfExporter.export(this.reservationsFilter.range.value.from);
+        },
+        error: () => {
+          console.log('Ha habido un error xd')
+        }
+      }
+    )
+
   }
 
   hasFinished(reservation: ReservationRow) {

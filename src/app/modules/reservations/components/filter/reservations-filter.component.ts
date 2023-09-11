@@ -41,18 +41,23 @@ export class ReservationsFilterComponent {
   }
 
   getData() {
+    const userId = this.userField.getValue().id;
+    const vehicleId= this.vehicleField.getValue().id;
     const from = this.range.value.from;
     let to = endOfDay(this.range.value.to);
+
+    if (!from) {
+      return { userId, vehicleId };
+    }
+
     // @ts-ignore
     if (isNaN(to)) {
       to = endOfDay(this.range.value.from);
     }
-
     return {
-      userId: this.userField.getValue().id,
-      vehicleId: this.vehicleField.getValue().id,
-      from: from.toJSON(),
-      to: to.toJSON(),
+      userId, vehicleId,
+      from: from?.toJSON(),
+      to: to?.toJSON(),
     };
   }
 

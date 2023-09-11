@@ -2,7 +2,7 @@
   <div id="wrapper" style="padding: 10px 0 20px 0">
     <div class="filters" id="first">
       <app-reservations-filter
-        (searchEvent)="filterAndUpdateTable($event)"
+        (searchEvent)="filterAndUpdateTable()"
         [texto]="'alksdjlajsd'"
         #reservationsFilter
       ></app-reservations-filter>
@@ -95,6 +95,7 @@
 
     <!-- Paginator -->
     <mat-paginator
+      [pageIndex]="pageIndex"
       [length]="length"
       [pageSize]="page_size"
       [pageSizeOptions]="[10, 25, 50, 100]"
